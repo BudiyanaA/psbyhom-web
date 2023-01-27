@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('slideshow_no');
             $table->string('notes');
-            $table->enum('status', ['enable', 'disable']);
+            $table->enum('status', ['Enabled', 'Disabled']);
             $table->timestamps();
         });
     }
