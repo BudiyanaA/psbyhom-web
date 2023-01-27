@@ -24,4 +24,9 @@
 		{{ Form::text ('notes', null, ['class' => 'form-control', 'placeholder' => 'notes']) }}
 		@if ($errors->has('notes')) <small class="form-text help-block" style="color:red">{{ $errors->first('notes') }}</small> @endif
 	</div>
+	<div class="form-group @if ($errors->has('status')) has-error @endif col-md-6 col-lg-6">
+		<label for="email2">Status</label>
+		{{ Form::select('status', ['enable' => 'Enable', 'disable' => 'Disable'], null, ['class' => 'form-select '.($errors->has('gender') ? 'is-invalid':''), 'id' => 'gender-option', 'placeholder' => '-- Pilih Status --']) }}
+		@if ($errors->has('status')) <small class="form-text help-block" style="color:red">{{ $errors->first('status') }}</small> @endif
+	</div>
 </div>

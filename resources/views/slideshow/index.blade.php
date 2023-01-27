@@ -46,9 +46,7 @@
 			<td><a href="{{ route('slideshow_management.edit', $s->id) }}">{{ $s->slideshow_name }}</a></td>
 			<td>{{ $s->slideshow_no }}</td>
 			<td>{{ $s->image }}</td>
-			<td>
-				-
-			</td>
+			<td>{{ $s->status }}</td>
 		</tr>
 		@endforeach
 	</table>

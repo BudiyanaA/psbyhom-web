@@ -15,5 +15,6 @@ class Slide extends Model
         'image',
         'slideshow_no',
         'notes',
+        'status',
     ];
 }

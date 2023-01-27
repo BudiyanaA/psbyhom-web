@@ -27,6 +27,7 @@ class SlideManagementController extends Controller
             'image' => 'required',
             'slideshow_no' => 'required',
             'notes' => 'required',
+            'status' => 'required',
         ]);
 
         try {
@@ -37,6 +38,7 @@ class SlideManagementController extends Controller
                 'image' => $request->image,
                 'slideshow_no' => $request->slideshow_no,
                 'notes' => $request->notes,
+                'status' => $request->status,
             ]);
     
             return redirect(route('slideshow_management.index'))
@@ -67,6 +69,7 @@ class SlideManagementController extends Controller
             'image' => 'required',
             'slideshow_no' => 'required',
             'notes' => 'required',
+            'status' => 'required',
         ]);
 
         try {
@@ -78,6 +81,7 @@ class SlideManagementController extends Controller
                 'image' => $request->image,
                 'slideshow_no' => $request->slideshow_no,
                 'notes' => $request->notes,
+                'status' => $request->status,
             ]);
     
             return redirect(route('slideshow_management.index'))
@@ -87,17 +91,4 @@ class SlideManagementController extends Controller
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
-
-    public function destroy($id)
-    {
-        try {
-            $slide = Slide::find($id);
-            $slide->delete();
-            return 'success';
-
-        } catch (\Exception $e) {
-            return 'failed';
-        }
-    }
-
 }
