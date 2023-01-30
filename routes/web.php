@@ -18,6 +18,7 @@ use App\Http\Controllers\EmailContentManagementController;
 use App\Http\Controllers\VoucherManagementController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 
 
 
@@ -35,7 +36,13 @@ use App\Http\Controllers\DashboardController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+
+// Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::resource('admin_management', AdminManagementController::class);
 Route::resource('page_management', PageManagementController::class);
 Route::resource('slideshow_management', SlideManagementController::class);
