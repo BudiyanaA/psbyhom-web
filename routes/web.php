@@ -70,3 +70,9 @@ Route::resource('voucher_management', VoucherManagementController::class);
 Route::resource('system_params', SystemController::class);
 });
 Route::resource('home', HomeController::class);
+
+// TODO:
+// /request_order_controller/search_filter_request_transaction
+// /po_invoice_controller/search_filter_invoice
+// /incoming_item_controller/incoming_item_filter
+// /po_invoice_controller/search_filter_invoice
