@@ -27,7 +27,7 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin'
+            'role' => 'costumer'
         ]);
 
         Session::flash('message', 'Register Berhasil. Akun Anda sudah Aktif silahkan Login menggunakan userid dan password.');

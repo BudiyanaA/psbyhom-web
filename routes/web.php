@@ -42,12 +42,13 @@ Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
 Route::get('register', [RegisterController::class, 'register'])->name('register');
 Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
 Route::resource('admin_management', AdminManagementController::class);
 Route::resource('page_management', PageManagementController::class);
 Route::resource('slideshow_management', SlideManagementController::class);
@@ -65,3 +66,4 @@ Route::get('email_content_management', [EmailContentManagementController::class,
 Route::resource('voucher_management', VoucherManagementController::class);
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 Route::resource('system_params', SystemController::class);
+});
