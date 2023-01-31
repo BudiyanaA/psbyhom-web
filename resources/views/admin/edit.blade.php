@@ -14,7 +14,7 @@
 			</div>
 			<div class="card-body">
 
-        @include('bank._form')
+        @include('admin._form')
 
       </div>
 

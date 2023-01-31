@@ -47,7 +47,7 @@ class AdminManagementController extends Controller
     public function edit($id)
     {  
         $data['admin'] = User::find($id);
-        return view('admin.edit');
+        return view('admin.edit', $data);
     }
 
     public function update(Request $request, $id)
