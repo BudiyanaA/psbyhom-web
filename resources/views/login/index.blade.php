@@ -17,6 +17,11 @@
                 <b>Opps!</b> {{session('error')}}
             </div>
             @endif
+            @if(session('message'))
+            <div class="alert alert-success">
+                {{session('message')}}
+            </div>
+            @endif
             <form action="{{ route('actionlogin') }}" method="post">
             @csrf
                 <div class="form-group">
@@ -29,7 +34,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Log In</button>
                 <hr>
-                <p class="text-center">Belum punya akun? <a href="#">Register</a> sekarang!</p>
+                <p class="text-center">Belum punya akun? <a href="{{ route('register') }}">Register</a> sekarang!</p>
             </form>
         </div>
     </div>
