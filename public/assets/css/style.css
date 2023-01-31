@@ -1,0 +1,24 @@
+.ongkir_citynotfound {
+    background-color: #FFFFFF;
+    bottom: 0;
+    padding-top: 9px;
+    position: relative;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+tbody#postagetablebody td:last-child a {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+.rekening_logo > img {
+  height: 54px;
+}
+.rekening_info {
+  padding: 5px;
+  vertical-align: top;
+}
+.rekening_logo {
+  padding: 5px;
+}

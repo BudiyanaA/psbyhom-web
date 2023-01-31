@@ -20,6 +20,8 @@ use App\Http\Controllers\SystemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\HomeController;
+
 
 
 
@@ -67,3 +69,4 @@ Route::resource('voucher_management', VoucherManagementController::class);
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 Route::resource('system_params', SystemController::class);
 });
+Route::resource('home', HomeController::class);
