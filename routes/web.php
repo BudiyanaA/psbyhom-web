@@ -21,8 +21,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
-
-
+use App\Http\Controllers\HowOrderController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\RegisterCostumerController;
+use App\Http\Controllers\LoginCostumerController;
 
 
 
@@ -69,8 +74,14 @@ Route::resource('voucher_management', VoucherManagementController::class);
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 Route::resource('system_params', SystemController::class);
 });
-Route::resource('home', HomeController::class);
-
+Route::get('home', [HomeController::class, 'index']);
+Route::get('how_order', [HowOrderController::class, 'index']);
+Route::get('faq', [FaqController::class, 'index']);
+Route::get('term_condition', [TermConditionController::class, 'index']);
+Route::get('about_us', [AboutController::class, 'index']);
+Route::resource('contact_us', ContactController::class);
+Route::resource('register_c', RegisterCostumerController::class);
+Route::resource('login_c', LoginCostumerController::class);
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice
