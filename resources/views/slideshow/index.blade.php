@@ -4,15 +4,14 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="active">Slideshow  Management</li>
             </ol>
 
             <h1>Slideshow  Management</h1>
             <div class="options">
                 <div class="btn-toolbar">
-						                    <a href="https://psbyhom.com/isms_slideshow_management/create_slide.html" class="btn btn-default"><i class="fa fa-plus"></i> Create New Slide</a>
-					
+					<a href="{{ route('slideshow_management.create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Create New Slide</a>				
 				</div>
             </div>
         </div>
@@ -31,8 +30,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
-                        
+						    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">                     
                             <thead>
                                     <tr>
 										<th>No</th>
@@ -44,7 +42,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-								<tr><td valign='top'>1</td><td><a href="https://psbyhom.com/isms_slideshow_management/view_slide/4a2a48fc-9c84-4306-a9a8-e0d67344eeb8.html">Slider 1</a></td><td>1</td><td><img src="https://psbyhom.com//img/slide/Slider_1.png" alt="Slider 1" class="post_images" width="200" height="100" title="Slider 1" rel="lightbox"/></td><td>Disabled</td></tr><tr><td valign='top'>2</td><td><a href="https://psbyhom.com/isms_slideshow_management/view_slide/287fae59-5858-4a14-a344-8088920ca30a.html">Slide 2</a></td><td>2</td><td><img src="https://psbyhom.com//img/slide/Slide_2.jpg" alt="Slide 2" class="post_images" width="200" height="100" title="Slide 2" rel="lightbox"/></td><td>Enabled</td></tr><tr><td valign='top'>3</td><td><a href="https://psbyhom.com/isms_slideshow_management/view_slide/26504148-1746-4104-bc29-5c40ae4669d0.html">Slide 3</a></td><td>3</td><td><img src="https://psbyhom.com//img/slide/Slide_3.jpg" alt="Slide 3" class="post_images" width="200" height="100" title="Slide 3" rel="lightbox"/></td><td>Enabled</td></tr>                                </tbody>
+									@foreach($slides as $s)
+									<tr>
+										<td>{{ $loop->index + 1 }}</td>
+										<td><a href="{{ route('slideshow_management.edit', $s->id) }}">{{ $s->slideshow_name }}</a></td>
+										<td>{{ $s->slideshow_no }}</td>
+										<td>{{ $s->image }}</td>
+										<td>{{ $s->status }}</td>
+									</tr>
+									@endforeach
+								</tbody>
                             </table>
                         </div>
                     </div>

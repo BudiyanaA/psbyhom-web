@@ -5,7 +5,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="dashboard">Dashboard</a></li>
                 <li class="active">Page Management</li>
             </ol>
 
@@ -17,6 +17,11 @@
         <div class="container">
             <div class="row">
               <div class="col-md-12">
+                    @if (Session::has('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
                     <div class="panel panel-midnightblue">
                         <div class="panel-heading">
                             <h4>List of Pages</h4>
@@ -27,7 +32,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
+						    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
                                 <thead>
                                     <tr>
 										<th>No</th>
@@ -35,9 +40,15 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-								
-                                    <tr ><td valign='top'>1</td><td><a href="https://psbyhom.com/isms_cms/view_page/17ea71be-22e1-454e-8719-a793787779d4.html">About Us</a></td><td>Enabled</td></tr><tr ><td valign='top'>2</td><td><a href="https://psbyhom.com/isms_cms/view_page/20414fae-aabe-4008-a578-3c34f2267f1c.html">FAQ</a></td><td>Enabled</td></tr><tr ><td valign='top'>3</td><td><a href="https://psbyhom.com/isms_cms/view_page/7968a920-5463-4b4b-967f-dd7f64095b0f.html">How to Order</a></td><td>Enabled</td></tr><tr ><td valign='top'>4</td><td><a href="https://psbyhom.com/isms_cms/view_page/7968a920-5463-4b4b-967f-dd7f64095b0g.html">Contact us</a></td><td>Enabled</td></tr><tr ><td valign='top'>5</td><td><a href="https://psbyhom.com/isms_cms/view_page/1bced274-ed53-454f-8e3a-e852fec34e37.html">Term & Conditions</a></td><td>Enabled</td></tr>                                </tbody>
+                                <tbody>		
+                                    @foreach($pages as $p)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td><a href="{{ route('page_management.edit', $p->id) }}">{{ $p->page_name }}</a></td>
+                                        <td>{{ $p->status }}</td>
+                                    </tr>
+                                 @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
