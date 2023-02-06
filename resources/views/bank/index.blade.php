@@ -1,4 +1,65 @@
-<div class="row">
+@extends('layouts.app')
+@section('content')
+<div id="page-content">
+    <div id='wrap'>
+        <div id="page-heading">
+            <ol class="breadcrumb">
+                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+
+                <li class="active">Bank Management</li>
+            </ol>
+
+            <h1>Bank Management</h1>
+            <div class="options">
+                <div class="btn-toolbar">
+              
+                    <a href="https://psbyhom.com/bank_controller/create_bank.html" class="btn btn-default"><i class="fa fa-plus"></i> Create New Bank</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                    <div class="panel panel-midnightblue">
+                        <div class="panel-heading">
+                            <h4>List of Bank</h4>
+                            <div class="options">   
+                                <a href="javascript:;"><i class="fa fa-cog"></i></a>
+                                <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                                <a href="javascript:;" class="panel-collapse"><i class="fa fa-chevron-down"></i></a>
+                            </div>
+                        </div>
+                        <div class="panel-body collapse in">
+                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
+                                <thead>
+                                    <tr>
+										<th>No</th>
+										<th>Bank Name</th>
+										<th>Bank Account No</th>
+										<th>Bank Account Name</th>
+										<th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+								<tr><td valign='top'>1</td><td><a href="https://psbyhom.com/bank_controller/view_bank/a9c74b20-5d72-11e8-9fac-ac1f6b451820.html">BCA</a></td><td valign='top'>6730259652</td><td valign='top'>Engeline Herawati</td><td>Active</td></tr><tr><td valign='top'>2</td><td><a href="https://psbyhom.com/bank_controller/view_bank/875db0b7-09f9-48ae-9b68-2ec6d731e5f8.html">Mandiri</a></td><td valign='top'>1420007355448</td><td valign='top'>Astrid Hendrianti</td><td>Active</td></tr>                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- container -->
+    </div> <!--wrap -->
+</div>
+@endsection
+
+
+
+
+
+<!-- <div class="row">
         <div class="col-md-12">					
 			@if (Session::has('success'))
 				<div class="alert alert-success alert-dismissible" role="alert">
@@ -143,4 +204,4 @@
 		});
   }
 </script>
-@endsection
+@endsection -->

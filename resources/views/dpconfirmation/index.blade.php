@@ -1,142 +1,122 @@
-<div class="row">
-        <div class="col-md-12">					
-			@if (Session::has('success'))
-				<div class="alert alert-success alert-dismissible" role="alert">
-					{{ Session::get('success') }}
-				</div>
-			@endif
-			<div class="card">
-				<div class="card-header">
-                    <div class="d-flex align-items-center">
-						<h4 class="card-title"> DP Confirmationt</h4>
-					</div>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-                    <table border="1">
-		<tr>
-			<th>No</th>
-			<th>Pre Order ID</th>
-            <th>Customer Name</th>
-            <th>Transaction Date</th>
-            <th>Grand Total</th>
-            <th>Status</th>
-        </tr>
-		<tr>
-			<td>1</td>
-			<td>HC23010061</td>
-			<td>tyvla abidin</td>
-            <td>09 Jan 2023</td>
-            <td>3,412,180</td>
-            <td>Waiting Down Payment</td>
-		</tr>
-	</table>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
+@extends('layouts.app')
+@section('content')
+<div id="page-content">
+    <div id='wrap'>
+        <div id="page-heading">
+            <ol class="breadcrumb">
+                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="https://psbyhom.com/po_invoice_controller/po_invoice_filter">Pre Order</a></li>
+                <li class="active">List of Pre Order </li>
+            </ol>
+			
+						<h1>DP Confirmation</h1>
+			            
+            <div class="options">
+                
+            </div>
+        </div>
 
 
-@section('script')
-<script>
-  $(document).ready(function() {
-		$('#basic-datatables').DataTable({
-        "pageLength": 5,
-				initComplete: function () {
-					this.api().columns().every( function () {
-						var column = this;
-						var select = $('<select class="form-control"><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $.fn.dataTable.util.escapeRegex(
-								$(this).val()
-								);
+        <div class="container">
+            <div class="row">
+              <div class="col-md-14">
+                    <div class="panel panel-midnightblue">
+                        <div class="panel-heading">
+                           							<h4>List of PO Waiting DP Verification</h4>
+							                            <div class="options">   
+                                <a href="javascript:;"><i class="fa fa-cog"></i></a>
+                                <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                                <a href="javascript:;" class="panel-collapse"><i class="fa fa-chevron-down"></i></a>
+                            </div>
+                        </div>
+                        <div class="panel-body collapse in">
+						<form method="get" action="https://psbyhom.com/po_invoice_controller/search_filter_invoice">
+								<table class="search-table">
+									<tr>
+										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="trans_date_start"  value=""  data-inputmask="'alias': 'date'"></td>
+									</tr>
+									<tr>
+										<td>Pre Order Date End  &nbsp; &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+									</tr>
+									<tr>
+										<td>Pre Order ID  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="PO ID" class="form-control" name='po_id'  value="" autocomplete="off"></td>
+									</tr>
+									<tr>
+										<td>Batch Order ID  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Batch ID" class="form-control" name='batch_id'  value="" autocomplete="off"></td>
+									</tr>
+									
+								<!--	<tr>
+										<td>Batch Order ID</td>
+										<td width="250px"><input type="text" placeholder="Batch Order ID" class="form-control" name='batch_id' autocomplete="off"></td>
+									</tr>
+			-->
+																
+									<input type='hidden' name='status' value='00'>
+																	<tr>
+										<td>Customer Name  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+									</tr>
+									
+								
+									
+									<!--pilihan untuk sorting data 21-12-2015-->
+									<tr>
+										<td>Order By  &nbsp; &nbsp; </td>
+										<td width="250px">
+										<select class="form-control" name="order_by">
+												<option value="ASC">Ascending</option>
+												<option selected value="DESC">Descending</option>
+												
+											</select>
+										
+										</td>
+									</tr>
+								<tr>
+										<td>&nbsp; &nbsp;  </td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<input type="submit" class="btn-primary btn" value='Search'>
+										</td>
+									</tr>
+								</table>
+							</form>
+							<br>
+							<br>
+                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered " id="example">
+                                <thead>
+                                    <tr>
+										<th>No</th>
+                                        <th>Pre Order ID</th>
+										
+										
+                                        <th>Customer Name</th>
+										<th>Transaction Date</th>
+										<th>Grand Total</th>
+										
+										<th>Status</th>
+										                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan='10'>No data found</td></tr>									 <tr>
+												<td colspan='8'>
+													
+													<a onclick="print('https://psbyhom.com/po_invoice_controller/po_report/print_list_trans?trans_date_start=&&trans_date_end=&&po_id=&&status=00&&customer_name=&&order_by=DESC')" class="btn-primary btn">Print</a>
+													<a onclick="print('https://psbyhom.com/po_invoice_controller/po_report/print_list_trans_xls?trans_date_start=&&trans_date_end=&&po_id=&&status=00&&customer_name=&&order_by=DESC')" class="btn-primary btn">Export To Excel</a>
+												</td>
+											</tr>
+                                </tbody>
+                            </table>
+							                        </div>
+                    </div>
+                </div>
+            </div>
 
-							column
-							.search( val ? '^'+val+'$' : '', true, false )
-							.draw();
-						} );
-
-						column.data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-						} );
-					} );
-				}
-		});
-  });
-
-  function deleteItem(id) {
-    swal({
-			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
-			type: 'warning',
-			buttons:{
-				confirm: {
-					text : 'Yes, delete it!',
-					className : 'btn btn-success'
-				},
-				cancel: {
-					visible: true,
-					className: 'btn btn-danger'
-				}
-			}
-		}).then((Delete) => {
-			var url = '{{ route("slideshow_management.destroy", ":id") }}';
-    	url = url.replace(':id', id);
-
-			if (Delete) {
-				$.ajax({
-				url: url,
-				method: 'delete',
-				cache: false,
-				data: {
-					"_token": "{{ csrf_token() }}",
-				},
-				success: function(data){
-          if (data === 'success') {
-						swal({
-							title: 'Deleted!',
-							text: 'Your file has been deleted.',
-							type: 'success',
-							buttons : {
-								confirm: {
-									className : 'btn btn-success'
-								}
-							}
-						});
-            // $('#dt-prv').DataTable().ajax.reload();
-            location.reload();
-          } else {
-						swal({
-							title: 'Oops...',
-							text: 'Ada yang salah!',
-							type: 'error',
-							buttons : {
-								confirm: {
-									className : 'btn btn-danger'
-								}
-							}
-						});
-          }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-					swal({
-						title: 'Oops...',
-						text: 'Ada yang salah!',
-						type: 'error',
-						buttons : {
-							confirm: {
-								className : 'btn btn-danger'
-							}
-						}
-					});
-        }
-      });
-			} else {
-				swal.close();
-			}
-		});
-  }
-</script>
+        </div> <!-- container -->
+    </div> <!--wrap -->
+</div>
 @endsection

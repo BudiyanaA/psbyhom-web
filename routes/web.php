@@ -60,7 +60,7 @@ Route::resource('admin_management', AdminManagementController::class);
 Route::resource('page_management', PageManagementController::class);
 Route::resource('slideshow_management', SlideManagementController::class);
 Route::resource('costumer_management', CostumerManagementController::class);
-Route::get('pre-orders', [OrderController::class, 'index'])->name('preorder.index');
+Route::get('pre_orders', [OrderController::class, 'index'])->name('preorder.index');
 Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
 Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');

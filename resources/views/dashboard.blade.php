@@ -1,8 +1,5 @@
-<head>
-<link href="{{ url('assets/less/styles.less') }}" rel="stylesheet/less" media="all"> 
-<script type="text/javascript" src="https://psbyhom.com/assets/js/less.js"></script>
-</head>
-
+@extends('layouts.app')
+@section('content')	
 <div id="page-content">
   <div id='wrap'>
     <div id="page-heading">
@@ -867,3 +864,4 @@
         </div>
         <!--wrap -->
       </div> <!-- page-content -->
+      @endsection
