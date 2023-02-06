@@ -32,7 +32,7 @@ class AdminManagementController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => bcrypt($request->password),
                 'role' => 'admin'
             ]);
     
@@ -64,7 +64,7 @@ class AdminManagementController extends Controller
             $a->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => bcrypt($request->password),
             ]);
     
             return redirect(route('admin_management.index'))

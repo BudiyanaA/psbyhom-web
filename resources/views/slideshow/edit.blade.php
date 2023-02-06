@@ -34,12 +34,6 @@
 		</div>
 	@endif
 
-	@if (Session::has('error'))
-		<div class="alert alert-danger alert-dismissible" role="alert">
-			{{ Session::get('error') }}
-		</div>
-	@endif
-
 		
 		{!! Form::model($slide, ['route' => ['slideshow_management.update', $slide->id], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 			

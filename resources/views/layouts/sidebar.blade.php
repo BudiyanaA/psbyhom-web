@@ -14,11 +14,11 @@
                 </a>
                 <ul class="acc-menu">
                     <li>
-                        <a href="https://psbyhom.com/admin_user_management/create_user" class="menu">Create New User</a>
+                        <a href="{{ route('admin_management.create') }}" class="menu">Create New User</a>
                     </li>
                     </li>
                     <li>
-                        <a href="https://psbyhom.com/admin_user_management/list_of_user" class="menu">List of User</a>
+                        <a href="{{ route('admin_management.index') }}" class="menu">List of User</a>
                     </li>
                     </li>
                 </ul>
