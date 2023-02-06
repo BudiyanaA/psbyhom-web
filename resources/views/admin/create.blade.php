@@ -18,7 +18,7 @@
             <div class="panel-heading">
 			 <h4>
 					<ul class="nav nav-tabs">
-					  <li class="active"><a href="#threads" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Admin</span></a></li>
+					  <li class="active"><a href="#threads" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Tambah Admin</span></a></li>
 					
 					 </ul>
 				  </h4>
