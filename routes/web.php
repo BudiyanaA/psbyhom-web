@@ -45,7 +45,7 @@ use App\Http\Controllers\LoginCostumerController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -55,7 +55,7 @@ Route::get('register', [RegisterController::class, 'register'])->name('register'
 Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
-Route::middleware(['auth'])->group(function () {
+Route::group(['middleware' => 'auth'], function () {
 Route::resource('admin_management', AdminManagementController::class);
 Route::resource('page_management', PageManagementController::class);
 Route::resource('slideshow_management', SlideManagementController::class);

@@ -4,8 +4,8 @@
     <div id='wrap'>
         <div id="page-heading">
             <ul class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
-                <li><a href="https://psbyhom.com/isms_global_config/view_sys_param.html">System Parameter</a></li>
+				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ route('system_params.index') }}">System Parameter</a></li>
                 <li class="active"></li>
             </ul>
 

@@ -19,13 +19,13 @@
 
         <ul class="nav navbar-nav pull-right toolbar">
         	<li class="dropdown">
-        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs">myadmin <i class="fa fa-caret-down"></i></span><img src="https://psbyhom.com/\img\art_thumb\default.jpeg "  /></a>
+        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs">{{Auth::user()->name}} <i class="fa fa-caret-down"></i></span><img src="https://psbyhom.com/\img\art_thumb\default.jpeg "  /></a>
         		<ul class="dropdown-menu userinfo arrow">
         			<li class="username">
                         <a href="#">
 							 <div class=""><img src="https://psbyhom.com/\img\art_thumb\default.jpeg " width='100' height='100' alt=""/></div>
         				   <br>
-        				   <div class="pull-right"><h5>Hi, <b>myadmin</b> </h5><small>Logged in as <span>myadmin </span></small></div>
+        				   <div class="pull-right"><h5>Hi, <b>{{Auth::user()->name}}</b> </h5><small>Logged in as <span>{{Auth::user()->name}} </span></small></div>
 						
 						</a>
         			</li>
@@ -34,7 +34,7 @@
         					<li><a href="https://psbyhom.com/admin_user_management/view_my_profile.html">My Profile <i class="pull-right fa fa-pencil"></i></a></li>
         					<li><a href="https://psbyhom.com/admin_user_management/change_password.html">Change Password <i class="pull-right fa fa-cog"></i></a></li>
         					<li class="divider"></li>
-        					<li><a href="https://psbyhom.com/login_admin_cpanel/logout.html">Log Out</a></li>
+        					<li><a href="{{ route('actionlogout') }}">Log Out</a></li>
         				</ul>
         			</li>
         		</ul>

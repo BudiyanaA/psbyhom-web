@@ -4,7 +4,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Home</a></li>
+                <li><a href="{{ route('dashboard') }}">Home</a></li>
                 
                 <li class="active">List of Pre Orders</li>
             </ol>

@@ -4,8 +4,8 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
-                <li><a href="https://psbyhom.com/po_invoice_controller/po_invoice_filter">Pre Order</a></li>
+				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ route('preorder.index') }}">Pre Order</a></li>
                 <li class="active">List of Pre Order </li>
             </ol>
 			
