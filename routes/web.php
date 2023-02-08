@@ -45,6 +45,7 @@ use App\Http\Controllers\LoginCostumerController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
