@@ -2,7 +2,7 @@
 <p>hi, {{ Auth::user()->name }} Thank you interested PRE ORDER with us </hp>
 <p>Here Is the price in rupiah</p>
  
-<p>Please<a href="#">click here</a> to make an order</p>
+<p>Please <a href="{{ route('process_order') }}">click here</a> to make an order</p>
 <p>For check your PO detail</p>
 </br>
 </br>

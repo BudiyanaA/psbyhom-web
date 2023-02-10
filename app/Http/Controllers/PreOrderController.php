@@ -51,6 +51,7 @@ class PreOrderController extends Controller
             ->withSuccess("Data berhasil ditambahkan");
 
     } catch(\Exception $e) {
+        dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
 }

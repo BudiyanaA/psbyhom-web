@@ -32,7 +32,7 @@ use App\Http\Controllers\RegisterCostumerController;
 use App\Http\Controllers\LoginCostumerController;
 use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\OrderListController;
-
+use App\Http\Controllers\ProcesOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +92,8 @@ Route::post('register_c/action', [RegisterController::class, 'registeraction'])-
 Route::get('login_c', [LoginCostumerController::class, 'index']);
 Route::resource('pre_order', PreOrderController::class);
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
+Route::resource('process_order', ProcesOrderController::class);
+Route::get('process_order', [ProcesOrderController::class, 'index'])->name('process_order');
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

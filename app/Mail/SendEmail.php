@@ -32,10 +32,10 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-        $now = Carbon::now();
+        $latest_id = DB::table('preorders')->max('id');
         $preorders = DB::table('preorders')
-                       ->where('created_at', '>=', $now)
-                       ->get();
+            ->where('id', $latest_id)
+            ->get();
        return $this->from('pengirim@test.com')
                    ->view('emails.email', compact('preorders'));
                 
