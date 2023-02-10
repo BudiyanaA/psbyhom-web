@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\PageManagementController;
 use App\Http\Controllers\SlideManagementController;
@@ -28,7 +30,8 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterCostumerController;
 use App\Http\Controllers\LoginCostumerController;
-
+use App\Http\Controllers\PreOrderController;
+use App\Http\Controllers\OrderListController;
 
 
 /*
@@ -75,14 +78,20 @@ Route::resource('voucher_management', VoucherManagementController::class);
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 Route::resource('system_params', SystemController::class);
 });
-Route::get('home', [HomeController::class, 'index']);
-Route::get('how_order', [HowOrderController::class, 'index']);
-Route::get('faq', [FaqController::class, 'index']);
-Route::get('term_condition', [TermConditionController::class, 'index']);
-Route::get('about_us', [AboutController::class, 'index']);
+
+Route::post('login_c', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
+Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
+Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('how_order', [HowOrderController::class, 'index'])->name('how_order');
+Route::get('faq', [FaqController::class, 'index'])->name('faq');
+Route::get('term_condition', [TermConditionController::class, 'index'])->name('term_condition');
+Route::get('about_us', [AboutController::class, 'index'])->name('about_us');
 Route::resource('contact_us', ContactController::class);
-Route::resource('register_c', RegisterCostumerController::class);
-Route::resource('login_c', LoginCostumerController::class);
+Route::get('register_c', [RegisterCostumerController::class, 'index'])->name('register_c');
+Route::post('register_c/action', [RegisterController::class, 'registeraction'])->name('registeraction');
+Route::get('login_c', [LoginCostumerController::class, 'index']);
+Route::resource('pre_order', PreOrderController::class);
+Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

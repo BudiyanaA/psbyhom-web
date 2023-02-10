@@ -4,20 +4,20 @@
 	<div class="content-wrapper">
 	<div class="row"><div class="col-lg-12"><h3  ><strong style="color:darkgray ">Membership</strong></h3><br>
 	</div><div class="col-lg-12">
-<div class="row"><div id="formlogin" class="col-xs-12 col-sm-6 col-lg-6">
+		<div class="row"><div id="formlogin" class="col-xs-12 col-sm-6 col-lg-6">
 						
-						<form class="box" action="https://psbyhom.com/proses_login.html" 
-						id="form_login" name="form_login" method="POST">
+						<form class="box" action="{{ route('loginaction') }}" method="POST">
+						@csrf
 							<h3 class="page-subheading">Login Menu</h3>
 							<div class="form_content clearfix">
 								<div class="form-group">
 									<label for="username">Your Registerd Email</label>
-									<input type="text" value="" name="email_login" id="email_login" 
+									<input type="text" value="" name="email" id="email" 
 									class="is_required validate account_input form-control"/>
 								</div>
 								<div class="form-group">
 									<label for="password">Password</label>
-									<input type="password" value="" name="password_login" id="password_login"
+									<input type="password" value="" name="password" id="password"
 									class="is_required validate account_input form-control"/>
 								</div>
 								<p class="lost_password form-group">
@@ -27,11 +27,11 @@
 								<td>
 								<p class="submit">		
 									<input type="hidden" name="check_login" value="1"/>
-									<button class="more button btn btn-default button-medium" name="button_login" id="button_login" type="button">
-										<span>
+									<button type="submit" class="more button btn btn-default button-medium">Log In</button>
+										<!-- <span>
 											<i class="fa fa-lock left"></i>
 											Login
-										</span>
+										</span> -->
 									</button>
 								</td><td>&nbsp;&nbsp;</td>
 								<td valign="top"><font color="red"></font></td></tr>
@@ -45,7 +45,7 @@
 					<h3 class="page-subheading">Register for Pre Order </h3>
 					<div class="form_content clearfix">
 						<div class="form-group"><p>Register</p>
-						<a title="Register Now" class="more button-exclusive btn btn-default" href="https://psbyhom.com/register.html">	
+						<a title="Register Now" class="more button-exclusive btn btn-default" href="{{ route('register_c') }}">	
 							Register Now
 						</a></div>
 					</div>

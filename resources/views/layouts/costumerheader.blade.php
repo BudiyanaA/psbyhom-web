@@ -8,13 +8,35 @@
 							<span>0</span> <img src="../images/cart.png">
 						</a> -->
 						<ul class="topbar-nav login-menu list-inline" id="b-nav">
-														<li class="public-li"> 
-								<a href="register_c">Register</a>
+						@if(Auth::check())
+							<li>
+							<i class="fa fa-money"></i>
+							<span><a href="https://psbyhom.com/view_ewallet.html">0</a><input type="hidden" value='' name='customer_ewallet' id='customer_ewallet'></span>
+							</li>
+							<li class="dropdown dropdown-right logged-in-li">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="fas fa-user"></i>
+							</a>
+							<ul aria-labelledby="dropdownMenu" role="menu" class="dropdown-menu dropdown-basic">
+								<li><a href="https://psbyhom.com/edit_profil.html">My Profile</a></li>
+								<li><a href="https://psbyhom.com/list_of_po.html">Pre Order List</a></li>
+								<li><a href="https://psbyhom.com/confirm_payment.html">Confirm Payment</a></li>
+								<li><a href="https://psbyhom.com/ubah_password.html">Change Password</a></li>
+								<li><a href="{{ route('logoutaction') }}"><i class="fa fa-power-off"></i>Log out</a></li>
+							</ul>
+							</li>
+							<li class="public-li">
+							Halo, {{ Auth::user()->name }} &nbsp &nbsp &nbsp
+							</li>
+						@else
+							<li class="public-li"> 
+							<a href="register_c">Register</a>
 							</li>
 							<li class="public-li"> 
-								<a class="dropdown-toggle" id="login-ddl-link" href="login_c">Login</a> 
+							<a class="dropdown-toggle" id="login-ddl-link" href="{{ route('loginaction') }}">Login</a> 
 							</li>
-													</ul> 	
+						@endif
+						</ul> 
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -53,13 +75,13 @@
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse top-menu" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
-		<li><a href="home">Home</a></li>
-		<li><a href="about_us">About Us</a></li>
-		<li><a href="#">Pre Order</a></li>
-		<li><a href="term_condition">Terms & Conditions</a></li>
-		<li><a href="faq">FAQ</a></li>
-		<li><a href="how_order">How to Order</a></li>
-		<li><a href="contact_us">Contact Us</a></li>
+		<li><a href="{{ route('home') }}">Home</a></li>
+		<li><a href="{{ route('about_us') }}">About Us</a></li>
+		<li><a href="{{ route('pre_order.create') }}">Pre Order</a></li>
+		<li><a href="{{ route('term_condition') }}">Terms & Conditions</a></li>
+		<li><a href="{{ route('faq') }}">FAQ</a></li>
+		<li><a href="{{ route('how_order') }}">How to Order</a></li>
+		<li><a href="{{ route('contact_us.index') }}">Contact Us</a></li>
 
 	</div><!--/.nav-collapse -->
 	<!-- /.container -->

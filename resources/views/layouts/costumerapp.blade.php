@@ -9,7 +9,6 @@
 <meta name="keyword" content="House of Make Up, bedak, lipstik, lip ice, bedak, blushon, eyeliner">
 <meta name="author" content="fiesto.com">
 <link href="https://psbyhom.com/design/file/favicon.png" rel="SHORTCUT ICON" />
-
 <title>House of Make Up | Ready stock & Pre Order from US</title>
 <script>
                         /* You can add more configuration options to webfontloader by previously defining the WebFontConfig with your options */
@@ -65,12 +64,12 @@ var cfg_template_url='template/zuta/index.html';
 
 <!-- Bootstrap Core CSS -->
 <link href="{{ url('assets/css/template.css') }}" rel="stylesheet">
-
+<link type="text/css" rel="stylesheet" href="https://psbyhom.com/design/template/zuta/font-awesome/css/font-awesome.min.css">
 <!-- Custom CSS -->
 <link href="https://fonts.googleapis.com/css?family=Alegreya+SC|Cantarell|Dancing+Script|Delius+Unicase" rel="stylesheet">
 <!--<link href="https://myhouseofmakeup.co/template/zuta/css/bootstrap-material-design.min.css" rel="stylesheet">-->
 <link href="{{ url('assets/css/color.css') }}" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="{{ url('assets/css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 <!-- <link type="text/css" href="https://psbyhom.com/design/template/zuta/js/hoverzoom.html" rel="stylesheet"> -->
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <link href="{{ url('assets/css/styles.css') }}" rel="stylesheet">
@@ -124,7 +123,13 @@ var cfg_template_url='template/zuta/index.html';
 	var cfg_app_url = '../../../index.html';
 	</script><script type="text/javascript" src="{{ url('assets/js/jquery.elevateZoom-3.0.8.min.js') }}"></script>
 <script>
-
+function removeItemReq(counter)
+	{
+			var counter = $( "#counter" ).val();
+			counter--;
+			$("#counter").val(counter);	
+			jQuery('#remove_po_'+counter).remove();
+	}
 	/* $(function() {
 		$(".form_beli").submit(function() {
 			var elem = $("#sUkuran").length;
@@ -212,6 +217,24 @@ var cfg_template_url='template/zuta/index.html';
 				$('#form-ongkir').html("").hide();
 			}
 		})
+
+		$('#tambahpo').click(function() {
+				var counter = $( "#counter" ).val();
+				var lang_remove_product = 'Hapus';
+				var img_remove			= 'https://psbyhom.com//design/deletepic.png';
+				html = '<tr id="remove_po_'+counter+'"><td><input type="text" name="qty['+counter+']"><input type="hidden" name="item_ar[]" value="'+counter+'"></td><td><input type="text" name="link['+counter+']"></td><td><input type="text" name="name['+counter+']"></td><td><input type="text" name="color['+counter+']"></td><td><input type="text" name="sizeweight['+counter+']"></td><td><input type="number" name="price['+counter+']"></td><td><input type="text" name="info['+counter+']"><td><a href="#" onclick="removeItemReq('+counter+')"><img src="'+img_remove+'" alt="Remove Pro Order">'+lang_remove_product+'</a></td></td></tr>';
+				counter++;
+				$("#counter").val(counter);				
+				$('#pre-order tr:last').after(html);
+				remove_obj('.remove');
+				$('input[name="qty['+counter+']"]').rules("add", {
+					required: true, number: true
+				});
+				$('input[name="link['+counter+']"]').rules("add", {
+					required: true, url: true
+				});
+			
+			});
 		
 		$(".qty-trigger").click(function() {
 			var ID = $(this).attr("data-id");
