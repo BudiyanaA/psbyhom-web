@@ -45,6 +45,7 @@
                             <th align='left'>Product Name</th>
 							<th align='left'>color</th>
                             <th align='left'>Size/Weight</th>
+							<th align='left'>Approved</th>
                             <th align='left'>Pice</th>
                             <th align='left'>Info</th>
 							<th >Subtotal (IDR)</th>
@@ -57,6 +58,9 @@
                                         <td>{{ $p->name }}</td>
                                         <td>{{ $p->color }}</td>
                                         <td>{{ $p->sizeweight }}</td>
+										<td>
+											<input type="checkbox" name="selected[]" value="{{ $p->id }}">
+										</td>
                                         <td>{{ $p->price }}</td>
                                         <td>{{ $p->info }}</td>
                                         <td>{{ $p->qty * $p->price }}</td>
