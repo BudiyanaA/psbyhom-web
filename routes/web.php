@@ -33,6 +33,8 @@ use App\Http\Controllers\LoginCostumerController;
 use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\OrderListController;
 use App\Http\Controllers\ProcesOrderController;
+use App\Http\Controllers\PaymentCostumerController;
+use App\Http\Controllers\ConfirmPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +96,15 @@ Route::resource('pre_order', PreOrderController::class);
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 Route::resource('process_order', ProcesOrderController::class);
 Route::get('process_order', [ProcesOrderController::class, 'index'])->name('process_order');
+Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
+Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
+Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('payment_c.index');
+Route::post('payment_c/store', [PaymentCostumerController::class, 'store'])->name('payment_c.store');
+Route::get('payment_c/create', [PaymentCostumerController::class, 'create'])->name('payment_c.create');
+Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
+Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name('confirm.index');
+Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
+Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

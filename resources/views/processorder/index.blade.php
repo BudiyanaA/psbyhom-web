@@ -71,32 +71,138 @@
 				</div>
 			</div>
 
-						</div>
-							<div class="tab-pane" id="comments">
-								<ul class="panel-comments">
-									<textarea name="content" id="content" cols="80" rows="20" class="ckeditor" ><p>HELLO Welcome to House of make up.</p>
-										<p>Berdiri sejak tahun 2009 dengan nama Make up house.</p>
-										<p>House of make up adalah Indonesia based online shop yang membantu kalian membeli barang di US yang limited edition , special edition , new launch ,produk SALE atau yang tidak ada di Indonesia dengan harga yang affordable &amp; reasonable.</p>
-										<p>Kita melakukan order 1-2 x dalam seminggu dan tanpa minimum pesanan , kecuali beberapa website tertentu <u>(detail)</u>.</p>
-										<p>Line@ : @houseofmakeup</p>
-										</textarea>
-								</ul>
+		</div>
+		<div class="tab-pane" id="comments">
+			{{ Form::open(['url' => route('process_order.store'), 'class' => 'form-horizontal' ])}}
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Receiver Data</h5>										
+									@include('processorder.create')
 							</div>
-							<!-- <div class="panel-footer">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<div class="btn-toolbar">
-											<button class="btn-primary btn" value ='update' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Submit</button>
-											<button class="btn-primary btn" value ='delete' name='submit' onclick="ConfirmDelete()">Delete</button>											
-										</div>
-									</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Transaction Summary</h5>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >Subtotal</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">TR23020162</p>
+								</div>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >Delivery Fee</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">TR23020162</p>
+								</div>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >Insurane</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">0</p>
+								</div>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >Discount/Promo</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">0</p>
+								</div>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >Grand Total</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">0</p>
+								</div>
+								<div style="width: 25%; float: left;">
+									<p style="margin-left: 20px;" >E-wallet</p>
+								</div>
+								<div style="width: 75%; float: right;">
+									<p style="margin-left: 50px;">0</p>
 								</div>
 							</div>
-			            </form> -->
-					</div>
 						</div>
 					</div>
 				</div>
+				</br>
+				<div class="form-group 	@if ($errors->has('nohp_2')) has-error @endif">
+					<label class="col-sm-1 control-label" style="font-weight: normal;">Dropship</label>
+					<div>
+						<input type="checkbox" id="dropship">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Shiping Detail</h5>
+								<div style="width: 30%; float: left;">
+									<h5>Total Weight :</h5>
+								</div>
+								<div style="width: 70%; float: right;">
+									<h5 style="font-weight: normal;">0</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Additional</h5>
+								<div>
+									<label for="cb1">Insurance</label>
+									<input type="checkbox" id="cb1">
+								</div>
+								<div>
+									<label for="cb2">Block Packing</label>
+									<input type="checkbox" id="cb2">
+								</div>
+								<div>
+									<label for="cb3">Use E-Wallet</label>
+									<input type="checkbox" id="cb3">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Notes</h5>
+						<textarea id="notes" name="notes" rows="4" cols="150"></textarea>
+					</div>
+				</div>
+				<div>
+					<input type="checkbox" id="dropship">
+					<label style="font-weight: normal;">I agree to the terms and conditions</label>	
+				</div>
+				</br>
+				<div class="row">
+					<div class="col-sm-1">
+						<div class="card">
+							<div class="card-body">
+								<a class="link_kembali" href="{{ route('home') }}"><i class="fa fa-angle-left fa-3"></i> Back</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-11">
+						<div class="card">
+							<div class="card-body">
+								<button class="btn-primary btn">Submit</button>
+							</div>
+											
+						</div>
+					</div>
+				</div>
+			{{ Form::close() }}								
+		</div>
+							<!-- </div>
+							</div>
+						</div>
+					</div>
+				</div> -->
 		</div>
 	</div>
 </div>
