@@ -91,13 +91,13 @@
 									<p style="margin-left: 20px;" >Subtotal</p>
 								</div>
 								<div style="width: 75%; float: right;">
-									<p style="margin-left: 50px;">TR23020162</p>
+									<p style="margin-left: 50px;">0</p>
 								</div>
 								<div style="width: 25%; float: left;">
 									<p style="margin-left: 20px;" >Delivery Fee</p>
 								</div>
 								<div style="width: 75%; float: right;">
-									<p style="margin-left: 50px;">TR23020162</p>
+									<p style="margin-left: 50px;">0</p>
 								</div>
 								<div style="width: 25%; float: left;">
 									<p style="margin-left: 20px;" >Insurane</p>

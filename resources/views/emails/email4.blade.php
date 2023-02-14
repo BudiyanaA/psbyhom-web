@@ -1,6 +1,12 @@
 <html>
   <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+      .container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
       .content {
         display: flex;
         justify-content: space-between;
@@ -15,16 +21,57 @@
         text-align: right;
         width: 70%;
       }
+      .resize {
+        max-width: 100%;
+      }
     </style>
   </head>
   <body>
-    <div class="content">
-      <div class="left">
+  <div class="container">
+  <div class="content">
+    <div class="left">
       <img class='resize' src="{{ url('assets/img/logo.jpg') }}" border="0" />
-      </div>
-      <div class="right">
+    </div>
+    <div class="right">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <p>Costumer Name</p>
+            </div>
+            <div class="col">
+              <p>{{ Auth::user()->name }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>PO ID</p>
+            </div>
+            <div class="col">
+              <p>0</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>PO DATE</p>
+            </div>
+            <div class="col">
+              <p>0</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>Delivery Address</p>
+            </div>
+            <div class="col">
+              <p>0</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+</div>
 
 <p>dear, {{ Auth::user()->name }}</hp>
 </br>
