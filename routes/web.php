@@ -90,6 +90,7 @@ Route::get('term_condition', [TermConditionController::class, 'index'])->name('t
 Route::get('about_us', [AboutController::class, 'index'])->name('about_us');
 Route::resource('contact_us', ContactController::class);
 Route::get('register_c', [RegisterCostumerController::class, 'index'])->name('register_c');
+Route::post('register_c/store', [RegisterCostumerController::class, 'store'])->name('register_c.store');
 Route::post('register_c/action', [RegisterController::class, 'registeraction'])->name('registeraction');
 Route::get('login_c', [LoginCostumerController::class, 'index']);
 Route::resource('pre_order', PreOrderController::class);

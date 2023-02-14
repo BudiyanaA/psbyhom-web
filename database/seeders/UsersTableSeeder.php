@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'costumer',
             'email' => 'dederizki130102@gmail.com',
             'password' => bcrypt('123456'),
-            'role' => 'customer'
+            'role' => 'costumer'
         ]);
     }
 }
