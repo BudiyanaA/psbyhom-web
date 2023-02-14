@@ -6,12 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Registercostumer;
+use App\Models\Region;
 
 class RegisterCostumerController extends Controller
 {
     public function index()
     {
+        
         return view('register_c.index');
+    }
+    
+
+    public function create()
+    {
+        // $data['province'] = Region::whereRaw('CHAR_LENGTH(kode) = 2')->get();
+        // $data['cities'] = Region::whereRaw('LEFT(kode, 2) = ?' , [$province_id])
+        //     ->whereRaw('CHAR_LENGTH(kode) = 5')
+        //     ->get();
+        // $data['districts'] = Region::whereRaw('LEFT(kode, 5) = ?' , [$city_id])
+        //     ->whereRaw('CHAR_LENGTH(kode) = 8')
+        //     ->get();
+        return view('register_c.create');
     }
 
     public function store (Request $request)

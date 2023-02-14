@@ -19,4 +19,18 @@ class Registercostumer extends Model
         'district',
         'captcha',
     ];
+    public function getCity()
+    {
+        return $this->belongsTo(Region::class, 'city', 'kode');
+    }
+
+    public function getDistricts()
+    {
+        return $this->belongsTo(Region::class, 'district', 'kode');
+    }
+
+    public function getProvince()
+    {
+        return $this->belongsTo(Region::class, 'province', 'kode');
+    }
 }

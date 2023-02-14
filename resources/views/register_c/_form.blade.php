@@ -47,17 +47,17 @@
 	</div>
     <div class="form-group @if ($errors->has('province')) has-error @endif">
 		<span class="text-right req">Province <span class="reqsign">*</span></span>
-		{{ Form::text('province', null, ['class' => 'form-control']) }}
+		{{ Form::select('province', $province, null, ['class' => 'form-control',  'placeholder' => 'Pilih Provinsi', 'id' => 'province-option']); }}
         @if ($errors->has('province')) <small class="form-text help-block" style="color:red">{{ $errors->first('province') }}</small> @endif
 	</div>
     <div class="form-group @if ($errors->has('city')) has-error @endif">
 		<span class="text-right req">Kota <span class="reqsign">*</span></span>
-		{{ Form::text('city', null, ['class' => 'form-control']) }}
+		{{ Form::select('city', $cities, null, ['class' => 'form-control',  'placeholder' => 'Pilih Kota', 'id' => 'city-option', 'disabled' => true]); }}
         @if ($errors->has('city')) <small class="form-text help-block" style="color:red">{{ $errors->first('city') }}</small> @endif
 	</div>
     <div class="form-group @if ($errors->has('district')) has-error @endif">
-		<span class="text-right req">Kota <span class="reqsign">*</span></span>
-		{{ Form::text('district', null, ['class' => 'form-control']) }}
+		<span class="text-right req">Kecamatan <span class="reqsign">*</span></span>
+		{{ Form::select('district', $districts, null, ['class' => 'form-control',  'placeholder' => 'Pilih Kecamatan', 'id' => 'district-option', 'disabled' => true]); }}
         @if ($errors->has('district')) <small class="form-text help-block" style="color:red">{{ $errors->first('district') }}</small> @endif
 	</div>
     <div class="form-group">
@@ -85,5 +85,85 @@
             }
         });
     });
+</script>
+<script>
+  $(document).ready( function () {
+    $('#province-option').select2({
+      placeholder: "-- Pilih Provinsi --",
+      theme: "bootstrap4",
+    });
+		$('#city-option').select2({
+      placeholder: "-- Pilih Kabupaten --",
+      theme: "bootstrap4",
+    });
+		$('#district-option').select2({
+      placeholder: "-- Pilih Kecamatan --",
+      theme: "bootstrap4",
+    });
+
+		$('#province-option').on('change', function() {
+      var provinceId = $(this).val();
+      if(provinceId) {
+          $.ajax({
+              url: '/api/cities/'+provinceId,
+              type: "GET",
+              data : {"_token":"{{ csrf_token() }}"},
+              dataType: "json",
+              success:function(data)
+              {
+                if(data.cities){
+                  $('#city-option').empty();
+                  $('#city-option').prop('disabled', false);
+                  $('#district-option').empty();
+                  $('#district-option').prop('disabled', true);
+
+                  $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
+                  $.each(data.cities, function(key, city){
+                      $('#city-option').append('<option value="'+ city.kode +'">' + city.nama+ '</option>');
+                  });
+              }else{
+                  $('#city-option').empty();
+                  $('#city-option').prop('disabled', true);
+                  $('#district-option').empty();
+                  $('#district-option').prop('disabled', true);
+              }
+            }
+          });
+      }else{
+        $('#city-option').empty();
+        $('#city-option').prop('disabled', true);
+        $('#district-option').empty();
+        $('#district-option').prop('disabled', true);
+      }
+    });
+		$('#city-option').on('change', function() {
+      var cityId = $(this).val();
+      if(cityId) {
+          $.ajax({
+              url: '/api/districts/'+cityId,
+              type: "GET",
+              data : {"_token":"{{ csrf_token() }}"},
+              dataType: "json",
+              success:function(data)
+              {
+                if(data.districts){
+                  $('#district-option').empty();
+                  $('#district-option').prop('disabled', false);
+                  $('#district-option').append('<option value="" selected disabled>Pilih Kecamatan</option>'); 
+                  $.each(data.districts, function(key, district){
+                      $('#district-option').append('<option value="'+ district.kode +'">' + district.nama+ '</option>');
+                  });
+              }else{
+                  $('#district-option').empty();
+                  $('#district-option').prop('disabled', true);
+              }
+            }
+          });
+      }else{
+        $('#district-option').empty();
+        $('#district-option').prop('disabled', true);
+      }
+    });
+  } );
 </script>
 @endpush
