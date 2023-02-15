@@ -2,7 +2,7 @@
 <p>hi, {{ Auth::user()->name }}</hp>
 <p>You order has been received and will be processed once down payment is confirmed (minimum 50%)</p>
  
-<p>Dont forget to confirm your payment after make a down payment <a href="{{ route('process_order') }}">here</a> to make an order</p>
+<p>Dont forget to confirm your payment after make a down payment <a href="{{ route('payment_c.index') }}">here</a></p>
 </br>
 </br>
 <div class="container" id="content">

@@ -1,5 +1,4 @@
 <div class="row">
-    {{var_dump($errors)}}
     <div class="form-group 	@if ($errors->has('invoice_amount')) has-error @endif col-md-6 col-lg-12">
 		<label for="email2">Invoice Amount *</label>
 		{{ Form::text('invoice_amount', null, ['class' => 'form-control', 'placeholder' => 'Invoice Amount']) }}
