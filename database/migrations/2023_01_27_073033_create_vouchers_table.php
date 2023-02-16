@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('expiry_date');
             $table->string('discount_amount');
             $table->string('remarks');
-            $table->enum('status', ['Used', 'Unused']);
             $table->timestamps();
         });
     }

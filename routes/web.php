@@ -35,6 +35,8 @@ use App\Http\Controllers\OrderListController;
 use App\Http\Controllers\ProcesOrderController;
 use App\Http\Controllers\PaymentCostumerController;
 use App\Http\Controllers\ConfirmPaymentController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,34 +53,75 @@ use App\Http\Controllers\ConfirmPaymentController;
 //     return view('welcome');
 // });
 Route::get('/', [LoginController::class, 'login'])->name('login');
-Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout');
+Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
 Route::get('register', [RegisterController::class, 'register'])->name('register');
 Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
 
+Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
+
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::group(['middleware' => 'auth'], function () {
-Route::resource('admin_management', AdminManagementController::class);
-Route::resource('page_management', PageManagementController::class);
-Route::resource('slideshow_management', SlideManagementController::class);
-Route::resource('costumer_management', CostumerManagementController::class);
-Route::get('pre_orders', [OrderController::class, 'index'])->name('preorder.index');
-Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
-Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::get('dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
-Route::get('waiting_goods', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
-Route::get('lp_confirmation', [LpConfirmationController::class, 'index'])->name('lpconfirmation.index');
-Route::get('ready_to_ship', [ReadyController::class, 'index'])->name('ready.index');
-Route::get('overall', [OverallController::class, 'index'])->name('overall.index');
-Route::resource('bank_management', BankManagementController::class);
-Route::get('email_content_management', [EmailContentManagementController::class, 'index'])->name('email.index');
-Route::resource('voucher_management', VoucherManagementController::class);
+// Route::resource('admin_management', AdminManagementController::class);
+Route::get('admin/user', [AdminManagementController::class, 'index'])->name('user.index');
+Route::get('admin/user/create', [AdminManagementController::class, 'create'])->name('user.create');
+Route::get('admin/user/edit/{id}', [AdminManagementController::class, 'edit'])->name('user.edit');
+Route::post('admin/user/create', [AdminManagementController::class, 'store'])->name('admin_management.store');
+Route::put('admin/user/edit/{id}', [AdminManagementController::class, 'update'])->name('admin_management.update');
+
+
+// Route::resource('page_management', PageManagementController::class);
+Route::get('admin/cms/page', [PageManagementController::class, 'index'])->name('page_management.index');
+Route::get('admin/cms/edit/{id}', [PageManagementController::class, 'edit'])->name('page_management.edit');
+Route::put('admin/cms/edit/{id}', [PageManagementController::class, 'update'])->name('page_management.update');
+
+// Route::resource('slideshow_management', SlideManagementController::class);
+Route::get('admin/cms/slideshow', [SlideManagementController::class, 'index'])->name('slideshow_management.index');
+Route::get('admin/cms/slideshow/create', [SlideManagementController::class, 'create'])->name('slideshow_management.create');
+Route::get('admin/user/edit/{id}', [SlideManagementController::class, 'edit'])->name('slideshow_management.edit');
+Route::post('admin/user/create', [SlideManagementController::class, 'store'])->name('slideshow_management.store');
+Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])->name('slideshow_management.update');
+
+// Route::resource('costumer_management', CostumerManagementController::class);
+Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
+
+Route::get('admin/news', [OrderController::class, 'index'])->name('preorder.index');
+
+Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
+Route::get('admin/waiting_payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
+Route::get('admin/waiting_goodies', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
+Route::get('admin/lp_confirmation', [LpConfirmationController::class, 'index'])->name('lpconfirmation.index');
+Route::get('admin/ready_to_ship', [ReadyController::class, 'index'])->name('ready.index');
+Route::get('admin/overal_order_report', [OverallController::class, 'index'])->name('overall.index');
+
+// Route::resource('bank_management', BankManagementController::class);
+Route::get('admin/ecommerce/bank', [BankManagementController::class, 'index'])->name('bank_management.index');
+Route::get('admin/ecommerce/bank/create', [BankManagementController::class, 'create'])->name('bank_management.create');
+Route::get('admin/ecommerce/bank/edit/{id}', [BankManagementController::class, 'edit'])->name('bank_management.edit');
+Route::post('admin/ecommerce/bank/create', [BankManagementController::class, 'store'])->name('bank_management.store');
+Route::put('admin/ecommerce/bank/edit/{id}', [BankManagementController::class, 'update'])->name('bank_management.update');
+
+Route::get('admin/ecommerce/email', [EmailContentManagementController::class, 'index'])->name('email.index');
+
+// Route::resource('voucher_management', VoucherManagementController::class);
+Route::get('admin/voucher/email', [VoucherManagementController::class, 'index'])->name('voucher_management.index');
+Route::get('admin/voucher/email/create', [VoucherManagementController::class, 'create'])->name('voucher_management.create');
+Route::get('admin/voucher/email/edit/{id}', [VoucherManagementController::class, 'edit'])->name('voucher_management.edit');
+Route::post('admin/voucher/email/create', [VoucherManagementController::class, 'store'])->name('voucher_management.store');
+Route::put('admin/voucher/email/edit/{id}', [VoucherManagementController::class, 'update'])->name('voucher_management.update');
+
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
-Route::resource('system_params', SystemController::class);
+// Route::resource('admin/system/config', SystemController::class);
+Route::get('admin/system/config', [SystemController::class, 'index'])->name('system_params');
+Route::post('admin/system/config', [SystemController::class, 'store'])->name('system_params');
+Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
+Route::get('change_password', [PasswordController::class, 'edit'])->name('change_password');
+Route::patch('password', [PasswordController::class, 'update'])->name('change_password.update');
 });
 
 Route::post('login_c', [LoginCostumerController::class, 'loginaction'])->name('loginaction');

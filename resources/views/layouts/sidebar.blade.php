@@ -14,11 +14,11 @@
                 </a>
                 <ul class="acc-menu">
                     <li>
-                        <a href="{{ route('admin_management.create') }}" class="menu">Create New User</a>
+                        <a href="{{ route('user.create') }}" class="menu">Create New User</a>
                     </li>
                     </li>
                     <li>
-                        <a href="{{ route('admin_management.index') }}" class="menu">List of User</a>
+                        <a href="{{ route('user.index') }}" class="menu">List of User</a>
                     </li>
                     </li>
                 </ul>
@@ -59,10 +59,11 @@
                     <li><a href="{{ route('overall.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
                     <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i><span>E-Commerce</span></a>
                     <ul class="acc-menu">
+                        <li><a href="{{ route('bank_management.index') }}" class="menu">Bank Management</a></li></li>
                         <li><a href="{{ route('email.index') }}" class="menu">Email Content Management</a></li></li>
                         <li><a href="{{ route('voucher_management.index') }}" class="menu">Voucher Management</a></li></li>
-                    <li><a href="{{ route('bank_management.index') }}" class="menu">Bank Management</a></li></li></ul></li><li><a href="javascript:;"><i class="fa fa-globe"></i><span>Global Configuration</span></a><ul class="acc-menu">
-                    <li><a href="{{ route('system_params.index') }}" class="menu">System Parameter</a></li></li></ul></li>				
+                    </ul></li><li><a href="javascript:;"><i class="fa fa-globe"></i><span>Global Configuration</span></a><ul class="acc-menu">
+                    <li><a href="{{ route('system_params') }}" class="menu">System Parameter</a></li></li></ul></li>				
                 
             </ul>
             <!-- END SIDEBAR MENU -->

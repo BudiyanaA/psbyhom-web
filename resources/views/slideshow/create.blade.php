@@ -35,7 +35,7 @@
 	@endif
 
 
-		{{ Form::open(['url' => route('slideshow_management.store'), 'class' => 'form-horizontal' ])}}
+		{{ Form::open(['url' => route('slideshow_management.store'), 'class' => 'form-horizontal', 'files' => true, 'enctype' => 'multipart/form-data' ])}}
 			
 
         @include('slideshow._form')

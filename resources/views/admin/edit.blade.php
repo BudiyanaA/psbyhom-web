@@ -5,7 +5,7 @@
         <div id="page-heading">
             <ul class="breadcrumb">
                 <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('admin_management.index') }}">Admin Management</a></li>
+                <li><a href="{{ route('user.index') }}">Admin Management</a></li>
                 <li class="active">View Admin</li>
             </ul>
 

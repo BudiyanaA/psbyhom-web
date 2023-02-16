@@ -31,8 +31,8 @@
         			</li>
         			<li class="userlinks">
         				<ul class="dropdown-menu">
-        					<li><a href="https://psbyhom.com/admin_user_management/view_my_profile.html">My Profile <i class="pull-right fa fa-pencil"></i></a></li>
-        					<li><a href="https://psbyhom.com/admin_user_management/change_password.html">Change Password <i class="pull-right fa fa-cog"></i></a></li>
+        					<li><a href="{{ route('my_profil') }}">My Profile <i class="pull-right fa fa-pencil"></i></a></li>
+        					<li><a href="{{ route('change_password') }}">Change Password <i class="pull-right fa fa-cog"></i></a></li>
         					<li class="divider"></li>
         					<li><a href="{{ route('actionlogout') }}">Log Out</a></li>
         				</ul>

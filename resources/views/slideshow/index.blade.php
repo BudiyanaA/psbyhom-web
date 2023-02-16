@@ -47,7 +47,9 @@
 										<td>{{ $loop->index + 1 }}</td>
 										<td><a href="{{ route('slideshow_management.edit', $s->id) }}">{{ $s->slideshow_name }}</a></td>
 										<td>{{ $s->slideshow_no }}</td>
-										<td>{{ $s->image }}</td>
+										<td>
+                                            <img src="{{ asset('assets/images/'.$s->image) }}" alt="Thumbnail" width="100" height="100%">
+										</td>
 										<td>{{ $s->status }}</td>
 									</tr>
 									@endforeach

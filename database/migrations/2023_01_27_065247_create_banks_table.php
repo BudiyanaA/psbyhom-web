@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('bank_name');
             $table->string('bank_account_name');
             $table->string('bank_account_no');
-            $table->enum('status', ['Enabled', 'Disabled']);
+            $table->enum('status', ['enabled', 'disaled','deleted']);
             $table->string('notes');
             $table->timestamps();
         });

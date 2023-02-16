@@ -53,7 +53,6 @@
 											<td>{{ $v->expiry_date }}</td>
 											<td>{{ $v->discount_amount }}</td>
 											<td>{{ $v->remarks }}</td>
-											<td>{{ $v->status }}</td>
 										</tr>
 									@endforeach
 								</tbody>

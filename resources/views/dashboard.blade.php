@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-toyo"
-                  href="#">
+                  href="{{ route('preorder.index') }}">
                   <div class="tiles-heading">New PO</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-shopping-cart"></i>
@@ -36,7 +36,7 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-success"
-                  href="#">
+                  href="{{ route('dpconfirmation.index') }}">
                   <div class="tiles-heading">DP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-money"></i>
@@ -52,7 +52,7 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-alizarin"
-                  href="#">
+                  href="{{ route('Waitinggood.index') }}">
                   <div class="tiles-heading">Waiting Goodies</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-truck"></i>
@@ -66,7 +66,7 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-orange"
-                  href="#">
+                  href="{{ route('lpconfirmation.index') }}">
                   <div class="tiles-heading">LP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-dollar"></i>

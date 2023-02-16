@@ -47,16 +47,16 @@
 						</div>
 					</div>
 					
-					<button type="submit" class="btn btn-primary btn-block">Log In</button>
+					<button type="submit" class="btn btn-primary btn-block">Submit</button>
 				</form>
 				<font color='red';size='8'>
 							 	</font>
 		</div>
-		<!-- <div class="panel-footer">
-			<a href="https://psbyhom.com/login_admin_cpanel/forgot_password" class="pull-left btn btn-link" style="padding-left:0">Forgot password?</a>
+		<div class="panel-footer">
+			<a href="{{ route('forgot_password') }}" class="pull-left btn btn-link" style="padding-left:0">Forgot password?</a>
 			
 		
-		</div> -->
+		</div>
 	</div>
  </div>
 

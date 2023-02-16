@@ -5,7 +5,7 @@
         <div id="page-heading">
             <ul class="breadcrumb">
 				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('system_params.index') }}">System Parameter</a></li>
+                <li><a href="{{ route('system_params') }}">System Parameter</a></li>
                 <li class="active"></li>
             </ul>
 
