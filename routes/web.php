@@ -120,6 +120,7 @@ Route::put('admin/voucher/email/edit/{id}', [VoucherManagementController::class,
 Route::get('admin/system/config', [SystemController::class, 'index'])->name('system_params');
 Route::post('admin/system/config', [SystemController::class, 'store'])->name('system_params');
 Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
+Route::post('my_profil', [ProfilController::class, 'store'])->name('profil.store');
 Route::get('change_password', [PasswordController::class, 'edit'])->name('change_password');
 Route::patch('password', [PasswordController::class, 'update'])->name('change_password.update');
 });

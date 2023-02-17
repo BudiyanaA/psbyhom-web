@@ -11,7 +11,7 @@ class LoginController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect('dashboard');
+            return redirect('admin');
         }else{
             return view('login.index');
         }
@@ -25,7 +25,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::Attempt($data)) {
-            return redirect('dashboard');
+            return redirect('admin');
         }else{
             Session::flash('error', 'Email atau Password Salah');
             return redirect('/');

@@ -34,18 +34,23 @@
 							<ul class="panel-threads">
 							 <font color='red';size='8'> <p align='center' style="font-size:smaller"></p></font>
 								
-								<form action="https://psbyhom.com/admin_user_management/valdiate_update_profile/cf5466f3-e48b-4c23-a69d-3e6ac80dcc01" class="form-horizontal row-border"   data-validate="parsley" id="validate-form"  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+							 {{ Form::open(['url' => route('profil.store'), 'class' => 'form-horizontal', 'files' => true ])}}
+								@if (Session::has('success'))
+									<div class="alert alert-success alert-dismissible" role="alert">
+										{{ Session::get('success') }}
+									</div>
+								@endif
 									<div class="form-group">
 										<label class="col-sm-3 control-label">User ID</label>
 										<div class="col-sm-6">
-											<input type="text" readonly = TRUE placeholder="Required Field" required="required" class="form-control" name='user_id' id='user_id' value='myadmin'>
+											<input type="text" readonly = TRUE placeholder="Required Field" required="required" class="form-control" name='user_id' id='user_id' value='{{ Auth::user()->id }}'>
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Username</label>
 										<div class="col-sm-6">
-											<input type="text"  placeholder="Required Field" required="required" class="form-control" name='username' value='myadmin'>
+											<input type="text"  placeholder="Required Field" required="required" class="form-control" name='username' value='{{ Auth::user()->name }}'>
 										</div>
 									</div>
 									
@@ -54,7 +59,8 @@
 										<div class="col-sm-9">
 											<div class="fileinput fileinput-new" data-provides="fileinput">
 												<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-												<img src="https://psbyhom.com/\img\art_thumb\default.jpeg" alt="myadmin" class="post_images" width="200" height="150" title="myadmin" rel="lightbox"/>												</div>
+												<img src="" alt="myadmin" class="post_images" width="200" height="150" title="myadmin" rel="lightbox"/>
+											</div>
 												<div>
 												  <span class="btn btn-default btn-file"><span class="fileinput-new">Browse image</span><span class="fileinput-exists">Change</span><input type="file"  name="image_thumbnail" id='image_thumbnail' value=''></span>
 
@@ -66,7 +72,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Email</label>
 										<div class="col-sm-6">
-											<input type="text"  data-type="email" placeholder="Email address" required="required" class="form-control" name='email' value='shandy.kingstone@gmail.com'>
+											<input type="text"  data-type="email" placeholder="Email address" required="required" class="form-control" name='email' value='{{ Auth::user()->email }}'>
 										</div>
 									</div>
 									
@@ -119,7 +125,7 @@
 										</div>
 									</div>
 								</div>
-			                </form>
+								{{ Form::close() }}
 							</div>
 							</div>
 					</div>
