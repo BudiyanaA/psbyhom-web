@@ -22,3 +22,10 @@
 <div class="blockseparator"></div>
 	</div>
 @endsection
+
+<script>
+    const errorMessage = "{{ session('error') }}";
+    if(errorMessage){
+        alert(errorMessage);
+    }
+</script>
