@@ -21,17 +21,17 @@ class LoginCostumerController extends Controller
         ];
 
         if (Auth::Attempt($data)) {
-            return redirect('home');
+            return redirect('/');
         }else{
             Session::flash('error', 'Email atau Password Salah');
-            return redirect('home');
+            return redirect('login');
         }
     }
 
     public function logoutaction ()
     {
         Auth::logout();
-        return redirect('home');
+        return redirect('/');
     }
 
 }

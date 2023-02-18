@@ -58,4 +58,10 @@ public function show($id)
 {
     //
 }
+
+public function list()
+    {
+        return view('preorder.list');
+    }
+
 }

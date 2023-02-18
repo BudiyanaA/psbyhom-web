@@ -15,12 +15,12 @@
 				</div>
 				<div class="col-sm-3 col-md-3">
 					<h3>Menu</h3>
-					<p><a href="https://psbyhom.com/">Home</a></p>
-					<p><a href="#">About Us</a></p>
-					<p><a href="#">Pre Order<br /></a></p>
-					<p><a href="#">FAQ<br /></a></p>
-					<p><a href="#">Terms & Conditions<br /></a></p>
-					<p><a href="#">Contact Us</a></p>
+					<p><a href="{{ route('home') }}">Home</a></p>
+					<p><a href="{{ route('about_us') }}">About Us</a></p>
+					<p><a href="{{ route('preorder.create') }}">Pre Order<br /></a></p>
+					<p><a href="{{ route('faq') }}">FAQ<br /></a></p>
+					<p><a href="{{ route('term_condition') }}">Terms & Conditions<br /></a></p>
+					<p><a href="{{ route('contact_us.index') }}">Contact Us</a></p>
 				</div>
 				<div class="col-sm-3 col-md-3">
 					<h3>Contact Us&nbsp;</h3>

@@ -90,7 +90,7 @@ var cfg_template_url='template/zuta/index.html';
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <script src="{{ url('assets/js/jquery_latest.js') }}"></script>
 <script src="{{ url('assets/js/jquery_ui_latest.js') }}"></script> 
-
+<script src="{{ url('assets/js/owl.carousel.js') }}"></script>
 </head>
 <body>
 @include('layouts.costumerheader')
@@ -104,7 +104,7 @@ var cfg_template_url='template/zuta/index.html';
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 	<script src="{{ url('assets/js/bootstrap.min.js') }}"></script>
-	<script src="{{ url('assets/js/owl.carousel.js') }}"></script>
+	
 	<!-- BX Slider -->
 	<script src="{{ url('assets/js/jquery.bxslider.min.js') }}"></script>
 	<!-- Select box -->
@@ -697,6 +697,16 @@ function removeItemReq(counter)
 		elem.removeAttr('required');
 	}
 	
+</script>
+<script language="javascript">
+$(document).ready(function()
+{
+
+$('#example').dataTable( 
+{
+   "order": [[ 1, "desc" ]]
+} );
+});
 </script>
 <script>
 $(function() {
