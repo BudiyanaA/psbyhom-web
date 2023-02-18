@@ -5,7 +5,16 @@
 	<div class="row"><div class="col-lg-12"><h3  ><strong style="color:darkgray ">Membership</strong></h3><br>
 	</div><div class="col-lg-12">
 		<div class="row"><div id="formlogin" class="col-xs-12 col-sm-6 col-lg-6">
-						
+		@if(session('error'))
+            <div class="alert alert-danger">
+                <b>Opps!</b> {{session('error')}}
+            </div>
+            @endif
+            @if(session('message'))
+            <div class="alert alert-success">
+                {{session('message')}}
+            </div>
+            @endif
 						<form class="box" action="{{ route('loginaction') }}" method="POST">
 						@csrf
 							<h3 class="page-subheading">Login Menu</h3>
@@ -27,7 +36,12 @@
 								<td>
 								<p class="submit">		
 									<input type="hidden" name="check_login" value="1"/>
-									<button type="submit" class="more button btn btn-default button-medium">Log In</button>
+									<button type="submit" class="more button btn btn-default button-medium">
+									<span>
+											<i class="fa fa-lock left"></i>
+											Login
+										</span>
+									</button>
 										<!-- <span>
 											<i class="fa fa-lock left"></i>
 											Login

@@ -11,17 +11,17 @@
 						@if(Auth::check())
 							<li>
 							<i class="fa fa-money"></i>
-							<span><a href="https://psbyhom.com/view_ewallet.html">0</a><input type="hidden" value='' name='customer_ewallet' id='customer_ewallet'></span>
+							<span><a href="{{ route('wallet') }}">0</a><input type="hidden" value='' name='customer_ewallet' id='customer_ewallet'></span>
 							</li>
 							<li class="dropdown dropdown-right logged-in-li">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="fas fa-user"></i>
 							</a>
 							<ul aria-labelledby="dropdownMenu" role="menu" class="dropdown-menu dropdown-basic">
-								<li><a href="https://psbyhom.com/edit_profil.html">My Profile</a></li>
-								<li><a href="https://psbyhom.com/list_of_po.html">Pre Order List</a></li>
+								<li><a href="{{ route('profile') }}">My Profile</a></li>
+								<li><a href="{{ route('preorderlist') }}">Pre Order List</a></li>
 								<li><a href="https://psbyhom.com/confirm_payment.html">Confirm Payment</a></li>
-								<li><a href="https://psbyhom.com/ubah_password.html">Change Password</a></li>
+								<li><a href="{{ route('changepassword') }}">Change Password</a></li>
 								<li><a href="{{ route('logoutaction') }}"><i class="fa fa-power-off"></i>Log out</a></li>
 							</ul>
 							</li>
@@ -30,7 +30,7 @@
 							</li>
 						@else
 							<li class="public-li"> 
-							<a href="register_c">Register</a>
+							<a href="{{ route('register_c') }}">Register</a>
 							</li>
 							<li class="public-li"> 
 							<a class="dropdown-toggle" id="login-ddl-link" href="{{ route('loginaction') }}">Login</a> 
@@ -77,7 +77,7 @@
 	<ul class="nav navbar-nav">
 		<li><a href="{{ route('home') }}">Home</a></li>
 		<li><a href="{{ route('about_us') }}">About Us</a></li>
-		<li><a href="{{ route('pre_order.create') }}">Pre Order</a></li>
+		<li><a href="{{ route('preorder.create') }}">Pre Order</a></li>
 		<li><a href="{{ route('term_condition') }}">Terms & Conditions</a></li>
 		<li><a href="{{ route('faq') }}">FAQ</a></li>
 		<li><a href="{{ route('how_order') }}">How to Order</a></li>

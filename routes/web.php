@@ -37,6 +37,9 @@ use App\Http\Controllers\PaymentCostumerController;
 use App\Http\Controllers\ConfirmPaymentController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProfilCostumer;
+use App\Http\Controllers\PasswordCostumerController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +55,7 @@ use App\Http\Controllers\PasswordController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::get('/', [HomeController::class, 'index']);
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
@@ -125,19 +128,31 @@ Route::get('change_password', [PasswordController::class, 'edit'])->name('change
 Route::patch('password', [PasswordController::class, 'update'])->name('change_password.update');
 });
 
-Route::post('login_c', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
+Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
-Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
+Route::patch('password', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
+Route::get('profil', [ProfilCostumer::class, 'index'])->name('profile');
 Route::get('how_order', [HowOrderController::class, 'index'])->name('how_order');
 Route::get('faq', [FaqController::class, 'index'])->name('faq');
-Route::get('term_condition', [TermConditionController::class, 'index'])->name('term_condition');
-Route::get('about_us', [AboutController::class, 'index'])->name('about_us');
-Route::resource('contact_us', ContactController::class);
-Route::get('register_c', [RegisterCostumerController::class, 'index'])->name('register_c');
-Route::post('register_c/store', [RegisterCostumerController::class, 'store'])->name('register_c.store');
-Route::post('register_c/action', [RegisterController::class, 'registeraction'])->name('registeraction');
-Route::get('login_c', [LoginCostumerController::class, 'index']);
-Route::resource('pre_order', PreOrderController::class);
+Route::get('terms', [TermConditionController::class, 'index'])->name('term_condition');
+Route::get('about', [AboutController::class, 'index'])->name('about_us');
+// Route::get('contact_us', ContactController::class);
+Route::get('contact', [ContactController::class, 'index'])->name('contact_us.index');
+Route::post('contact', [ContactController::class, 'store'])->name('contac.store');
+Route::get('register', [RegisterCostumerController::class, 'index'])->name('register_c');
+Route::post('register/store', [RegisterCostumerController::class, 'store'])->name('register_c.store');
+Route::post('register/action', [RegisterController::class, 'registeraction'])->name('registeraction');
+Route::get('login', [LoginCostumerController::class, 'index']);
+
+// Route::resource('preorder', PreOrderController::class);
+Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
+Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
+Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
+
+
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 Route::resource('process_order', ProcesOrderController::class);
 Route::get('process_order', [ProcesOrderController::class, 'index'])->name('process_order');
@@ -150,6 +165,7 @@ Route::get('payment_c/notification', [PaymentCostumerController::class, 'notific
 Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name('confirm.index');
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
+Route::get('ewallet', [WalletController::class, 'index'])->name('wallet');
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

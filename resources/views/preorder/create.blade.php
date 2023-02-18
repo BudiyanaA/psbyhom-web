@@ -13,7 +13,7 @@
                         </div>
                     @endif
                         <div class="col-md-12">
-                        {{ Form::open(['url' => route('pre_order.store'), 'class' => 'form-horizontal' ])}}
+                        {{ Form::open(['url' => route('preorder.store'), 'class' => 'form-horizontal' ])}}
                                 <div class="table-responsive">
                                     <table id="pre-order" class="tablex table-borderedx">	
                                         <tr>
