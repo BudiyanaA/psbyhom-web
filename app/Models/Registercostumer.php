@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registercostumer extends Model
 {
     use HasFactory;
-    protected $table = 'ms_customers';
+    protected $table = 'ms_customer';
     protected $fillable = [
         'CustomerUUID',
         'token_id',

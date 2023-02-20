@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\TrRequestOrder;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
     { 
-        $trans_date_start = $request->trans_date_start;
-$trans_date_end = $request->trans_date_end;
-$request_id = $request->request_id;
-$status = $request->status;
-$sort_order = $request->sort_order;
 
-if (!in_array($sort_order, ['asc', 'desc'])) {
-    $sort_order = 'asc';
-}
-
-$data['orders'] = DB::table('tr_request_order')
-    
-    ->get();
+        $data['orders'] = TrRequestOrder::with('customer')
+        ->when(request()->filled('trans_date_start') && request()->filled('trans_date_end'), function ($query) {
+            $query->whereBetween('created_date', [request()->input('trans_date_start'), request()->input('trans_date_end')]);
+        })
+        ->when(request()->filled('request_id'), function ($query) {
+            $query->where('request_id', request()->input('request_id'));
+        })
+        ->when(request()->filled('status'), function ($query) {
+            $query->where('status', request()->input('status'));
+        })
+        ->orderBy('OnDateTime', 'DESC')
+        ->get();
 
 $status = $request->input('status');
 if($status === '00') {

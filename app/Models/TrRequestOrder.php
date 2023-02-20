@@ -29,7 +29,7 @@ class TrRequestOrder extends Model
 
     public function customer()
 {
-    return $this->belongsTo('App\Models\MsCustomer');
+    return $this->belongsTo(Registercostumer::class);
 }
 
 
