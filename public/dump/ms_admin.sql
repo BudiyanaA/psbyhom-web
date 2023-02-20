@@ -27,30 +27,30 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `ms_admin`
 --
 
-CREATE TABLE `ms_admin` (
-  `AdminUUID` varchar(40) NOT NULL,
-  `user_id` varchar(40) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `profile_pict` varchar(500) NOT NULL DEFAULT '\\img\\art_thumb\\default.jpeg',
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `RoleUUID` varchar(50) NOT NULL,
-  `UsergroupUUID` varchar(50) NOT NULL,
-  `user_type` varchar(50) NOT NULL,
-  `created_date` date NOT NULL,
-  `created_by` varchar(40) NOT NULL,
-  `login_attemp` int(2) NOT NULL,
-  `last_logout` datetime NOT NULL,
-  `last_login` datetime NOT NULL,
-  `is_login` varchar(1) NOT NULL,
-  `is_delete` varchar(1) NOT NULL,
-  `is_superadmin` varchar(1) NOT NULL,
-  `status` varchar(10) NOT NULL,
-  `ByUserUUID` varchar(40) NOT NULL,
-  `ByUserIP` varchar(40) NOT NULL,
-  `OnDateTime` datetime NOT NULL,
-  `token_id` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- CREATE TABLE `ms_admin` (
+--   `AdminUUID` varchar(40) NOT NULL,
+--   `user_id` varchar(40) NOT NULL,
+--   `name` varchar(50) NOT NULL,
+--   `profile_pict` varchar(500) NOT NULL DEFAULT '\\img\\art_thumb\\default.jpeg',
+--   `password` varchar(50) NOT NULL,
+--   `email` varchar(50) NOT NULL,
+--   `RoleUUID` varchar(50) NOT NULL,
+--   `UsergroupUUID` varchar(50) NOT NULL,
+--   `user_type` varchar(50) NOT NULL,
+--   `created_date` date NOT NULL,
+--   `created_by` varchar(40) NOT NULL,
+--   `login_attemp` int(2) NOT NULL,
+--   `last_logout` datetime NOT NULL,
+--   `last_login` datetime NOT NULL,
+--   `is_login` varchar(1) NOT NULL,
+--   `is_delete` varchar(1) NOT NULL,
+--   `is_superadmin` varchar(1) NOT NULL,
+--   `status` varchar(10) NOT NULL,
+--   `ByUserUUID` varchar(40) NOT NULL,
+--   `ByUserIP` varchar(40) NOT NULL,
+--   `OnDateTime` datetime NOT NULL,
+--   `token_id` varchar(20) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `ms_admin`

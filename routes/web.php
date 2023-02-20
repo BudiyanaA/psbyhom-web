@@ -69,7 +69,7 @@ Route::post('register/action', [RegisterController::class, 'actionregister'])->n
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth:admin'], function () {
 // Route::resource('admin_management', AdminManagementController::class);
 Route::get('admin/user', [AdminManagementController::class, 'index'])->name('user.index');
 Route::get('admin/user/create', [AdminManagementController::class, 'create'])->name('user.create');
@@ -93,9 +93,11 @@ Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])
 // Route::resource('costumer_management', CostumerManagementController::class);
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
 
-Route::get('admin/news', [OrderController::class, 'index'])->name('preorder.index');
+Route::get('admin/preorder/request_order/{status?}', [OrderController::class, 'index'])->name('preorder.index');
+Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.edit');
+Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('preorder.detail');
 
-Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
+// Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
 Route::get('admin/waiting_payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
 Route::get('admin/waiting_goodies', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
@@ -127,7 +129,7 @@ Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
 Route::post('my_profil', [ProfilController::class, 'store'])->name('profil.store');
 Route::get('change_password', [PasswordController::class, 'edit'])->name('change_password');
 Route::patch('password', [PasswordController::class, 'update'])->name('change_password.update');
-});
+// });
 
 Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');

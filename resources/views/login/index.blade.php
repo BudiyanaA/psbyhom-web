@@ -22,11 +22,11 @@
 	<div class="panel panel-primary">
 		<div class="panel-body">
 			<h4 class="text-center" style="margin-bottom: 25px;">Administrator Login</h4>
-            @if(session('error'))
-            <div class="alert alert-danger">
-                <b>Opps!</b> {{session('error')}}
-            </div>
-            @endif
+			@if (Session::has('error'))
+				<script>
+					alert('{{ Session::get('error') }}');
+				</script>
+				@endif
             @if(session('message'))
             <div class="alert alert-success">
                 {{session('message')}}
@@ -37,7 +37,7 @@
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-4" style="text-align: left;">User ID</label>
 						<div class="col-sm-8">
-                        <input type="name" name="name" class="form-control" placeholder="User Id" required="">
+                        <input name="name" type="text" class="form-control" id="name" required="required" placeholder="User ID">
 						</div>
 					</div>
 					<div class="form-group">

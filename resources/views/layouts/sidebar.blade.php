@@ -44,11 +44,11 @@
                         <a href="javascript:;"><i class="fa fa-money"></i><span>Pre Order </span></a>
                         <ul class="acc-menu">
                             <li>
-                                <a href="{{ route('preorder.index') }}" class="menu">New<span style=" display: inline;" class="badge badge-danger">0</span></a>
+                                <a href="{{ route('preorder.index') }}?status=00" class="menu">New<span style=" display: inline;" class="badge badge-danger">0</span></a>
                             </li>
                     </li>
                     <li>
-                        <a href="{{ route('approval.index') }}" class="menu">Waiting Approval<span class="badge badge-primary">9646</span></a>
+                        <a href="{{ route('preorder.index') }}?status=01" class="menu">Waiting Approval<span class="badge badge-primary">9646</span></a>
                     </li>
                     </li><li><a href="{{ route('payment.index') }}" class="menu">Waiting Payment<span class="badge badge-orange">443</span></a></li>
                     </li>

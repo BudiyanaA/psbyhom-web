@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ms_customers', function (Blueprint $table) {
+        Schema::create('ms_customer', function (Blueprint $table) {
             $table->string('CustomerUUID');
             $table->string('token_id');
             $table->string('customer_name');
@@ -36,20 +36,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // hapus primary key yang tidak perlu
-        Schema::table('ms_customers', function (Blueprint $table) {
+        Schema::table('ms_customer', function (Blueprint $table) {
             $primaryKey = 'PRIMARY';
-            $indexExists = collect(DB::select("SHOW INDEX FROM ms_customers WHERE Key_name = ?", [$primaryKey]))->count() > 0;
+            $indexExists = collect(DB::select("SHOW INDEX FROM ms_customer WHERE Key_name = ?", [$primaryKey]))->count() > 0;
             if ($indexExists) {
                 $table->dropPrimary($primaryKey);
             }
         });
 
-        // tambahkan primary key baru
-        Schema::table('ms_customers', function (Blueprint $table) {
+        Schema::table('ms_customer', function (Blueprint $table) {
             $table->primary('CustomerUUID');
         });
+
     }
+
+    
 
     /**
      * Reverse the migrations.
@@ -58,6 +59,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_customers');
+        Schema::dropIfExists('ms_customer');
     }
 };
