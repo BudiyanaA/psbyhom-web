@@ -15,12 +15,7 @@ class RegisterEmail extends Mailable
     public $activation_link;
     public $email_notif;
 
-    public function __construct($customer_name, $activation_link, $email_notif)
-    {
-        $this->customer_name = $customer_name;
-        $this->activation_link = $activation_link;
-        $this->email_notif = $email_notif;
-    }
+  
 
     public function build()
     {

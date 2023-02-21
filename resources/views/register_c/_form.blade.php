@@ -9,10 +9,10 @@
     </script>
 @endif
 	</div>
-    <div class="form-group @if ($errors->has('name')) has-error @endif">
+    <div class="form-group @if ($errors->has('customer_name')) has-error @endif">
 		<span class="text-right req">Nama Lengkap <span class="reqsign">*</span></span>
-		{{ Form::text('name', null, ['class' => 'form-control']) }}
-        @if ($errors->has('name')) <small class="form-text help-block" style="color:red">{{ $errors->first('name') }}</small> @endif
+		{{ Form::text('customer_name', null, ['class' => 'form-control']) }}
+        @if ($errors->has('customer_name')) <small class="form-text help-block" style="color:red">{{ $errors->first('customer_name') }}</small> @endif
 	</div>
     <div class="form-group @if ($errors->has('password')) has-error @endif">
 		<span class="text-right req">Password <span class="reqsign">*</span></span>

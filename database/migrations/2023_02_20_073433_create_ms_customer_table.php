@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('fax')->nullable();
             $table->string('address');
             $table->string('kodepos');
-            $table->string('provinsi');
-            $table->string('kecamatan');
-            $table->string('kota');
+            $table->string('provinsi')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kota')->nullable();
             $table->string('status')->default('03');
             $table->dateTime('created_date');
             $table->string('created_by');

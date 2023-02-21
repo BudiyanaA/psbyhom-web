@@ -10,6 +10,7 @@ use App\Models\Region;
 use App\Models\SysParam;
 use App\Mail\RegisterEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\LogActv;
 
 class RegisterCostumerController extends Controller
 {
@@ -46,7 +47,7 @@ class RegisterCostumerController extends Controller
     public function store (Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
+            'customer_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
             'handphone' => 'required',
@@ -67,12 +68,12 @@ class RegisterCostumerController extends Controller
             $token_id = $this->newid();
         
             // buat user baru
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => 'costumer'
-            ]);
+            // $user = User::create([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => Hash::make($request->password),
+            //     'role' => 'costumer'
+            // ]);
         
             // buat register costumer baru
             Registercostumer::create([
@@ -85,12 +86,12 @@ class RegisterCostumerController extends Controller
                 'handphone2' => $request->handphone2,
                 'fax' => $request->fax,
                 'address' => $request->address,
-                'kodepos' => $request->kode_pos,
+                'kodepos' => '44181',
                 'provinsi' => $request->provinsi,
                 'kecamatan' => $request->kecamatan,
                 'kota' => $request->kota,
                 'ByUserUUID' => $CustomerUUID,
-                'ByUserIP' => $this->input->ip_address(),
+                'ByUserIP' => $request->ip(),
                 'status' => '03',
                 'created_date' => date('Y-m-d H:m:s'),
                 'created_by' => $CustomerUUID,
@@ -101,33 +102,31 @@ class RegisterCostumerController extends Controller
         $activation_link = url('activate/'.$token_id);
 
         // ambil email_notif dari database
-        $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->value('value_1');
 
-        Mail::to($email)->send(new RegisterEmail($customer_name, $activation_link, $email_notif));
+        Mail::to("dederizki130102@gmail.com")->send(new RegisterEmail());
         
             // buat log aktivitas
             $id = $this->newid();
-            LogActivity::create([
+            LogActv::create([
                 'id' => $id,
                 'user_id' => $CustomerUUID,
                 'UserUUID' => $CustomerUUID,
                 'menu_nm' => 'Customer Register',
                 'log_time' => date('Y-m-d H:i:s'),
-                'Description' => 'Customer Register dengan email : '.$email,
+                'Description' => 'Customer Register dengan email : ',
                 'LogType' => 'Create',
                 'user_type' => 'Customer',
                 'RefUUID' => $CustomerUUID,
                 'is_financial' => '0',
                 'is_error' => '0',
                 'ByUserUUID' => $CustomerUUID,
-                'ByUserIP' => $this->input->ip_address(),
+                'ByUserIP' => $request->ip(),
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
         return redirect(route('loginaction'))
                 ->withSuccess("Registrasi Sukses, Silahkan Periksa Email Anda Untuk Mulai Mengaktifkan Akun Anda...");
                 
         } catch(\Exception $e) {
-            dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
     }
