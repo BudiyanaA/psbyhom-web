@@ -35,16 +35,16 @@
 							<div class="form-group">
 										<label class="col-sm-3 control-label">PO ID</label>
 										<div class="col-sm-6">
-											<input type="text" readonly  placeholder="Required Field"  class="form-control" name='request_id' value='TY23020170'>
+											<input type="text" readonly  placeholder="Required Field"  class="form-control" name='request_id' value='{{ $order->request_id }}'>
 										</div>
 									</div>
 							<div class="form-group">
 										<label for="txtarea1" class="col-sm-3 control-label">Transaction Date</label>
-										<div class="col-sm-6"><input type="text" readonly  name="request_date" id="request_date" cols="50" rows="4" class="form-control" value='19 Feb 2023 13:03:51'></div>
+										<div class="col-sm-6"><input type="text" readonly  name="request_date" id="request_date" cols="50" rows="4" class="form-control" value='{{ $order->created_date }}'></div>
 									 </div>		
 							<div class="form-group">
 										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate USD - IDR</label>
-										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='16,000'></div>
+										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $sysparam->value_1 }}'></div>
 									 </div>			
 				
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
@@ -53,52 +53,43 @@
 											<th>Qty</th>
 											<th>URL</th>
 											<th >Product Name</th>
-											<th>Color</th>
-											
+											<th>Color</th>							
 											<th>Size/Weight</th>
 											<th>Price(USD)</th>
-											<th>Info</th>
-																				 
-																						
-												
-								
+											<th>Info</th>					
 											<th>Add. Fee (IDR)</th>
 											<th>Disc. (%)</th>
-											<th>Subtotal(IDR)</th>
-											
+											<th>Subtotal(IDR)</th>						
 										</tr>
 									</thead>
 									<tbody>
-																							
-														<tr >
-														<input type="hidden" value="8a25b763-1113-4962-91c8-09e2d48bca9c" name="RequestOrderDtlUUID1">
-															
-															
-																														<td>1</td>
-															<td><a href="https://www.amazon.com/dp/B08BCH841V?linkCode=ssc&tag=onamzalixearl-20&creativeASIN=B08BCH841V&asc_item-id=amzn1.ideas.M60OPFSJFZ1K&ref_=aip_sf_list_spv_ofs_mixed_m_asin">LINK</a></td>
-															<td>Newmowa light</td>
-															<td>-</td>
-															
-															<td>-</td>
-															<td>36</td>
-															<td></td>
-															
-															
-															
-															<td>150,000</td>
-															<td>0</td>
-															
-															
-															<td>766,149</td>
-														
-																														
-														</tr>
-														<tr><td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>766,149</td></tr>									<tr>
-										<td colspan='2'>Notes From Admin</td>
-										<td colspan='8'>
-																				
-									</td>
+									@if(count($requestorder) > 0)
+								@foreach($requestorder as $r)
+									<tr>
+										<input type="hidden" value="8a25b763-1113-4962-91c8-09e2d48bca9c" name="RequestOrderDtlUUID1">			
+										<td>{{ $r->qty }}</td>
+										<td><a href="{{ $r->product_url }}">LINK</a></td>
+										<td>{{ $r->product_name }}</td>
+										<td>{{ $r->color }}</td>																										
+										<td>-</td>
+										<td>{{ $r->size }}</td>
+										<td>{{ $r->price_customer }}</td>														
+										<td>{{ $r->additional_fee }}</td>
+										<td>{{ $r->disc_percentage }}</td>						
+										<td>{{ $r->subtotal_final }}</td>																	
 									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td colspan="10">Data not found</td>
+								</tr>
+							@endif
+										<tr>
+											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ $order->total_price }}</td></tr>									<tr>
+											<td colspan='2'>Notes From Admin</td>
+											<td colspan='8'>{{ $order->note }}</td>
+										</tr>
+									
 									</tbody>
 								</table>
 									<input type="hidden" value="2023-02-19 13:03:51" name="trans_date" >
@@ -122,7 +113,7 @@
 											<div class="btn-toolbar">
 											<input type="hidden" value="" id="type">
 													<button class="btn-primary btn" value ='cancel' id="cancel" name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Void</button>
-													<button class="btn-primary btn" value ='back' id="back" name='submit' >Back</button>
+													<a href="{{ route('dashboard') }}" class="btn-primary btn">Back</a>
 												
 										  	
 

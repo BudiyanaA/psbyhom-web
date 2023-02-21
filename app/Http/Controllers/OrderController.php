@@ -9,20 +9,15 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     { 
-
+        $trans_date_start = '2022-02-01 00:00:00';
+        $trans_date_end = '2022-02-28 23:59:59';
+        $request_id = 'req001';
+        $status = 'Open';
         $data['orders'] = TrRequestOrder::with('customer')
-        ->when(request()->filled('trans_date_start') && request()->filled('trans_date_end'), function ($query) {
-            $query->whereBetween('created_date', [request()->input('trans_date_start'), request()->input('trans_date_end')]);
-        })
-        ->when(request()->filled('request_id'), function ($query) {
-            $query->where('request_id', request()->input('request_id'));
-        })
-        ->when(request()->filled('status'), function ($query) {
-            $query->where('status', request()->input('status'));
-        })
-        ->orderBy('OnDateTime', 'DESC')
+        ->whereBetween('created_date', [$trans_date_start, $trans_date_end])
+        ->where('request_id', $request_id)
+        ->where('status', $status)
         ->get();
-
 $status = $request->input('status');
 if($status === '00') {
 
