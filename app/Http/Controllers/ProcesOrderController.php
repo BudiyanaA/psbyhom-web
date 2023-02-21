@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Processorder;
 use App\Mail\PostEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\TrRequestOrderDtl;
 
 class ProcesOrderController extends Controller
 {
     public function index()
     {
-        
-        $latest_id = DB::table('preorders')->max('id');
-        $data['preorders'] = DB::table('preorders')
-            ->where('id', $latest_id)
+        // $data['requestorder'] = TrRequestOrder::where('RequestOrderUUID')->first();
+        $latest_id = DB::table('tr_request_order_dtl')->max('id');
+        $data['preorders'] = TrRequestOrderDtl::where('id', $latest_id)
             ->get();
         return view('processorder.index',$data);
     }

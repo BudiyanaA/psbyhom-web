@@ -11,9 +11,10 @@ class TrRequestOrderDtl extends Model
     protected $table = 'tr_request_order_dtl';
     protected $fillable = [
         'remarks',
-        'request_order_uuid',
+        'RequestOrderUUID',
         'product_name',
         'product_url',
+        'qty',
         'size',
         'color',
         'price_customer',

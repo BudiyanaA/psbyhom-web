@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tr_request_order', function (Blueprint $table) {
             $table->id();
-            $table->string('AdminUUID');
+            $table->string('CustomerUUID');
             $table->string('RequestOrderUUID');
             $table->string('request_id');
             $table->datetime('created_date');
@@ -27,9 +27,9 @@ return new class extends Migration
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
             $table->datetime('OnDateTime');
-            $table->string('POUUID');
-            $table->string('InvoiceUUID');
-            $table->string('note');
+            $table->string('POUUID')->nullable();
+            $table->string('InvoiceUUID')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

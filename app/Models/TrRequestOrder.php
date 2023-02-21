@@ -10,7 +10,7 @@ class TrRequestOrder extends Model
     use HasFactory;
     protected $table = 'tr_request_order';
     protected $fillable = [
-        'AdminUUID',
+        'CustomerUUID',
         'RequestOrderUUID',
         'request_id',
         'created_date',

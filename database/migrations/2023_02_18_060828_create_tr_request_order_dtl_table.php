@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('tr_request_order_dtl', function (Blueprint $table) {
             $table->id();
             $table->string('remarks')->nullable();
-            $table->uuid('request_order_uuid');
-            $table->string('product_name');
-            $table->string('product_url')->nullable();
-            $table->integer('qty');
+            $table->uuid('RequestOrderUUID')->nullable();
+            $table->string('product_name')->nullable();
+            $table->text('product_url')->nullable();
+            $table->integer('qty')->nullable();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
-            $table->decimal('price_customer', 12, 2);
-            $table->decimal('forex_rate', 12, 6);
-            $table->decimal('subtotal_original', 12, 2);
+            $table->decimal('price_customer', 12, 2)->nullable();
+            $table->decimal('forex_rate', 12, 6)->nullable();
+            $table->decimal('subtotal_original', 12, 2)->nullable();
             $table->string('status')->nullable();
             $table->integer('seq')->nullable();
             $table->decimal('additional_fee', 12, 2)->nullable();

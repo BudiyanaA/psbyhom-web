@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\TrRequestOrderDtl;
 
 class SendEmail extends Mailable
 {
@@ -32,9 +33,8 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-        $latest_id = DB::table('preorders')->max('id');
-        $preorders = DB::table('preorders')
-            ->where('id', $latest_id)
+        $latest_id = DB::table('tr_request_order_dtl')->max('id');
+        $preorders = TrRequestOrderDtl::where('id', $latest_id)
             ->get();
        return $this->from('pengirim@test.com')
                    ->view('emails.email', compact('preorders'));
