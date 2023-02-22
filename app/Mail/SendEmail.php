@@ -36,8 +36,9 @@ class SendEmail extends Mailable
         $latest_id = DB::table('tr_request_order_dtl')->max('id');
         $preorders = TrRequestOrderDtl::where('id', $latest_id)
             ->get();
+            $latest_id = $preorders->pluck('RequestOrderUUID')->first();
        return $this->from('pengirim@test.com')
-                   ->view('emails.email', compact('preorders'));
+                   ->view('emails.email', compact('preorders','latest_id'));
                 
     }
 

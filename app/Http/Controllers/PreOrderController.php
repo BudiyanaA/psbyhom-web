@@ -126,7 +126,7 @@ class PreOrderController extends Controller
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
 
-            $customer_name = Auth::user()->name;
+            $customer_name = session('customer_name');
             $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
             LogActv::create([
                 'user_id' => $customer_name,
@@ -151,7 +151,7 @@ class PreOrderController extends Controller
                 
         
         } catch(\Exception $e) {
-            dd($e);;
+            dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
 }

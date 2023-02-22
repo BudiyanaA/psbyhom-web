@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class Registercostumer extends Model
+class RegisterCostumer extends Model implements AuthenticatableContract
 {
-    use HasFactory;
+    use HasFactory, Authenticatable;
     protected $table = 'ms_customer';
     protected $fillable = [
         'CustomerUUID',
@@ -29,6 +31,10 @@ class Registercostumer extends Model
         'OnDateTime',
         'ByUserUUID',
         'ByUserIP',
+    ];
+    protected $hidden = [
+        'password',
+        'token_id',
     ];
     function newid()
 		{

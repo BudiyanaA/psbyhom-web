@@ -8,7 +8,8 @@
 							<span>0</span> <img src="../images/cart.png">
 						</a> -->
 						<ul class="topbar-nav login-menu list-inline" id="b-nav">
-						@if(Auth::check())
+						@if(session()->has('user_id'))
+						
 							<li>
 							<i class="fa fa-money"></i>
 							<span><a href="{{ route('wallet') }}">0</a><input type="hidden" value='' name='customer_ewallet' id='customer_ewallet'></span>
@@ -26,7 +27,7 @@
 							</ul>
 							</li>
 							<li class="public-li">
-							Halo, {{ Auth::user()->name }} &nbsp &nbsp &nbsp
+							Halo, {{ session('customer_name') }} &nbsp &nbsp &nbsp
 							</li>
 						@else
 							<li class="public-li"> 

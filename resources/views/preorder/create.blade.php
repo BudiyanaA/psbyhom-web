@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" id="content">
 	<div class="content-wrapper">
-    @if(Auth::check())
+    @if(session()->has('user_id'))
 	    <div class="row">
             <div class="col-lg-12"><h3 ><strong style="color:darkgray ">Request Pre Order</strong></h3><br></div>
                 <div class="col-lg-12">

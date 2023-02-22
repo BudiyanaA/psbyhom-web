@@ -1,5 +1,4 @@
 <div class="col-sm-6">
-	{{var_dump($errors)}}
     <div class="form-group @if ($errors->has('email')) has-error @endif">
 		<span class="text-right req">Email <span class="reqsign">*</span></span>
 		{{ Form::email('email', null, ['class' => 'form-control']) }}

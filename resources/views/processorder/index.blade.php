@@ -19,15 +19,38 @@
 							<table class="table stat-table number-order-table">
 								<tr>
 									<td>PO ID</td>
-									<td></td>
+									<td>{{ $requestorder->request_id }}</td>
 									<input type="hidden" name="request_id" class="qty_update" value="">
 								</tr> 
 								<tr>
-									<td>Request Date</td><td>10 Feb 2023</td>
+									<td>Request Date</td>
+									<td>{{ date('d M Y', strtotime($requestorder->created_date)) }}</td>
 								</tr> 
 								<tr>
 									<td valign="top" class="status_pre_order">Status</td>
-									<td>Pending Your Approval</td>
+									<td>
+										@switch($requestorder->status)
+											@case('00')
+												Pending Admin Verification
+												@break
+											@case('01')
+												Pending Your Approval
+												@break
+											@case('02')
+												Processed
+												@break
+											@case('03')
+												Rejected
+												@break
+											@default
+												Unknown Status
+										@endswitch
+									</td>
+
+
+
+
+
 								</tr>
 							</table>
 								<h3>Pre Order Details</h3>
@@ -50,35 +73,44 @@
 								@foreach($preorders as $p)
 									<tr>
 										<td align="center">
-										
-										<input type="number" name="qty" class="po_qty" value="{{ $p->qty }}" min="1" class="quantity">
+											<input type="number" name="qty" class="po_qty" value="{{ $p->qty }}" min="1" class="quantity">
 										</td>
 										<td><a href="{{ $p->product_url }}" target="_blank">Link</a></td>
 										<td class="product-name"><p class="product-name" style="margin: 0;">{{ $p->product_name }}</p><br></td>
 										<td><p class="product-name" style="margin: 0;">{{ $p->color }}</p></td>
-										<td><p class="product-name" style="margin: 0;">{{ $p->status }}</p></td>
+										<td><p class="product-name" style="margin: 0;">@switch($p->status)
+												@case('00')
+													Pending Admin Verification
+													@break
+												@case('01')
+													Pending Your Approval
+													@break
+												@case('02')
+													Processed
+													@break
+												@case('03')
+													Rejected
+													@break
+												@default
+													Unknown Status
+											@endswitch</p></td>
 										<td align="center">{{ $p->size }}</td>
-										<td align="center"><input type="checkbox" name="approved[7441dfc0-8336-4062-bb75-9b604a56cb30]" value="7441dfc0-8336-4062-bb75-9b604a56cb30" class="po_approved" checked></td>
-										<td align="right"><input type="hidden" id='subtotal7441dfc0-8336-4062-bb75-9b604a56cb30' name="subtotal7441dfc0-8336-4062-bb75-9b604a56cb30" class="po_subtotal" value="1910320">
-										{{ $p->price_customer }}</td>
+										<td align="center"><input type="checkbox" name="approved[{{$p->id}}]" value="{{$p->id}}" class="po_approved" checked></td>
+										<td align="right">{{ $p->price_customer }}</td>
 										<td align="right">{{ $p->qty * $p->price_customer }}</td>
+										<input type="hidden" id='subtotal{{$p->id}}' name="subtotal{{$p->id}}" class="po_subtotal" value="{{$p->qty * $p->price_customer}}">
 									</tr>
-									
-										<tr class="cart_total_price">
-										<td align="left" colspan="4" style="border-top:1px solid #ddd">
-										</td>
-										
+									<tr class="cart_total_price">
+										<td align="left" colspan="4" style="border-top:1px solid #ddd"></td>
 										<td colspan="4" align="right" style="font-weight:bold;border-top:1px solid #ddd"><strong>Total</strong></td>
-										<td align="right" style="border-top:1px solid #ddd">
-											<span>{{ $p->qty * $p->price_customer }}</span>
-										</td>							
+										<td align="right" style="border-top:1px solid #ddd"><span id="total{{$p->id}}">{{$p->qty * $p->price_customer}}</span></td>
 									</tr>
-									@endforeach
+								@endforeach
 									<tr>
 									<td></td>
 									</tr>
 								</table>
-									<strong>Note : </strong>
+									<strong>Note : {{ $requestorder->note }} </strong>
 								</div></div><p>&nbsp;</p>
 								<p><a href="javascript:history.go(-1)" class="link_kembali"><i class="fa fa-angle-left fa-3"></i>Back</a>
 							</div>
@@ -98,11 +130,11 @@
 		<div class="form-group">
 		<div class="col-sm-4 col-md-3 text-right">Full Name:</div>
 		<div class="col-sm-8 col-md-8">
-		<input type="text" name='fullname' value="Testing" ></div>
+		<input type="text" name='fullname' value="{{ $costumer->customer_name }}" ></div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-4 col-md-3 text-right">Address*:</div>
-			<div class="col-sm-8 col-md-8"><input name='address' type="textarea" value="ciramat" >
+			<div class="col-sm-8 col-md-8"><input name='address' type="textarea" value="{{ $costumer->address }}" >
 			</div>
 		</div>
 		<div class="form-group">
@@ -115,41 +147,8 @@
 			<div class="col-sm-8 col-md-8">
 			<select  name="provinsi" id="provinsi" class="form-control"   = "" >
 											<option value="">-Select Province-</option>
-																									<option  value="1">Bali</option>
-																									<option  value="2">Bangka Belitung</option>
-																									<option  value="3">Banten</option>
-																									<option  value="4">Bengkulu</option>
-																									<option  value="5">DI Yogyakarta</option>
-																									<option  value="6">DKI Jakarta</option>
-																									<option  value="7">Gorontalo</option>
-																									<option  value="8">Jambi</option>
-																									<option selected value="9">Jawa Barat</option>
-																									<option  value="10">Jawa Tengah</option>
-																									<option  value="11">Jawa Timur</option>
-																									<option  value="12">Kalimantan Barat</option>
-																									<option  value="13">Kalimantan Selatan</option>
-																									<option  value="14">Kalimantan Tengah</option>
-																									<option  value="15">Kalimantan Timur</option>
-																									<option  value="16">Kalimantan Utara</option>
-																									<option  value="17">Kepulauan Riau</option>
-																									<option  value="18">Lampung</option>
-																									<option  value="19">Maluku</option>
-																									<option  value="20">Maluku Utara</option>
-																									<option  value="21">Nanggroe Aceh Darussalam (NAD)</option>
-																									<option  value="22">Nusa Tenggara Barat (NTB)</option>
-																									<option  value="23">Nusa Tenggara Timur (NTT)</option>
-																									<option  value="24">Papua</option>
-																									<option  value="25">Papua Barat</option>
-																									<option  value="26">Riau</option>
-																									<option  value="27">Sulawesi Barat</option>
-																									<option  value="28">Sulawesi Selatan</option>
-																									<option  value="29">Sulawesi Tengah</option>
-																									<option  value="30">Sulawesi Tenggara</option>
-																									<option  value="31">Sulawesi Utara</option>
-																									<option  value="32">Sumatera Barat</option>
-																									<option  value="33">Sumatera Selatan</option>
-																									<option  value="34">Sumatera Utara</option>
-																					</select>
+												<option  value="1">Bali</option>
+										</select>
 										<input type="hidden" id="nama_propinsi" name="nama_propinsi" value='Jawa Barat'>
 			</div>
 			</div>
@@ -158,33 +157,7 @@
 			<div class="col-sm-8 col-md-8">
 				<select  name="city" class="form-control" id="city"   = "" >
 										<option value="">-Select City-</option>
-																								<option  value="23">Bandung</option>
-																									<option  value="22">Bandung</option>
-																									<option  value="24">Bandung Barat</option>
-																									<option  value="34">Banjar</option>
-																									<option  value="55">Bekasi</option>
-																									<option  value="54">Bekasi</option>
-																									<option  value="79">Bogor</option>
-																									<option  value="78">Bogor</option>
-																									<option  value="103">Ciamis</option>
-																									<option  value="104">Cianjur</option>
-																									<option  value="107">Cimahi</option>
-																									<option  value="109">Cirebon</option>
-																									<option  value="108">Cirebon</option>
-																									<option  value="115">Depok</option>
-																									<option selected value="126">Garut</option>
-																									<option  value="149">Indramayu</option>
-																									<option  value="171">Karawang</option>
-																									<option  value="211">Kuningan</option>
-																									<option  value="252">Majalengka</option>
-																									<option  value="332">Pangandaran</option>
-																									<option  value="376">Purwakarta</option>
-																									<option  value="428">Subang</option>
-																									<option  value="431">Sukabumi</option>
-																									<option  value="430">Sukabumi</option>
-																									<option  value="440">Sumedang</option>
-																									<option  value="468">Tasikmalaya</option>
-																									<option  value="469">Tasikmalaya</option>
+										<option  value="23">Bandung</option>
 													
 				</select>
 				<input type="hidden" id="nama_kota" name="nama_kota">
@@ -229,12 +202,12 @@
 			<div class="form-group">
 				<div class="col-sm-4 col-md-3 text-right">Handphone 1*:</div>
 			<div class="col-sm-8 col-md-8">
-				<input type="text" name='hp1' value="085778869550" ></div>
+				<input type="text" name='hp1' value="{{ $costumer->handphone }}" ></div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-4 col-md-3 text-right">Handphone 2:</div>
 			<div class="col-sm-8 col-md-8">
-			<input type="text" name='hp2' value="" ></div>
+			<input type="text" name='hp2' value="{{ $costumer->handphone2  }}" ></div>
 			</div>
 			</fieldset>
 			</div>
@@ -687,18 +660,31 @@
 @endsection
 
 <script>
-	$(document).ready(function() {
-    // Update subtotal and total when quantity or checkbox is changed
-    $('.po_qty, .po_approved').on('change', function() {
-        var subtotal = 0;
-        $('.po_qty').each(function() {
-            var qty = $(this).val();
-            var price = $(this).closest('tr').find('.po_price').text();
-            var subtotal_item = qty * price;
-            $(this).closest('tr').find('.po_subtotal').val(subtotal_item);
-            subtotal += subtotal_item;
-        });
-        $('.cart_total_price td:last-child span').text(subtotal);
+$(document).ready(function() {
+  // ambil elemen po_qty dan tambahkan event listener
+  $('.po_qty').on('input', function() {
+    // hitung ulang subtotal dan total
+    var subtotal = 0;
+    var total = 0;
+    $('.po_qty').each(function() {
+      var qty = $(this).val();
+      var price = $(this).closest('tr').find('.price_customer').text();
+      var sub = qty * price;
+      $(this).closest('tr').find('.po_subtotal').val(sub);
+      subtotal += sub;
+      if ($(this).closest('tr').find('.po_approved').prop('checked')) {
+        total += sub;
+      }
     });
+    // update nilai subtotal dan total
+    $('.po_subtotal').each(function() {
+      var id = $(this).attr('id');
+      var subtotal = $(this).val();
+      var total_id = id.replace('subtotal', 'total');
+      var total = $('#' + total_id).text(subtotal);
+    });
+    $('#po_subtotal').text(subtotal);
+    $('#po_total').text(total);
+  });
 });
-	</script>
+</script

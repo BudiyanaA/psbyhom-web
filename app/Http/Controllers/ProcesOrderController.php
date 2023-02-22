@@ -8,16 +8,15 @@ use App\Models\Processorder;
 use App\Mail\PostEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\TrRequestOrderDtl;
+use App\Models\TrRequestOrder;
+use Illuminate\Support\Str;
+use App\Models\RegisterCostumer;
 
 class ProcesOrderController extends Controller
 {
     public function index()
     {
-        // $data['requestorder'] = TrRequestOrder::where('RequestOrderUUID')->first();
-        $latest_id = DB::table('tr_request_order_dtl')->max('id');
-        $data['preorders'] = TrRequestOrderDtl::where('id', $latest_id)
-            ->get();
-        return view('processorder.index',$data);
+
     }
 
     public function create()
@@ -71,7 +70,12 @@ class ProcesOrderController extends Controller
 
     public function edit($id)
     {
-// 
+        $data['requestorder'] = TrRequestOrder::where('RequestOrderUUID', $id)->first();
+        $data['preorders'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)->orderBy('seq', 'asc')->get();
+        $CustomerUUID = session('user_id');
+        $data['costumer'] = Registercostumer::where('CustomerUUID', $CustomerUUID)->first();
+
+        return view('processorder.index', $data);
     }
     public function update(Request $request, $id)
     {

@@ -48,7 +48,7 @@ class RegisterCostumerController extends Controller
     {
         $validated = $request->validate([
             'customer_name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:ms_customer',
             'password' => 'required|confirmed|min:6',
             'handphone' => 'required',
             'address' => 'required',
@@ -66,16 +66,7 @@ class RegisterCostumerController extends Controller
         try {
             $CustomerUUID = $this->newid();
             $token_id = $this->newid();
-        
-            // buat user baru
-            // $user = User::create([
-            //     'name' => $request->name,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password),
-            //     'role' => 'costumer'
-            // ]);
-        
-            // buat register costumer baru
+
             Registercostumer::create([
                 'CustomerUUID' => $CustomerUUID,
                 'token_id' => $token_id,

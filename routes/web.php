@@ -157,8 +157,8 @@ Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorder
 
 
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
-Route::resource('process_order', ProcesOrderController::class);
-Route::get('process_order', [ProcesOrderController::class, 'index'])->name('process_order');
+// Route::resource('process_order', ProcesOrderController::class);
+Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
 Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
 Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('payment_c.index');
