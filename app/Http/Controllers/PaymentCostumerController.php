@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\CanEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\PaymentCostumer;
+use App\Models\TrInvoice;
 
 class PaymentCostumerController extends Controller
 {
@@ -21,8 +22,10 @@ class PaymentCostumerController extends Controller
 
 public function create()
     {
- 
-        return view('payment_c.create');
+        $CustomerUUID = session('user_id');
+        $data['invoice'] = TrInvoice::where('CustomerUUID', $CustomerUUID)->where('status_invoice', '01');
+
+        return view('payment_c.create',$data);
     }
 
 public function store(Request $request)
