@@ -108,11 +108,25 @@
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
 									<td><a href="#">{{ $o->request_id }}</a></td>
-									<td>{{ $o->costumer_name }}</td>
+									<td>{{ $o->customer_name }}</td>
 									<td>{{ $o->created_date }}</td>
 									<td>{{ $o->total_items }}</td>
 									<td>{{ $o->total_price }}</td>
-									<td>{{ $o->status }}</td>
+									<td>
+										@if ($o->status === '00')
+											Pending Admin Verification
+										@elseif ($o->status === '01')
+											Pending Customer Approval
+										@elseif ($o->status === '02')
+											Pending Payment
+										@elseif ($o->status === '03')
+											Rejected
+										@elseif ($o->status === '04')
+											Processed
+										@else
+											Unknown
+										@endif
+									</td>
 								</tr>
 									@endforeach
 								</tbody>

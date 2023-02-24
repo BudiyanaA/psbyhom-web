@@ -7,11 +7,11 @@
             <div class="col-lg-12"><h3 ><strong style="color:darkgray ">Request Pre Order</strong></h3><br></div>
                 <div class="col-lg-12">
                     <div class="row">
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
+                    @if(Session::has('error'))
+						<script>
+							alert("{{ Session::get('error') }}");
+						</script>
+					@endif
                         <div class="col-md-12">
                         {{ Form::open(['url' => route('preorder.store'), 'class' => 'form-horizontal' ])}}
                                 <div class="table-responsive">

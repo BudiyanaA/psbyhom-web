@@ -5,16 +5,17 @@
 	<div class="row"><div class="col-lg-12"><h3  ><strong style="color:darkgray ">Membership</strong></h3><br>
 	</div><div class="col-lg-12">
 		<div class="row"><div id="formlogin" class="col-xs-12 col-sm-6 col-lg-6">
-		@if(session('error'))
-            <div class="alert alert-danger">
-                <b>Opps!</b> {{session('error')}}
-            </div>
-            @endif
-            @if(session('message'))
-            <div class="alert alert-success">
-                {{session('message')}}
-            </div>
-            @endif
+		@if(Session::has('success'))
+			<script>
+				alert("{{ Session::get('success') }}");
+			</script>
+		@endif
+
+		@if(Session::has('error'))
+			<script>
+				alert("{{ Session::get('error') }}");
+			</script>
+		@endif
 						<form class="box" action="{{ route('loginaction') }}" method="POST">
 						@csrf
 							<h3 class="page-subheading">Login Menu</h3>

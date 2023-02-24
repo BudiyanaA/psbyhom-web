@@ -24,8 +24,8 @@
 		@if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
         </td>
     <td>
-		{{ Form::text('status', null, ['class' => 'form-control']) }}
-		@if ($errors->has('status')) <small class="form-text help-block" style="color:red">{{ $errors->first('status') }}</small> @endif
+		{{ Form::text('remarks', null, ['class' => 'form-control']) }}
+		@if ($errors->has('remarks')) <small class="form-text help-block" style="color:red">{{ $errors->first('remarks') }}</small> @endif
         </td>
         <td>
     {{ Form::hidden('RequestOrderUUID', null, ['class' => 'form-control' , 'id' => 'RequestOrderUUID']) }}

@@ -8,39 +8,57 @@ use App\Models\TrRequestOrder;
 class OrderController extends Controller
 {
     public function index(Request $request)
-    { 
-        $trans_date_start = '2022-02-01 00:00:00';
-        $trans_date_end = '2022-02-28 23:59:59';
-        $request_id = 'req001';
-        $status = 'Open';
-        $data['orders'] = TrRequestOrder::with('customer')
-        ->whereBetween('created_date', [$trans_date_start, $trans_date_end])
-        ->where('request_id', $request_id)
-        ->where('status', $status)
-        ->get();
-$status = $request->input('status');
-if($status === '00') {
+{
+    $data = array();
+    $status = $request->input('status');
+    $trans_date_start = $request->input('trans_date_start');
+    $trans_date_end = $request->input('trans_date_end');
+    $request_id = $request->input('request_id');
+    
+    
+    $orders = TrRequestOrder::with('customer');
 
-            return view('order.index',$data);
-        } else if($status === '01') {
-           
-            return view('approval.index',$data);
-        } else {
-           
-            throw new \InvalidArgumentException('Invalid status code');
-        }
+    if ($status) {
+        $orders = $orders->where('status', $status);
     }
 
-    public function edit(Request $request, $id)
-    {
-       
-            return view('approval.edit');
-        
+    if ($trans_date_start) {
+        $orders = $orders->where('created_date', '>=', $trans_date_start);
     }
 
-    public function show(Request $request, $id)
-    {
-        return view('approval.detail');
+    if ($trans_date_end) {
+        $orders = $orders->where('created_date', '<=', $trans_date_end);
     }
+
+    if ($request_id) {
+        $orders = $orders->where('request_id', $request_id);
+    }
+    
+
+    $orders = $orders->orderBy('OnDateTime', 'ASC')->get();
+
+    $data['orders'] = $orders;
+
+    if ($status === '00') {
+        return view('order.index', $data);
+    } else if ($status === '01') {
+        return view('approval.index', $data);
+    } else {
+        throw new \InvalidArgumentException('Invalid status code');
+    }
+}
+public function edit(Request $request, $id)
+{
+    $data['order'] = TrRequestOrder::find($id);
+    $data['sysparam'] = SysParam::where('sys_id', 'SYS_PARAM_04')->first();
+    $data['requestorder'] = TrRequestOrderDtl::get();
+
+    return view('order.edit',$data);     
+}
+
+public function show(Request $request, $id)
+{
+    return view('order.detail');
+}
 
 }

@@ -89,10 +89,7 @@ class RegisterCostumerController extends Controller
                 'OnDateTime' => date('Y-m-d H:m:s')
             ]);
         
-            // kirim email aktivasi
-        $activation_link = url('activate/'.$token_id);
 
-        // ambil email_notif dari database
 
         Mail::to("dederizki130102@gmail.com")->send(new RegisterEmail());
         

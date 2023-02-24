@@ -16,18 +16,20 @@ class LoginCostumerController extends Controller
 
     public function loginaction(Request $request)
     {
-        $customer = RegisterCostumer::where('email', $request->input('email'))->first();
+        $customer = RegisterCostumer::where('email', $request->input('email'))
+                                    ->where('status', '03')
+                                    ->where('password', sha1($request->input('password') . "sheryl1!"))
+                                    ->first();
 
-        if ($customer && sha1($request->input('password') . "sheryl1!") === $customer->password) {
-            // Login berhasil
-            session()->put('user_id', $customer->CustomerUUID);
-            session(['customer_name' => $customer->customer_name]);
-            return redirect('/');
-        } else {
-            // Login gagal
-            Session::flash('error', 'Email atau Password Salah');
-            return redirect('login');
-        }
+                                    if ($customer) {
+                                        // Login berhasil
+                                        session()->put('user_id', $customer->CustomerUUID);
+                                        session(['customer_name' => $customer->customer_name]);
+                                        return redirect('/')->with('success', 'Sukses Login');
+                                    } else {
+                                        // Login gagal
+                                        return redirect('login')->with('error', 'Email atau Password tidak valid !');
+                                    }
     }
 
     public function logoutaction ()

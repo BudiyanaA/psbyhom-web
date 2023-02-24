@@ -6,7 +6,7 @@
 	</div>
     <div class="form-group 	@if ($errors->has('invoice_amount')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Invoice Amount</span>
-		{{ Form::text('invoice_amount', null, ['class' => 'form-control', 'placeholder' => 'Invoice Amount', 'readonly' => 'readonly']) }}
+	{{ Form::text('invoice', $amount,  ['class' => 'form-control',  'readonly' => 'readonly']); }}
 		@if ($errors->has('invoice_amount')) <small class="form-text help-block" style="color:red">{{ $errors->first('invoice_amount') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('payment_amount')) has-error @endif col-md-6 col-lg-12">
@@ -16,7 +16,7 @@
 	</div>
     <div class="form-group 	@if ($errors->has('bank_destination')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Bank Destination<span class="reqsign">*</span></span>
-		{{ Form::select('invoice', $cities, null, ['class' => 'form-control',  'placeholder' => '--Select Bank--']); }}
+		{{ Form::select('bank', $banks, null, ['class' => 'form-control',  'placeholder' => '--Select Bank--']); }}
 		@if ($errors->has('bank_destination')) <small class="form-text help-block" style="color:red">{{ $errors->first('bank_destination') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('payment_date')) has-error @endif col-md-6 col-lg-12">

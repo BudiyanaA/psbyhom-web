@@ -13,6 +13,7 @@ class TrRequestOrder extends Model
         'CustomerUUID',
         'RequestOrderUUID',
         'request_id',
+        'customer_name',
         'created_date',
         'status',
         'forex',
@@ -29,7 +30,7 @@ class TrRequestOrder extends Model
 
     public function customer()
 {
-    return $this->belongsTo(Registercostumer::class);
+    return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
 }
 
 

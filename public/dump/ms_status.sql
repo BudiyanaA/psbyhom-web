@@ -27,13 +27,13 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `ms_status`
 --
 
-CREATE TABLE `ms_status` (
-  `StatusUUID` varchar(50) NOT NULL,
-  `status_id` varchar(15) NOT NULL,
-  `status_name` varchar(150) NOT NULL,
-  `created_by` varchar(50) NOT NULL,
-  `type` varchar(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- CREATE TABLE `ms_status` (
+--   `StatusUUID` varchar(50) NOT NULL,
+--   `status_id` varchar(15) NOT NULL,
+--   `status_name` varchar(150) NOT NULL,
+--   `created_by` varchar(50) NOT NULL,
+--   `type` varchar(11) NOT NULL
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `ms_status`

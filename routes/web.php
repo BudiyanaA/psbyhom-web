@@ -155,7 +155,6 @@ Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preo
 Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
 Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
 
-
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // Route::resource('process_order', ProcesOrderController::class);
 Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
@@ -169,7 +168,7 @@ Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name(
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
 Route::get('ewallet', [WalletController::class, 'index'])->name('wallet');
-Route::get('register/activation', [ActivationController::class, 'index'])->name('wallet');
+Route::get('register/activation?token_id={token_id}', [ActivationController::class, 'index'])->name('register');
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

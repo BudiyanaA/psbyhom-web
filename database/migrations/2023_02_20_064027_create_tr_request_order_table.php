@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_request_order', function (Blueprint $table) {
-            $table->id();
             $table->string('CustomerUUID');
+            $table->string('customer_name')->nullable();
             $table->string('RequestOrderUUID');
             $table->string('request_id');
             $table->datetime('created_date');

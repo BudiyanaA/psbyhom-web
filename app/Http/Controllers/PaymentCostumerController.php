@@ -8,6 +8,7 @@ use App\Mail\CanEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\PaymentCostumer;
 use App\Models\TrInvoice;
+use App\Models\MsBank;
 
 class PaymentCostumerController extends Controller
 {
@@ -24,6 +25,8 @@ public function create()
     {
         $CustomerUUID = session('user_id');
         $data['invoice'] = TrInvoice::where('CustomerUUID', $CustomerUUID)->where('status_invoice', '01');
+        $data['banks'] = MsBank::where('status', '00')->pluck('bank_name');
+        $data['amount'] = '1';
 
         return view('payment_c.create',$data);
     }

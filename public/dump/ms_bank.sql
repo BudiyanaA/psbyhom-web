@@ -27,18 +27,18 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `ms_bank`
 --
 
-CREATE TABLE `ms_bank` (
-  `BankUUID` varchar(50) NOT NULL,
-  `bank_name` varchar(50) NOT NULL,
-  `bank_account_no` varchar(50) NOT NULL,
-  `bank_account_name` varchar(100) NOT NULL,
-  `status` varchar(2) NOT NULL,
-  `created_by` varchar(50) NOT NULL,
-  `created_date` datetime NOT NULL,
-  `ByUserUUID` varchar(50) NOT NULL,
-  `ByUserIP` varchar(50) NOT NULL,
-  `OnDateTime` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- CREATE TABLE `ms_bank` (
+--   `BankUUID` varchar(50) NOT NULL,
+--   `bank_name` varchar(50) NOT NULL,
+--   `bank_account_no` varchar(50) NOT NULL,
+--   `bank_account_name` varchar(100) NOT NULL,
+--   `status` varchar(2) NOT NULL,
+--   `created_by` varchar(50) NOT NULL,
+--   `created_date` datetime NOT NULL,
+--   `ByUserUUID` varchar(50) NOT NULL,
+--   `ByUserIP` varchar(50) NOT NULL,
+--   `OnDateTime` datetime NOT NULL
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `ms_bank`

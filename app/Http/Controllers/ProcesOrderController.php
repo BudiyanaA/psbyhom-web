@@ -180,7 +180,7 @@ class ProcesOrderController extends Controller
                     'POUUID' => $POUUID,
                     'RequestOrderUUID' => $RequestOrderUUID,
                     'CustomerUUID' => $CustomerUUID,
-                    'invoice_id' => $invoice_id, //($request_id.'/DP')
+                    'invoice_id' => $invoice_id, 
                     'invoice_date' =>  date('Y-m-d'),
                     'created_by' => $CustomerUUID,
                     'subtotal' => $subtotal_final,

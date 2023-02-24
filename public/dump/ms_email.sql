@@ -27,18 +27,18 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `ms_email`
 --
 
-CREATE TABLE `ms_email` (
-  `EmailUUID` varchar(50) NOT NULL,
-  `email_name` varchar(100) NOT NULL,
-  `email_title` varchar(500) NOT NULL,
-  `email_content` longtext NOT NULL,
-  `email_content_bottom` longtext NOT NULL,
-  `created_date` datetime NOT NULL,
-  `created_by` varchar(50) NOT NULL,
-  `ByUserUUID` varchar(50) NOT NULL,
-  `ByUserIP` varchar(25) NOT NULL,
-  `OnDateTime` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- CREATE TABLE `ms_email` (
+--   `EmailUUID` varchar(50) NOT NULL,
+--   `email_name` varchar(100) NOT NULL,
+--   `email_title` varchar(500) NOT NULL,
+--   `email_content` longtext NOT NULL,
+--   `email_content_bottom` longtext NOT NULL,
+--   `created_date` datetime NOT NULL,
+--   `created_by` varchar(50) NOT NULL,
+--   `ByUserUUID` varchar(50) NOT NULL,
+--   `ByUserIP` varchar(25) NOT NULL,
+--   `OnDateTime` datetime NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `ms_email`
