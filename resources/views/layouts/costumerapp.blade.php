@@ -951,6 +951,10 @@ $(function() {
 			});			
 			
 		})
+		$( "#tabs" ).tabs({
+      event: "click"
+    });
+	
 
 		
 		$(window).scroll(function() {

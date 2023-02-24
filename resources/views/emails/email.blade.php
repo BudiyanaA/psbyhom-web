@@ -1,8 +1,8 @@
 
-<p>hi, {{ Auth::user()->name }} Thank you interested PRE ORDER with us </hp>
+<p>hi, {{ session('customer_name') }} Thank you interested PRE ORDER with us </hp>
 <p>Here Is the price in rupiah</p>
  
-<p>Please <a href="{{ route('process_order') }}">click here</a> to make an order</p>
+<p>Please <a href="{{ route('process_order', ['uuid' => $latest_id]) }}">click here</a> to make an order</p>
 <p>For check your PO detail</p>
 </br>
 </br>
@@ -29,13 +29,13 @@
                                 @foreach($preorders as $p)
 									<tr>
 										<td>{{ $p->qty }}</td>
-                                        <td><a href="{{ $p->link }}">Link Produk</a></td>
-                                        <td>{{ $p->name }}</td>
+                                        <td><a href="{{ $p->product_url }}">Link Produk</a></td>
+                                        <td>{{ $p->product_name }}</td>
                                         <td>{{ $p->color }}</td>
-                                        <td>{{ $p->sizeweight }}</td>
-                                        <td>{{ $p->price }}</td>
-                                        <td>{{ $p->info }}</td>
-                                        <td>{{ $p->qty * $p->price }}</td>
+                                        <td>{{ $p->size }}</td>
+                                        <td>{{ $p->price_customer }}</td>
+                                        <td>{{ $p->status }}</td>
+                                        <td>{{ $p->qty * $p->price_customer }}</td>
 									</tr>
 								@endforeach
 						</tr>

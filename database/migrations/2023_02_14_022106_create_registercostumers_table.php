@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('nohp_1');
             $table->string('nohp_2')->nullable();
             $table->string('address');
-            $table->string('zip_code');
-            $table->string('province');
-            $table->string('city');
-            $table->string('district');
+            $table->string('zip_code')->nullable();
+            $table->string('province')->nullable();
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
             $table->string('captcha');
             $table->timestamps();
         });

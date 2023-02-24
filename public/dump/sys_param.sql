@@ -27,25 +27,25 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `sys_param`
 --
 
-CREATE TABLE `sys_param` (
-  `sys_id` varchar(40) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `value_name` varchar(50) NOT NULL,
-  `value_max` varchar(10) NOT NULL,
-  `value_size` varchar(10) NOT NULL,
-  `value_id` varchar(50) NOT NULL,
-  `value_type` varchar(50) NOT NULL,
-  `value_1` varchar(1000) NOT NULL,
-  `value_2` varchar(50) NOT NULL,
-  `value_3` varchar(50) NOT NULL,
-  `value_4` varchar(50) NOT NULL,
-  `value_5` varchar(50) NOT NULL,
-  `value_position` varchar(10) NOT NULL,
-  `is_inactive` varchar(1) NOT NULL,
-  `ByUserUUID` varchar(50) NOT NULL,
-  `ByUserIP` varchar(40) NOT NULL,
-  `OnDateTime` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- CREATE TABLE `sys_param` (
+--   `sys_id` varchar(40) NOT NULL,
+--   `name` varchar(50) NOT NULL,
+--   `value_name` varchar(50) NOT NULL,
+--   `value_max` varchar(10) NOT NULL,
+--   `value_size` varchar(10) NOT NULL,
+--   `value_id` varchar(50) NOT NULL,
+--   `value_type` varchar(50) NOT NULL,
+--   `value_1` varchar(1000) NOT NULL,
+--   `value_2` varchar(50) NOT NULL,
+--   `value_3` varchar(50) NOT NULL,
+--   `value_4` varchar(50) NOT NULL,
+--   `value_5` varchar(50) NOT NULL,
+--   `value_position` varchar(10) NOT NULL,
+--   `is_inactive` varchar(1) NOT NULL,
+--   `ByUserUUID` varchar(50) NOT NULL,
+--   `ByUserIP` varchar(40) NOT NULL,
+--   `OnDateTime` datetime NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `sys_param`

@@ -4,33 +4,45 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class Registercostumer extends Model
+class RegisterCostumer extends Model implements AuthenticatableContract
 {
-    use HasFactory;
-    protected $table = 'registercostumers';
+    use HasFactory, Authenticatable;
+    protected $table = 'ms_customer';
     protected $fillable = [
-        'nohp_1',
-        'nohp_2',
+        'CustomerUUID',
+        'token_id',
+        'customer_name',
+        'password',
+        'email',
+        'handphone',
+        'handphone2',
+        'fax',
         'address',
-        'zip_code',
-        'province',
-        'city',
-        'district',
-        'captcha',
+        'kodepos',
+        'provinsi',
+        'kecamatan',
+        'kota',
+        'status',
+        'created_date',
+        'created_by',
+        'OnDateTime',
+        'ByUserUUID',
+        'ByUserIP',
     ];
-    public function getCity()
-    {
-        return $this->belongsTo(Region::class, 'city', 'kode');
-    }
-
-    public function getDistricts()
-    {
-        return $this->belongsTo(Region::class, 'district', 'kode');
-    }
-
-    public function getProvince()
-    {
-        return $this->belongsTo(Region::class, 'province', 'kode');
-    }
+    protected $hidden = [
+        'password',
+        'token_id',
+    ];
+    function newid()
+		{
+			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0x0fff ) | 0x4000,
+			mt_rand( 0, 0x3fff ) | 0x8000,
+			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
+			return $uuid;
+		}
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use App\Models\Registercostumer;
 
 class LoginCostumerController extends Controller
 {
@@ -13,16 +14,17 @@ class LoginCostumerController extends Controller
         return view('login_c.index');
     }
 
-    public function loginaction (Request $request)
+    public function loginaction(Request $request)
     {
-        $data = [
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-        ];
+        $customer = RegisterCostumer::where('email', $request->input('email'))->first();
 
-        if (Auth::Attempt($data)) {
+        if ($customer && sha1($request->input('password') . "sheryl1!") === $customer->password) {
+            // Login berhasil
+            session()->put('user_id', $customer->CustomerUUID);
+            session(['customer_name' => $customer->customer_name]);
             return redirect('/');
-        }else{
+        } else {
+            // Login gagal
             Session::flash('error', 'Email atau Password Salah');
             return redirect('login');
         }
@@ -30,7 +32,7 @@ class LoginCostumerController extends Controller
 
     public function logoutaction ()
     {
-        Auth::logout();
+        session()->forget('user_id');
         return redirect('/');
     }
 

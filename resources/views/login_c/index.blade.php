@@ -70,3 +70,10 @@
 <div class="blockseparator"></div>
 	</div>
 @endsection
+
+<script>
+    const successMessage = "{{ session('success') }}";
+    if(successMessage){
+        alert(successMessage);
+    }
+</script>

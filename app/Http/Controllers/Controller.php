@@ -18,45 +18,41 @@ class Controller extends BaseController
     public function __construct() {
         $this->middleware(function ($request, $next) {
 
-            $cities = $this->getCities($this->province_id)->pluck('nama', 'kode');
+            $cities = [];
             View::share ('cities', $cities);
 
-            $province = $this->getProvinces()->pluck('nama', 'kode');
+            $province =[];
             View::share ('province', $province);
 
-            $districts = $this->getDistricts($this->city_id)->pluck('nama', 'kode');
+            $districts = [];
             View::share ('districts', $districts);
-
-            // TODO: remove
-            // $profiles= CandidateProfile::get();
-            // View::share ('profiles', $profiles);
 
             return $next($request);
         });
     }
 
-    public function getCities($province_id)
-    {
-        $cities = Region::whereRaw('LEFT(kode, 2) = ?' , [$province_id])
-            ->whereRaw('CHAR_LENGTH(kode) = 5')
-            ->get();
+    // public function getCities($province_id)
+    // {
+    //     $cities = Region::whereRaw('LEFT(kode, 2) = ?' , [$province_id])
+    //         ->whereRaw('CHAR_LENGTH(kode) = 5')
+    //         ->get();
 
-        return $cities;
-    }
+    //     return $cities;
+    // }
     
-    public function getDistricts($city_id)
-    {
-        $districts = Region::whereRaw('LEFT(kode, 5) = ?' , [$city_id])
-            ->whereRaw('CHAR_LENGTH(kode) = 8')
-            ->get();
+    // public function getDistricts($city_id)
+    // {
+    //     $districts = Region::whereRaw('LEFT(kode, 5) = ?' , [$city_id])
+    //         ->whereRaw('CHAR_LENGTH(kode) = 8')
+    //         ->get();
 
-        return $districts;
-    }
+    //     return $districts;
+    // }
 
-    public function getProvinces()
-    {
-        $province = Region::whereRaw('CHAR_LENGTH(kode) = 2')->get();
-        return $province;
-    }
+    // public function getProvinces()
+    // {
+    //     $province = Region::whereRaw('CHAR_LENGTH(kode) = 2')->get();
+    //     return $province;
+    // }
 
 }

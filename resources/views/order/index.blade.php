@@ -104,7 +104,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td colspan='10'>No data found</td></tr>                                </tbody>
+								@foreach($orders as $o)
+								<tr>
+									<td>{{ $loop->index + 1 }}</td>
+									<td><a href="#">{{ $o->request_id }}</a></td>
+									<td>{{ $o->costumer_name }}</td>
+									<td>{{ $o->created_date }}</td>
+									<td>{{ $o->total_items }}</td>
+									<td>{{ $o->total_price }}</td>
+									<td>{{ $o->status }}</td>
+								</tr>
+									@endforeach
+								</tbody>
                             </table>
 							                        </div>
                     </div>

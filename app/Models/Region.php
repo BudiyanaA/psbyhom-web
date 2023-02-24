@@ -8,6 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Region extends Model
 {
     use HasFactory;
-
-    protected $table = 'wilayah_2022';
 }
