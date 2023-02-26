@@ -9,7 +9,9 @@ class TrRequestOrderDtl extends Model
 {
     use HasFactory;
     protected $table = 'tr_request_order_dtl';
+    public $timestamps = false;
     protected $fillable = [
+        'RequestOrderDtlUUID',
         'remarks',
         'RequestOrderUUID',
         'product_name',

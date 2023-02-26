@@ -222,7 +222,7 @@
 				var counter = $( "#counter" ).val();
 				var lang_remove_product = 'Hapus';
 				var img_remove			= 'https://psbyhom.com//design/deletepic.png';
-				html = '<tr id="remove_po_'+counter+'"><td><input type="text" name="qty['+counter+']"><input type="hidden" name="item_ar[]" value="'+counter+'"></td><td><input type="text" name="link['+counter+']"></td><td><input type="text" name="name['+counter+']"></td><td><input type="text" name="color['+counter+']"></td><td><input type="text" name="sizeweight['+counter+']"></td><td><input type="number" name="price['+counter+']"></td><td><input type="text" name="info['+counter+']"><td><a href="#" onclick="removeItemReq('+counter+')"><img src="'+img_remove+'" alt="Remove Pro Order">'+lang_remove_product+'</a></td></td></tr>';
+				html = '<tr id="remove_po_'+counter+'"><td><input type="text" name="qty['+counter+']"><input type="hidden" name="item_ar[]" value="'+counter+'"></td><td><input type="text" name="product_url['+counter+']"></td><td><input type="text" name="product_name['+counter+']"></td><td><input type="text" name="color['+counter+']"></td><td><input type="text" name="size['+counter+']"></td><td><input type="number" name="price_customer['+counter+']"></td><td><input type="text" name="remarks['+counter+']"><td><a href="#" onclick="removeItemReq('+counter+')"><img src="'+img_remove+'" alt="Remove Pro Order">'+lang_remove_product+'</a></td></td></tr>';
 				counter++;
 				$("#counter").val(counter);				
 				$('#pre-order tr:last').after(html);
@@ -233,8 +233,7 @@
 				$('input[name="link['+counter+']"]').rules("add", {
 					required: true, url: true
 				});
-			
-			});
+		});
 		
 		$(".qty-trigger").click(function() {
 			var ID = $(this).attr("data-id");

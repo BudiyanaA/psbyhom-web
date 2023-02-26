@@ -1,3 +1,7 @@
-<p>Dear, Admin </p>
-<p>please verify the new order with PO ID :  {{ $po_id }} whice have been submited by the costumer </p>
- 
+{!! $email_content !!}
+
+{!! $email_content_bottom !!}
+
+<p>House of Makeup</p>
+<p>Line@ : <a href="https://line.me/R/ti/p/%40houseofmakeup">@houseofmakeup</a></p>
+<p>Email : <a href="mailto:{{ $email_notif }}">{{ $email_notif }}</a></p>

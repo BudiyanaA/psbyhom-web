@@ -1,30 +1,30 @@
 
    <td>
-		{{ Form::number('qty', null, ['class' => 'form-control']) }}
+		{{ Form::number('qty[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('qty')) <small class="form-text help-block" style="color:red">{{ $errors->first('qty') }}</small> @endif
     </td>
     <td>
-		{{ Form::text('product_url', null, ['class' => 'form-control']) }}
+		{{ Form::text('product_url[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('product_url')) <small class="form-text help-block" style="color:red">{{ $errors->first('product_url') }}</small> @endif
         </td>
     <td>
-		{{ Form::text('product_name', null, ['class' => 'form-control']) }}
+		{{ Form::text('product_name[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('product_name')) <small class="form-text help-block" style="color:red">{{ $errors->first('product_name') }}</small> @endif
         </td>
     <td>
-		{{ Form::text('color', null, ['class' => 'form-control']) }}
+		{{ Form::text('color[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('color')) <small class="form-text help-block" style="color:red">{{ $errors->first('color') }}</small> @endif
         </td>
     <td>
-		{{ Form::text('size', null, ['class' => 'form-control']) }}
+		{{ Form::text('size[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('size')) <small class="form-text help-block" style="color:red">{{ $errors->first('size') }}</small> @endif
         </td>
     <td>
-		{{ Form::number('price_customer', null, ['class' => 'form-control']) }}
+		{{ Form::number('price_customer[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
         </td>
     <td>
-		{{ Form::text('remarks', null, ['class' => 'form-control']) }}
+		{{ Form::text('remarks[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('remarks')) <small class="form-text help-block" style="color:red">{{ $errors->first('remarks') }}</small> @endif
         </td>
         <td>

@@ -76,51 +76,71 @@ class PreOrderController extends Controller
 
     public function store(Request $request)
    {
+    //    dd(session('customer_name'));
+    //    dd(session('user_id'));
+    //    dd($request->all());
         $validated = $request->validate([
-            'qty' => 'required|numeric|min:1',
-            'product_url' => 'required|url',
-            'product_name' => 'required',
-            'color' => 'required',
-            'size' => 'required',
-            'price_customer' => 'required|numeric|min:1',
-            'remarks' => 'required',
+            'qty' => 'required|array|min:1',
+            'product_url' => 'required|array|min:1',
+            'product_name' => 'required|array|min:1',
+            'color' => 'required|array|min:1',
+            'size' => 'required|array|min:1',
+            'price_customer' => 'required|array|min:1',
+
+            'qty.*' => 'required|numeric|min:1',
+            'product_url.*' => 'required|url|min:1',
+            'product_name.*' => 'required|min:1',
+            'color.*' => 'required|min:1',
+            'size.*' => 'required|min:1',
+            'price_customer.*' => 'required|numeric|min:1',
         ]);
         
         try {
-            $qty = (int)$validated['qty']; 
-            $seq = 1;
-            $sys = 1.07 ;
-            $uuid = Str::uuid()->toString();
+            // $qty = (int)$validated['qty']; 
+            // $seq = 1;
+            // $sys = 1.07 ;
+            // $uuid = Str::uuid()->toString();
             $total_items = 0;
-           
-            for ($i = 0; $i < $qty; $i++) {
+            $total_price = 0;
+
+            $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
+
+            // Insert tr_request_order_dtl
+            for ($i = 0; $i < count($request->qty); $i++) {
                 TrRequestOrderDtl::create([
-                    'RequestOrderUUID' => $uuid,
-                    'qty' => $validated['qty'],
-                    'remarks' => $validated['remarks'],
-                    'product_url' => $validated['product_url'],
-                    'product_name' => $validated['product_name'],
-                    'color' => $validated['color'],
-                    'size' => $validated['size'],
-                    'price_customer' => $validated['price_customer'],
-                    'forex_rate' => $sys,
-                    'subtotal_original' => ($qty * $validated['price_customer']) * $sys,
+                    'RequestOrderDtlUUID' => $this->newid(),
+                    'remarks' => $request->remarks[$i],
+                    'RequestOrderUUID' => $request->RequestOrderUUID,
+                    'product_name' => $request->product_name[$i],
+                    'product_url' => $request->product_url[$i],
+                    'qty' => $request->qty[$i],
+                    'size' => $request->size[$i],
+                    'color' => $request->color[$i],
+                    'price_customer' => $request->price_customer[$i],
+                    'forex_rate' => $forex,
+                    'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
                     'status' => '00',
-                    'seq' => $seq++,
+                    'seq' => $i + 1,
                 ]);
-                $total_items += $validated['qty'];
-                $total_price = $validated['price_customer'] * $qty;
-                $CustomerUUID = $this->newid();
+                
+                $total_items++;
+                $total_price = $total_price + ($request->qty[$i] * $request->price_customer[$i]);
+                // $CustomerUUID = $this->newid();
             }
+
+            $CustomerUUID = session('user_id');
             $customer_name = session('customer_name');
+            $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
+
+            // Insert tr_request_order
             TrRequestOrder::create([
                 'CustomerUUID' => $CustomerUUID,
-                'customer_name' => $customer_name,
-                'RequestOrderUUID' => $uuid,
-                'request_id' => $this->generateRandomString().date('y').date('m').$this->generate_ro_id(),
+                // 'customer_name' => $customer_name,
+                'RequestOrderUUID' => $request->RequestOrderUUID,
+                'request_id' => $request_id,
                 'created_date' => date('Y-m-d H:i:s'),
                 'status' => '00',
-                'forex' => $sys,
+                'forex' => $forex,
                 'factor' => '1.07',
                 'total_items' => $total_items,
                 'total_price' => $total_price,
@@ -128,11 +148,14 @@ class PreOrderController extends Controller
                 'ByUserIP' => $request->ip(),
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
-            $id= uniqid();
-            $customer_name = session('customer_name');
-            $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
+            
+            // $id= uniqid();
+            // $customer_name = session('customer_name');
+            // $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
+            
+            // Insert log_actv
             LogActv::create([
-                'id' => $id ,
+                'id' => $this->newid(),
                 'user_id' => $customer_name,
                 'UserUUID' => $CustomerUUID,
                 'menu_nm' => 'Submit Request Order',
@@ -147,18 +170,35 @@ class PreOrderController extends Controller
                 'ByUserIP' => $request->ip(),
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
-            $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
-            $emailUUID = 'b1aa97ee-6a1c-4ce5-be19-b664200f2784';
-            $po_id = $request_id;
-            $customer_name = session('customer_name');
-            $email_content = MsEmail::where('EmailUUID', $emailUUID)->value('email_content');
-            $email_content = str_replace('#PO_ID#', $po_id, $email_content);
-            $email_content = str_replace('#CUSTOMER_NAME#', $customer_name, $email_content);
-            $email_content_bottom = MsEmail::where('EmailUUID', $emailUUID)->value('email_content_bottom');
-            $email_notif = 'info@psbyhom.com';
-            Mail::to('order@psbyhom.com')->send(new AdminEmail($email_notif, $email_content, $email_content_bottom, $po_id));
 
-            Mail::to("dederizki130102@gmail.com")->send(new SendEmail());
+            // Send email notification to Admin
+            // $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
+            $emailUUID = 'b1aa97ee-6a1c-4ce5-be19-b664200f2784'; //New Order Notifications
+            $email = MsEmail::where('EmailUUID', $emailUUID)->first();
+            
+            $po_id = $request_id; 
+            // $customer_name = session('customer_name');
+            $email_content = $email->email_content;
+            $email_content = str_replace('$po_id', $po_id, $email_content);
+            // $email_content = str_replace('#CUSTOMER_NAME#', $customer_name, $email_content);
+            $email_content_bottom = $email->email_content_bottom;
+            $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->first();
+            
+            $email_admin = SysParam::where('sys_id', 'SYS_PARAM_16')->first();
+            $emailsent = Mail::to($email_admin->value_1)
+                ->send(new AdminEmail(
+                    $po_id, 
+                    $email_content, 
+                    $email_content_bottom, 
+                    $email_notif->value_1));
+            // Mail::to("dederizki130102@gmail.com")->send(new SendEmail());
+
+            if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                return redirect()->back()->with('error', 'Gagal mengirim email!');
+            }
+            // if (Mail::failures()) {
+            //     return redirect()->back()->with('error', 'Gagal mengirim email!');
+            // }
         
             return redirect(route('preorder.notification'))
                 ->withSuccess("Data berhasil ditambahkan");

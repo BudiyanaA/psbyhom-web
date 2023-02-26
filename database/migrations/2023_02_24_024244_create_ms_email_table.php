@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ms_email', function (Blueprint $table) {
-            $table->string('EmailUUID');
+            $table->uuid('EmailUUID')->primary();
             $table->string('email_name');
             $table->string('email_title')->nullable();
             $table->text('email_content')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('ByUserUUID')->nullable();
             $table->string('ByUserIP')->nullable();
             $table->datetime('OnDateTime')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

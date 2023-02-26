@@ -64,9 +64,9 @@ INSERT INTO `ms_email` (`EmailUUID`, `email_name`, `email_title`, `email_content
 --
 -- Indeks untuk tabel `ms_email`
 --
-ALTER TABLE `ms_email`
-  ADD PRIMARY KEY (`EmailUUID`);
-COMMIT;
+-- ALTER TABLE `ms_email`
+--   ADD PRIMARY KEY (`EmailUUID`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

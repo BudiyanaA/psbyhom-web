@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_request_order_dtl', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('RequestOrderDtlUUID')->primary();
             $table->string('remarks')->nullable();
             $table->uuid('RequestOrderUUID')->nullable();
             $table->string('product_name')->nullable();
@@ -30,8 +30,7 @@ return new class extends Migration
             $table->decimal('additional_fee', 12, 2)->nullable();
             $table->decimal('subtotal_final', 12, 2)->nullable();
             $table->decimal('disc_percentage', 5, 2)->nullable();
-        
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
