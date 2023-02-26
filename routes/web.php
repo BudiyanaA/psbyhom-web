@@ -64,6 +64,15 @@ Route::get('register/activation', [RegisterCostumerController::class, 'activatio
 Route::get('register/activation/success', [RegisterCostumerController::class, 'activationSuccess'])->name('register.activation.success');
 Route::get('register/activation/failed', [RegisterCostumerController::class, 'activationFailed'])->name('register.activation.failed');
 
+Route::get('login', [LoginCostumerController::class, 'index']);
+Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
+
+Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
+Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
+Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+
+
+
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
@@ -138,7 +147,6 @@ Route::get('change_password', [PasswordController::class, 'edit'])->name('change
 Route::patch('password', [PasswordController::class, 'update'])->name('change_password.update');
 // });
 
-Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
@@ -152,12 +160,9 @@ Route::get('about', [AboutController::class, 'index'])->name('about_us');
 Route::get('contact', [ContactController::class, 'index'])->name('contact_us.index');
 Route::post('contact', [ContactController::class, 'store'])->name('contac.store');
 Route::post('admin/register/action', [RegisterController::class, 'registeraction'])->name('registeraction');
-Route::get('login', [LoginCostumerController::class, 'index']);
+
 
 // Route::resource('preorder', PreOrderController::class);
-Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
-Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
-Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
 Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
 
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
