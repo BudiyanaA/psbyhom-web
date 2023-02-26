@@ -57,14 +57,21 @@ use App\Http\Controllers\ActivationController;
 //     return view('welcome');
 // });
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('register', [RegisterCostumerController::class, 'index'])->name('register_c');
+Route::post('register/store', [RegisterCostumerController::class, 'store'])->name('register_c.store');
+Route::get('register/activation', [RegisterCostumerController::class, 'activation'])->name('register.activation');
+Route::get('register/activation/success', [RegisterCostumerController::class, 'activationSuccess'])->name('register.activation.success');
+Route::get('register/activation/failed', [RegisterCostumerController::class, 'activationFailed'])->name('register.activation.failed');
+
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
 Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
-Route::get('register', [RegisterController::class, 'register'])->name('register');
-Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
+Route::get('admin/register', [RegisterController::class, 'register'])->name('register');
+Route::post('admin/register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
 
@@ -144,9 +151,7 @@ Route::get('about', [AboutController::class, 'index'])->name('about_us');
 // Route::get('contact_us', ContactController::class);
 Route::get('contact', [ContactController::class, 'index'])->name('contact_us.index');
 Route::post('contact', [ContactController::class, 'store'])->name('contac.store');
-Route::get('register', [RegisterCostumerController::class, 'index'])->name('register_c');
-Route::post('register/store', [RegisterCostumerController::class, 'store'])->name('register_c.store');
-Route::post('register/action', [RegisterController::class, 'registeraction'])->name('registeraction');
+Route::post('admin/register/action', [RegisterController::class, 'registeraction'])->name('registeraction');
 Route::get('login', [LoginCostumerController::class, 'index']);
 
 // Route::resource('preorder', PreOrderController::class);
@@ -168,7 +173,7 @@ Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name(
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
 Route::get('ewallet', [WalletController::class, 'index'])->name('wallet');
-Route::get('register/activation?token_id={token_id}', [ActivationController::class, 'index'])->name('register');
+
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice

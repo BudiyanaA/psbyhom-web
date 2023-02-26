@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sys_param', function (Blueprint $table) {
-            $table->id();
-            $table->string('sys_id')->nullable();
+            // $table->id();
+            $table->string('sys_id')->primary();
             $table->string('name');
             $table->string('value_name')->nullable();
             $table->string('value_max')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('ByUserUUID')->nullable();
             $table->string('ByUserIP')->nullable();
             $table->dateTime('OnDateTime')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

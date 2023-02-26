@@ -11,6 +11,7 @@ class RegisterCostumer extends Model implements AuthenticatableContract
 {
     use HasFactory, Authenticatable;
     protected $table = 'ms_customer';
+    public $timestamps = false;
     protected $fillable = [
         'CustomerUUID',
         'token_id',
@@ -36,13 +37,13 @@ class RegisterCostumer extends Model implements AuthenticatableContract
         'password',
         'token_id',
     ];
-    function newid()
-		{
-			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
-			return $uuid;
-		}
+    // function newid()
+	// 	{
+	// 		$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+	// 		mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+	// 		mt_rand( 0, 0x0fff ) | 0x4000,
+	// 		mt_rand( 0, 0x3fff ) | 0x8000,
+	// 		mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
+	// 		return $uuid;
+	// 	}
 }

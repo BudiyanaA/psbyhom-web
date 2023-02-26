@@ -11,12 +11,11 @@ class RegisterEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct($customer_name, $activation_link, $email_notif, $token_id)
+    public function __construct($customer_name, $token_id, $email_notif)
     {
         $this->customer_name = $customer_name;
-        $this->activation_link = $activation_link;
-        $this->email_notif = $email_notif;
         $this->token_id = $token_id;
+        $this->email_notif = $email_notif;
     }
 
     /**
@@ -27,11 +26,12 @@ class RegisterEmail extends Mailable
     public function build()
     {
         return $this->view('emails.registeremail')
-                    ->subject('Aktivasi Akun - '.$this->email_notif)
-                    ->with([
-                        'customer_name' => $this->customer_name,
-                        'activation_link' => $this->activation_link.'?token_id='.$this->token_id,
-                    ]);
+            ->subject('Please Activate Your Account Now')
+            ->with([
+                'customer_name' => $this->customer_name,
+                'token_id' => $this->token_id,
+                'email_notif' => $this->email_notif,
+            ]);
     }
 }
 

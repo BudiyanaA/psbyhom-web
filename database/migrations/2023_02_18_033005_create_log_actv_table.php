@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
 {
     Schema::create('log_actv', function (Blueprint $table) {
-        $table->id();
+        $table->string('id')->primary();
         $table->string('user_id');
         $table->string('UserUUID');
         $table->string('menu_nm');
@@ -28,7 +28,7 @@ return new class extends Migration
         $table->string('ByUserUUID');
         $table->string('ByUserIP');
         $table->dateTime('OnDateTime');
-        $table->timestamps();
+        // $table->timestamps();
     });
 }
 

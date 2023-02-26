@@ -9,7 +9,9 @@ class LogActv extends Model
 {
     use HasFactory;
     protected $table = 'log_actv';
+    public $timestamps = false;
     protected $fillable = [
+        'id',
         'user_id',
         'UserUUID',
         'menu_nm',

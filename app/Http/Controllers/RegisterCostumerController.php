@@ -46,27 +46,29 @@ class RegisterCostumerController extends Controller
 
     public function store (Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'customer_name' => 'required',
             'email' => 'required|email|unique:ms_customer',
             'password' => 'required|confirmed|min:6',
             'handphone' => 'required',
             'address' => 'required',
-            // 'province' => 'required',
-            // 'city' => 'required',
-            // 'district' => 'required',
-            'captcha' => 'required|captcha',
+            'province' => 'required',
+            'city' => 'required',
+            'district' => 'required',
+            // 'captcha' => 'required|captcha',
         ]);
-        
+
         // cek captcha benar atau tidak
-        if (!$validated['captcha']) {
-            return redirect()->back()->with('error', 'Error: captcha tidak benar!');
-        }
+        // if (!$validated['captcha']) {
+        //     return redirect()->back()->with('error', 'Error: captcha tidak benar!');
+        // }
         
         try {
             $CustomerUUID = $this->newid();
             $token_id = $this->newid();
 
+            // create customer
             Registercostumer::create([
                 'CustomerUUID' => $CustomerUUID,
                 'token_id' => $token_id,
@@ -75,33 +77,36 @@ class RegisterCostumerController extends Controller
                 'email' => $request->email,
                 'handphone' => $request->handphone,
                 'handphone2' => $request->handphone2,
-                'fax' => $request->fax,
+                // 'fax' => $request->fax,
                 'address' => $request->address,
                 'kodepos' => '44181',
-                'provinsi' => $request->provinsi,
-                'kecamatan' => $request->kecamatan,
-                'kota' => $request->kota,
-                'ByUserUUID' => $CustomerUUID,
-                'ByUserIP' => $request->ip(),
+                'provinsi' => $request->province,
+                'kecamatan' => $request->district,
+                'kota' => $request->city,
+                // 'ByUserUUID' => $CustomerUUID,
+                // 'ByUserIP' => $request->ip(),
                 'status' => '03',
                 'created_date' => date('Y-m-d H:m:s'),
                 'created_by' => $CustomerUUID,
                 'OnDateTime' => date('Y-m-d H:m:s')
             ]);
-        
 
-
-        Mail::to("dederizki130102@gmail.com")->send(new RegisterEmail());
+            // send email activation
+            $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->first();
+            Mail::to($request->email)->send(new RegisterEmail(
+                $request->customer_name,
+                $token_id,
+                $email_notif->value_1,
+            ));
         
             // buat log aktivitas
-            $id = $this->newid();
             LogActv::create([
-                'id' => $id,
+                'id' => $this->newid(),
                 'user_id' => $CustomerUUID,
                 'UserUUID' => $CustomerUUID,
                 'menu_nm' => 'Customer Register',
                 'log_time' => date('Y-m-d H:i:s'),
-                'Description' => 'Customer Register dengan email : ',
+                'Description' => 'Customer Register dengan email : ' . $request->email,
                 'LogType' => 'Create',
                 'user_type' => 'Customer',
                 'RefUUID' => $CustomerUUID,
@@ -117,6 +122,35 @@ class RegisterCostumerController extends Controller
         } catch(\Exception $e) {
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
+    }
+
+    public function activation(Request $request)
+    {
+        $customer = Registercostumer::where('token_id', $request->token_id)
+            ->where('status', '03')->first();
+        
+        if (!$customer) {
+            return redirect(route('register.activation.failed'));
+        }
+
+        $customer->where('CustomerUUID', $customer->CustomerUUID)
+        ->update([
+            'status' => '01',
+            'OnDateTime'=> date('Y-m-d H:m:s'),
+            'ByUserUUID' => $customer->CustomerUUID,
+            'ByUserIP' => $request->ip(),
+        ]);
+        return redirect(route('register.activation.success'));
+    }
+
+    public function activationSuccess()
+    {
+        return view('register_c.activationsuccess');
+    }
+
+    public function activationFailed()
+    {
+        return view('register_c.activationfailed');
     }
 
 }
