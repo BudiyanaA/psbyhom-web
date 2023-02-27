@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
 {
     Schema::create('log_actv', function (Blueprint $table) {
-        $table->string('id')->primary();
+        $table->string('id', 500)->primary();
         $table->string('user_id');
         $table->string('UserUUID');
         $table->string('menu_nm');

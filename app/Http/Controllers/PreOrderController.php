@@ -134,9 +134,9 @@ class PreOrderController extends Controller
 
             // Insert tr_request_order
             TrRequestOrder::create([
-                'CustomerUUID' => $CustomerUUID,
-                // 'customer_name' => $customer_name,
                 'RequestOrderUUID' => $request->RequestOrderUUID,
+                'CustomerUUID' => $CustomerUUID,
+                // 'customer_name' => $customer_name,             
                 'request_id' => $request_id,
                 'created_date' => date('Y-m-d H:i:s'),
                 'status' => '00',

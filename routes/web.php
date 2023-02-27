@@ -86,8 +86,8 @@ Route::post('admin/register/action', [RegisterController::class, 'actionregister
 Route::get('admin/preorder/request_order', [OrderController::class, 'index'])->name('preorder.index');
 Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.detail');
 Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
-
-
+Route::put('admin/preorder/request_order/{id}/update', [ApprovalController::class, 'update'])->name('order.update');
+Route::get('admin/preorder/request_order/notification', [ApprovalController::class, 'notification'])->name('order.notification');
 
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');

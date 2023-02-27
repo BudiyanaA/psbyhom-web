@@ -29,7 +29,7 @@
 				<div class="panel-body">
 					<div class="tab-content">
 
-						<form action="https://psbyhom.com/request_order_controller/validate_update/5cc52d59-eae2-44db-a31a-9a93dc968c30/" class="form-horizontal row-border"  data-validate="parsley" id="validate-form" method='post'>
+					{!! Form::model($order, ['route' => ['order.update', $order->RequestOrderUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 						<div class="tab-pane active" id="trans">
 							<ul class="panel-comments">
 							<div class="form-group">
@@ -140,7 +140,8 @@
 										<div class="col-sm-6 col-sm-offset-3">
 											<div class="btn-toolbar">
 											<input type="hidden" value="" id="type">
-													<button class="btn-primary btn" value ='cancel' id="cancel" name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Void</button>
+											<button class="btn-primary btn">Send Quotation</button>
+													<!-- <button class="btn-primary btn" value ='cancel' id="cancel" name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Send Quotation</button> -->
 													<a href="{{ route('dashboard') }}" class="btn-primary btn">Back</a>
 												
 										  	
@@ -151,7 +152,7 @@
 										</div>
 									</div>
 								</div>
-			                </form>
+								{{ Form::close() }}
 					</div>
 
 

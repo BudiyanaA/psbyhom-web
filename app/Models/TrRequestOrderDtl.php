@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TrRequestOrderDtl extends Model
 {
     use HasFactory;
+    //  protected $primaryKey = 'RequestOrderUUID';
     protected $table = 'tr_request_order_dtl';
     public $timestamps = false;
     protected $fillable = [
@@ -28,4 +29,10 @@ class TrRequestOrderDtl extends Model
         'subtotal_final',
         'disc_percentage',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
+    }
+
 }

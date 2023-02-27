@@ -25,7 +25,7 @@
                         <a href="#">
 							 <div class=""><img src="https://psbyhom.com/\img\art_thumb\default.jpeg " width='100' height='100' alt=""/></div>
         				   <br>
-        				   <div class="pull-right"><h5>Hi, <b></b> </h5><small>Logged in as <span> </span></small></div>
+        				   <div class="pull-right"><h5>Hi, {{ session('admin_name') }} <b></b> </h5><small>Logged in as <span> </span></small></div>
 						
 						</a>
         			</li>

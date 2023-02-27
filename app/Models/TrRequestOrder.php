@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TrRequestOrder extends Model
 {
     use HasFactory;
+    // protected $primaryKey = 'RequestOrderUUID';
     protected $table = 'tr_request_order';
     public $timestamps = false;
     protected $fillable = [
