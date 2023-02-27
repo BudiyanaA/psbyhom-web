@@ -70,9 +70,9 @@ INSERT INTO `ms_admin` (`AdminUUID`, `user_id`, `name`, `profile_pict`, `passwor
 --
 -- Indeks untuk tabel `ms_admin`
 --
-ALTER TABLE `ms_admin`
-  ADD PRIMARY KEY (`AdminUUID`);
-COMMIT;
+-- ALTER TABLE `ms_admin`
+--   ADD PRIMARY KEY (`AdminUUID`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

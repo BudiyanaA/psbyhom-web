@@ -56,6 +56,8 @@ use App\Http\Controllers\ActivationController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+// CUSTOMER
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('register', [RegisterCostumerController::class, 'index'])->name('register_c');
@@ -72,15 +74,21 @@ Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preo
 Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
 
 
-
+// ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
-
 Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
 Route::get('admin/register', [RegisterController::class, 'register'])->name('register');
 Route::post('admin/register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
+
+Route::get('admin/preorder/request_order', [OrderController::class, 'index'])->name('preorder.index');
+Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.detail');
+Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
+
+
+
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
 
@@ -108,10 +116,6 @@ Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])
 
 // Route::resource('costumer_management', CostumerManagementController::class);
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
-
-Route::get('admin/preorder/request_order/{status?}', [OrderController::class, 'index'])->name('preorder.index');
-Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.edit');
-Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('preorder.detail');
 
 // Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
 Route::get('admin/waiting_payment', [PaymentController::class, 'index'])->name('payment.index');

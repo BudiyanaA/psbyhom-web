@@ -35,7 +35,7 @@ class OrderController extends Controller
     }
     
 
-    $orders = $orders->orderBy('OnDateTime', 'ASC')->get();
+    $orders = $orders->orderBy('OnDateTime', 'ASC')->get(); //ASC or DESC from filter
 
     $data['orders'] = $orders;
 

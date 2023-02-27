@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
 {
     Schema::create('ms_admin', function (Blueprint $table) {
-        $table->string('AdminUUID');
+        $table->string('AdminUUID')->primary();
         $table->string('user_id');
         $table->string('name');
         $table->string('profile_pict');
@@ -29,14 +29,14 @@ return new class extends Migration
         $table->datetime('last_logout');
         $table->datetime('last_login');
         $table->string('is_login')->default('N');
-        $table->string('is_delete')->default(0);
+        $table->string('is_delete')->default('0');
         $table->string('is_superadmin')->nullable();
         $table->string('status')->default('01');
         $table->string('ByUserUUID');
         $table->string('ByUserIP');
         $table->datetime('OnDateTime');
         $table->string('token_id')->nullable();
-        $table->timestamps();
+        // $table->timestamps();
     });
 }
 

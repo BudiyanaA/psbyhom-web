@@ -27,11 +27,21 @@ class LoginController extends Controller
         $admin = DB::table('ms_admin')->where('user_id', $username)->where('is_delete', 0)->first();
         if (!$admin) {
             // Jika tidak ditemukan, kembalikan 3
-            return 3;
+            // return 3;
+            $error_message = 'Invalid username or password';
+            Session::flash('error', $error_message);
+            return redirect('admin/login');
         }
+
+        $admins = DB::table('ms_admin')
+            ->where('user_id', $username)
+            ->where('password', sha1($password.'iFabula1!'))
+            ->where('is_delete', 0)
+            ->where('status', '01')
+            ->get();
         
         // Jika ditemukan, cek apakah password sesuai
-        if (sha1($password.'iFabula1!') !== $admin->password) {
+        if (count($admins) <= 0) {
             $max_attempt = 3;
             $login_attempt = $admin->login_attemp + 1;
             
@@ -52,21 +62,24 @@ class LoginController extends Controller
         // Jika password sesuai, cari admin dengan kriteria yang lebih lengkap
         $admins = DB::table('ms_admin')->where('user_id', $username)->where('password', sha1($password.'iFabula1!'))->where('is_delete', 0)->where('status', '01')->get();
         
-        if (count($admins) == 0) {
-            // Jika tidak ditemukan, kembalikan 3
-            return 3;
+        if (count($admins) > 1) {
+            $error_message = 'Invalid username or password';
+
+            Session::flash('error', $error_message);
+            return redirect('admin/login');
         }
         
         // Jika ditemukan, update login_attemp = 0 dan last_login, is_login
         $admin = $admins[0];
-        DB::table('ms_admin')->where('AdminUUID', $admin->AdminUUID)->update(['login_attemp' => 0]);
         DB::table('ms_admin')->where('AdminUUID', $admin->AdminUUID)->update([
+            'login_attemp' => 0,
             'last_login' => date('Y-m-d H:i:s'),
             'is_login' => 'Y'
         ]);
         session(['admin_id' => $admin->AdminUUID, 'admin_name' => $admin->name]);
         return redirect('admin');
     }
+
     public function actionlogout()
     {
         Auth::logout();

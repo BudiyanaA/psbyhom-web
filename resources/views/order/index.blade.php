@@ -107,11 +107,11 @@
 								@foreach($orders as $o)
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
-									<td><a href="#">{{ $o->request_id }}</a></td>
-									<td>{{ $o->customer_name }}</td>
+									<td><a href="{{ route('preorder.detail', $o->RequestOrderUUID) }}">{{ $o->request_id }}</a></td>
+									<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $o->customer?->customer_name }}</a></td>
 									<td>{{ $o->created_date }}</td>
 									<td>{{ $o->total_items }}</td>
-									<td>{{ $o->total_price }}</td>
+									<td>{{ $o->total_price * $o->forex }}</td>
 									<td>
 										@if ($o->status === '00')
 											Pending Admin Verification
