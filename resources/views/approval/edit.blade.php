@@ -44,7 +44,7 @@
 									 </div>		
 							<div class="form-group">
 										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate USD - IDR</label>
-										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $sysparam->value_1 }}'></div>
+										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $forex }}'></div>
 									 </div>			
 				
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
@@ -65,19 +65,43 @@
 									<tbody>
 									@if(count($requestorder) > 0)
 								@foreach($requestorder as $r)
-									<tr>
-										<input type="hidden" value="8a25b763-1113-4962-91c8-09e2d48bca9c" name="RequestOrderDtlUUID1">			
-										<td>{{ $r->qty }}</td>
-										<td><a href="{{ $r->product_url }}">LINK</a></td>
-										<td>{{ $r->product_name }}</td>
-										<td>{{ $r->color }}</td>																										
-										<td>-</td>
-										<td>{{ $r->size }}</td>
-										<td>{{ $r->price_customer }}</td>														
-										<td>{{ $r->additional_fee }}</td>
-										<td>{{ $r->disc_percentage }}</td>						
-										<td>{{ $r->subtotal_final }}</td>																	
-									</tr>
+									@if ($order->status == "00")
+										<tr>
+											<input type="hidden" value="8a25b763-1113-4962-91c8-09e2d48bca9c" name="RequestOrderDtlUUID1">			
+											<td style='width:7%'><input type="text"  class="form-control" name='qty{{ $loop->index }}' id='qtyqty{{ $loop->index }}'  value='{{ $r->qty }}' onkeyup='calculatePrice(1,1,75.90,1.07,16000)' ></td>										
+											<td style='width:10%'>
+												<input type="text" class="form-control" name='product_url{{ $loop->index }}' id='product_url{{ $loop->index }}'  value='{{ $r->product_url }}'>
+												<a href='javascript:void(0);' onclick="window.open('{{ $r->product_url }}', '_blank');">LINK</a>
+											</td>
+											<td style='width:20%'><input type="text" class="form-control" name='product_name{{ $loop->index }}' id='product_name{{ $loop->index }}'  value="{{ $r->product_name }}"></td>
+											<td style='width:10%'><input type="text" class="form-control" name='color{{ $loop->index }}' id='color{{ $loop->index }}'  value="{{ $r->color }}"  ></td>
+
+											<td style='width:5%'><input type="text" class="form-control" name='size{{ $loop->index }}' id='size{{ $loop->index }}'  value="{{ $r->size }}"></td>
+											<td style='width:5%'>
+												<input type="text" class="form-control" name='price_customer{{ $loop->index }}' id='price_customer{{ $loop->index }}'  value='{{ $r->price_customer }}'  onkeyup='calculatePrice(1,1,75.90,1.07,16000)'  >
+											</td>
+											<td style='width:10%'><input type="text" class="form-control" name='remarks{{ $loop->index }}' id='remarks{{ $loop->index }}'  value='{{ $r->remarks }}'  ></td>
+											<td style='width:10%'><input type="text" class="form-control" name='additional_fee{{ $loop->index }}' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee ?? 0 }}' onkeyup='calculatePrice(1,1,75.90,1.07,16000)' ></td>
+											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage{{ $loop->index }}' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage ?? 0 }}' onkeyup='calculatePrice(1,1,75.90,1.07,16000)' ></td>
+											<td><input type="text" readonly class="form-control" name='subtotal{{ $loop->index }}' id='subtotal{{ $loop->index }}' value='{{ $r->subtotal_original ?? 0 }}'></td>									
+											<!-- td>{{ $r->subtotal_final ?? 0 }}</td> -->															
+										</tr>
+									@else
+										<tr>
+											<input type="hidden" value="8a25b763-1113-4962-91c8-09e2d48bca9c" name="RequestOrderDtlUUID1">			
+											<td>{{ $r->qty }}</td>
+											<td><a href="{{ $r->product_url }}">LINK</a></td>
+											<td>{{ $r->product_name }}</td>
+											<td>{{ $r->color }}</td>																										
+											<td>{{ $r->size }}</td>
+											<td>{{ $r->price_customer }}</td>	
+											<td>{{ $r->remarks }}</td>														
+											<td>{{ $r->additional_fee ?? 0 }}</td>
+											<td>{{ $r->disc_percentage ?? 0 }}</td>						
+											<!-- td>{{ $r->subtotal_final ?? 0 }}</td> -->
+											<td>{{ $r->subtotal_original ?? 0 }}</td>																		
+										</tr>
+									@endif
 								@endforeach
 							@else
 								<tr>
@@ -85,16 +109,20 @@
 								</tr>
 							@endif
 										<tr>
-											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ $order->total_price }}</td></tr>									<tr>
+											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ $order->total_price * $forex }}</td></tr>									<tr>
 											<td colspan='2'>Notes From Admin</td>
-											<td colspan='8'>{{ $order->note }}</td>
+											<td colspan='8'>
+												@if ($order->status == "00")<textarea name="note" id="note"  cols="50" rows="4" class="ckeditor">{{ $order->note }}</textarea> 
+												@else {{ $order->note }}
+												@endif
+											</td>
 										</tr>
 									
 									</tbody>
 								</table>
 									<input type="hidden" value="2023-02-19 13:03:51" name="trans_date" >
 									<input type="hidden" value="766149" name="subtotal" >
-							    	<input type="hidden" value="TY23020170" name="request_id" >
+							    <input type="hidden" value="TY23020170" name="request_id" >
 									<input type="hidden" value="Aphrodita mayangsari" name="customer_name" >
 									<input type="hidden" value="avoxo23@yahoo.com" name="email" id="">
 									<input type="hidden" value="0" name="grand_totals" id="grand_totals">

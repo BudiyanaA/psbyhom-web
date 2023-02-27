@@ -16,9 +16,10 @@ class ApprovalController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $data['order'] = TrRequestOrder::find($id);
-        $data['sysparam'] = SysParam::where('sys_id', 'SYS_PARAM_04')->first();
-        $data['requestorder'] = TrRequestOrderDtl::get();
+        $data['order'] = TrRequestOrder::with('customer')->where('RequestOrderUUID', $id)->first();
+        $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
+        $data['requestorder'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)
+            ->orderBy('seq', 'ASC')->get();
 
         return view('approval.edit',$data);     
     }
