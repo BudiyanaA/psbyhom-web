@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_po', function (Blueprint $table) {
-            $table->id();
-            $table->string('POUUID');
+            // $table->id();
+            $table->string('POUUID')->primary();
             $table->string('RequestOrderUUID');
             $table->string('po_id');
+            $table->string('CustomerUUID');
             $table->datetime('trans_date');
             $table->string('created_by');
             $table->string('subtotal');
@@ -56,7 +57,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('payment_dp');
             $table->string('payment_last')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

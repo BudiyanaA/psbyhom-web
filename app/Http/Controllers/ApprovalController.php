@@ -88,7 +88,7 @@ class ApprovalController extends Controller
                     'Description' => '<b>Update RequestOrder : </b>'.$request->request_id,
                     'LogType' => 'Update',
                     'user_type' => 'Admin',
-                    'RefUUID' => $AdminUUID,
+                    'RefUUID' => $id,
                     'is_financial' => '0',
                     'is_error' => '0',
                     'ByUserUUID' => $AdminUUID,
@@ -129,6 +129,36 @@ class ApprovalController extends Controller
     
                 return redirect(route('order.notification'))
                     ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == "cancel") {
+                TrRequestOrder::where('RequestOrderUUID', $id)
+                    ->update([
+                        'status' => '03',
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Update RequestOrder',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Update RequestOrder jadi cancel: </b>'.$request->request_id,
+                    'LogType' => 'Update',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $id,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                return redirect(route('order.notification'))
+                    ->withSuccess("Data berhasil diubah");
+            } else {
+                return redirect(route('dashboard'));
             }
 
         } catch(\Exception $e) {
@@ -139,7 +169,10 @@ class ApprovalController extends Controller
 
     public function show(Request $request, $id)
     {
-        return view('approval.detail');
+        $data['customer'] = Registercostumer::where('CustomerUUID', $id)->first();
+        $data['log_actv'] = LogActv::where('UserUUID', $id)
+            ->orderBy('log_time', 'DESC')->get();
+        return view('approval.detail', $data);
     }
 
     public function notification()

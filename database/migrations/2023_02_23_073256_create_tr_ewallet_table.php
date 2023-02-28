@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_ewallet', function (Blueprint $table) {
-            $table->id();
-            $table->string('EWalletUUID');
+            // $table->id();
+            $table->string('EWalletUUID')->primary();
             $table->string('CustomerUUID');
             $table->string('POUUID');
             $table->datetime('trans_date');
             $table->string('amount');
             $table->string('description');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

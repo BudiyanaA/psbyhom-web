@@ -37,11 +37,11 @@
 					<div class="tab-content">
 						<div class="tab-pane active" id="threads">
 							<ul class="panel-threads">
-								<form action="https://psbyhom.com/isms_customer_management/validate_customer_update/a9963b3a-fc86-4f89-94a4-ca4186f32902" class="form-horizontal row-border"  method="post" data-validate="parsley" id="validate-form">
+								<form action="{{ route('customer.update', $customer->CustomerUUID) }}" class="form-horizontal row-border"  method="post" data-validate="parsley" id="validate-form">
 																		<div class="form-group">
 										<label for="inputFN" class="col-sm-2 control-label">Customer Name<span class="required">*</span></label>
 										<div class="col-sm-10">
-											<input type="text" readonly required class="form-control" id="inputFN" name="customer_name"  value="Aphrodita mayangsari">
+											<input type="text" readonly required class="form-control" id="inputFN" name="customer_name"  value="{{ $customer->customer_name }}">
 										</div>
 									</div>
 									
@@ -49,19 +49,19 @@
 									<div class="form-group">
 										<label for="inputCN" class="col-sm-2 control-label">Address</label>
 										<div class="col-sm-10">
-											<input type="text" readonly class="form-control" id="inputCN"  name="nama_comp" value="Jl. Gardenia utara blok b1/30 villa galaxi">
+											<input type="text" readonly class="form-control" id="inputCN"  name="nama_comp" value="{{ $customer->address }}">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputCN" class="col-sm-2 control-label">Handphone No.</label>
 										<div class="col-sm-10">
-											<input type="text" readonly class="form-control" id="inputCN" name="no_hp" value="081223512351">
+											<input type="text" readonly class="form-control" id="inputCN" name="no_hp" value="{{ $customer->handphone }}">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputAdd" class="col-sm-2 control-label">Email <span class="required">*</span></label>
 										<div class="col-sm-10">
-											<input type="email" readonly class="form-control" id="inputAdd" name="email" value="avoxo23@yahoo.com">
+											<input type="email" readonly class="form-control" id="inputAdd" name="email" value="{{ $customer->email }}">
 										</div>
 									</div>
 									
@@ -85,8 +85,13 @@
 									<div class="btn-toolbar">
 										<div class="col-sm-6 col-sm-offset-3">	
 											<button class="btn-primary btn" value ='update' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Submit</button>
-																						<button class="btn-primary btn" value ='locked' name='submit' >Banned/Lock</button>
-																																											</div>
+											@if ($customer->status != '02') <button class="btn-primary btn" value ='locked' name='submit' >Banned/Lock</button> @endif
+											@if ($customer->status == '02') <button class="btn-primary btn" value ='active' name='submit' >UnLock</button> @endif
+											@if ($customer->status == '09') 
+												<button class="btn-primary btn" value ='accept' name='submit' >Acc</button> 
+												<button class="btn-primary btn" value ='decline' name='submit' >Tolak</button> 
+											@endif
+										</div>
 									</div>
 							</div>
 							<div class="tab-pane" id="trx">
@@ -142,54 +147,18 @@
 											<th>Log Time</th>
 											<th>Function Name</th>
 											<th>Description</th>
-										
-
 										</tr>
 									</thead>
 									<tbody>
-																							
-														<tr >
-															<td valign='top'>1</td>
-															<td>19 Feb 2023</td>
-															<td>Submit Request Order</td>
-															<td>Submit Request Order : TY23020170</td>
-														</tr>
-																									
-														<tr >
-															<td valign='top'>2</td>
-															<td>13 Feb 2023</td>
-															<td>Submit Request Order</td>
-															<td>Submit Request Order : GP23020166</td>
-														</tr>
-																									
-														<tr >
-															<td valign='top'>3</td>
-															<td>22 Jan 2023</td>
-															<td>Submit Request Order</td>
-															<td>Submit Request Order : TX23010113</td>
-														</tr>
-																									
-														<tr >
-															<td valign='top'>4</td>
-															<td>17 Jun 2022</td>
-															<td>Submit Request Order</td>
-															<td>Submit Request Order : LG22061221</td>
-														</tr>
-																									
-														<tr >
-															<td valign='top'>5</td>
-															<td>17 Jun 2022</td>
-															<td>Submit Request Order</td>
-															<td>Submit Request Order : TK22061219</td>
-														</tr>
-																									
-														<tr >
-															<td valign='top'>6</td>
-															<td>17 Jun 2022</td>
-															<td>Customer Register</td>
-															<td>Customer Register dengan email : avoxo23@yahoo.com</td>
-														</tr>
-																				</tbody>
+										@foreach ($log_actv as $row)
+											<tr>
+												<td valign='top'>{{ $loop->index + 1 }}</td>
+												<td>{{ $row->log_time }}</td>
+												<td>{{ $row->menu_nm }}</td>
+												<td>{{ $row->Description }}</td>
+											</tr>
+										@endforeach								
+									</tbody>
 								</table>
 							</div>
 						</div>

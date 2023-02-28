@@ -87,10 +87,10 @@ Route::get('admin/preorder/request_order', [OrderController::class, 'index'])->n
 Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.detail');
 Route::put('admin/preorder/request_order/{id}/update', [ApprovalController::class, 'update'])->name('preorder.update');
 Route::get('admin/preorder/request_order/notification', [ApprovalController::class, 'notification'])->name('order.notification');
-
-
-
 Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
+Route::get('admin/customer/update/{id}', [ApprovalController::class, 'show'])->name('customer.update'); //TODO: Customer Controller
+
+
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
