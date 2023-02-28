@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TrPo extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'RequestOrderUUID';
     protected $table = 'tr_po';
     protected $fillable = [
         'POUUID',
@@ -52,4 +53,8 @@ class TrPo extends Model
         'payment_dp',
         'payment_last',
     ];
+    public function poDtls()
+    {
+        return $this->hasMany(TrPoDtl::class, 'POUUID', 'POUUID');
+    }
 }

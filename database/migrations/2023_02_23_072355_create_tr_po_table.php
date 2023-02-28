@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_po', function (Blueprint $table) {
-            $table->id();
             $table->string('POUUID');
             $table->string('RequestOrderUUID');
             $table->string('po_id');
@@ -48,12 +47,12 @@ return new class extends Migration
             $table->string('total_outstanding');
             $table->string('dp_amount');
             $table->string('refund_amount')->nullable();
-            $table->boolean('refund_flag')->nullable();
-            $table->integer('total_seq');
+            $table->string('refund_flag')->nullable();
+            $table->string('total_seq');
             $table->string('courier_name')->nullable();
             $table->dateTime('verify_payment_date')->nullable();
-            $table->decimal('additional_shipping_fee');
-            $table->text('address')->nullable();
+            $table->string('additional_shipping_fee');
+            $table->string('address')->nullable();
             $table->string('payment_dp');
             $table->string('payment_last')->nullable();
             $table->timestamps();

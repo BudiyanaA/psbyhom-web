@@ -120,7 +120,8 @@ Route::get('admin/customer', [CostumerManagementController::class, 'index'])->na
 // Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
 Route::get('admin/waiting_payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
-Route::get('admin/waiting_goodies', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
+Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
+Route::post('/update-batch-no', 'WaitingGoodController@updateBatchNo')->name('update-batch-no');
 Route::get('admin/lp_confirmation', [LpConfirmationController::class, 'index'])->name('lpconfirmation.index');
 Route::get('admin/ready_to_ship', [ReadyController::class, 'index'])->name('ready.index');
 Route::get('admin/overal_order_report', [OverallController::class, 'index'])->name('overall.index');
