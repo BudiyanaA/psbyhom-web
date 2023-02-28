@@ -19,6 +19,14 @@ class WaitingGoodController extends Controller
         return view('waitinggood.index',$data);
     }
 
+
+    public function edit(Request $request)
+    {
+        
+        return view('waitinggood.edit');     
+    }
+
+
     public function updateBatch(Request $request)
     {
         $batch_no = $request->batch_no;

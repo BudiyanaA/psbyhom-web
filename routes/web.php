@@ -124,6 +124,7 @@ Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])-
 Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 Route::put('/update-batch', [WaitingGoodController::class, 'updateBatch'])->name('update-batch');
 Route::put('/update-status', [WaitingGoodController::class, 'updateStatus'])->name('update-status');
+Route::get('admin/po_invoice/view', [WaitingGoodController::class, 'edit'])->name('Waitinggood.edit');
 
 Route::get('admin/lp_confirmation', [LpConfirmationController::class, 'index'])->name('lpconfirmation.index');
 Route::get('admin/ready_to_ship', [ReadyController::class, 'index'])->name('ready.index');
