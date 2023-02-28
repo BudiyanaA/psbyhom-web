@@ -43,7 +43,7 @@ class ApprovalController extends Controller
         try {
 
 TrRequestOrder::where('RequestOrderUUID', $id)
-    ->firstOrFail()
+    // ->firstOrFail()
     ->update([
         'total_price' =>  $request->grand_totals,
         'note' =>  $request->note,
@@ -56,7 +56,7 @@ TrRequestOrder::where('RequestOrderUUID', $id)
             $tr = TrRequestOrderDtl::where('RequestOrderUUID', $id)
             ->orderBy('seq', 'ASC')->get();
             
-            $tr->update([
+            TrRequestOrderDtl::where('RequestOrderUUID', $id)->update([
                 'product_name' => $request->product_name,
 				'qty' => $request->qty,
 				'product_url' => $request->product_url,

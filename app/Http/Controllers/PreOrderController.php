@@ -143,7 +143,7 @@ class PreOrderController extends Controller
                 'forex' => $forex,
                 'factor' => '1.07',
                 'total_items' => $total_items,
-                'total_price' => $total_price,
+                'total_price' => $total_price * $forex,
                 'ByUserUUID' => $CustomerUUID,
                 'ByUserIP' => $request->ip(),
                 'OnDateTime' => date('Y-m-d H:i:s')
