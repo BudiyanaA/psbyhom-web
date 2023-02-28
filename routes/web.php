@@ -85,11 +85,12 @@ Route::post('admin/register/action', [RegisterController::class, 'actionregister
 
 Route::get('admin/preorder/request_order', [OrderController::class, 'index'])->name('preorder.index');
 Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.detail');
-Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
-Route::put('admin/preorder/request_order/{id}/update', [ApprovalController::class, 'update'])->name('order.update');
+Route::put('admin/preorder/request_order/{id}/update', [ApprovalController::class, 'update'])->name('preorder.update');
 Route::get('admin/preorder/request_order/notification', [ApprovalController::class, 'notification'])->name('order.notification');
 
 
+
+Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('home');
@@ -172,6 +173,8 @@ Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorder
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // Route::resource('process_order', ProcesOrderController::class);
 Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+// https://psbyhom.com/view_request/TY23020170 (redirect)
+
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
 Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
 Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('payment_c.index');
