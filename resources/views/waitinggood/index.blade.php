@@ -55,21 +55,14 @@
 											<td><a href="{{ $w->product_url }}">LINK</a></td>
 											<td>{{ $w->product_name }}</td>
 											<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $w->customer?->customer_name }}</a></td>			
-											<td valign='top'>
-												<div class="batchorder" data-type="text" data-name="batchorder" data-poid="{{ $w->id }}" data-batchid="{{ $w->batch_no }}">
-													<span class="batch-no">{{ $w->batch_no }}</span>
-													<input type="text" class="form-control edit-batch-no" value="{{ $w->batch_no }}" style="display:none;">
-												</div>
+											<td valign='top'>		
+												<a href="#" class="batchorder" data-type="text" data-name="batchorder">
+													{{ $w->batch_no }}
+												</a>	
 											</td>
 											<td style="width:20%">												
-												<a href="#" class="arrival_status" data-type="select" data-name="batchorder">
-												@if($w->status == '00')
-													Not Arrived
-												@elseif($w->status == '01')
-													OK
-												@elseif($w->status == '02')
-													Reject
-												@endif
+												<a href="#" class="arrival_status" data-type="select"  data-name="batchorder">
+												{{ $w->status_item }}
 												</a>
 												<span class="tambahan">	</span>
 												<input type='hidden' class='stat' value='00'>
@@ -103,40 +96,58 @@
     </div> <!--wrap -->
 </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" />
+
 <script>
-	$(document).ready(function() {
-	// Menangani klik pada Batch ID untuk mengaktifkan mode pengeditan
-	$(document).on('click', '.batchorder', function() {
-		$(this).find('.batch-no').hide();
-		$(this).find('.edit-batch-no').show().focus();
-	});
-	
-	// Menangani perubahan pada Batch ID dan menyimpannya ke database
-	$(document).on('blur', '.edit-batch-no', function() {
-		var newBatchID = $(this).val();
-		var batchOrder = $(this).closest('.batchorder');
-		var poid = batchOrder.data('poid');
-		var batchid = batchOrder.data('batchid');
-		
-		// Lakukan pembaruan ke tabel 'tr_po_dtl' melalui AJAX
-		$.ajax({
-			url: '/update-batch-no',
-			type: 'POST',
-			data: {
-				poid: poid,
-				batchid: batchid,
-				newBatchID: newBatchID
-			},
-			success: function(response) {
-				// Tampilkan Batch ID yang baru disimpan
-				batchOrder.find('.batch-no').html(newBatchID).show();
-				batchOrder.find('.edit-batch-no').hide();
-			},
-			error: function(xhr, status, error) {
-				console.error(error);
-			}
-		});
-	});
+  $(document).ready(function() {
+    $('.batchorder').editable({
+      url: '/update-batch', // URL untuk menyimpan perubahan ke database
+      title: 'Edit Batch No',
+      type: 'text',
+      params: function(params) {
+        params._token = '{{ csrf_token() }}'; // Tambahkan token CSRF untuk keamanan
+        return params;
+      },
+      ajaxOptions: {
+        type: 'put' // Menggunakan metode PUT untuk mengirim data ke server
+      }
+    });
+  });
+
+  $(document).ready(function() {
+  $('.arrival_status').editable({
+    url: '/update-status', // URL untuk menyimpan perubahan ke database
+    title: 'Edit Arrival Status',
+    type: 'select',
+    source: [
+      {value: '00', text: 'Not Arrived'},
+      {value: '01', text: 'OK'},
+      {value: '02', text: 'Reject'},
+    ],
+    params: function(params) {
+      params._token = '{{ csrf_token() }}'; // Tambahkan token CSRF untuk keamanan
+      return params;
+    },
+    ajaxOptions: {
+      type: 'put' // Menggunakan metode PUT untuk mengirim data ke server
+    },
+    display: function(value, sourceData) {
+      var text = '';
+      $.each(sourceData, function(index, item) {
+        if (item.value == value) {
+          text = item.text;
+          return false;
+        }
+      });
+      $(this).text(text);
+    }
+  });
 });
-	
 </script>
+
+
+
+
