@@ -7,7 +7,9 @@ use App\Models\TrRequestOrder;
 use App\Models\SysParam;
 use App\Models\TrRequestOrderDtl;
 use App\Models\LogActv;
-use App\Mail\SendEmail;
+use App\Models\Registercostumer;
+use App\Models\MsEmail;
+use App\Mail\QuotationEmail;
 use Illuminate\Support\Facades\Mail;
 
 class ApprovalController extends Controller
@@ -40,60 +42,97 @@ class ApprovalController extends Controller
     {
         $AdminUUID = session('admin_id');
         $username = session('admin_name');
+        
         try {
+            if ($request->submit == "send_invoice") {
+                TrRequestOrder::where('RequestOrderUUID', $id)
+                    ->update([
+                        'total_price' =>  $request->grand_totals,
+                        'note' =>  $request->note,
+                        'status' => '01',
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
 
-TrRequestOrder::where('RequestOrderUUID', $id)
-    ->firstOrFail()
-    ->update([
-        'total_price' =>  $request->grand_totals,
-        'note' =>  $request->note,
-        'status' => '01',
-        'ByUserUUID' => $AdminUUID,
-        'ByUserIP' => $request->ip(),
-        'OnDateTime' => date('Y-m-d H:i:s')
-    ]);
-
-            $tr = TrRequestOrderDtl::where('RequestOrderUUID', $id)
-            ->orderBy('seq', 'ASC')->get();
-            
-            $tr->update([
-                'product_name' => $request->product_name,
-				'qty' => $request->qty,
-				'product_url' => $request->product_url,
-				'price_customer' => $request->price_customer,
-				'size'	=> $request->size,
-				'color' => $request->color,
-				'disc_percentage' => $request->disc_percentage,
-				'additional_fee' => $request->additional_fee,
-				'subtotal_final' => $request->subtotal_final,
-				'forex_rate' => $request->forex_rate,
-				'remarks' => $request->remarks
-            ]);
-
-            LogActv::create([
-                'id' => $this->newid(),
-                'user_id' => $username,
-                'UserUUID' => $AdminUUID,
-                'menu_nm' => 'Update RequestOrder',
-                'log_time' => date('Y-m-d H:i:s'),
-                'Description' => '<b>Update RequestOrder : </b>'.$request->input('request_id'),
-                'LogType' => 'Update',
-                'user_type' => 'Admin',
-                'RefUUID' => $AdminUUID,
-                'is_financial' => '0',
-                'is_error' => '0',
-                'ByUserUUID' => $AdminUUID,
-                'ByUserIP' => $request->ip(),
-                'OnDateTime' => date('Y-m-d H:i:s')
-            ]);
-
-            Mail::to("dederizki130102@gmail.com")->send(new SendEmail());
+                $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
+                    ->orderBy('seq', 'ASC')->get();
+                $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
     
-            return redirect(route('order.notification'))
-                ->withSuccess("Data berhasil diubah");
-                
+                $i = 0;
+                foreach ($order_dtl as $row) {
+                    $data = [
+                        'product_name' => $request->product_name[$i],
+                        'qty' => $request->qty[$i],
+                        'product_url' => $request->product_url[$i],
+                        'price_customer' => $request->price_customer[$i],
+                        'size'	=> $request->size[$i],
+                        'color' => $request->color[$i],
+                        'disc_percentage' => $request->disc_percentage[$i],
+                        'additional_fee' => $request->additional_fee[$i],
+                        'subtotal_final' => $request->subtotal[$i],
+                        'forex_rate' => $forex,
+                        'remarks' => $request->remarks[$i],
+                    ];
+                    TrRequestOrderDtl::where('RequestOrderDtlUUID', $row->RequestOrderDtlUUID)
+                        ->update($data);
+                    $i++;
+                }
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Update RequestOrder',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Update RequestOrder : </b>'.$request->request_id,
+                    'LogType' => 'Update',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $AdminUUID,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                // Mail::to("dederizki130102@gmail.com")->send(new SendEmail());
+                $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->first();
+                $po_id = $request->request_id;
+
+                $request_order = TrRequestOrder::where('RequestOrderUUID', $id)->first();
+                $customer = Registercostumer::where('CustomerUUID', $request_order->CustomerUUID)
+                    ->first();
+
+                $emailUUID = '9db5502b-cddb-4ae9-bd07-060a9fdc629c'; //Quotation
+                $email = MsEmail::where('EmailUUID', $emailUUID)->first();
+                $email_content = $email->email_content;
+                $email_content = str_replace('$po_id', $po_id, $email_content);
+                $email_content = str_replace('$customer_name', $customer->customer_name, $email_content);
+                $email_content_bottom = $email->email_content_bottom;
+                $note = $request->note;
+                $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
+                    ->orderBy('seq', 'ASC')->get();
+
+                $emailsent = Mail::to($customer->email)
+                    ->send(new QuotationEmail(
+                        $po_id,
+                        $note,
+                        $order_dtl, 
+                        $email_content, 
+                        $email_content_bottom, 
+                        $email_notif->value_1));
+    
+                if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                    return redirect()->back()->with('error', 'Gagal mengirim email!');
+                }
+    
+                return redirect(route('order.notification'))
+                    ->withSuccess("Data berhasil diubah");
+            }
+
         } catch(\Exception $e) {
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

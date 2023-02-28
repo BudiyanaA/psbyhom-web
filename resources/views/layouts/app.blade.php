@@ -77,5 +77,8 @@
     var basicExampleEl = document.getElementById('basicExample');
     var datepair = new Datepair(basicExampleEl);
 </script>
+
+@yield('script')
+
 </body>
 </html>
