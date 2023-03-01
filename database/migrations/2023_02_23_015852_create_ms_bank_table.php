@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ms_bank', function (Blueprint $table) {
-            $table->string('BankUUID');
+            $table->string('BankUUID')->primary();
             $table->string('bank_name');
             $table->string('bank_account_no');
             $table->string('bank_account_name');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
             $table->datetime('OnDateTime');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

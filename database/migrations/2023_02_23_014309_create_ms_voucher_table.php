@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ms_voucher', function (Blueprint $table) {
-            $table->id();
-            $table->string('VoucherUUID');
+            // $table->id();
+            $table->string('VoucherUUID')->primary();
             $table->string('voucher_id');
             $table->datetime('created_at');
             $table->date('valid_until_date');

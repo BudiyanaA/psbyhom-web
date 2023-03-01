@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_invoice', function (Blueprint $table) {
-            $table->id();
-            $table->string('InvoiceUUID');
+            // $table->id();
+            $table->string('InvoiceUUID')->primary();
             $table->string('RequestOrderUUID');
             $table->string('CustomerUUID');
             $table->string('invoice_id');
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
             $table->datetime('OnDateTime');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

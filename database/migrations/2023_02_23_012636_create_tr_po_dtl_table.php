@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tr_po_dtl', function (Blueprint $table) {
-            $table->uuid('PODtlUUID');
+            $table->uuid('PODtlUUID')->primary();
             $table->uuid('POUUID');
             $table->string('RequestOrderDtlUUID');
             $table->integer('qty');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('seq');
             $table->decimal('refund_amount')->nullable();
             $table->string('batch_no')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

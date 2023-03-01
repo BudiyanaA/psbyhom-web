@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ms_status', function (Blueprint $table) {
-            $table->string('StatusUUID');
+            $table->string('StatusUUID')->primary();
             $table->string('status_id');
             $table->string('status_name');
             $table->string('created_by');
             $table->string('type');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

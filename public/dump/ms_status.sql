@@ -60,9 +60,9 @@ INSERT INTO `ms_status` (`StatusUUID`, `status_id`, `status_name`, `created_by`,
 --
 -- Indeks untuk tabel `ms_status`
 --
-ALTER TABLE `ms_status`
-  ADD PRIMARY KEY (`StatusUUID`);
-COMMIT;
+-- ALTER TABLE `ms_status`
+--   ADD PRIMARY KEY (`StatusUUID`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

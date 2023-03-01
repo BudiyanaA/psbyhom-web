@@ -352,14 +352,14 @@
 												<input type="checkbox" name="isurance" id="use_insurance" value="1" ><span class="checkbox-material"><span class="check"></span></span>
 											</label></td><td></td><td id="use_insurance_container" class="insurance"><span id="insurance_pricessssssssss"></span></td></tr><tr class="cart_total_price"><td class="use_packing_container text-right"><span>Block Packing</span>
 											<label>
-												<input type="checkbox" name="use_packing" id="use_packing" value="1"  disabled="">
+												<input type="checkbox" name="use_packing" id="use_packing" value="1" disabled>
 												<span class="checkbox-material"><span class="check"></span></span>
 											</label></td><td> </td><td id="use_packing_container" class="packing"><span id="packing_pricesssssssssssssss"></span></td></tr>
 											<tr class="cart_total_price">
 												<td class="use_insurance_container text-right"><span>Use E-Wallet</span>
 												<label>
 													<input type="checkbox" readonly name="use_ewallet" id="use_ewallet" value="1" ><span class="checkbox-material"><span class="check"></span></span>
-												</label></td><td></td><td id="use_ewallet" class="insurance"><span id="ewallet_value_span"></span></td>
+												</label></td><td></td><td id="use_ewallet" class="insurance"><input type="hidden" name="ewallet_value" id="ewallet_value" value="0"><span id="ewallet_value_span"></span></td>
 											</tr>
 										</table>
 									</div>	</div>	<h4>Notes</h4>
@@ -369,8 +369,8 @@
 <br>
 <br>
 <p><a class="link_kembali" href="{{ route('home') }}"><i class="fa fa-angle-left fa-3"></i>Back</a>
-<button class="btn btn-default more" onclick="myFunction()">Submit</button>
-<!-- <input class="btn btn-default more" type="button" id='submit_po' value="Submit Pre Order""></p> -->
+<!-- <button class="btn btn-default more" onclick="myFunction()">Submit Pre Order</button> -->
+<input class="btn btn-default more" type="button" id='submit_po' value="Submit Pre Order"></p>
 
 {{ Form::close() }}	
 	</div></div>
@@ -730,12 +730,92 @@ function calculateTotal() {
 
 		$('#subdistrict-option').on('change', function() {
 			loadCosts($(this).val());
+			$('input[name=use_packing]').attr('disabled', true);
+			$('input[name=use_packing]').attr('checked', false);
     });
 
 		$('#paket_kirim').on('change', function() {
 			$('#delivery_fee_summary').html($(this).val());
+			$('input[name=use_packing]').attr('disabled', false);
 			calculateGrandTotal();
     });
+
+		$('#use_insurance').on('click', function() {
+			const subtotal = parseFloat($('#subtotal_summary').text());
+			if ($(this).is(':checked')) {
+				insurance_value = (parseInt(subtotal) * 0.002)  + 5000;
+				$('#insurance').html(insurance_value);
+			} else {
+				$('#insurance').html(0);
+			}
+			calculateGrandTotal(); 
+		});
+
+		$('#use_packing').on('click', function() {
+			const ongkir = parseFloat($('#delivery_fee_summary').text());
+			if ($(this).is(':checked')) {
+				$('#packing_summary').html(ongkir);
+			} else {
+				$('#packing_summary').html(0);
+			}
+			calculateGrandTotal(); 
+		});	
+
+		$('#use_ewallet').on('click', function() {
+			let ewallet = parseInt($('#customer_ewallet').val());
+			let total_price = parseInt($('#grand_total_summary').text());
+			if ($(this).is(':checked')) 
+			{
+				if(ewallet == 0)
+				{
+					alert("Your E-Wallet value is empty !");
+					$('#use_ewallet').prop('checked', false);
+				}
+				else if(ewallet >= total_price)
+				{
+					ewallet = total_price;
+					total_price -= parseInt(ewallet);
+					$('#e_wallet_summary').html('- ' + ewallet);
+					$('#ewallet_value').val(ewallet);
+					$("#div_outstanding").show();
+				}
+				else 
+				{
+					total_price -= parseInt(ewallet);
+					$('#e_wallet_summary').html('- ' + ewallet);
+					$('#ewallet_value').val(ewallet);
+					$("#div_outstanding").show();
+				}
+				$('#total_outstanding').html('<strong>'+ total_price +'</strong>');
+			}
+			else {
+				$('#e_wallet_summary').html("0");
+				$('#ewallet_value').val(0);
+				$("#div_outstanding").hide();
+			}
+			calculateGrandTotal();
+		});	
+
+		$('#submit_po').click(function() {
+			if(!$('#i_agree').is(':checked') )
+			{
+				alert("You must agree with our term and conditions first before submit your Pre Orders !");
+				return false;
+			}
+			else
+			{
+				var r = confirm("Are you sure you want to process this transaction ?");
+				if (r == true)
+				{
+					$("#checkout-form2").submit();
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		});
 	});
 
 	function calculateGrandTotal() {
@@ -744,9 +824,11 @@ function calculateTotal() {
 		const insurance = parseFloat($('#insurance').text());
 		const packing = parseFloat($('#packing_summary').text());
 		const discount = parseFloat($('#discount_promo_summary').text());
+		const ewallet = parseFloat($('#ewallet_value').val());
 
 		const grandTotal = subtotal + ongkir + insurance + packing - discount;
 	  $('#grand_total_summary').html(grandTotal);
+		$('#total_outstanding').html('<strong>'+ (grandTotal - ewallet) +'</strong>');
 	}
 
 	function loadCosts(subdistrictId) {
@@ -769,12 +851,16 @@ function calculateTotal() {
               }else{
                   $('#paket_kirim').empty();
                   $('#paket_kirim').prop('disabled', true);
+									$('input[name=use_packing]').attr('disabled', true);
+									$('input[name=use_packing]').attr('checked', false);
               }
             }
           });
       }else{
 				$('#paket_kirim').empty();
         $('#paket_kirim').prop('disabled', true);
+				$('input[name=use_packing]').attr('disabled', true);
+				$('input[name=use_packing]').attr('checked', false);
       }
 	}
 
@@ -793,7 +879,9 @@ function calculateTotal() {
                   $('#subdistrict-option').empty();
                   $('#subdistrict-option').prop('disabled', true);
 									$('#paket_kirim').empty();
-									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
+									$('input[name=use_packing]').attr('disabled', true); 
+									$('input[name=use_packing]').attr('checked', false);
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
@@ -806,7 +894,9 @@ function calculateTotal() {
                   $('#subdistrict-option').empty();
                   $('#subdistrict-option').prop('disabled', true);
 									$('#paket_kirim').empty();
-									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
+									$('input[name=use_packing]').attr('disabled', true); 
+									$('input[name=use_packing]').attr('checked', false);
               }
             }
           });
@@ -816,7 +906,9 @@ function calculateTotal() {
         $('#subdistrict-option').empty();
         $('#subdistrict-option').prop('disabled', true);
 				$('#paket_kirim').empty();
-				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
+				$('input[name=use_packing]').attr('disabled', true); 
+				$('input[name=use_packing]').attr('checked', false);
       }
 	}
 
@@ -835,6 +927,8 @@ function calculateTotal() {
                   $('#subdistrict-option').append('<option value="" selected disabled>Pilih Kecamatan</option>');
 									$('#paket_kirim').empty(); 
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+									$('input[name=use_packing]').attr('disabled', true);
+									$('input[name=use_packing]').attr('checked', false);
 
                   $.each(data.subdistricts, function(key, district){
 										const selected = (district.subdistrict_id == subdistrictId) ? "selected" : "";
@@ -845,6 +939,8 @@ function calculateTotal() {
                   $('#subdistrict-option').prop('disabled', true);
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+									$('input[name=use_packing]').attr('disabled', true);
+									$('input[name=use_packing]').attr('checked', false);
               }
             }
           });
@@ -853,6 +949,8 @@ function calculateTotal() {
         $('#subdistrict-option').prop('disabled', true);
 				$('#paket_kirim').empty();
 				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+				$('input[name=use_packing]').attr('disabled', true);
+				$('input[name=use_packing]').attr('checked', false);
       }
 	}
 </script>

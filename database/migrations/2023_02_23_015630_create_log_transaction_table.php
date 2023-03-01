@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('log_transaction', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->string('LogTransUUID');
             $table->string('POUUID');
-            $table->string('log_date');
+            $table->datetime('log_date');
             $table->string('action_desc');
             $table->string('created_by');
             $table->string('UserUUID');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

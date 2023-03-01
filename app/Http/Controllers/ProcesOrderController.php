@@ -33,6 +33,7 @@ class ProcesOrderController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $validated = $request->validate([
             'qty' => 'required|numeric|min:1',
             'subtotal' => 'required',
@@ -292,7 +293,8 @@ class ProcesOrderController extends Controller
         
         $CustomerUUID = session('user_id');
         $data['costumer'] = Registercostumer::where('CustomerUUID', $CustomerUUID)->first();
-
+        $data['ewallet'] = TrEwallet::where('CustomerUUID', $CustomerUUID)->sum('amount');
+        // return $data['ewallet'];
         return view('processorder.index', $data);
     }
     public function update(Request $request, $id)

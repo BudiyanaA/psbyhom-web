@@ -12,7 +12,7 @@
 						
 							<li>
 							<i class="fa fa-money"></i>
-							<span><a href="{{ route('wallet') }}">0</a><input type="hidden" value='' name='customer_ewallet' id='customer_ewallet'></span>
+							<span><a href="{{ route('wallet') }}">{{ getUserEwallet() }}</a><input type="hidden" value='{{ getUserEwallet() }}' name='customer_ewallet' id='customer_ewallet'></span>
 							</li>
 							<li class="dropdown dropdown-right logged-in-li">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
