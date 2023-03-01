@@ -32,7 +32,7 @@ class RegisterCostumer extends Model implements AuthenticatableContract
         'OnDateTime',
         'ByUserUUID',
         'ByUserIP',
-    ];
+    ]; 
     protected $hidden = [
         'password',
         'token_id',
