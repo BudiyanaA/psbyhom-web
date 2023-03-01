@@ -62,4 +62,28 @@ class RajaOngkirController extends Controller
       ];
     }
 
+    public function costs(Request $request)
+    {
+      $costs = [];
+      $result = Http::withHeaders([
+        'key' => $this->api_key,
+      ])->post($this->base_url . '/cost', [
+        'origin' => '444', //Surabaya
+        'originType' => 'city',
+        'destination' => $request->subdistrict,
+        'destinationType' => 'subdistrict',
+        'weight' => 1000,
+        'courier' => $request->courier,
+      ])->json()["rajaongkir"];
+      if ($result["status"]["code"] == 200) {
+        $costs = $result["results"][0]["costs"];
+      }
+
+      return [
+          "code" => $result["status"]["code"],
+          "message" => $result["status"]["description"],
+          "costs" => $costs,
+      ];
+    }
+
 }

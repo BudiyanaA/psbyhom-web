@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\TrRequestOrderDtl;
 use App\Models\TrRequestOrder;
 use Illuminate\Support\Str;
-use App\Models\RegisterCostumer;
+use App\Models\Registercostumer;
 use App\Models\TrPoDtl;
 use App\Models\TrPo;
 use App\Models\MsVoucher;
@@ -285,8 +285,11 @@ class ProcesOrderController extends Controller
 
     public function edit($id)
     {
-        $data['requestorder'] = TrRequestOrder::where('RequestOrderUUID', $id)->first();
-        $data['preorders'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)->orderBy('seq', 'asc')->get();
+        $requestOrder = TrRequestOrder::where('request_id', $id)->first();
+        $data['requestorder'] = $requestOrder; 
+        $data['preorders'] = TrRequestOrderDtl::where('RequestOrderUUID', $requestOrder->RequestOrderUUID)
+            ->orderBy('seq', 'asc')->get();
+        
         $CustomerUUID = session('user_id');
         $data['costumer'] = Registercostumer::where('CustomerUUID', $CustomerUUID)->first();
 

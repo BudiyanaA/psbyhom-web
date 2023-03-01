@@ -73,6 +73,9 @@ Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preo
 Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
 Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
 
+Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+// https://psbyhom.com/view_request/TY23020170 (redirect)
+
 
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
@@ -173,8 +176,6 @@ Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorder
 
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // Route::resource('process_order', ProcesOrderController::class);
-Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
-// https://psbyhom.com/view_request/TY23020170 (redirect)
 
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
 Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');

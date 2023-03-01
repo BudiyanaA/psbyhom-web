@@ -132,7 +132,7 @@
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
-                      $('#city-option').append('<option value="'+ city.city_id +'">' + city.city_name+ '</option>');
+                      $('#city-option').append('<option value="'+ city.city_id +'">' + city.type + ' ' + city.city_name+ '</option>');
                   });
               }else{
                   $('#city-option').empty();
