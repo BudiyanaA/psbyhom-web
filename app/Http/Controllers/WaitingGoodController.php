@@ -22,8 +22,20 @@ class WaitingGoodController extends Controller
 
     public function edit(Request $request)
     {
-        
-        return view('waitinggood.edit');     
+        $id = $request->id;
+        $data['waitinggoods'] = TrPo::with('trRequestOrder', 'msStatus', 'msCustomer')
+                                    ->where('POUUID', '!=', 'ms_status.type')
+                                    ->first();
+        $data['podetails'] = TrPoDtl::where('POUUID', $id)
+                            ->with(['request_order_detail' => function ($query) {
+                                $query->orderBy('seq', 'ASC');
+                            }])
+                            ->get();
+        $data['payment'] = TrPayment::with(['po', 'bank'])
+                            ->where('POUUID', $id)
+                            ->orderBy('created_date', 'ASC')
+                            ->get();             
+        return view('waitinggood.edit',$data);     
     }
 
 

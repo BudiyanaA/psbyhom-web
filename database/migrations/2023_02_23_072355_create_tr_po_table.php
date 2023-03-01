@@ -57,6 +57,10 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('payment_dp');
             $table->string('payment_last')->nullable();
+            $table->string('addendum_fee')->nullable();
+            $table->string('addendum_note')->nullable();
+            $table->string('dropshipper_name')->nullable();
+            $table->string('dropshipper_contact')->nullable();
             // $table->timestamps();
         });
     }

@@ -52,9 +52,28 @@ class TrPo extends Model
         'address',
         'payment_dp',
         'payment_last',
+        'addendum_fee',
+        'addendum_note',
+        'dropshipper_name',
+        'dropshipper_contact',
     ];
     public function poDtls()
     {
         return $this->hasMany(TrPoDtl::class, 'POUUID', 'POUUID');
+    }
+
+    public function trRequestOrder()
+    {
+        return $this->belongsTo(TrRequestOrder::class, 'RequestOrderUUID', 'uuid');
+    }
+
+    public function msStatus()
+    {
+        return $this->belongsTo(MsStatus::class, 'status', 'code');
+    }
+
+    public function msCustomer()
+    {
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'uuid');
     }
 }

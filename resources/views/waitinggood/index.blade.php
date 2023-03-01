@@ -45,12 +45,13 @@
 										</tr>
 									</thead>
                                 <tbody>
+              @if(count($waitinggoods) > 0)
 								@foreach($waitinggoods as $w)
 									<tr >													
 										<input type="hidden" value="fde5e673-5e1d-455a-8fe7-f3eec3f78f85" class='PODtlUUID' name="PODtlUUID100">
 										<input type="hidden" value="1" name="qty_po100">
 										<td><a href="{{ route('preorder.detail', $o->RequestOrderUUID) }}">{{ $w->po_id }}</a></td>
-										<td>{{ $w->price_customer - ($w->price_customer * $disc_percentage / 100) }}</td>
+										<td>{{ $w->price_customer - ($w->price_customer * $w->disc_percentage / 100) }}</td>
 											<td>{{ $w->incoming_qty }}</td>
 											<td><a href="{{ $w->product_url }}">LINK</a></td>
 											<td>{{ $w->product_name }}</td>
@@ -72,7 +73,13 @@
 											</td>																								
 										</td>
 									</tr>
-								@endforeach	
+								@endforeach
+                @else
+                  <tr>
+                      <td colspan="8">Data not found.</td>
+                  </tr>
+              @endif
+
 				                </tbody>
                             </table>
 							<input type='hidden' name="total_row" id='total_row' value='101'>

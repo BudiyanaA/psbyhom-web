@@ -32,4 +32,8 @@ class TrPoDtl extends Model
     {
         return $this->belongsTo(TrRequestOrderDtl::class, 'RequestOrderDtlUUID');
     }
+    public function request_order_detail()
+    {
+        return $this->hasMany(TrRequestOrderDtl::class, 'RequestOrderDtlUUID', 'RequestOrderDtlUUID');
+    }
 }

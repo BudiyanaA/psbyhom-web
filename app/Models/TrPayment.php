@@ -29,4 +29,12 @@ class TrPayment extends Model
         'ByUserIP',
         'OnDateTime',
     ];
+    public function po()
+    {
+        return $this->belongsTo(TrPo::class, 'POUUID');
+    }
+    public function bank()
+    {
+        return $this->belongsTo(MsBank::class, 'BankUUID');
+    }
 }
