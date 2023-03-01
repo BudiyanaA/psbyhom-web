@@ -50,12 +50,12 @@
 									<tr >													
 										<input type="hidden" value="fde5e673-5e1d-455a-8fe7-f3eec3f78f85" class='PODtlUUID' name="PODtlUUID100">
 										<input type="hidden" value="1" name="qty_po100">
-										<td><a href="{{ route('preorder.detail', $o->RequestOrderUUID) }}">{{ $w->po_id }}</a></td>
+										<td><a href="{{ route('waitinggoods.detail', $w->POUUID) }}">{{ $w->po_id }}</a></td>
 										<td>{{ $w->price_customer - ($w->price_customer * $w->disc_percentage / 100) }}</td>
 											<td>{{ $w->incoming_qty }}</td>
 											<td><a href="{{ $w->product_url }}">LINK</a></td>
 											<td>{{ $w->product_name }}</td>
-											<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $w->customer?->customer_name }}</a></td>			
+											<td><a href="#">{{ $w->customer?->customer_name }}</a></td>			
 											<td valign='top'>		
 												<a href="#" class="batchorder" data-type="text" data-name="batchorder">
 													{{ $w->batch_no }}

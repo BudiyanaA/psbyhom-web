@@ -106,7 +106,7 @@ class ApprovalController extends Controller
 
                 $emailUUID = '9db5502b-cddb-4ae9-bd07-060a9fdc629c'; //Quotation
                 $email = MsEmail::where('EmailUUID', $emailUUID)->first();
-                $email_content = $email->email_content;
+                 $email_content = $email->email_content;
                 $email_content = str_replace('$po_id', $po_id, $email_content);
                 $email_content = str_replace('$customer_name', $customer->customer_name, $email_content);
                 $email_content_bottom = $email->email_content_bottom;

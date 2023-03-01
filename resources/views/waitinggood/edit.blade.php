@@ -19,7 +19,7 @@
 			<div class="panel-heading">
 				  <h4>
 				  
-				  	<form action="https://psbyhom.com/po_invoice_controller/validate_update/e4abd4f4-dd96-464d-a66e-a18bac84b62a/" class="form-horizontal row-border"  data-validate="parsley" id="validate-form" method='post'>
+				  {!! Form::model($waitinggoods, ['route' => ['waitinggods.update', $waitinggoods->POUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 						<ul class="nav nav-tabs">
 							@if ($podetails->status == '00' || $podetails->status == '01' || $podetails->status == '04' || $podetails->status == '05' || $podetails->status == '08')
 								<li class="active"><a href="#payment" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Payment Confirmation</span></a></li>
@@ -420,34 +420,15 @@
 										</tr>
 									</thead>
 									<tbody>
-																							
-														<tr >
-															<td valign='top'>1</td>
-															<td>27 Feb 2023 15:55:34</td>
-															<td>Admin</td>
-															<td>Admin Verify Payment ID : PAY/EX23020183/DP/1</td>
-															
-															
-														</tr>
-																												
-														<tr >
-															<td valign='top'>2</td>
-															<td>27 Feb 2023 10:40:35</td>
-															<td>Customer</td>
-															<td>Customer Submit Payment Confirmation : PAY/EX23020183/DP/1</td>
-															
-															
-														</tr>
-																												
-														<tr >
-															<td valign='top'>3</td>
-															<td>27 Feb 2023 10:36:43</td>
-															<td>Riri Agustina</td>
-															<td>Customer Submit Pre Order Transaction with PO ID : EX23020183</td>
-															
-															
-														</tr>
-																							</tbody>
+									@foreach($logtrans as $l)																				
+										<tr>
+											<td valign='top'>{{ $loop->index + 1 }}</td>
+											<td>{{ $l->log_date }}</td>
+											<td>{{ $l->created_by }}</td>
+											<td>{{ $l->action_desc }}</td>																		
+										</tr>
+									@endforeach																				
+									</tbody>
 								</table>
 								
 							 </ul>
@@ -494,7 +475,7 @@
 								<input type='hidden' name='CustomerUUID' id='CustomerUUID' value='ad578dbf-4627-4f83-94a5-f468f34464cd'>
 								<input type='hidden' name='refund_flag' id='refund_flag' value=''>
 								<input type='hidden' name='RequestOrderUUID' id='RequestOrderUUID' value='0ec2d39a-b361-4cf6-b24b-ca59341c251c'>
-			                </form>
+							{{ Form::close() }}
 					</div>
 
 
