@@ -50,12 +50,12 @@
                     <li>
                         <a href="{{ route('preorder.index') }}?status=01" class="menu">Waiting Approval<span class="badge badge-primary">9646</span></a>
                     </li>
-                    </li><li><a href="{{ route('payment.index') }}" class="menu">Waiting Payment<span class="badge badge-orange">443</span></a></li>
+                    </li><li><a href="{{ route('payment.index') }}?status=01" class="menu">Waiting Payment<span class="badge badge-orange">443</span></a></li>
                     </li>
-                    <li><a href="{{ route('dpconfirmation.index') }}" class="menu">DP Confirmation<span class="badge badge-indigo">0</span></a></li></li>
+                    <li><a href="{{ route('payment.index') }}?status=00" class="menu">DP Confirmation<span class="badge badge-indigo">0</span></a></li></li>
                     <li><a href="{{ route('Waitinggood.index') }}" class="menu">Waiting Goodies<span class="badge badge-info">54</span></a></li></li>
-                    <li><a href="{{ route('lpconfirmation.index') }}" class="menu">LP Confirmation<span class="badge badge-warning">78</span></a></li></li>
-                    <li><a href="{{ route('ready.index') }}" class="menu">Ready to Ship<span class="badge badge-success">16</span></a></li></li>
+                    <li><a href="{{ route('payment.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning">78</span></a></li></li>
+                    <li><a href="{{ route('payment.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success">16</span></a></li></li>
                     <li><a href="{{ route('overall.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
                     <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i><span>E-Commerce</span></a>
                     <ul class="acc-menu">

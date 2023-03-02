@@ -122,7 +122,8 @@ Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
 
 // Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
-Route::get('admin/waiting_payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('noresi', [PaymentController::class, 'updateResi'])->name('resi.update');
 Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
 Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 Route::put('/update-batch', [WaitingGoodController::class, 'updateBatch'])->name('update-batch');
