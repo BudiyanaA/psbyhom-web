@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tr_invoice', function (Blueprint $table) {
             // $table->id();
             $table->string('InvoiceUUID')->primary();
+            $table->string('POUUID')->nullable();
             $table->string('RequestOrderUUID');
             $table->string('CustomerUUID');
             $table->string('invoice_id');
@@ -34,6 +35,7 @@ return new class extends Migration
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
             $table->datetime('OnDateTime');
+            $table->string('total_outstanding')->nullable();
             // $table->timestamps();
         });
     }

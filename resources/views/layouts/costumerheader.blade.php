@@ -21,7 +21,7 @@
 							<ul aria-labelledby="dropdownMenu" role="menu" class="dropdown-menu dropdown-basic">
 								<li><a href="{{ route('profile') }}">My Profile</a></li>
 								<li><a href="{{ route('preorderlist') }}">Pre Order List</a></li>
-								<li><a href="https://psbyhom.com/confirm_payment.html">Confirm Payment</a></li>
+								<li><a href="{{ route('payment.confirm') }}">Confirm Payment</a></li>
 								<li><a href="{{ route('changepassword') }}">Change Password</a></li>
 								<li><a href="{{ route('logoutaction') }}"><i class="fa fa-power-off"></i>Log out</a></li>
 							</ul>

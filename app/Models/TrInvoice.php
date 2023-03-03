@@ -12,6 +12,7 @@ class TrInvoice extends Model
     public $timestamps = false;
     protected $fillable = [
         'InvoiceUUID',
+        'POUUID',
         'RequestOrderUUID',
         'CustomerUUID',
         'invoice_id',
