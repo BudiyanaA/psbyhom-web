@@ -46,6 +46,14 @@ class RegisterCostumerController extends Controller
 
     public function store (Request $request)
     {
+        // $messages = [
+        //     'g-recaptcha-response.required' => 'You must check the reCAPTCHA.',
+        //     'g-recaptcha-response.captcha' => 'Captcha error! try again later or contact site admin.',
+        // ];
+  
+        // $validator = Validator::make($request->all(), [
+        //     'g-recaptcha-response' => 'required|captcha'
+        // ], $messages);
         // dd($request->all());
         $validated = $request->validate([
             'customer_name' => 'required',
@@ -57,6 +65,7 @@ class RegisterCostumerController extends Controller
             'city' => 'required',
             'district' => 'required',
             // 'captcha' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha'
         ]);
 
         // cek captcha benar atau tidak

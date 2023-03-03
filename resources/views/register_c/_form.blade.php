@@ -64,21 +64,14 @@
 		{{ Form::select('district', $districts, null, ['class' => 'form-control',  'placeholder' => 'Pilih Kecamatan', 'id' => 'subdistrict-option', 'disabled' => true]); }}
         @if ($errors->has('district')) <small class="form-text help-block" style="color:red">{{ $errors->first('district') }}</small> @endif
 	</div>
-    <div class="form-group">
-		<label>Captcha</label>
-		<br>
-		<span style="width: 150px; height: 30px;">{!! captcha_img() !!} </span>
-	</div>
-    
-    <div class="form-group @if ($errors->has('captcha')) has-error @endif">
-		<label class="text-right req">Enter Chapha <span class="reqsign">*</span></label>
-		{{ Form::text('captcha', null, ['class' => 'form-control']) }}
-		@if ($errors->has('captcha'))
-		<script>
-			alert("Captcha Tidak Sesuai");
-		</script>
-	@endif
-		</div>
+  {!! NoCaptcha::renderJs() !!}
+  
+  @if ($errors->has('g-recaptcha-response'))
+      <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+  @endif
+   
+      {!! NoCaptcha::display() !!}
+
   
 @section('script')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
