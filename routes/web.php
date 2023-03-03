@@ -76,8 +76,10 @@ Route::get('preorder/notification', [PreOrderController::class, 'index'])->name(
 Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
 // https://psbyhom.com/view_request/TY23020170 (redirect)
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
-Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment_c.create');
 Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
+Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
+Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
+Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
 
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
@@ -94,6 +96,7 @@ Route::put('admin/preorder/request_order/{id}/update', [ApprovalController::clas
 Route::get('admin/preorder/request_order/notification', [ApprovalController::class, 'notification'])->name('order.notification');
 Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
 Route::get('admin/customer/update/{id}', [ApprovalController::class, 'show'])->name('customer.update'); //TODO: Customer Controller
+
 
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
@@ -186,8 +189,6 @@ Route::get('list_of_request_order', [OrderListController::class, 'index'])->name
 // Route::resource('process_order', ProcesOrderController::class);
 
 Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('payment_c.index');
-Route::post('payment_c/store', [PaymentCostumerController::class, 'store'])->name('payment_c.store');
-Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
 Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name('confirm.index');
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');

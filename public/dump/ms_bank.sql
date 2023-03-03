@@ -56,9 +56,9 @@ INSERT INTO `ms_bank` (`BankUUID`, `bank_name`, `bank_account_no`, `bank_account
 --
 -- Indeks untuk tabel `ms_bank`
 --
-ALTER TABLE `ms_bank`
-  ADD PRIMARY KEY (`BankUUID`);
-COMMIT;
+-- ALTER TABLE `ms_bank`
+--   ADD PRIMARY KEY (`BankUUID`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

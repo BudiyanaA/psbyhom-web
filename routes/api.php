@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\RegionController;
 use App\Http\Controllers\API\RajaOngkirController;
+use App\Http\Controllers\API\APIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +31,5 @@ Route::get('rajaongkir/cities/{province_id}', [RajaOngkirController::class, 'cit
 Route::get('rajaongkir/subdistricts/{city_id}', [RajaOngkirController::class, 'subdistricts']);
 Route::get('rajaongkir/costs', [RajaOngkirController::class, 'costs']);
 Route::get('rajaongkir/couriers', [RajaOngkirController::class, 'couriers']);
+
+Route::get('invoice/amount/{InvoiceUUID}', [APIController::class, 'invoiceAmount']);

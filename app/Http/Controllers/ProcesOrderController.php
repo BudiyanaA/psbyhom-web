@@ -323,6 +323,7 @@ class ProcesOrderController extends Controller
             return redirect()->back()->with('error', 'Gagal mengirim email!');
         }
 
+        DB::commit();
         return redirect(route('process_order.notification'))
             ->withSuccess("Data berhasil ditambahkan");
 
