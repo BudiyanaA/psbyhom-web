@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link href="{{ url('assets/less/styles.less') }}" rel="stylesheet/less" media="all"> 
-<script type="text/javascript" src="https://psbyhom.com/assets/js/less.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="{{ url('assets/less/styles.less') }}" rel="stylesheet/less" media="all"> 
+    <script type="text/javascript" src="https://psbyhom.com/assets/js/less.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>
+    <script>$.fn.poshytip={defaults:null}</script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 </head>
 <body>
 @include('layouts.header')
@@ -54,7 +59,7 @@
 <script type='text/javascript' src='https://psbyhom.com/assets/plugins/form-jasnyupload/fileinput.min.js'></script> 
 <script type='text/javascript' src='https://psbyhom.com/assets/plugins/form-tokenfield/bootstrap-tokenfield.min.js'></script> 
 <script src="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
-
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="https://psbyhom.com/assets/js/timepicker/lib/pikaday.js"></script>
 <!-- <script src=">assets/js/timepicker/lib/jquery.ptTimeSelect.js"></script> -->
 <script src="https://psbyhom.com/assets/js/timepicker/lib/moment.min.js"></script>
@@ -77,6 +82,7 @@
     var basicExampleEl = document.getElementById('basicExample');
     var datepair = new Datepair(basicExampleEl);
 </script>
+
 
 @yield('script')
 
