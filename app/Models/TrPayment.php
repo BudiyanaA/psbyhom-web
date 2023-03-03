@@ -32,10 +32,10 @@ class TrPayment extends Model
     ];
     public function po()
     {
-        return $this->belongsTo(TrPo::class, 'POUUID');
+        return $this->belongsTo(TrPo::class, 'POUUID', 'POUUID');
     }
     public function bank()
     {
-        return $this->belongsTo(MsBank::class, 'BankUUID');
+        return $this->belongsTo(MsBank::class, 'BankUUID', 'BankUUID');
     }
 }
