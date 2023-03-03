@@ -30,5 +30,6 @@ Route::get('rajaongkir/provinces', [RajaOngkirController::class, 'provinces']);
 Route::get('rajaongkir/cities/{province_id}', [RajaOngkirController::class, 'cities']);
 Route::get('rajaongkir/subdistricts/{city_id}', [RajaOngkirController::class, 'subdistricts']);
 Route::get('rajaongkir/costs', [RajaOngkirController::class, 'costs']);
+Route::get('rajaongkir/couriers', [RajaOngkirController::class, 'couriers']);
 
 Route::get('invoice/amount/{InvoiceUUID}', [APIController::class, 'invoiceAmount']);

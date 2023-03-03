@@ -83,6 +83,7 @@
 		<li><a href="{{ route('faq') }}">FAQ</a></li>
 		<li><a href="{{ route('how_order') }}">How to Order</a></li>
 		<li><a href="{{ route('contact_us.index') }}">Contact Us</a></li>
+		<li><a href="{{ route('payment.confirm') }}">Confirm Payment</a></li>
 
 	</div><!--/.nav-collapse -->
 	<!-- /.container -->
