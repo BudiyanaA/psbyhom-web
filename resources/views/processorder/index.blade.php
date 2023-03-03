@@ -1,5 +1,14 @@
 @extends('layouts.costumerapp')
 @section('content')
+<style>
+    .link_kembali {
+      float: left; /* agar tombol "Back" berada di sisi kiri */
+    }
+
+    .next-btn {
+      float: right; /* agar tombol "Next" berada di sisi kanan */
+    }
+  </style>
 <div class="container" id="content">
 	<div class="content-wrapper">
 		<div class="row">
@@ -14,7 +23,7 @@
 	{{ Form::open(['url' => route('process_order.store'), 'class' => 'form-horizontal checkout-form', 'id' => 'checkout-form2' ])}}
 		<div id="tabs">
   			<ul>
-    			<li><a href="#tabs-1">Pre Order</a></li>
+			  	<li><a href="#tabs-1">Pre Order</a></li>
     			<li><a href="#tabs-2">Delivery & Summary</a></li>
   			</ul>
     		<div id="tabs-1">
@@ -105,7 +114,14 @@
 								</div>
 							</div><p>&nbsp;</p>
 							<p><a href="javascript:history.go(-1)" class="link_kembali"><i class="fa fa-angle-left fa-3"></i>Back</a>
+							<p><a href="#" class="link_kembali next-btn">Next <i class="fa fa-angle-right fa-3"></i></a>
+							<!-- <button class="btn btn-primary next-btn">Next</button> -->
 						</div>
+
+						
+						<!-- </div><p>&nbsp;</p>
+							<p><a href="javascript:history.go(-1)" id="tabs-2" class="link_kembali" ><i class="fa fa-angle-left fa-3"></i>Next</a>
+						</div> -->
 					</div>
   				</div>
   				<div id="tabs-2">
@@ -993,5 +1009,16 @@ function calculateTotal() {
 				$('input[name=use_packing]').attr('checked', false);
       }
 	}
+	$(document).ready(function() {
+    // Hide the second tab initially
+    $('#tabs-2').hide();
+
+    // When the Next button is clicked, switch to the second tab
+    $('.next-btn').click(function() {
+      $('#tabs-1').hide();
+      $('#tabs-2').show();
+    });
+  });
+
 </script>
 @endsection
