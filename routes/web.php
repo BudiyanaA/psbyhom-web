@@ -76,6 +76,8 @@ Route::get('preorder/notification', [PreOrderController::class, 'index'])->name(
 Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
 // https://psbyhom.com/view_request/TY23020170 (redirect)
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
+Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment_c.create');
+Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
 
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
@@ -183,10 +185,8 @@ Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorder
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // Route::resource('process_order', ProcesOrderController::class);
 
-Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
 Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('payment_c.index');
 Route::post('payment_c/store', [PaymentCostumerController::class, 'store'])->name('payment_c.store');
-Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment_c.create');
 Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
 Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name('confirm.index');
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');

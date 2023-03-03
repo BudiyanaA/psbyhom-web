@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('seq');
             $table->decimal('refund_amount')->nullable();
             $table->string('batch_no')->nullable();
+            $table->string('keterangan')->nullable();
             // $table->timestamps();
         });
     }

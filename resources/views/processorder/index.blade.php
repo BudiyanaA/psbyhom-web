@@ -34,6 +34,7 @@
 								<tr>
 									<td>PO ID</td>
 									<td>{{ $requestorder->request_id }}</td>
+									<input type="hidden" name="request_id" class="qty_update" value="{{ $requestorder->request_id }}">
 								</tr> 
 								<tr>
 									<td>Request Date</td>
@@ -62,6 +63,7 @@
 								</tr>
 							</table>
 							<h3>Pre Order Details</h3>
+							<input type="hidden" name="RequestOrderUUID" value="{{ $requestorder->RequestOrderUUID }}">
 							<div id="checkout-form" class="checkout-form">
 								<div class="table-responsive table-small-gap">
 									<table width="100%" id="pre-order-cart" class="table table-bordered" border="0" cellpadding="3">
@@ -82,7 +84,7 @@
   <tr>
     <td align="center">
 			<input type="hidden" name="qty_ori" id="qty_ori{{$loop->index}}" class="qty_ori" value="{{ $p->qty }}" min="0">
-      <input type="number" name="qty" id="qty{{$loop->index}}" class="po_qty quantity" value="{{ $p->qty }}" min="0" data-index="{{ $loop->index }}" data-price="{{ $p->subtotal_final / $p->qty }}">
+      <input type="number" name="qty[{{ $p->RequestOrderDtlUUID }}]" id="qty{{$loop->index}}" class="po_qty quantity" value="{{ $p->qty }}" min="0" data-index="{{ $loop->index }}" data-price="{{ $p->subtotal_final / $p->qty }}">
     </td>
     <td><a href="{{ $p->product_url }}" target="_blank">Link</a></td>
     <td class="product-name"><p class="product-name" style="margin: 0;">{{ $p->product_name }}</p><br></td>
@@ -101,7 +103,10 @@
 	<tr class="cart_total_price">
 	  <td align="left" colspan="4" style="border-top:1px solid #ddd"></td>
 	  <td colspan="4" align="right" style="font-weight:bold;border-top:1px solid #ddd"><strong>Total</strong></td>
-	  <td align="right" style="border-top:1px solid #ddd"><span id="grand_total">{{ collect($preorders)->sum('subtotal_final') }}</span></td>
+	  <td align="right" style="border-top:1px solid #ddd">
+			<input type="hidden" name="total_amount" id="total_amount" value="{{ collect($preorders)->sum('subtotal_final') }}">
+			<span id="grand_total">{{ collect($preorders)->sum('subtotal_final') }}</span>
+		</td>
 	</tr>
 
 									</table>
@@ -130,12 +135,12 @@
 											<div class="form-group">
 												<div class="col-sm-4 col-md-3 text-right">Full Name:</div>
 												<div class="col-sm-8 col-md-8">
-													<input type="text" name='receiver_name' value="{{ $costumer->customer_name }}" >
+													<input type="text" name='fullname' value="{{ $costumer->customer_name }}" >
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="col-sm-4 col-md-3 text-right">Address*:</div>
-												<div class="col-sm-8 col-md-8"><input name='receiver_address' type="textarea" value="{{ $costumer->address }}" ></div>
+												<div class="col-sm-8 col-md-8"><input name='address' type="textarea" value="{{ $costumer->address }}" ></div>
 											</div>
 											<div class="form-group">
 												<div class="col-sm-8 col-md-8 col-md-offset-3 col-sm-offset-4">
@@ -148,28 +153,31 @@
 												<input type="hidden" id="costumer_kecamatan" value="{{ $costumer->kecamatan }}">
 												<div class="col-sm-4 col-md-3 text-right">Provinsi:</div>
 													<div class="col-sm-8 col-md-8">
-														<select  name="receiver_province" id="province-option" class="form-control">
+														<select  name="province-option" id="province-option" class="form-control">
 														</select>
+														<input type="hidden" id="nama_propinsi" name="nama_propinsi" value=''>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Kota*:</div>
 													<div class="col-sm-8 col-md-8">
-														<select  name="receiver_city" class="form-control" id="city-option">													
+														<select  name="city-option" class="form-control" id="city-option">													
 														</select>
+														<input type="hidden" id="nama_kota" name="nama_kota" value=''>
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Kecamatan *:</div>
 													<div class="col-sm-8 col-md-8">
-														<select  name="receiver_kecamatan" class="form-control" id="subdistrict-option">				
+														<select  name="subdistrict-option" class="form-control" id="subdistrict-option">				
 														</select>
+														<input type="hidden" id="nama_kecamatan" name="nama_kecamatan" value=''>
 													</div>
 												</div>		
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Courier :</div>
 													<div class="col-sm-8 col-md-8">
-														<select required name="ongkir_type" id="courier_type" class="form-control"   >									 
+														<select required name="courier_type" id="courier_type" class="form-control"   >									 
 															<option value="jne">JNE</option>
 														</select>
 													</div>
@@ -185,19 +193,19 @@
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">ZIP Code:</div>
 													<div class="col-sm-8 col-md-8">
-														<input type="text" name='kode_pos' value="123" >
+														<input type="text" name='kode_pos' value="{{ $costumer->kodepos }}" >
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Handphone 1*:</div>
 													<div class="col-sm-8 col-md-8">
-														<input type="text" name='receiver_hp1' value="{{ $costumer->handphone }}" >
+														<input type="text" name='hp1' value="{{ $costumer->handphone }}" >
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Handphone 2:</div>
 													<div class="col-sm-8 col-md-8">
-														<input type="text" name='receiver_hp2' value="{{ $costumer->handphone2  }}" >
+														<input type="text" name='hp2' value="{{ $costumer->handphone2  }}" >
 													</div>
 												</div>
 											</fieldset>
@@ -311,6 +319,8 @@
 														<div class="col-sm-4 col-md-3 text-right">Delivery Fee</div>
 														<div class="col-sm-8 col-md-8">
 															<span id='delivery_fee_summary'> 0</span> &nbsp;<span id="delivery_fee_desc"></span>
+															<input type="hidden" name='delivery_fee_id_summary' id='delivery_fee_id_summary' value='0'>
+															<input type="hidden" name='delivery_fee_description' id='delivery_fee_description' value=''>
 														</div>
 													</div>
 													<div class="form-group">
@@ -335,6 +345,7 @@
 															<div class="col-sm-4 col-md-3 text-right"><strong>Grand Total</strong></div>
 															<div class="col-sm-8 col-md-8">
 																<span id='grand_total_summary'><strong>{{ collect($preorders)->sum('subtotal_final') }}</strong></span>
+																<input type='hidden' name='grand_total_summary' id='grand_total_summary2' value='0'>
 															</div>
 														</div>					
 														<div class="form-group">
@@ -346,7 +357,8 @@
 														<div class="form-group" style="display:none" id='div_outstanding'>
 															<div class="col-sm-4 col-md-3 text-right"><strong>Outstanding</strong></div>
 																<div class="col-sm-8 col-md-8">
-																	<span id='total_outstanding'><strong>1,910,320</strong></span>
+																	<span id='total_outstanding'><strong>0</strong></span>
+																	<input type='hidden' name='total_outstanding' id='total_outstanding2' value='0'>
 																</div>
 															</div>						
 													</fieldset>
@@ -366,11 +378,11 @@
 										<table class="addditional-cart"><tr class="cart_total_price"><td class="use_insurance_container text-right"><span>Insurance</span>
 											<label>
 												<input type="checkbox" name="isurance" id="use_insurance" value="1" ><span class="checkbox-material"><span class="check"></span></span>
-											</label></td><td></td><td id="use_insurance_container" class="insurance"><span id="insurance_pricessssssssss"></span></td></tr><tr class="cart_total_price"><td class="use_packing_container text-right"><span>Block Packing</span>
+											</label></td><td></td><td id="use_insurance_container" class="insurance"><input type="hidden" name="insurance_value" id="insurance_value" value="0"><span id="insurance_pricessssssssss"></span></td></tr><tr class="cart_total_price"><td class="use_packing_container text-right"><span>Block Packing</span>
 											<label>
 												<input type="checkbox" name="use_packing" id="use_packing" value="1" disabled>
 												<span class="checkbox-material"><span class="check"></span></span>
-											</label></td><td> </td><td id="use_packing_container" class="packing"><span id="packing_pricesssssssssssssss"></span></td></tr>
+											</label></td><td> </td><td id="use_packing_container" class="packing"><input type="hidden" name="result_packing" id="result_packing" value="0"><span id="packing_pricesssssssssssssss"></span></td></tr>
 											<tr class="cart_total_price">
 												<td class="use_insurance_container text-right"><span>Use E-Wallet</span>
 												<label>
@@ -482,6 +494,7 @@ function calculateTotal() {
     subtotal += parseInt($(this).text());
   });
   $('#grand_total').text(subtotal);
+	$('#total_amount').val(subtotal);
 
 	$('#subtotal_summary').text(subtotal);
 }
@@ -717,7 +730,11 @@ function calculateTotal() {
 
             $('#province-option').append('<option value="" selected disabled>Pilih Provinsi</option>'); 
             $.each(data.provinces, function(key, province){
-								const selected = (province.province_id == costumerProvinsi) ? "selected" : "";
+								let selected = "";
+								if (province.province_id == costumerProvinsi) {
+									selected = "selected";
+									$('#nama_propinsi').val(province.province);
+								}
                 $('#province-option').append('<option value="'+ province.province_id +'" '+ selected + '>' + province.province+ '</option>');
             });
         }else{
@@ -738,20 +755,28 @@ function calculateTotal() {
 
 		$('#province-option').on('change', function() {
 			loadCity($(this).val(), null);
+			$('#nama_propinsi').val($("#province-option option:selected").text() );
     });
 
 		$('#city-option').on('change', function() {
 			loadSubdistrict($(this).val(), null);
+			$('#nama_kota').val($("#city-option option:selected").text() );
     });
 
 		$('#subdistrict-option').on('change', function() {
 			loadCosts($(this).val());
+			$('#nama_kecamatan').val($("#subdistrict-option option:selected").text() );
 			$('input[name=use_packing]').attr('disabled', true);
 			$('input[name=use_packing]').attr('checked', false);
     });
 
 		$('#paket_kirim').on('change', function() {
+			let selected_text = $("#paket_kirim option:selected").text();
+			selected_text = selected_text.substring(0, selected_text.indexOf("="));
+
 			$('#delivery_fee_summary').html($(this).val());
+			$('#delivery_fee_id_summary').val($(this).val());
+			$('#delivery_fee_description').val(selected_text);
 			$('input[name=use_packing]').attr('disabled', false);
 			calculateGrandTotal();
     });
@@ -761,8 +786,10 @@ function calculateTotal() {
 			if ($(this).is(':checked')) {
 				insurance_value = (parseInt(subtotal) * 0.002)  + 5000;
 				$('#insurance').html(insurance_value);
+				$('#insurance_value').val(insurance_value);
 			} else {
 				$('#insurance').html(0);
+				$('#insurance_value').val(0);
 			}
 			calculateGrandTotal(); 
 		});
@@ -771,8 +798,10 @@ function calculateTotal() {
 			const ongkir = parseFloat($('#delivery_fee_summary').text());
 			if ($(this).is(':checked')) {
 				$('#packing_summary').html(ongkir);
+				$('#result_packing').val(ongkir);
 			} else {
 				$('#packing_summary').html(0);
+				$('#result_packing').val(0);
 			}
 			calculateGrandTotal(); 
 		});	
@@ -803,6 +832,7 @@ function calculateTotal() {
 					$("#div_outstanding").show();
 				}
 				$('#total_outstanding').html('<strong>'+ total_price +'</strong>');
+				$('#total_outstanding2').val(total_price);
 			}
 			else {
 				$('#e_wallet_summary').html("0");
@@ -844,7 +874,9 @@ function calculateTotal() {
 
 		const grandTotal = subtotal + ongkir + insurance + packing - discount;
 	  $('#grand_total_summary').html(grandTotal);
+		$('#grand_total_summary2').val(grandTotal);
 		$('#total_outstanding').html('<strong>'+ (grandTotal - ewallet) +'</strong>');
+		$('#total_outstanding2').val(grandTotal - ewallet);
 	}
 
 	function loadCosts(subdistrictId) {
@@ -901,7 +933,11 @@ function calculateTotal() {
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
-										const selected = (city.city_id == cityId) ? "selected" : "";
+										let selected = "";
+										if (city.city_id == cityId) {
+											selected = "selected";
+											$('#nama_kota').val(`${city.type} ${city.city_name}`);
+										}
                     $('#city-option').append('<option value="'+ city.city_id +'" '+ selected + '>' + city.type + ' ' + city.city_name+ '</option>');
                   });
               }else{
@@ -947,8 +983,12 @@ function calculateTotal() {
 									$('input[name=use_packing]').attr('checked', false);
 
                   $.each(data.subdistricts, function(key, district){
-										const selected = (district.subdistrict_id == subdistrictId) ? "selected" : "";
-                    $('#subdistrict-option').append('<option value="'+ district.subdistrict_id +'" '+ selected + '>' + district.subdistrict_name+ '</option>');
+										let selected = "";
+										if (district.subdistrict_id == subdistrictId) {
+											selected = "selected";
+											$('#nama_kecamatan').val(district.subdistrict_name);
+										}
+										$('#subdistrict-option').append('<option value="'+ district.subdistrict_id +'" '+ selected + '>' + district.subdistrict_name+ '</option>');
                   });
               }else{
                   $('#subdistrict-option').empty();

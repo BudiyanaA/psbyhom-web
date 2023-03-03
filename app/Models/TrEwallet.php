@@ -9,6 +9,7 @@ class TrEwallet extends Model
 {
     use HasFactory;
     protected $table = 'tr_ewallet';
+    public $timestamps = false;
     protected $fillable = [
         'EWalletUUID',
         'CustomerUUID',

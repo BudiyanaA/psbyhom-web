@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TrPoDtl extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'RequestOrderDtlUUID';
+    // protected $primaryKey = 'RequestOrderDtlUUID';
     protected $table = 'tr_po_dtl';
+    public $timestamps = false;
     protected $fillable = [
         'PODtlUUID',
         'POUUID',
@@ -30,7 +31,7 @@ class TrPoDtl extends Model
 
     public function requestOrderDtl()
     {
-        return $this->belongsTo(TrRequestOrderDtl::class, 'RequestOrderDtlUUID');
+        return $this->belongsTo(TrRequestOrderDtl::class, 'RequestOrderDtlUUID', 'RequestOrderDtlUUID');
     }
     public function request_order_detail()
     {

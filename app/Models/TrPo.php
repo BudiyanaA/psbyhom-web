@@ -10,9 +10,12 @@ class TrPo extends Model
     use HasFactory;
     protected $primaryKey = 'RequestOrderUUID';
     protected $table = 'tr_po';
+    public $timestamps = false;
     protected $fillable = [
         'POUUID',
+        'BatchUUID',
         'RequestOrderUUID',
+        'CustomerUUID',
         'po_id',
         'trans_date',
         'created_by',
@@ -23,6 +26,7 @@ class TrPo extends Model
         'ongkir',
         'ongkir_type',
         'unique_amount',
+        'e_wallet_amount',
         'total_trans',
         'no_resi',
         'receiver_name',
@@ -74,6 +78,6 @@ class TrPo extends Model
 
     public function msCustomer()
     {
-        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'uuid');
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
     }
 }

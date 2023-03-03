@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tr_po', function (Blueprint $table) {
             // $table->id();
             $table->string('POUUID')->primary();
+            $table->string('BatchUUID')->nullable();
             $table->string('RequestOrderUUID');
             $table->string('po_id');
             $table->string('CustomerUUID');
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->string('ongkir');
             $table->string('ongkir_type');
             $table->string('unique_amount');
+            $table->string('e_wallet_amount')->nullable();
             $table->string('total_trans');
             $table->string('no_resi')->nullable();
             $table->string('receiver_name');

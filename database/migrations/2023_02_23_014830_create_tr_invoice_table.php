@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('ongkir');
             $table->string('insurance');
             $table->string('block_package');
-            $table->string('discount');
+            $table->string('discount')->nullable();
             $table->string('e_wallet_amount');
-            $table->string('payment_methode');
+            $table->string('payment_methode')->nullable();
             $table->string('unique_amount');
             $table->string('grand_total');
             $table->string('status_invoice');
