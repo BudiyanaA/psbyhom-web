@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TrPo extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'RequestOrderUUID';
+    // protected $primaryKey = 'RequestOrderUUID';
     protected $table = 'tr_po';
     public $timestamps = false;
     protected $fillable = [
@@ -74,6 +74,7 @@ class TrPo extends Model
     public function msStatus()
     {
         return $this->belongsTo(MsStatus::class, 'StatusUUID', 'StatusUUID');
+        return $this->belongsTo(MsStatus::class, 'status', 'status_id');
     }
 
     public function msCustomer()

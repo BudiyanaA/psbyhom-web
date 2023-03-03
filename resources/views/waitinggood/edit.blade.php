@@ -8,7 +8,7 @@
                                  <li class="active"><strong>Waiting Goodies</strong> PO</li>
             </ul>
 	
-            <h1>View  PO : {{ $waitinggoods->po_id }}</h1>
+            <h1>View  PO : {{ $po->po_id }}</h1>
 			<br>
 			<br>
         </div>
@@ -17,14 +17,13 @@
     <div class="col-xs-12">
 		<div class="panel panel-midnightblue">
 			<div class="panel-heading">
+				{!! Form::model($po, ['route' => ['waitinggoods.update', $po->POUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 				  <h4>
-				  
-				  {!! Form::model($waitinggoods, ['route' => ['waitinggods.update', $waitinggoods->POUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 						<ul class="nav nav-tabs">
-							@if ($podetails->status == '00' || $podetails->status == '01' || $podetails->status == '04' || $podetails->status == '05' || $podetails->status == '08')
+							@if (in_array($po->status, ['00', '01', '04', '05', '08']))
 								<li class="active"><a href="#payment" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Payment Confirmation</span></a></li>
 								<li><a href="#trans" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">PO Information</span></a></li>
-							@elseif ($podetails->status == '02' || $podetails->status == '03' || $podetails->status == '06' || $podetails->status == '07' || $podetails->status == '09' || $podetails->status == '99')
+							@elseif (in_array($po->status, ['02', '03', '06', '07', '09', '99']))
 								<li class="active"><a href="#trans" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">PO Information</span></a></li>
 								<li><a href="#payment" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Payment Confirmation</span></a></li>
 								<li><a href="#log_trans" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Log Transaction</span></a></li>
@@ -35,7 +34,7 @@
 								<li><a href="#log_trans" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Log Transaction</span></a></li>
 							@endif
 						</ul>
-								  </h4>
+					</h4>
 				  <!-- <div class="options">
 					<a href="javascript:;"><i class="fa fa-cog"></i></a>
 					<a href="javascript:;"><i class="fa fa-wrench"></i></a> 
@@ -46,220 +45,286 @@
 				<div class="panel-body">
 					<div class="tab-content">
 					
-											<div class="tab-pane active" id="threads">
+						<div class="tab-pane" id="threads">
 							<ul class="panel-threads">
 								
 							</ul>
 						</div>
 												
-						<div class="tab-pane active" id="trans">
+						<div class="tab-pane {{ in_array($po->status, ['02', '03', '06', '07', '09', '99']) ? 'active' : '' }}" id="trans">
 													<ul class="panel-comments">
-							@if ($podetails->status == '06' || $podetails->status == '07' || $podetails->status == '02' || $podetails->status == '03' || $podetails->status == '05' || $podetails->status == '04')
+							@if (in_array($po->status, ['06', '07', '02', '03', '05', '04']))
 								<div align='right'> <button class="btn-primary btn" value ='print_label' id="print_label"  type="button" name='tombol' > Print Label</button> </div>
 							@endif
 								<br>
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
-								 
 									<thead>
 										<tr>
-											<th  style='width:3%' > Qty</th>
-											
+											@if ($po->status == '00' || $po->status == '01')
+												<th  style='width:10%'> Qty</th>
+												@php
+													$readonly = 'disabled';
+													$readonly_refund = "";
+												@endphp
+											@else
+												<th  style='width:3%'> Qty</th>
+												@php
+													$readonly = '';
+													if($po->refund_flag == '11') {
+														$readonly_refund = "readonly";
+												 	} else if($po->refund_flag == '' && $po->status_po != '03'  ) {	
+														$readonly_refund = 'disabled';
+												 	}
+												@endphp
+											@endif
 											<th style='width:5%'>URL</th>											
 											<th>Name</th>
-																															
 											<th>Color</th>
 											<th>Info</th>	
 											<th>Size/Weight </th>
-											@if ($podetails->status == '02' || $podetails->status == '03')
-											<th>Price(USD)</th>
+											@if ($po->status == '02' || $po->status == '03')
+												<th>Price(USD)</th>
 											@endif
 											<th>Price(IDR)</th>
-											
-											
 											<th>Subtotal</th>											
-											
-								
 										</tr>
 									</thead>
 									<tbody>
-									@if(count($podetails) > 0)
-									@foreach($podetails as $p)						
-														<tr >
-														<input type="hidden" value="79c4a860-878a-4bb7-b5af-1ea064871bd4" name="PODtlUUID1">
-														<input type="hidden" value="1499408" id="price1">
-														<input type="hidden" value="1" id="po_qty1">
-														<input type="hidden" value="1499408" id="subtotal_po1" name="subtotal_po1">
-														<td style='width:10%'>
-															@if ($p->status == '00' || $p->status == '01')
-																{{ $p->qty_po }}
-															@elseif ($p->status == '02' || $p->status == '03')
-																<input readonly style='width:55%' type='number' class="incoming_qty" name='incoming_qty1' id='incoming_qty1' value='{{ $p->qty_po }}' disabled>
-															@else
-																<input readonly style='width:55%' type='number' class="incoming_qty" name='incoming_qty1' id='incoming_qty1' value='{{ $p->qty_po }}'>
-															@endif
-														</td>
-														<td><p id="price"><a href="{{ $p->product_url }}">LINK</a></p></td>
-															<td>{{ $p->product_name }}</td>
-															
-															<td>{{ $p->color }}</td>
-															<td>{{ $p->remarks }}</td>
-															<td>{{ $p->size }} </td>
-															@if ($waitinggoods->status == '02' || $waitinggoods->status == '03')
-															<td>{{ $p->price_customer - ($p->price_customer * $p->disc_percentage / 100) }}</td>															<td>1,499,408</td>
-															@endif
-												
-															
-															<td class="po_subtotal1">{{ $p->subttal_original }}</td>
-														</tr>
-											@endforeach
-											@else
-								<tr>
-									<td colspan="8">Data not found.</td>
-								</tr>
-							@endif
-								<input type="hidden" value="1" id="total_row" name='total_row'>
-								@foreach($waitinggoods as $w)	
+										@if(count($podetails) > 0)
+										@foreach($podetails as $p)						
+												<tr >
+													<input type="hidden" value="79c4a860-878a-4bb7-b5af-1ea064871bd4" name="PODtlUUID1">
+													<input type="hidden" value="1499408" id="price1">
+													<input type="hidden" value="1" id="po_qty1">
+													<input type="hidden" value="1499408" id="subtotal_po1" name="subtotal_po1">
+													<td style='width:10%'>
+														@if ($po->status == '00' || $po->status == '01')
+															{{ $p->qty }}
+														@elseif ($po->status == '02' || $po->status == '03')
+															@php
+																$total_reject = 0;
+																$disabled = '';
+																$incoming_qty = trim($p->incoming_qty);
+
+																if($p->status == '00')
+																{
+																	$disabled = 'readonly';
+																	$incoming_qty = $p->qty;
+																}
+																else if($p->status == '02')
+																{
+																	$disabled = 'readonly';
+																	$total_reject++;
+																}
+															@endphp
+															<input {{ $disabled  }} style='width:55%' type='number'  class="incoming_qty" name='incoming_qty[{{ $loop->index }}]' id='incoming_qty{{ $loop->index }}' value='<?php echo trim($incoming_qty) ?>'>
+														@elseif (in_array($po->status, ['04', '05', '06', '07', '08', '09']))
+															<td  style='width:10%' >{{ $p->incoming_qty }}</td>
+														@endif
+													</td>
+													<td><p id="price"><a href="{{ $p->requestOrderDtl?->product_url }}">LINK</a></p></td>
+														<td>{{ $p->requestOrderDtl?->product_name }}</td>
+														<td>{{ $p->requestOrderDtl?->color }}</td>
+														<td>{{ $p->requestOrderDtl?->remarks }}</td>
+														<td>{{ $p->requestOrderDtl?->size }} </td>
+														@if ($po->status == '02' || $po->status == '03')
+															<td>{{ number_format($p->requestOrderDtl?->price_customer - ($p->requestOrderDtl?->price_customer * $p->requestOrderDtl?->disc_percentage / 100),2) }}</td>															
+														@endif
+														<td>{{ $p->price }}</td>
+														<td class="po_subtotal1">{{ number_format($p->subtotal) }}</td>
+												</tr>
+										@endforeach
+										@else
+											<tr>
+												<td colspan="8">Data not found.</td>
+											</tr>
+										@endif
+										@php
+										if($po->status != '02' && $po->status != '03' ) {
+											$colspan = '3';
+										} else {
+										 	$colspan = '4';
+										}
+										@endphp
+										<input type="hidden" value="1" id="total_row" name='total_row'>	
+										<tr>
+											<td colspan='2' style="text-align:right"></td>
+											<td colspan='2'></td>
+											<td colspan='{{ $colspan }}' style="text-align:right">Subtotal</td>
+											<td class="po_grandtotal">{{ $po->subtotal}}</td>
+											<input type='hidden' name='total_rejects' value="0">
+											<input type='hidden' id='dp_amounts' value="800000">
+											<input type='hidden' id='ongkir_value' value="33000">
+											<input type='hidden' id='insurance_value' value="7999">
+											<input type='hidden' id='package_value' value="0">
+											<input type='hidden' id='disc_value' value="0">
+											<input type='hidden' id='unique_amount_value' value="98">
+											<input type='hidden' id='ewallet_value' value="0">
+										</tr>
+										
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										<td  colspan='4' style="text-align:right">Subtotal</td>
-										<td class="po_grandtotal">{{ $w->subtotal}}</td>
-										<input type='hidden' name='total_rejects' value="0">
-										<input type='hidden' id='dp_amounts' value="800000">
-										<input type='hidden' id='ongkir_value' value="33000">
-										<input type='hidden' id='insurance_value' value="7999">
-										<input type='hidden' id='package_value' value="0">
-										<input type='hidden' id='disc_value' value="0">
-										<input type='hidden' id='unique_amount_value' value="98">
-										<input type='hidden' id='ewallet_value' value="0">
-										
+										<td colspan='{{ $colspan }}' style="text-align:right">Additional Shipping Fee</td>
+										<td>
+											@if ($po->status == '02' || $po->status == '03')
+												<input style='width:50%' type='text' name='additional_shipping_fee' id='additional_shipping_fee' value='{{ $po->additional_shipping_fee}}'>
+											@else
+												{{ number_format($po->additional_shipping_fee) }}
+											@endif
+										</td>
 									</tr>
-									<tr>
-										
-									<td colspan='2' style="text-align:right"></td>
-									<td colspan='2'></td>
-									<td colspan='4' style="text-align:right">Additional Shipping Fee</td>
-									<td>
-										@if ($w->status == '02' || $w->status == '03')
-											<input style='width:50%' type='text' name='additional_shipping_fee' id='additional_shipping_fee' value='{{ $p->additional_shipping_fee}}'>
-										@else
-											<input style='width:50%' type='text' name='additional_shipping_fee' id='additional_shipping_fee' value='{{ $p->additional_shipping_fee}}' disabled>
-										@endif
-									</td>
 									
 									<tr>
-										
-									<td colspan='2' style="text-align:right"></td>
-									<td colspan='2'></td>
-										<td colspan='4' style="text-align:right">Delivery Fee ( OKE )</td>
+										<td colspan='2' style="text-align:right"></td>
+										<td colspan='2'></td>
+										<td colspan='{{ $colspan }}' style="text-align:right">Delivery Fee ( {{ $po->ongkir_type }} )</td>
 										<td>
-										@if ($w->status == '02' || $w->status == '03')
-											<input style='width:50%' type='text' name='ongkir_type' id='ongkir_type' value='{{ $p->ongkir_type}}'>
+										@if ($po->status == '02' || $po->status == '03')
+											<input style='width:50%' type='text' name='delivery_fee' id='delivery_fee' value='{{ $po->ongkir}}'>
 										@else
-											<input style='width:50%' type='text' name='ongkir_type' id='ongkir_type' value='{{ $p->ongkir_type}}' disabled>
+											{{ number_format($po->ongkir) }}
 										@endif
-									</td>
+										</td>
 									</tr>
+
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
-										<td colspan='2'>
-										</td>
-										<td colspan='4' style="text-align:right">Insurance</td>
+										<td colspan='2'></td>
+										<td colspan='{{ $colspan }}' style="text-align:right">Insurance</td>
 										<td>
-											<input style='width:50%' type='text' name='insurance' id='insurance' value='{{ $p->insurance}}'>
+											@if ($po->status == '02' || $po->status == '03')
+												<input style='width:50%' type='text' name='insurance_fee' id='insurance_fee' value='{{ $po->insurance}}'>
+											@else
+												{{ number_format($po->insurance) }}
+											@endif
 										</td>
 										<input type='hidden' id='total_outstanding' name='total_outstanding' value="740504">
 										<input type='hidden' id='ori_total_outstanding' name='ori_total_outstanding' value="740504">
 									</tr>
+
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-											<td colspan='4' style="text-align:right">Block Package</td>
+										<td colspan='{{ $colspan }}' style="text-align:right">Block Package</td>
 										<td>										
-											<input style='width:50%' type='text' name='block_package' id='block_package' value='{{ $p->block_package}}'>
+											@if ($po->status == '02' || $po->status == '03')
+												<input style='width:50%' type='text' name='block_package_fee' id='block_package_fee' value='{{ $po->block_package}}'>
+											@else
+												{{ number_format($po->block_package) }}
+											@endif
 										</td>
 									</tr>
+
+									@if ($po->disc != 0)
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'> </td>
-								
-										@if ($w->disc != 0)
-											<td colspan='4' style="text-align:right">Discount</td>
-											<td>{{ $w->disc }}</td>
-										@endif
+										<td colspan='{{ $colspan }}' style="text-align:right">Discount</td>
+										<td>
+											@if($po->disc != '')
+												{{ number_format($po->disc)  }}
+											@else
+												0
+											@endif
+										</td>
 									</tr>
+									@endif
+
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'> </td>
-								
-										<td colspan='4' style="text-align:right">Unique Amount</td>
-										<td>{{ $w->unique_amount}}</td>
+										<td colspan='{{ $colspan }}' style="text-align:right">Unique Amount</td>
+										<td>
+											@if($po->unique_amount != '')
+												{{ number_format($po->unique_amount)  }}
+											@else
+												0
+											@endif
+										</td>
 									</tr>
 								
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										<td colspan='4' style="text-align:right">Grand Total</td>
-										
-										<td class="super_grand_total"><strong>{{ $w->total_trans}}</strong></td>
+										<td colspan='{{ $colspan }}' style="text-align:right">Grand Total</td>
+										<td class="super_grand_total"><strong>{{ number_format($po->total_trans) }}</strong></td>
 										<input type="hidden" name="sub_grand_total" id='sub_grand_total' value="1499408">
 										<input type="hidden" name="super_grand_total_ori" id='super_grand_total_ori' value="1540504">
-										<input type="hidden" name="super_grand_total" id='super_grand_total' value="1540504">
+										<input type="hidden" name="super_grand_total" id='super_grand_total' value="{{ $po->total_trans }}">
 										<input type="hidden" name="total_refund" id='total_refund' value="">
 										<input type="hidden" name="e_wallet" id='e_wallet' value="0">
-										 
 									</tr>
+
+									@if ($po->dp_amount > 0)
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										@if ($w->dp_amount != 0)
-											<td colspan='4' style="text-align:right">Down Payment</td>
-											<td>{{ $w->dp_amount }}</td>
-										@endif																	
+										<td colspan='{{ $colspan }}' style="text-align:right">Down Payment</td>
+										<td>{{ number_format($po->dp_amount) }}</td>																
 									</tr>
+									@endif
+
+									@if ($po->use_ewallet  != 0)
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										@if ($w->use_ewallet  != 0)
-											<td colspan='4' style="text-align:right">E Wallet Ussage</td>
-											<td>{{ $w->use_ewallet  }}</td>
-										@endif																	
+										<td colspan='{{ $colspan }}' style="text-align:right">E Wallet Ussage</td>
+										<td>{{ number_format($po->e_wallet_amount)  }}</td>
 									</tr>
+									@endif
+
+									@if ($po->payment_last  != 0)
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										@if ($w->payment_last  != 0)
-											<td colspan='4' style="text-align:right">Last Payment</td>
-											<td>{{ $w->payment_last  }}</td>
-										@endif																	
+										<td colspan='{{ $colspan }}' style="text-align:right">Last Payment</td>
+										<td>{{ number_format(trim($po->payment_last))  }}</td>															
 									</tr>
+									@endif	
+
 									<tr>
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
-										@if ($w->total_outstanding >= 0)
-											<td class="remarks_kurang" colspan='4' style="text-align:right">Total Outstanding</td>
-											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $p->total_outstanding }}</strong></span></td>
-										@elseif ($w->refund_amount != '')
-											<td class="remarks_kurang" colspan='4' style="text-align:right">Total Refund</td>
-											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $p->refund_amount }}</strong></span></td>
+										@if ($po->total_outstanding >= 0)
+											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Outstanding</td>
+											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $po->total_outstanding }}</strong></span></td>
+										@elseif ($po->refund_amount != '')
+											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Refund</td>
+											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $po->refund_amount }}</strong></span></td>
 										@endif
 									</tr>
 								
-							<td colspan='2' style="text-align:right">Note</td>
-							<td colspan='7' rowspan='2'><textarea  name="remarks" id="remarks"  cols="50" rows="4" class="form-control"></textarea></td>										
-							<tr>
-							@if ($w->status == 99 || $w->addendum_fee != '')
-								@if ($w->addendum_fee != '')
-									<td>Ada Addendum Fee</td>
-									<td>{{ $w->addendum_fee }}</td>
+								<td colspan='2' style="text-align:right">Note</td>
+								<td colspan='7' rowspan='2'><textarea {{ $readonly }}  name="note2" id="note"  cols="50" rows="4" class="form-control">{{ $po->remarks }}</textarea></td>
+
+								
+								@if ($po->status == 99 || $po->addendum_fee != '')
+									@php
+										$read_add = '';
+										if($po->status != '9999') {
+											$read_add = 'readonly';
+										}
+									@endphp
+									<tr>
+										<td colspan='2' style="text-align:right">Addendum Fee</td>
+										<td colspan='2'><span id='total_outstandingsawfaf' > 
+											@if ($po->addendum_fee == '' && $po->addendum_fee == '0')
+												<input {{ $read_add }} style='width:50%' type='text' name='addendum_fee' id='addendum_fee' value='{{ $po->addendum_fee }}'>
+											@endif
+										</span></td>
+									</tr>
+
+									<tr>
+										<td colspan='2' style="text-align:right">Addendum Notes</td>
+										<td colspan='10'><span id='total_outstandingsawfafa' >
+											<textarea {{ $read_add }} cols="50" rows="4" style="width:100%" name="addendum_note">{{ $po->addendum_note }}</textarea> 	
+										</span></td>
+									</tr>
 								@endif
-								@if ($p->addendum_note != '')
-									<td>Ada Addendum Notes</td>
-									<td>{{ $w->addendum_note }}</td>
-								@endif
-							@endif
-							</tr>
-										
+
+									<tr>
+									</tr>
 									<tr>
 										<td colspan='10'></td>
 									</tr>
@@ -268,75 +333,83 @@
 									</tr>
 									<tr>
 										<td colspan='2'>Customer Name</td>
-										<td colspan='8'>{{ $w->receiver_name }}</td>
+										<td colspan='8'>{{ $po->receiver_name }}</td>
 									</tr>
 										<tr>
 										<td colspan='2'>Email</td>
-										<td colspan='8'>{{ $w->msCustomer?->email }}</td>
+										<td colspan='8'>{{ $po->msCustomer?->email }}</td>
 									</tr>
 								
 									<tr>
 										<td colspan='2'>Delivery Address</td>
-										<td colspan='8'>{{ $w->receiver_address }}</td>
+										<td colspan='8'>{{ $po->receiver_address }}</td>
 									</tr>
 									<tr>
 										<td colspan='2'>Delivery Service</td>
-										<td colspan='8'>{{ $w->courier_name }} {{ $w->ongkir_type }}</td>
-									</tr>
-																			<tr>
-										<td colspan='2'>Handphone 1</td>
-										<td colspan='8'>{{ $w->receiver_hp1 }}</td>
-									</tr>
-									<tr>
-										<td colspan='2'>Handphone 2</td>
-										<td colspan='8'>{{ $w->receiver_hp2 }}</td>
+										<td colspan='8'>{{ strtoupper($po->courier_name) }} {{ $po->ongkir_type }}</td>
 									</tr>
 									
-									@if ($w->status == '07')
+									@if ($po->status == '07')
 										<tr>
 											<td colspan='2'>No Resi</td>
-											<td colspan='8'>{{ $p->no_resi }}</td>
+											<td colspan='8'>{{ $po->no_resi }}</td>
 										</tr>
-									@elseif ($w->status == '06')
+									@elseif ($po->status == '06')
 										<tr>
 											<td colspan='2'>No Resi</td>
 											<td colspan='8'>
-												<input style='width:50%' type='text' name='no_resi' id='no_resi' value='{{ $p->no_resi }}'>
+												<input style='width:50%' type='text' name='no_resi' id='no_resi' value='{{ $po->no_resi }}'>
 											</td>
 										</tr>
 									@endif
+
+									<tr>
+										<td colspan='2'>Handphone 1</td>
+										<td colspan='8'>{{ $po->receiver_hp1 }}</td>
+									</tr>
+									<tr>
+										<td colspan='2'>Handphone 2</td>
+										<td colspan='8'>{{ $po->receiver_hp2 }}</td>
+									</tr>
+									<tr>
+										<td colspan='2'>Zip Code</td>
+										<td colspan='8'>{{ $po->receiver_kodepos }}</td>
+									</tr>
 									<tr>
 										<td colspan='2'>Approved Date</td>
-										<td colspan='8'>{{ $w->trans_date }}</td>
+										<td colspan='8'>{{ $po->trans_date }}</td>
 									</tr>
 										<tr>
 										<td colspan='2'>Status</td>
-										<td colspan='8'>{{ $w->status }}</td>
+										<td colspan='8'>{{ $po->msStatus?->status_name }}</td>
 									</tr>
 									<tr>
 										<td colspan='2'>Note From Customer</td>
-										<td colspan='8'>{{ $w->notes }}</td>
+										<td colspan='8'>{{ $po->notes }}</td>
 									</tr>
-									@if ($is_drpshipper == 1)
+
+									@if ($po->is_dropshipper == '1')
 										<tr>
-											<td>Dropshipper Name</td>
-											<td>{{ $w->dropshipper_name }}</td>
+											<td colspan='10'></td>
 										</tr>
 										<tr>
-											<td>Dropshipper Contact</td>
-											<td>{{ $w->dropshipper_contact }}</td>
+											<td colspan='10'><strong>Dropshipper Information</strong></td>
+										</tr>
+										<tr>
+											<td colspan='2'>Dropshipper Name</td>
+											<td colspan='8'>{{ $po->dropshipper_name }}</td>
+										</tr>
+										<tr>
+											<td colspan='2'>Dropshipper Contact</td>
+											<td colspan='8'>{{ $po->dropshipper_contact }}</td>
 										</tr>
 									@endif
-									@endforeach
-								
-								
-										</tbody>
+									</tbody>
 								</table>
-								
-							 </ul>
+							</ul>
 						</div>
 						
-											<div class="tab-pane" id="payment">
+											<div class="tab-pane {{ in_array($po->status, ['00', '01', '04', '05', '08']) ? 'active' : '' }}" id="payment">
 												<ul class="panel-comments">
 								
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
@@ -345,10 +418,10 @@
 											<th>No</th>
 											<th>Pay Type</th>
 											<th>Bank Info</th>
-											<!-- <th>Cust.  Acct</th>
+											<th>Cust.  Acct</th>
 											<th>Cust. Bank</th>
 											<th>Cust. Acct Name</th>
-											<th>Pay Date</th>	 -->
+											<th>Pay Date</th>
 											<th>Trx Receipt</th>	
 											<th>Pay Amount</th>							
 											<th>Status</th>	
@@ -360,29 +433,29 @@
 										<tr >
 											<td valign='top'>{{ $loop->index + 1 }}</td>
 											<td>
-											@if ($pay == 'DP/1')
+											@if (substr($pay->payment_id,-4) == 'DP/1')
 												Down Payment
-											@elseif ($pay == 'LP/1')
+											@elseif (substr($pay->payment_id,-4) == 'LP/1')
 												Last Payment
 											@else
-												Unknown
+												-
 											@endif
-										</td>
-											<td>{{ $pay->bank?->bank_name }},{{ $pay->bank?->bank_account_no }}</td>
-											<!-- <td>3422984418</td>
-											<td>BCA</td>
-											<td>Ririe Agustina</td>
-											<td>27 Feb 2023</td> -->
-											<td><a target="_blank" href="#">-</a></td>
-											<td style="width:15%">
-												@if ($status == '00' || $status == '02' || $status == '05')
-													<input style="width:80%" type="text" name='payment_amount' value="{{ $pay->payment_amount }}" >
-												@else
-													<span>Payment Amount</span>
-												@endif
 											</td>
-											<input type="hidden" value="5f33485b-1876-435c-b520-ed29165bd78c" name="PaymentUUID">
-											<input type="hidden" value="PAY/EX23020183/DP/1" name="payment_id">
+											<td>{{ $pay->bank?->bank_name }},{{ $pay->bank?->bank_account_no }}</td>
+											<td>{{ $pay->account_no_source }}</td>
+											<td>{{ $pay->bank_source }}</td>
+											<td>{{ $pay->account_name_source }}</td>
+											<td>{{ $pay->payment_date  }}</td>
+											<td><a target="_blank" href="#">Hyperlink</a></td>
+											@if ($po->status == '00' || $po->status == '02' || ($po->status == '05' && $pay->status == '00'))
+											<td style="width:15%">
+												<input style="width:80%" type="text" name='payment_amount' value="{{ $pay->payment_amount }}" >
+												<input type="hidden" value="{{ $pay->PaymentUUID }}" name="PaymentUUID">
+												<input type="hidden" value="{{ $pay->payment_id }}" name="payment_id">
+											</td>
+											@else
+												<td>{{ $pay->payment_amount }}</td>
+											@endif
 											<td>
 												@if ($pay->status == '00')
 													Pending Verification
@@ -392,8 +465,6 @@
 													Not Valid
 												@endif
 											</td>
-												</select>
-												</td>
 										</tr>
 									@endforeach
 									@else
@@ -439,22 +510,26 @@
 										<div class="col-sm-6 col-sm-offset-3">
 											<div class="btn-toolbar">
 											<input type="hidden" value="" id="type">
-											@if ($payment->status == '00')
-												<button class="btn-primary btn" value='verify_payment' id="verify_payment" name='tombol'>Verify Payment & Invalid Payment</button>
-											@elseif ($payment->status == '01' || $status == '04')
-												<button class="btn-primary btn" value='reload_invoice' id="reload_invoice" name='tombol'>Reload Invoice</button>
-											@elseif ($payment->status == '02' && $e_wallet_amount != $total_trans)
+											@if ($po->status == '00')
+												<button class="btn-primary btn" value ='verify' id="verify" name='submit'>Verify Payment</button>
+												<button class="btn-primary btn" value ='cancel' id="cancel" name='submit'>Invalid Payment</button>
+											@elseif ($po->status == '02' && $po->e_wallet_amount != $po->total_trans)
 												<button class="btn-primary btn" value='update_payment' id="update_payment" name='tombol'>Update Payment</button>
-											@elseif ($payment->status == '03')
-												<button class="btn-primary btn" value='process_order' id="process_order" name='tombol'>Process Order</button>
-											@elseif ($payment->status == '05')
-												<button class="btn-primary btn" value='verify_last_payment' id="verify_last_payment" name='tombol'>Verify Last Payment & Invalid Last Payment</button>
-											@elseif ($payment->status == '06')
+											@elseif ($po->status == '01' || $po == '04')
+												<button class="btn-primary btn" value='reload_invoice' id="reload_invoice" name='tombol'>Reload Invoice</button>
+											@elseif ($po->status == '03')
+												<button class="btn-primary btn" value='prepare_delivery' id="prepare_delivery" name='tombol'>Process Order</button>
+											@elseif ($po->status == '99')
+												<button class="btn-primary btn" value ='cancel_trx' id="cancel_trx" name='submit'> Cancel Transaction</button>
+											@elseif ($po->status == '05')
+												<button class="btn-primary btn" value ='verify_last' id="verify_last" name='submit'> Verify Last Payment</button>
+												<button class="btn-primary btn" value ='cancel_last' id="cancel_last" name='submit'>Invalid Last Payment</button>
+											@elseif ($po->status == '06')
 												<button class="btn-primary btn" value='update_no_resi' id="update_no_resi" name='tombol'>Update No. Resi</button>
-											@elseif ($payment->status == '08')
-												<button class="btn-primary btn" value='verify_payment' id="verify_payment" name='tombol'>Verify Payment</button>
+											@elseif ($po->status == '08')
+												<button class="btn-primary btn" value='verify_addendum' id="verify_addendum" name='tombol'>Verify Payment</button>
 											@else
-												<button class="btn-primary btn" value='back' id="back" name='tombol'>Back</button>
+												<button class="btn-primary btn" value='back' id="back" name='button' onclick="window.history.go(-1); return false;">Back</button>
 											@endif
 																										<!-- <button class="btn-primary btn" value ='update_invoice_data' id="update_invoice_data" name='tombol' type='button' > Update Data</button> -->
 												   <!--  <button class="btn-primary btn" value ='update_status_barang' id="update_status_barang" name='tombol' type='button' > Go to Waiting Goodies</button>-->
@@ -467,12 +542,12 @@
 										</div>
 									</div>
 								</div>
-								<input type='hidden' name='po_id'  value='EX23020183'>
-								<input type='hidden' name='customer_name'  value='Riri Agustina'>
+								<input type='hidden' name='po_id'  value='{{ $po->po_id }}'>
+								<input type='hidden' name='customer_name'  value='{{ $po->receiver_name }}'>
 								<input type='hidden' name='delivery_address'  value='Banua Anyar Permai No.57 Komplek Banua Anyar Permai , Jalan Banua Anyar Permai No.57, RT.3/RW.1 , Banua Anyar, Banjarmasin Timur Banjarmasin Timur - Kota Banjarmasin - Kalimantan Selatan - 70239 , Banjarmasin Timur  , Banjarmasin, Kalimantan Selatan'>
 								<input type='hidden' name='jenis_proses' id='tombol' value=''>
 								<input type='hidden' name='BatchUUID' id='BatchUUID' value=''>
-								<input type='hidden' name='CustomerUUID' id='CustomerUUID' value='ad578dbf-4627-4f83-94a5-f468f34464cd'>
+								<input type='hidden' name='CustomerUUID' id='CustomerUUID' value='{{ $po->CustomerUUID }}'>
 								<input type='hidden' name='refund_flag' id='refund_flag' value=''>
 								<input type='hidden' name='RequestOrderUUID' id='RequestOrderUUID' value='0ec2d39a-b361-4cf6-b24b-ca59341c251c'>
 							{{ Form::close() }}

@@ -4,6 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrPo;
+use App\Models\TrPoDtl;
+use App\Models\TrPayment;
+use App\Models\LogTransaction;
+use App\Models\TrInvoice;
+use App\Models\LogActv;
+use App\Models\Registercostumer;
+use App\Mail\VerifiedPaymentEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class WaitingGoodController extends Controller
 {
@@ -22,39 +31,193 @@ class WaitingGoodController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $data['waitinggoods'] = TrPo::with('trRequestOrder', 'msStatus', 'msCustomer')
-                                    ->where('POUUID', '!=', 'ms_status.type')
-                                    ->first();
-        $data['podetails'] = TrPoDtl::where('POUUID', $id)
-                            ->with(['request_order_detail' => function ($query) {
-                                $query->orderBy('seq', 'ASC');
-                            }])
-                            ->get();
+        $data['po'] = TrPo::with(['trRequestOrder', 'msStatus', 'msCustomer'])
+            ->where('POUUID', $id)
+            ->whereHas('msStatus', function ($query) {
+                $query->where('type', '!=', 'RO');
+            })
+            ->first();
+
         $data['payment'] = TrPayment::with(['po', 'bank'])
-                            ->where('POUUID', $id)
-                            ->orderBy('created_date', 'ASC')
-                            ->get();
-        $data['logtrans'] = Logtransaction::where('POUUID', $id)
-                            ->orderBy('log_date ', 'DESC')
-                            ->get();           
+            ->where('POUUID', $id)
+            ->orderBy('created_date', 'ASC')
+            ->get();
+
+        $data['podetails'] = TrPoDtl::where('POUUID', $id)
+            ->with('requestOrderDtl')
+            ->orderBy('seq', 'ASC')
+            ->get();
+
+        // $data['logtrans'] = LogTransaction::where('POUUID', $id)
+        //                     ->orderBy('log_date ', 'DESC')
+        //                     ->get();
+        $data['logtrans'] = LogTransaction::get();
+
         return view('waitinggood.edit',$data);     
     }
 
-    function newid()
-		{
-			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
-			return $uuid;
-		}
-
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $AdminUUID = session('admin_id');
         $username = session('admin_name');
+        DB::beginTransaction();
         try {
+			$PaymentUUID = $request->PaymentUUID;
+			$payment_amount = $request->payment_amount;
+
+            if ($request->submit == 'verify') {
+                TrPayment::where('PaymentUUID', $PaymentUUID)->update([
+                    'payment_amount' => $payment_amount,
+                    'status' => '01',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
+                    ->first();
+                if ($invoice) {
+                    TrInvoice::where('InvoiceUUID', $invoice->InvoiceUUID)
+                        ->update([
+                            'status_invoice' => '03',
+					        'ByUserUUID' => $AdminUUID,
+					        'ByUserIP' => $request->ip(),
+					        'OnDateTime' => date('Y-m-d H:i:s')
+                        ]);
+                }
+
+                $po = TrPo::where('POUUID', $id)->first();
+                $check_use_ewallet = $po->use_ewallet;
+                $super_grand_total = $request->super_grand_total;
+                if ($check_use_ewallet == 1) {
+                	$dp_amount =  $po->e_wallet_amount;
+                	if ($payment_amount == $dp_amount) {
+                        $payment_amount = 0;
+                    }
+                } else {
+                    $dp_amount = 0;
+                }
+                $dp_amount = $dp_amount + $payment_amount;
+                $total_paid_percentage = round(( $dp_amount / $super_grand_total) * 100);
+                $total_outstanding = $super_grand_total - $dp_amount;
+                TrPo::where('POUUID', $id)->update([
+                    //'BatchUUID' => $this->input->post('batch_id'),
+                    'dp_amount' => $dp_amount,
+                    'payment_dp' => $payment_amount,
+                    'total_paid' => $total_paid_percentage,
+				    'total_outstanding' => $total_outstanding,
+				    'verify_payment_date' => date('Y-m-d H:i:s'),
+		            'status' => '02',
+	        	    'ByUserUUID' => $AdminUUID,
+				    'ByUserIP' => $request->ip(),
+				    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Verify Payment',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Verify Payment PO : </b>'.$request->payment_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $PaymentUUID,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    'action_desc' => "Admin Verify Payment ID : ".$request->payment_id,
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                // Send Email Notif to Customer
+                $EmailUUID = '609cd8c1-eb0b-4256-b2c6-e0942abd234e'; // Verified Payment Notification
+                $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
+                $emailsent = Mail::to($email_customer)->send(new VerifiedPaymentEmail(
+                    $request->po_id, $request->customer_name, $payment_amount, $EmailUUID
+                ));
+                if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                    return redirect()->back()->with('error', 'Gagal mengirim email!');
+                }
+
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == 'cancel') {
+                $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
+                    ->first();
+                TrInvoice::where('InvoiceUUID', $invoice->InvoiceUUID)
+                    ->update([
+                        'status_invoice' => '01',
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+                
+                TrPo::where('POUUID', $id)->update([
+                    'status' => '03',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                TrPayment::where('PaymentUUID', $PaymentUUID)->update([
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Verify Payment',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Verify Payment PO : </b>'.$request->payment_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $PaymentUUID,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    'action_desc' => "Admin Verify Payment ID : ".$request->payment_id,
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                // Send Email Notif to Customer
+                $EmailUUID = 'c40d3bd4-cd6c-4915-a76f-25c3c7d459a7'; //Invalid Payment Notification
+                $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
+                $emailsent = Mail::to($email_customer)->send(new VerifiedPaymentEmail(
+                    $request->po_id, $request->customer_name, $payment_amount, $EmailUUID
+                ));
+                if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                    return redirect()->back()->with('error', 'Gagal mengirim email!');
+                }
+                
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
+            }
+
             $status_ok = TrPoDtl::where('POUUID', $id)
                 ->where('status', '01')
                 ->count();
@@ -222,15 +385,16 @@ class WaitingGoodController extends Controller
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
+            dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
+
     public function notification()
     {
         return view('waitinggood.notification');
     }
-
-
 
     public function updateBatch(Request $request)
     {
