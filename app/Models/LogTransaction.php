@@ -9,6 +9,7 @@ class LogTransaction extends Model
 {
     use HasFactory;
     protected $table = 'log_transaction';
+    public $timestamps = false;
     protected $fillable = [
         'LogTransUUID',
         'POUUID',

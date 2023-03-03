@@ -9,6 +9,7 @@ class TrPayment extends Model
 {
     use HasFactory;
     protected $table = 'tr_payment';
+    public $timestamps = false;
     protected $fillable = [
         'PaymentUUID',
         'payment_id',

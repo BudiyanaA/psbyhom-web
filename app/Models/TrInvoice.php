@@ -9,6 +9,7 @@ class TrInvoice extends Model
 {
     use HasFactory;
     protected $table = 'tr_invoice';
+    public $timestamps = false;
     protected $fillable = [
         'InvoiceUUID',
         'RequestOrderUUID',
