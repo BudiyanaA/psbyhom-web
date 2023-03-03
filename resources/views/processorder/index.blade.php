@@ -177,9 +177,12 @@
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Courier :</div>
 													<div class="col-sm-8 col-md-8">
-														<select required name="courier_type" id="courier_type" class="form-control"   >									 
+													<select required name="courier_type" id="courier_type" class="form-control"   >									 
 															<option value="jne">JNE</option>
 														</select>
+													<!-- <select required name="courier_type" id="courier_type" class="form-control">
+														<option value="">Pilih Kurir</option>
+													</select> -->
 													</div>
 												</div>		
 												<div class="form-group">
@@ -703,7 +706,7 @@ function calculateTotal() {
   //   subtotal += parseInt($(this).text());
   // });
   // $('#grand_total').text(subtotal);
-// });
+// });loadCourier
 </script>
 <script type="text/javascript">
 	$(document).ready( function () {
@@ -964,6 +967,8 @@ function calculateTotal() {
       }
 	}
 
+
+
 	function loadSubdistrict(cityId, subdistrictId) {
 			if(cityId) {
           $.ajax({
@@ -1009,6 +1014,7 @@ function calculateTotal() {
 				$('input[name=use_packing]').attr('checked', false);
       }
 	}
+	
 	$(document).ready(function() {
     // Hide the second tab initially
     $('#tabs-2').hide();
@@ -1020,5 +1026,27 @@ function calculateTotal() {
     });
   });
 
+		
+
 </script>
+<!-- <script>
+$(document).ready(function() {
+  $.ajax({
+    url: '/api/rajaongkir/couriers',
+    type: 'GET',
+    success: function(data) {
+      // Mengisi daftar pilihan dengan opsi kurir yang diterima
+      var couriers = data.couriers;
+      var options = '<option value="">Pilih Kurir</option>';
+      for (var i = 0; i < couriers.length; i++) {
+        options += '<option value="' + couriers[i] + '">' + couriers[i] + '</option>';
+      }
+      $('#courier_type').html(options);
+    },
+    error: function(xhr, status, error) {
+      console.error("Error: ", error);
+    }
+  });
+});
+</script> -->
 @endsection

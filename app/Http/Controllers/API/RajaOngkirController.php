@@ -86,4 +86,22 @@ class RajaOngkirController extends Controller
       ];
     }
 
+    public function couriers(Request $request)
+    {
+      $couriers = [];
+      
+        $result = Http::withHeaders([
+          'key' => $this->api_key,
+        ])->get($this->base_url . '/couriers')->json()["rajaongkir"];
+
+        if ($result["status"]["code"] == 200) {
+          $couriers = $result["results"];
+          return [
+            "code" => $result["status"]["code"],
+            "message" => $result["status"]["description"],
+            "couriers" => $couriers,
+        ];
+    }
+
+}
 }
