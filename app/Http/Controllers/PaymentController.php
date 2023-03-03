@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TrPo;
 
 class PaymentController extends Controller
 {
     public function index(Request $request)
     {
         $status = $request->input('status');
+        $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->orderBy('OnDateTime')->get();
         
         if ($status === '00') {
             $title = 'DP Confirmation';
@@ -24,7 +26,7 @@ class PaymentController extends Controller
             $subtitle = 'List of PO Waiting to be delivered';
         }
         
-        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status]);
+        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
     }
 
     function newid()

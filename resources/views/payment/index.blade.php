@@ -105,14 +105,16 @@
 									</tr>
                                 </thead>
                                 <tbody>
+								@if(count($payment) > 0)
+								@foreach($payment as $p)
                                     <tr >										<input type="hidden" value="9d042f66-f78b-4034-80ce-baeb72037a26" class='POUUID' name="POUUID1">
 										<input type="hidden" value="ekartikasari22@gmail.com" class='customer_email' name="customer_email1">
-										<td valign='top'>1</td>
-										<td><a href="https://psbyhom.com/po_invoice_controller/view_po_invoice/9d042f66-f78b-4034-80ce-baeb72037a26.html">IM20040083</a></td>
-										<td><a href="https://psbyhom.com/isms_customer_management/view_customer/afce0d58-4cf0-4b42-833e-6a686f877efd.html">Evita Kartikasari</a></td>
-										<td>18 Apr 2020</td>
-										<td>461,387</td>
-										<td>Waiting Down Payment</td>
+										<td valign='top'>{{ $loop->index + 1 }}</td>
+										<td><a href="{{ route('preorder.detail', $p->RequestOrderUUID) }}">{{ $p->po_id }}</a></td>
+										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
+										<td>{{ $p->trans_date }}</td>
+										<td>{{ $p->subtotal }}</td>
+										<td>{{ $p->status }}</td>
 										@if ($status === '06')
 										<td>
 										<a href="#" class="resi" data-name="no_resi" data-type="text" data-pk="1" data-title="Enter name">N/A</a>
@@ -120,6 +122,12 @@
 										@endif 
 										</tr>
 									<tr >
+										@endforeach
+										@else
+								<tr>
+									<td colspan="10">Data not found</td>
+								</tr>
+							@endif
 										<input type="hidden" value="6b2cfaa6-e7db-499f-82f4-df5b75014e43" class='POUUID' name="POUUID2">
 										
 												<td colspan='8'>

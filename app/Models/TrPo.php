@@ -68,16 +68,21 @@ class TrPo extends Model
 
     public function trRequestOrder()
     {
-        return $this->belongsTo(TrRequestOrder::class, 'RequestOrderUUID', 'uuid');
+        return $this->belongsTo(TrRequestOrder::class, 'RequestOrderUUID', 'RequestOrderUUID');
     }
 
     public function msStatus()
     {
-        return $this->belongsTo(MsStatus::class, 'status', 'code');
+        return $this->belongsTo(MsStatus::class, 'StatusUUID', 'StatusUUID');
     }
 
     public function msCustomer()
     {
         return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
+    }
+
+    public function msBatch()
+    {
+        return $this->belongsTo(MsBatch::class, 'BatchUUID', 'BatchUUID');
     }
 }
