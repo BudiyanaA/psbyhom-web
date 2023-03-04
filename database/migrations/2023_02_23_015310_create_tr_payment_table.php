@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('POUUID');
             $table->string('InvoiceUUID')->nullable();
             $table->string('BankUUID');
-            $table->string('image_path')->nullable();
+            // $table->string('image_path')->nullable();
             $table->datetime('created_date');
             $table->string('created_by');
             $table->string('payment_amount');

@@ -18,7 +18,7 @@ class WaitingGoodController extends Controller
 {
     public function index()
     {
-        $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
+        $data['waitinggoods'] = TrPo::where('status', ['02', '03'])
             ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
             ->with('poDtls', function ($query) {
                 $query->orderBy('seq', 'ASC');
@@ -51,7 +51,6 @@ class WaitingGoodController extends Controller
                 $query->where('type', '!=', 'RO');
             })
             ->first();
-
         $data['payment'] = TrPayment::with(['po', 'bank'])
             ->where('POUUID', $id)
             ->orderBy('created_date', 'ASC')

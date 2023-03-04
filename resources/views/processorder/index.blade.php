@@ -882,7 +882,7 @@ function calculateTotal() {
 	function loadCosts(subdistrictId) {
 		if(subdistrictId) {
           $.ajax({
-              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=${courier}`,
+              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=jne`,
               type: "GET",
               data : {"_token":"{{ csrf_token() }}"},
               dataType: "json",
