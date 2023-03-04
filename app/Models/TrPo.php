@@ -73,7 +73,7 @@ class TrPo extends Model
 
     public function msStatus()
     {
-        return $this->belongsTo(MsStatus::class, 'StatusUUID', 'StatusUUID');
+        // return $this->belongsTo(MsStatus::class, 'StatusUUID', 'StatusUUID');
         return $this->belongsTo(MsStatus::class, 'status', 'status_id');
     }
 

@@ -94,9 +94,9 @@
 										@foreach($podetails as $p)						
 												<tr >
 													<input type="hidden" value="79c4a860-878a-4bb7-b5af-1ea064871bd4" name="PODtlUUID1">
-													<input type="hidden" value="1499408" id="price1">
-													<input type="hidden" value="1" id="po_qty1">
-													<input type="hidden" value="1499408" id="subtotal_po1" name="subtotal_po1">
+													<input type="hidden" value="{{ $p->price }}" id="price{{ $loop->index }}">
+													<input type="hidden" value="{{ $p->qty }}" id="po_qty{{ $loop->index }}">
+													<input type="hidden" value="{{ $p->subtotal }}" id="subtotal_po{{ $loop->index }}" name="subtotal_po{{ $loop->index }}">
 													<td style='width:10%'>
 														@if ($po->status == '00' || $po->status == '01')
 															{{ $p->qty }}
@@ -117,7 +117,7 @@
 																	$total_reject++;
 																}
 															@endphp
-															<input {{ $disabled  }} style='width:55%' type='number'  class="incoming_qty" name='incoming_qty[{{ $loop->index }}]' id='incoming_qty{{ $loop->index }}' value='<?php echo trim($incoming_qty) ?>'>
+															<input {{ $disabled  }} style='width:55%' type='number'  class="incoming_qty" name='incoming_qty[{{ $loop->index }}]' id='incoming_qty{{ $loop->index }}' value='{{ trim($incoming_qty) }}'>
 														@elseif (in_array($po->status, ['04', '05', '06', '07', '08', '09']))
 															<td  style='width:10%' >{{ $p->incoming_qty }}</td>
 														@endif
@@ -131,7 +131,7 @@
 															<td>{{ number_format($p->requestOrderDtl?->price_customer - ($p->requestOrderDtl?->price_customer * $p->requestOrderDtl?->disc_percentage / 100),2) }}</td>															
 														@endif
 														<td>{{ $p->price }}</td>
-														<td class="po_subtotal1">{{ number_format($p->subtotal) }}</td>
+														<td class="po_subtotal{{ $loop->index}}">{{ number_format($p->subtotal) }}</td>
 												</tr>
 										@endforeach
 										@else
@@ -146,20 +146,20 @@
 										 	$colspan = '4';
 										}
 										@endphp
-										<input type="hidden" value="1" id="total_row" name='total_row'>	
+										<input type="hidden" value="{{ count($podetails) }}" id="total_row" name='total_row'>	
 										<tr>
 											<td colspan='2' style="text-align:right"></td>
 											<td colspan='2'></td>
 											<td colspan='{{ $colspan }}' style="text-align:right">Subtotal</td>
 											<td class="po_grandtotal">{{ $po->subtotal}}</td>
 											<input type='hidden' name='total_rejects' value="0">
-											<input type='hidden' id='dp_amounts' value="800000">
+											<input type='hidden' id='dp_amounts' value="{{ $po->dp_amount }}">
 											<input type='hidden' id='ongkir_value' value="33000">
 											<input type='hidden' id='insurance_value' value="7999">
 											<input type='hidden' id='package_value' value="0">
-											<input type='hidden' id='disc_value' value="0">
-											<input type='hidden' id='unique_amount_value' value="98">
-											<input type='hidden' id='ewallet_value' value="0">
+											<input type='hidden' id='disc_value' value="{{ $po->disc }}">
+											<input type='hidden' id='unique_amount_value' value="{{ $po->unique_amount }}">
+											<input type='hidden' id='ewallet_value' value="{{ $po->e_wallet_amount }}">
 										</tr>
 										
 									<tr>
@@ -199,7 +199,7 @@
 												{{ number_format($po->insurance) }}
 											@endif
 										</td>
-										<input type='hidden' id='total_outstanding' name='total_outstanding' value="740504">
+										<input type='hidden' id='total_outstanding' name='total_outstanding' value="{{ $po->total_outstanding }}">
 										<input type='hidden' id='ori_total_outstanding' name='ori_total_outstanding' value="740504">
 									</tr>
 
@@ -249,10 +249,10 @@
 										<td colspan='2'></td>
 										<td colspan='{{ $colspan }}' style="text-align:right">Grand Total</td>
 										<td class="super_grand_total"><strong>{{ number_format($po->total_trans) }}</strong></td>
-										<input type="hidden" name="sub_grand_total" id='sub_grand_total' value="1499408">
-										<input type="hidden" name="super_grand_total_ori" id='super_grand_total_ori' value="1540504">
+										<input type="hidden" name="sub_grand_total" id='sub_grand_total' value="{{ $po->subtotal }}">
+										<input type="hidden" name="super_grand_total_ori" id='super_grand_total_ori' value="{{ $po->total_trans }}">
 										<input type="hidden" name="super_grand_total" id='super_grand_total' value="{{ $po->total_trans }}">
-										<input type="hidden" name="total_refund" id='total_refund' value="">
+										<input type="hidden" name="total_refund" id='total_refund' value="{{ $po->refund_amount }}">
 										<input type="hidden" name="e_wallet" id='e_wallet' value="0">
 									</tr>
 
@@ -568,4 +568,214 @@
 </div> <!-- container -->
     </div> <!--wrap -->
 </div>
+@endsection
+
+
+@section ('script')
+<script>
+  $(document).ready(function() {
+		recalculate();
+		$('.incoming_qty').on('keyup mouseup', function() 
+		{
+			recalculate();
+		});
+
+		$('#additional_shipping_fee').on('keyup', function() 
+		{
+			var additional_shipping_fee = $("#additional_shipping_fee").val();
+			if(isNaN(additional_shipping_fee))
+			{
+				alert("Additional Shipping Fee must be in numeric !");
+				$("#additional_shipping_fee").val("0");
+				$("#additional_shipping_fee").focus();
+				recalculate();
+			}
+			else
+			{
+				recalculate();
+			}
+		});
+
+		$('#delivery_fee').on('keyup', function() 
+		{
+			var delivery_fee = $("#delivery_fee").val();
+			if(isNaN(delivery_fee))
+			{
+				alert("Delivery Fee must be in numeric !");
+				$("#delivery_fee").val("0");
+				$("#delivery_fee").focus();
+				recalculate();
+			}
+			else
+			{
+				recalculate();
+			}
+		});
+
+		$('#insurance_fee').on('keyup', function() 
+		{
+			var insurance_fee = $("#insurance_fee").val();
+			if(isNaN(insurance_fee))
+			{
+				alert("Insurance Fee must be in numeric !");
+				$("#insurance_fee").val("0");
+				$("#insurance_fee").focus();
+				recalculate();
+			}
+			else
+			{
+				recalculate();
+			}
+		});
+
+		$('#block_package_fee').on('keyup', function() 
+		{
+			var block_package_fee = $("#block_package_fee").val();
+			if(isNaN(block_package_fee))
+			{
+				alert("Block Package Fee must be in numeric !");
+				$("#block_package_fee").val("0");
+				$("#block_package_fee").focus();
+				recalculate();
+			}
+			else
+			{
+				recalculate();
+			}
+		});		
+	});
+
+	function numberWithCommas(x)
+	{
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
+	function recalculate()
+	{
+		var total_row = $("#total_row").val();
+		var additional_shipping_fee = $("#additional_shipping_fee").val();
+
+		var i = 0;
+		var price = 0;
+		var incoming_qty = 0;
+		var po_qty = 0;
+		var error = 0;
+		var subtotal = 0;
+		var grandtotal = 0;
+		var ongkir = $("#delivery_fee").val();
+		var insurance = $("#insurance_fee").val();
+		// var disc = $("#disc_value").val();
+		var disc = 0;
+		var package_value =  $("#block_package_fee").val();
+		var unique_amount_value = 0;// $("#unique_amount_value").val();
+		var ewallet_value = $("#ewallet_value").val();
+		var total_refund = 0;
+		var dp_amount = $("#dp_amounts").val();
+		var total_outstanding = 0;
+		var grand_total_ori = $("#super_grand_total_ori").val();
+		
+		if(insurance == '')
+		{
+			alert("Insurance cannot be empty !");
+			insurance = 0;
+			$("#insurance_fee").val('0');
+		}
+		
+		if(ongkir == '')
+		{
+			alert("Delivery Fee cannot be empty !");
+			ongkir = 0;
+			$("#delivery_fee").val('0');
+		}
+		
+		if(package_value == '')
+		{
+			alert("Block Package Fee cannot be empty !");
+			package_value = 0;
+			$("#block_package_fee").val('0');
+		}
+		
+		if(additional_shipping_fee == '')
+		{
+			alert("Additional Shipping Fee cannot be empty !");
+			additional_shipping_fee = 0;
+			$("#additional_shipping_fee").val('0');
+		}
+		
+		
+		for(i = 0;i < total_row;i++)
+		{
+			price =  $("#price"+i).val();
+			incoming_qty =  $("#incoming_qty"+i).val();
+			po_qty = $("#po_qty"+i).val();
+
+			if(parseInt(incoming_qty) > parseInt(po_qty))
+			{
+				alert("Incoming Qty ("+incoming_qty+") cannot more than ordered Qty ("+po_qty+") on row "+i+" !")
+				$("#incoming_qty"+i).val(po_qty);
+				$("#incoming_qty"+i).focus();
+				error++;
+			}
+			else if(parseInt(incoming_qty) < 0)
+			{
+				alert("Incoming Qty ("+incoming_qty+") cannot less than 0 !")
+				$("#incoming_qty"+i).val("0");
+				$("#incoming_qty"+i).focus();
+				error++;
+			}
+			else  
+			{
+				subtotal = parseInt(price) * parseInt(incoming_qty);
+				$('.po_subtotal'+i).html(numberWithCommas(subtotal));
+				$("#subtotal_po"+i).val(subtotal);
+				grandtotal = parseInt(grandtotal) + parseInt(subtotal);
+			}
+		}
+		
+		if(error == 0)
+		{ 
+			
+			$('.po_grandtotal').html(numberWithCommas(grandtotal));
+		
+			// TODO: Periksa
+			if(parseInt(ewallet_value) != parseInt(grand_total_ori))
+			{
+				super_grand_total = (parseInt(unique_amount_value) + parseInt(grandtotal) + parseInt(ongkir) + parseInt(insurance) + parseInt(package_value) - parseInt(disc)) + parseInt(additional_shipping_fee);		
+			}
+			else
+			{
+				super_grand_total = (parseInt(unique_amount_value) + parseInt(grandtotal) + parseInt(ongkir) + parseInt(insurance) + parseInt(package_value) - parseInt(disc)) + parseInt(additional_shipping_fee);				
+			}
+			console.log(unique_amount_value);
+			console.log(grandtotal);
+			console.log(ongkir);
+			console.log(insurance);
+			console.log(package_value);
+			console.log("Disc: " + disc);
+			console.log(additional_shipping_fee);
+
+			$('.super_grand_total').html(numberWithCommas(super_grand_total));
+			total_outstanding = parseInt(super_grand_total) - parseInt(dp_amount);
+			$('#total_outstandings').html(numberWithCommas(total_outstanding));
+
+			if(parseInt(total_outstanding) < 0)
+			{
+				total_refund = total_outstanding;
+				$('.remarks_kurang').html("Total Refund");
+				$('#total_refund').val(Math.abs(total_refund));
+			}
+			else
+			{
+				total_refund = 0;
+				$('.remarks_kurang').html("Total Outstanding");
+				$('#total_refund').val('0');
+			}
+			$('#total_outstanding').val(total_outstanding);
+			$('#super_grand_total').val(super_grand_total);
+			
+			$('#sub_grand_total').val(grandtotal);
+		}
+		
+	}
+</script>
 @endsection
