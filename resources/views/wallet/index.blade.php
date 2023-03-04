@@ -14,12 +14,25 @@
 	<th align='left'>Amount</th>
 	<th >Description</th>
 </tr>
-<tr>
-<td colspan='5' style="text-align:center">No E-Wallet History </td>
-</tr>
+@if(count($wallet) > 0)
+						@foreach($wallet as $e)
+                                    <tr>
+                                        <td colspan='5' >{{ $loop->index + 1 }}</td>
+                                        <td colspan='5'>{{ $e->msCustomer?->customer_name}}</td>
+                                        <td colspan='5'>{{ $e->trans_date}}</td>
+                                        <td colspan='5'>{{ $e->amount}}</td>
+                                        <td colspan='5'>{{ $e->description}}</td>
+                                        <td colspan='5'>{{ $e->po?->request_id}}</td>
+                                    </tr>
+                                    @endforeach
+									@else
+								<tr>
+								<td colspan='5' style="text-align:center">No E-Wallet History </td>
+								</tr>
+							@endif
 	</table>
 </div>
-<input type="checkbox" name="use_withdrawal" id="use_withdrawal" value="1"> Withdraw E-Wallet</div>
+<input type="checkbox" name="use_withdrawal" id="use_withdrawal" value="1" onchange="toggleWithdrawalForm()"> Withdraw E-Wallet
 <br>
 <br>
 <br>
@@ -70,3 +83,14 @@
 <div class="blockseparator"></div>
 	</div>
 @endsection
+
+<script>
+function toggleWithdrawalForm() {
+  var withdrawalForm = document.getElementById("withdrawal_form");
+  if (document.getElementById("use_withdrawal").checked) {
+    withdrawalForm.style.display = "block";
+  } else {
+    withdrawalForm.style.display = "none";
+  }
+}
+</script>
