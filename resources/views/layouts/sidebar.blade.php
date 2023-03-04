@@ -54,7 +54,7 @@
                     </li>
                     <li><a href="{{ route('payment.index') }}?status=00" class="menu">DP Confirmation<span class="badge badge-indigo"><?php echo getAdminDp(); ?></span></a></li></li>
                     <li><a href="{{ route('Waitinggood.index') }}" class="menu">Waiting Goodies<span class="badge badge-info"><?php echo getAdminGoods(); ?></span></a></li></li>
-                    <li><a href="{{ route('payment.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminDp(); ?></span></a></li></li>
+                    <li><a href="{{ route('payment.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminLp(); ?></span></a></li></li>
                     <li><a href="{{ route('payment.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminReady(); ?></span></a></li></li>
                     <li><a href="{{ route('overall.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
                     <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i><span>E-Commerce</span></a>

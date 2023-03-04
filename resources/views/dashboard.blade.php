@@ -26,7 +26,7 @@
                     <i class="fa fa-shopping-cart"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                        <?php echo $total_new // $newUsers ?>
+                      <?php echo getAdminNew(); ?>
                       </font>
                     </div>
                     <small>.</small>
@@ -42,7 +42,7 @@
                     <i class="fa fa-money"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                        <?php echo $total_dp // number_format($totalHit) ?><span class="text-smallcaps"></span>
+                      <?php echo getAdminDp(); ?><span class="text-smallcaps"></span>
                       </font>
                     </div>
                     <small>.</small>
@@ -57,7 +57,7 @@
                   <div class="tiles-body-alt">
                     <i class="fa fa-truck"></i>
                     <div class="text-center">
-                      <?php echo $total_goodies //round($avgSessionDuration,2) ?>
+                    <?php echo getAdminGoods(); ?>
                     </div>
                     <small>.</small>
                   </div>
@@ -71,7 +71,7 @@
                   <div class="tiles-body-alt">
                     <i class="fa fa-dollar"></i>
                     <div class="text-center">
-                      <?php echo $total_fp //round($totalBounce,2) ?>
+                    <?php echo getAdminLp(); ?>
                     </div>
                     <small>.</small>
                   </div>
