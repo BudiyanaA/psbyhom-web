@@ -44,35 +44,56 @@
 					
 										</tr>
 									</thead>
-                                <tbody>
+              <tbody>
               @if(count($waitinggoods) > 0)
 								@foreach($waitinggoods as $w)
+                  @foreach ($w->poDtls as $dtl)
 									<tr >													
-										<input type="hidden" value="fde5e673-5e1d-455a-8fe7-f3eec3f78f85" class='PODtlUUID' name="PODtlUUID100">
+										<input type="hidden" value="{{ $dtl->PODtlUUID }}" class='PODtlUUID' name="PODtlUUID100">
 										<input type="hidden" value="1" name="qty_po100">
-										<td><a href="{{ route('waitinggoods.detail', $w->POUUID) }}">{{ $w->po_id }}</a></td>
-										<td>{{ $w->price_customer - ($w->price_customer * $w->disc_percentage / 100) }}</td>
-											<td>{{ $w->incoming_qty }}</td>
-											<td><a href="{{ $w->product_url }}">LINK</a></td>
-											<td>{{ $w->product_name }}</td>
-											<td><a href="#">{{ $w->customer?->customer_name }}</a></td>			
-											<td valign='top'>		
-												<a href="#" class="batchorder" data-type="text" data-name="batchorder">
-													{{ $w->batch_no }}
-												</a>	
-											</td>
-											<td style="width:20%">												
-												<a href="#" class="arrival_status" data-type="select"  data-name="batchorder">
-												{{ $w->status_item }}
-												</a>
-												<span class="tambahan">	</span>
-												<input type='hidden' class='stat' value='00'>
-												<input type='hidden' class='qty_real' value='1'>
-												<input type='hidden' class='incoming' value='1'>
-												<input type='hidden' class='harga' value='848300'>
-											</td>																								
+										<td>
+                      @if ($loop->index == 0)
+                        <a href="{{ route('waitinggoods.detail', $dtl->POUUID) }}">{{ $w->po_id }}</a>
+                      @else
+                        <p style='color: white;font-size: 1px;'>{{ $w->po_id }}</p>
+                      @endif
+                    </td>
+                    <td>
+                      @php
+                        $price_customer = $dtl->requestOrderDtl?->price_customer - ($w->requestOrderDtl?->price_customer * $w->requestOrderDtl?->disc_percentage / 100);
+                      @endphp
+                      {{ number_format($price_customer,2) }}
+                    </td>
+                    <td style="width:8%" class="incoming_qty2">{{ $dtl->incoming_qty }}</td>
+										<td><p id="price"><a href="{{ $dtl->requestOrderDtl?->product_url }}">LINK</a></p></td>
+										<td style="width:20%">{{ $dtl->requestOrderDtl?->product_name }}</td>
+										<td style="width:20%"><a href="{{ route('customer.detail', $w->CustomerUUID) }}">{{ $w->msCustomer?->customer_name  }}</a></td>			
+										<td style="width:18%" valign='top'>		
+											<a href="#" class="batchorder" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="batchorder">
+												@if ($dtl->batch_no != '')
+                          {{ $dtl->batch_no }}
+                        @endif
+											</a>	
 										</td>
+										<td style="width:20%">												
+											<a href="#" class="arrival_status" data-type="select" data-pk="87605" data-pk-invoice="SS19041299" data-name="batchorder">
+                        @if ($dtl->status == '00') Not Arrived
+                        @elseif ($dtl->status == '01') OK
+                        @elseif ($dtl->status == '02') Reject
+                        @endif
+											</a>
+											<span class="tambahan">
+                        @if ($dtl->status == '02')
+                          / <a href="#" class="keterangan_item" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="keterangan_item">{{ $dtl->keterangan }}</a>
+                        @endif
+                      </span>
+											<input type='hidden' class='stat' value='00'>
+											<input type='hidden' class='qty_real' value='{{ $dtl->qty }}'>
+											<input type='hidden' class='incoming' value='1'>
+											<input type='hidden' class='harga' value='{{ $dtl->price }}'>
+										</td>																								
 									</tr>
+                  @endforeach
 								@endforeach
                 @else
                   <tr>
@@ -104,57 +125,97 @@
 </div>
 @endsection
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" />
-
+@section ('script')
 <script>
   $(document).ready(function() {
+    $.fn.editable.defaults.mode = 'inline';
     $('.batchorder').editable({
-      url: '/update-batch', // URL untuk menyimpan perubahan ke database
-      title: 'Edit Batch No',
+      title: 'Enter batch order',
       type: 'text',
-      params: function(params) {
-        params._token = '{{ csrf_token() }}'; // Tambahkan token CSRF untuk keamanan
-        return params;
-      },
-      ajaxOptions: {
-        type: 'put' // Menggunakan metode PUT untuk mengirim data ke server
-      }
     });
+    $('.arrival_status').editable({
+      type: 'select',
+      source: [
+        {value: '00', text: 'Not Arrived'},
+        {value: '01', text: 'OK'},
+        {value: '02', text: 'Reject'},
+      ],
+    });
+
+    $('.batchorder').on('save', function(e, params) {
+	  	var batch_no = params.newValue;
+	  	var PODtlUUID = $(this).closest('tr').find('.PODtlUUID').val();
+    
+	  	$.ajax({
+        url: '/api/batch_order/update',
+        type:"POST",
+	  		data:{PODtlUUID:PODtlUUID,batch_no:batch_no},
+	  		success: function(data) {
+          if (data.success) {
+            $(this).closest('tr').find('.batchorder').html(batch_no);
+          }
+	  			//alert("Success update Batch No !");
+	  		}
+	  	})
+	  });
+    $('.arrival_status').on('save', function(e, params) {
+		  var status_item = params.newValue;
+		  var qty = $(this).closest('tr').find('.qty_real').val(); 
+		  var PODtlUUID = $(this).closest('tr').find('.PODtlUUID').val();
+		  var harga = $(this).closest('tr').find('.harga').val();
+      
+		  if(status_item =='02' )
+		  {
+		  	$(this).closest('tr').find('.incoming_qty2').html('0');
+		  	$(this).closest('tr').find('.tambahan').append('/ <a href="#" class="keterangan" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="keterangan"></a>');
+		  	keterangan();
+		  }
+		  else if(status_item != '02'	)
+		  {
+		  	$(this).closest('tr').find('.incoming_qty2').html(qty);
+		  	$(this).closest('tr').find('.tambahan').html('');
+		  }
+      
+		  $.ajax({
+        url: '/api/status_item/update',
+        type: "POST",
+		  	data:{PODtlUUID:PODtlUUID,status_item:status_item,qty:qty,harga:harga},
+		  	success: function(data) 
+		  	{
+          console.log(data);
+		  		//alert(respond)
+		  		//$(this).closest('tr').find('.arrival_status').html(status_item);
+		  		//alert("Success update Status Item !");
+		  	}
+		  })
+	  });
   });
 
-  $(document).ready(function() {
-  $('.arrival_status').editable({
-    url: '/update-status', // URL untuk menyimpan perubahan ke database
-    title: 'Edit Arrival Status',
-    type: 'select',
-    source: [
-      {value: '00', text: 'Not Arrived'},
-      {value: '01', text: 'OK'},
-      {value: '02', text: 'Reject'},
-    ],
-    params: function(params) {
-      params._token = '{{ csrf_token() }}'; // Tambahkan token CSRF untuk keamanan
-      return params;
-    },
-    ajaxOptions: {
-      type: 'put' // Menggunakan metode PUT untuk mengirim data ke server
-    },
-    display: function(value, sourceData) {
-      var text = '';
-      $.each(sourceData, function(index, item) {
-        if (item.value == value) {
-          text = item.text;
-          return false;
-        }
-      });
-      $(this).text(text);
-    }
-  });
-});
+  function keterangan()
+	{
+		$('.keterangan').editable(
+		{
+			type:  'text',
+			title: 'Enter batch order',
+		});
+		
+		$('.keterangan').on('save', function(e, params) 
+		{
+			var keterangan = params.newValue;
+			var PODtlUUID = $(this).closest('tr').find('.PODtlUUID').val();
+				
+			$.ajax({
+        url: '/api/keterangan/update',
+        type: "POST",
+				data:{PODtlUUID:PODtlUUID,keterangan:keterangan},
+				success: function(data) 
+				{
+          console.log(data);
+					//$(this).closest('tr').find('.batchorder').html(batch_no);
+					//alert("Success update keterangan !");
+				}
+			})
+		})
+	}
 </script>
-
-
-
-
+@endsection

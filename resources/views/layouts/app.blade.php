@@ -5,9 +5,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="{{ url('assets/less/styles.less') }}" rel="stylesheet/less" media="all"> 
     <script type="text/javascript" src="https://psbyhom.com/assets/js/less.js"></script>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>
-    <script>$.fn.poshytip={defaults:null}</script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 </head>
 <body>
 @include('layouts.header')
@@ -66,6 +63,8 @@
 <script src="https://psbyhom.com/assets/js/timepicker/lib/site.js"></script>
 <script src="https://psbyhom.com/assets/js/timepicker/dist/datepair.js"></script>
 <script src="https://psbyhom.com/assets/js/timepicker/dist/jquery.datepair.js"></script>
+<link href="http://psbyhom.com/css/bootstrap-editable.css" rel="stylesheet">
+<script src="http://psbyhom.com/js/bootstrap-editable.js"></script>
 <script>
     // initialize input widgets first
     $('#basicExample .time').timepicker({

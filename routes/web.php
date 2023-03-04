@@ -100,7 +100,7 @@ Route::get('admin/customer/update/{id}', [ApprovalController::class, 'show'])->n
 Route::get('admin/po_invoice/view/{id}', [WaitingGoodController::class, 'edit'])->name('waitinggoods.detail');
 Route::put('admin/po_invoice/validate/{id}', [WaitingGoodController::class, 'update'])->name('waitinggoods.update');
 Route::get('admin/po_invoice/success/{id}', [WaitingGoodController::class, 'notification'])->name('waitinggood.notification');
-
+Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
@@ -134,7 +134,6 @@ Route::get('admin/customer', [CostumerManagementController::class, 'index'])->na
 Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('noresi', [PaymentController::class, 'updateResi'])->name('resi.update');
 Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
-Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 Route::put('/update-batch', [WaitingGoodController::class, 'updateBatch'])->name('update-batch');
 Route::put('/update-status', [WaitingGoodController::class, 'updateStatus'])->name('update-status');
 

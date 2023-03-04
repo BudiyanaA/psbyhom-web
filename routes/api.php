@@ -33,3 +33,6 @@ Route::get('rajaongkir/costs', [RajaOngkirController::class, 'costs']);
 Route::get('rajaongkir/couriers', [RajaOngkirController::class, 'couriers']);
 
 Route::get('invoice/amount/{InvoiceUUID}', [APIController::class, 'invoiceAmount']);
+Route::post('batch_order/update', [APIController::class, 'updateBatchOrder']);
+Route::post('status_item/update', [APIController::class, 'updateStatusItem']);
+Route::post('keterangan/update', [APIController::class, 'updateKeterangan']);

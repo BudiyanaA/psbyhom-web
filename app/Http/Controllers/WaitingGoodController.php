@@ -18,13 +18,27 @@ class WaitingGoodController extends Controller
 {
     public function index()
     {
-        $data['waitinggoods'] = TrPo::whereHas('poDtls', function ($query) {
-            $query->whereIn('status', ['02', '03'])
-                  ->with(['customer', 'requestOrderDtl'])
-                  ->orderBy('seq', 'ASC');
-        })
-        ->orderBy('verify_payment_date', 'DESC')      
-        ->get();
+        $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
+            ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
+            ->with('poDtls', function ($query) {
+                $query->orderBy('seq', 'ASC');
+            })
+            ->orderBy('verify_payment_date', 'DESC')      
+            ->get();
+        // return $data['waitinggoods'];
+
+        // $data['waitinggoods'] = TrPoDtl::where()
+
+        // $status = array('02','03');
+		// $da = DB::table('tr_po')->select(DB::raw('*,tr_po_dtl.status as status_item,tr_po.status as status_po,tr_po_dtl.subtotal as subtotal_po,tr_po_dtl.qty as qty_po,tr_po_dtl.batch_no,tr_po.total_seq,tr_po_dtl.keterangan as keterangan_item,tr_po_dtl.price as harga')) 
+		// ->join('tr_po_dtl', 'tr_po_dtl.POUUID', '=', 'tr_po.POUUID')
+		// ->join('tr_request_order_dtl', 'tr_request_order_dtl.RequestOrderDtlUUID', '=', 'tr_po_dtl.RequestOrderDtlUUID')
+		// ->join('ms_customer', 'ms_customer.CustomerUUID', '=', 'tr_po.CustomerUUID')
+		// ->whereIn('tr_po.status',$status)
+		// ->orderBy('tr_po.verify_payment_date','desc')
+		// ->orderBy('tr_po_dtl.seq','asc')->get();
+        // return $da;
+
         return view('waitinggood.index',$data);
     }
 
