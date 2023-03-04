@@ -103,6 +103,8 @@ Route::get('admin/po_invoice/view/{id}', [WaitingGoodController::class, 'edit'])
 Route::put('admin/po_invoice/validate/{id}', [WaitingGoodController::class, 'update'])->name('waitinggoods.update');
 Route::get('admin/po_invoice/success/{id}', [WaitingGoodController::class, 'notification'])->name('waitinggood.notification');
 Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
+Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
+
 
 
 Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_password');
@@ -133,7 +135,6 @@ Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
 
 // Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
-Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('noresi', [PaymentController::class, 'updateResi'])->name('resi.update');
 Route::get('admin/dp_confirmation', [DpConfirmationController::class, 'index'])->name('dpconfirmation.index');
 Route::put('/update-batch', [WaitingGoodController::class, 'updateBatch'])->name('update-batch');

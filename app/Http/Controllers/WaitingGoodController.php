@@ -396,6 +396,126 @@ class WaitingGoodController extends Controller
                 DB::commit();
                 return redirect(route('waitinggood.notification', $id))
                     ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == 'verify_last') {
+                TrPo::where('POUUID', $id)->update([
+                    'total_outstanding' => '0',
+					'total_paid' => '100',
+					'payment_last' => $payment_amount,
+					'status' => '06',
+					'ByUserUUID' => $AdminUUID,
+					'ByUserIP' => $request->ip(),
+					'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                TrPayment::where('PaymentUUID', $PaymentUUID)->update([
+                    'status' => '01',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
+                    ->first();
+                TrInvoice::where('InvoiceUUID', $invoice->InvoiceUUID)
+                    ->update([
+                        'status_invoice' => '03',
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+                
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Process Order',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Admin Process Order '.$request->po_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $PaymentUUID,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    'action_desc' => "Admin Verify Payment ID : ".$request->payment_id,
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                // Send Email Notif to Customer
+                $EmailUUID = '609cd8c1-eb0b-4256-b2c6-e0942abd234e'; // Verified Payment Notification
+                $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
+                $emailsent = Mail::to($email_customer)->send(new VerifiedPaymentEmail(
+                    $request->po_id, $request->customer_name, $payment_amount, $EmailUUID
+                ));
+                if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                    return redirect()->back()->with('error', 'Gagal mengirim email!');
+                }
+                
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == 'cancel_last') {
+                TrPo::where('POUUID', $id)->update([
+					'status' => '08',
+					'ByUserUUID' => $AdminUUID,
+					'ByUserIP' => $request->ip(),
+					'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                TrPayment::where('PaymentUUID', $PaymentUUID)->update([
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Reject Last Payment Confirmation',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Reject Payment PO : </b>'.$request->payment_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $PaymentUUID,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    'action_desc' => "Admin Reject Payment ID : ".$request->payment_id,
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                // Send Email Notif to Customer
+                // $EmailUUID = '609cd8c1-eb0b-4256-b2c6-e0942abd234e'; // Verified Payment Notification
+                // $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
+                // $emailsent = Mail::to($email_customer)->send(new VerifiedPaymentEmail(
+                //     $request->po_id, $request->customer_name, $payment_amount, $EmailUUID
+                // ));
+                // if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                //     return redirect()->back()->with('error', 'Gagal mengirim email!');
+                // }
+                
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
             }
 
         } catch(\Exception $e) {

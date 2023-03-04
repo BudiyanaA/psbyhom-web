@@ -31,5 +31,6 @@ class TrInvoice extends Model
         'ByUserUUID',
         'ByUserIP',
         'OnDateTime',
+        'total_outstanding'
     ];
 }
