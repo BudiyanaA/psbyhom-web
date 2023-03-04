@@ -93,10 +93,10 @@
 										@if(count($podetails) > 0)
 										@foreach($podetails as $p)						
 												<tr >
-													<input type="hidden" value="79c4a860-878a-4bb7-b5af-1ea064871bd4" name="PODtlUUID1">
+													<input type="hidden" value="{{ $p->PODtlUUID }}" name="PODtlUUID[{{ $loop->index }}]">
 													<input type="hidden" value="{{ $p->price }}" id="price{{ $loop->index }}">
 													<input type="hidden" value="{{ $p->qty }}" id="po_qty{{ $loop->index }}">
-													<input type="hidden" value="{{ $p->subtotal }}" id="subtotal_po{{ $loop->index }}" name="subtotal_po{{ $loop->index }}">
+													<input type="hidden" value="{{ $p->subtotal }}" id="subtotal_po{{ $loop->index }}" name="subtotal_po[{{ $loop->index }}]">
 													<td style='width:10%'>
 														@if ($po->status == '00' || $po->status == '01')
 															{{ $p->qty }}
@@ -152,7 +152,7 @@
 											<td colspan='2'></td>
 											<td colspan='{{ $colspan }}' style="text-align:right">Subtotal</td>
 											<td class="po_grandtotal">{{ $po->subtotal}}</td>
-											<input type='hidden' name='total_rejects' value="0">
+											<input type='hidden' name='total_rejects' value="{{ $total_reject }}">
 											<input type='hidden' id='dp_amounts' value="{{ $po->dp_amount }}">
 											<input type='hidden' id='ongkir_value' value="33000">
 											<input type='hidden' id='insurance_value' value="7999">
@@ -514,20 +514,20 @@
 												<button class="btn-primary btn" value ='verify' id="verify" name='submit'>Verify Payment</button>
 												<button class="btn-primary btn" value ='cancel' id="cancel" name='submit'>Invalid Payment</button>
 											@elseif ($po->status == '02' && $po->e_wallet_amount != $po->total_trans)
-												<button class="btn-primary btn" value='update_payment' id="update_payment" name='tombol'>Update Payment</button>
+												<button class="btn-primary btn" value='update_payment' id="update_payment" name='submit'>Update Payment</button>
 											@elseif ($po->status == '01' || $po == '04')
-												<button class="btn-primary btn" value='reload_invoice' id="reload_invoice" name='tombol'>Reload Invoice</button>
+												<button class="btn-primary btn" value='reload_invoice' id="reload_invoice" name='submit'>Reload Invoice</button>
 											@elseif ($po->status == '03')
-												<button class="btn-primary btn" value='prepare_delivery' id="prepare_delivery" name='tombol'>Process Order</button>
+												<button class="btn-primary btn" value='prepare_delivery' id="prepare_delivery" name='submit'>Process Order</button>
 											@elseif ($po->status == '99')
 												<button class="btn-primary btn" value ='cancel_trx' id="cancel_trx" name='submit'> Cancel Transaction</button>
 											@elseif ($po->status == '05')
 												<button class="btn-primary btn" value ='verify_last' id="verify_last" name='submit'> Verify Last Payment</button>
 												<button class="btn-primary btn" value ='cancel_last' id="cancel_last" name='submit'>Invalid Last Payment</button>
 											@elseif ($po->status == '06')
-												<button class="btn-primary btn" value='update_no_resi' id="update_no_resi" name='tombol'>Update No. Resi</button>
+												<button class="btn-primary btn" value='update_no_resi' id="update_no_resi" name='submit'>Update No. Resi</button>
 											@elseif ($po->status == '08')
-												<button class="btn-primary btn" value='verify_addendum' id="verify_addendum" name='tombol'>Verify Payment</button>
+												<button class="btn-primary btn" value='verify_addendum' id="verify_addendum" name='submit'>Verify Payment</button>
 											@else
 												<button class="btn-primary btn" value='back' id="back" name='button' onclick="window.history.go(-1); return false;">Back</button>
 											@endif
@@ -544,12 +544,12 @@
 								</div>
 								<input type='hidden' name='po_id'  value='{{ $po->po_id }}'>
 								<input type='hidden' name='customer_name'  value='{{ $po->receiver_name }}'>
-								<input type='hidden' name='delivery_address'  value='Banua Anyar Permai No.57 Komplek Banua Anyar Permai , Jalan Banua Anyar Permai No.57, RT.3/RW.1 , Banua Anyar, Banjarmasin Timur Banjarmasin Timur - Kota Banjarmasin - Kalimantan Selatan - 70239 , Banjarmasin Timur  , Banjarmasin, Kalimantan Selatan'>
+								<input type='hidden' name='delivery_address'  value='{{ $po->receiver_address }}'>
 								<input type='hidden' name='jenis_proses' id='tombol' value=''>
 								<input type='hidden' name='BatchUUID' id='BatchUUID' value=''>
 								<input type='hidden' name='CustomerUUID' id='CustomerUUID' value='{{ $po->CustomerUUID }}'>
 								<input type='hidden' name='refund_flag' id='refund_flag' value=''>
-								<input type='hidden' name='RequestOrderUUID' id='RequestOrderUUID' value='0ec2d39a-b361-4cf6-b24b-ca59341c251c'>
+								<input type='hidden' name='RequestOrderUUID' id='RequestOrderUUID' value='{{ $po->RequestOrderUUID }}'>
 							{{ Form::close() }}
 					</div>
 
