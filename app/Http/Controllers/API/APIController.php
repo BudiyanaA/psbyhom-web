@@ -56,11 +56,26 @@ class APIController extends Controller
     {
       DB::beginTransaction();
       try {
+
         $PODtlUUID = $request->PODtlUUID;
         $status_item = $request->status_item;
         $qty = $request->qty;
         $harga = $request->harga;
         $subtotal_now = $qty * $harga;
+
+        // Additional Status
+        if (in_array($status_item, ["03", "04", "05", "06"])) {
+          TrPoDtl::where('PODtlUUID', $PODtlUUID)
+            ->update([
+            'status' => $status_item,
+          ]);
+
+          DB::commit();
+          return [
+            "code" => 200,
+            "success" => true,
+          ];
+        }
         
         if($status_item != '02')
         {
