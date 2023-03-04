@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MsBatch extends Model
 {
     use HasFactory;
-    protected $table = 'ms_batches';
+    protected $table = 'ms_batch';
     protected $fillable = [
         'BatchUUID',
         'batch_id',

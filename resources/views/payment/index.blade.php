@@ -100,7 +100,7 @@
 										
 										<th>Status</th>
 										@if ($status === '06')
-										<th>No Resi</th>
+											<th>No Resi</th>
 										@endif
 									</tr>
                                 </thead>
@@ -113,8 +113,8 @@
 										<td><a href="{{ route('waitinggoods.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
 										<td>{{ $p->trans_date }}</td>
-										<td>{{ $p->subtotal }}</td>
-										<td>{{ $p->status }}</td>
+										<td>{{ number_format($p->total_trans) }}</td>
+										<td>{{ $p->msStatus?->status_name }}</td>
 										@if ($status === '06')
 										<td>
 										<a href="#" class="resi" data-name="no_resi" data-type="text" data-pk="1" data-title="Enter name">N/A</a>

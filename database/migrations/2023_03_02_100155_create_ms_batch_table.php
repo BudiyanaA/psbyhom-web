@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ms_batches', function (Blueprint $table) {
-            $table->string('BatchUUID');
+        Schema::create('ms_batch', function (Blueprint $table) {
+            $table->string('BatchUUID')->primary();
             $table->string('batch_id');
             $table->string('remarks');
             $table->string('status');
-            $table->string('created_date');
+            $table->datetime('created_date');
             $table->string('created_by');
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
-            $table->string('OnDateTime');
-            $table->timestamps();
+            $table->datetime('OnDateTime');
+            // $table->timestamps();
         });
     }
 
