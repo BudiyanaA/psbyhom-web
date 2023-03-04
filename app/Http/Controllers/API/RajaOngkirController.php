@@ -88,20 +88,127 @@ class RajaOngkirController extends Controller
 
     public function couriers(Request $request)
     {
-      $couriers = [];
-      
         $result = Http::withHeaders([
-          'key' => $this->api_key,
+            'key' => $this->api_key,
         ])->get($this->base_url . '/couriers')->json()["rajaongkir"];
-
+    
+        $rajaongkir_couriers = [];
+    
         if ($result["status"]["code"] == 200) {
-          $couriers = $result["results"];
-          return [
-            "code" => $result["status"]["code"],
-            "message" => $result["status"]["description"],
+            $rajaongkir_couriers = $result["results"];
+        }
+    
+        $manual_couriers = [
+            [
+                "code" => "jne",
+                "courier" => "JNE",
+            ],
+            [
+              "code" => "pos",
+              "courier" => "POS",
+          ],
+          [
+            "code" => "tiki",
+            "courier" => "TIKI",
+        ],
+        [
+          "code" => "rpx",
+          "courier" => "RPX",
+      ],
+      [
+        "code" => "pandu",
+        "courier" => "PANDU",
+    ],
+    [
+      "code" => "wahana",
+      "courier" => "Wahana",
+  ],
+  [
+    "code" => "sicepat",
+    "courier" => "SICEPAT",
+],
+[
+  "code" => "jnt",
+  "courier" => "JNT",
+],
+[
+  "code" => "pahala",
+  "courier" => "PAHALA",
+],
+[
+  "code" => "sap",
+  "courier" => "SAP",
+],
+[
+  "code" => "jet",
+  "courier" => "JET",
+],
+[
+  "code" => "indah",
+  "courier" => "INDAH",
+],
+[
+  "code" => "dse",
+  "courier" => "DSE",
+],
+[
+  "code" => "slis",
+  "courier" => "SLIS",
+],
+[
+  "code" => "first",
+  "courier" => "FIRST",
+],
+[
+  "code" => "ncs",
+  "courier" => "NCS",
+],
+[
+  "code" => "star",
+  "courier" => "STAR",
+],
+[
+  "code" => "ninja",
+  "courier" => "NINJA",
+],
+[
+  "code" => "lion",
+  "courier" => "LION",
+],
+[
+  "code" => "idl",
+  "courier" => "IDL",
+],
+[
+  "code" => "rex",
+  "courier" => "REX",
+],
+[
+  "code" => "ide",
+  "courier" => "IDE",
+],
+[
+  "code" => "sentral",
+  "courier" => "SENTRAL",
+],
+[
+  "code" => "anteraja",
+  "courier" => "ANTERAJA",
+],
+[
+  "code" => "anteraja",
+  "courier" => "ANTERAJA",
+],
+            
+            // tambahkan kurir lainnya di sini
+        ];
+    
+        $couriers = array_merge($manual_couriers, $rajaongkir_couriers);
+    
+        return [
+            "code" => 200,
+            "message" => "OK",
             "couriers" => $couriers,
         ];
     }
-
-}
-}
+  }

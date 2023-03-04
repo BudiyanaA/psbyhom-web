@@ -177,12 +177,9 @@
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Courier :</div>
 													<div class="col-sm-8 col-md-8">
-													<select required name="courier_type" id="courier_type" class="form-control"   >									 
-															<option value="jne">JNE</option>
-														</select>
-													<!-- <select required name="courier_type" id="courier_type" class="form-control">
+													<select required name="courier_type" id="courier_type" class="form-control">
 														<option value="">Pilih Kurir</option>
-													</select> -->
+													</select>
 													</div>
 												</div>		
 												<div class="form-group">
@@ -885,7 +882,7 @@ function calculateTotal() {
 	function loadCosts(subdistrictId) {
 		if(subdistrictId) {
           $.ajax({
-              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=jne`,
+              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=${courier}`,
               type: "GET",
               data : {"_token":"{{ csrf_token() }}"},
               dataType: "json",
@@ -1029,7 +1026,7 @@ function calculateTotal() {
 		
 
 </script>
-<!-- <script>
+<script>
 $(document).ready(function() {
   $.ajax({
     url: '/api/rajaongkir/couriers',
@@ -1039,7 +1036,7 @@ $(document).ready(function() {
       var couriers = data.couriers;
       var options = '<option value="">Pilih Kurir</option>';
       for (var i = 0; i < couriers.length; i++) {
-        options += '<option value="' + couriers[i] + '">' + couriers[i] + '</option>';
+		options += '<option value="' + couriers[i].code + '">' + couriers[i].courier + '</option>';
       }
       $('#courier_type').html(options);
     },
@@ -1048,5 +1045,5 @@ $(document).ready(function() {
     }
   });
 });
-</script> -->
+</script>
 @endsection
