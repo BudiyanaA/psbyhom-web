@@ -43,8 +43,8 @@
 			<td>{{ $row->requestOrderDtl?->color }}</td>
 			<td>{{ $row->requestOrderDtl?->size }}</td>
 			<td>{{ $row->requestOrderDtl?->remarks }}</td>
-			<td>{{ number_format($row->price) }}</td>
-			<td align="right">{{ number_format($row->subtotal) }}</td>
+			<td>{{ number_format(float($row->price)) }}</td>
+			<td align="right">{{ number_format(float($row->subtotal)) }}</td>
 		</tr>
 		@php
 			$i++;

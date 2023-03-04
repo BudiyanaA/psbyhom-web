@@ -103,6 +103,7 @@ class WaitingGoodController extends Controller
                 }
 
                 $po = TrPo::where('POUUID', $id)->first();
+                // dd($po);
                 $check_use_ewallet = $po->use_ewallet;
                 $super_grand_total = $request->super_grand_total;
                 if ($check_use_ewallet == 1) {
@@ -519,7 +520,7 @@ class WaitingGoodController extends Controller
 
         } catch(\Exception $e) {
             DB::rollback();
-            // dd($e);
+            dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

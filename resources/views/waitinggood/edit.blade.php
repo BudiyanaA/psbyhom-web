@@ -755,24 +755,25 @@
 			console.log("Disc: " + disc);
 			console.log(additional_shipping_fee);
 
-			$('.super_grand_total').html(numberWithCommas(super_grand_total));
-			total_outstanding = parseInt(super_grand_total) - parseInt(dp_amount);
-			$('#total_outstandings').html(numberWithCommas(total_outstanding));
+			var super_grand_total = $('#super_grand_total').val();
+    var dp_amount = $('#dp_amount').val();
 
-			if(parseInt(total_outstanding) < 0)
-			{
-				total_refund = total_outstanding;
-				$('.remarks_kurang').html("Total Refund");
-				$('#total_refund').val(Math.abs(total_refund));
-			}
-			else
-			{
-				total_refund = 0;
-				$('.remarks_kurang').html("Total Outstanding");
-				$('#total_refund').val('0');
-			}
-			$('#total_outstanding').val(total_outstanding);
-			$('#super_grand_total').val(super_grand_total);
+    $('.super_grand_total').html(numberWithCommas(super_grand_total));
+    var total_outstanding = parseInt(super_grand_total) - parseInt(dp_amount);
+    $('#total_outstandings').html(numberWithCommas(total_outstanding));
+
+    if (parseInt(total_outstanding) < 0) {
+        var total_refund = total_outstanding;
+        $('.remarks_kurang').html("Total Refund");
+        $('#total_refund').val(Math.abs(total_refund));
+    } else {
+        var total_refund = 0;
+        $('.remarks_kurang').html("Total Outstanding");
+        $('#total_refund').val('0');
+    }
+
+    $('#total_outstanding').val(total_outstanding);
+    $('#super_grand_total').val(super_grand_total);
 			
 			$('#sub_grand_total').val(grandtotal);
 		}

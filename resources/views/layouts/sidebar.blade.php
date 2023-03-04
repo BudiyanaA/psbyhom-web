@@ -39,6 +39,10 @@
                             <a href="{{ route('costumer_management.index') }}" class="menu">Customer Management</a>
                             </li></li>
                         </ul>
+                        <ul class="acc-menu"><li>
+                            <a href="{{ route('ewallet.index') }}" class="menu">E-Wallet</a>
+                            </li></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="javascript:;"><i class="fa fa-money"></i><span>Pre Order </span></a>

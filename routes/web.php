@@ -41,6 +41,7 @@ use App\Http\Controllers\ProfilCostumer;
 use App\Http\Controllers\PasswordCostumerController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivationController;
+use App\Http\Controllers\EwalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,8 @@ Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])
 
 // Route::resource('costumer_management', CostumerManagementController::class);
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
+
+Route::get('ewallet/list', [EwalletController::class, 'index'])->name('ewallet.index');
 
 // Route::get('admin/waiting_approval', [ApprovalController::class, 'index'])->name('approval.index');
 Route::post('noresi', [PaymentController::class, 'updateResi'])->name('resi.update');

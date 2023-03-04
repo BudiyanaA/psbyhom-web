@@ -18,4 +18,13 @@ class TrEwallet extends Model
         'amount',
         'description',
     ];
+
+    public function msCustomer()
+    {
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
+    }
+    public function po()
+    {
+        return $this->belongsTo(TrPo::class, 'POUUID', 'POUUID');
+    }
 }
