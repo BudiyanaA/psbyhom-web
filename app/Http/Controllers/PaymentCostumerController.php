@@ -139,7 +139,7 @@ public function store(Request $request)
             'UserUUID' => $CustomerUUID,
             'menu_nm' => 'Submit Payment Confirmation',
             'log_time' => date('Y-m-d H:i:s'),
-            'Description' => 'Submit Payment Confirmation for PO ID : '.$po_id.' with payment amount : '.number_format($request->total_amount),
+            'Description' => 'Submit Payment Confirmation for PO ID : '.$po_id.' with payment amount : '.number_format(floatval($request->total_amount)),
             'LogType' => 'Create',
             'user_type' => 'Customer',
             'RefUUID' => $CustomerUUID,

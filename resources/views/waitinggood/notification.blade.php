@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div id="page-content">
     <div id='wrap'>
         <div id="page-heading">
@@ -30,3 +32,4 @@
 </div> <!-- container -->
     </div> <!--wrap -->
 </div>
+@endsection

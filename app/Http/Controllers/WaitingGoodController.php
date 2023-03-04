@@ -114,7 +114,7 @@ class WaitingGoodController extends Controller
                     $dp_amount = 0;
                 }
                 $dp_amount = $dp_amount + $payment_amount;
-                $total_paid_percentage = round(( $dp_amount / $super_grand_total) * 100);
+                $total_paid_percentage = round((intval($dp_amount) / intval($super_grand_total)) * 100);
                 $total_outstanding = $super_grand_total - $dp_amount;
                 TrPo::where('POUUID', $id)->update([
                     //'BatchUUID' => $this->input->post('batch_id'),
