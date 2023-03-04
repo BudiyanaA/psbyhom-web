@@ -2,19 +2,31 @@
 @section('content')
 <div class="container" id="content">
 	<div class="content-wrapper">
-	<div class="row"><h3  ><strong style="color:darkgray ">Latest E-Wallet History</strong></h3><br>
+	<div class="row"><h4>
+					<ul class="nav nav-tabs">				  
+					  <li class='active'><a href="#wallet" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Wallet</span></a></li>
+					   <li><a href="#withdrawal" data-toggle="tab"><i class="fa fa-list visible-xs icon-scale"></i><span class="hidden-xs">Withdrawal</span></a></li>	
+					</ul>	
+								  </h4><br>
 	
 	</div><div class="col-lg-12">
-<div class="table-responsive">
-<table class="table stat-table table-bordered" style="text-align:left">
-<tr style="background:#56cfe1;color:white">
-	<th align='left'>No.</th>
-	<th align='left'>PO ID</th>
-	<th align='left'>Trans. Date</th>
-	<th align='left'>Amount</th>
-	<th >Description</th>
-</tr>
-@if(count($wallet) > 0)
+	<div class="panel-body">
+					<div class="tab-content">
+					<div class="tab-pane active" id="wallet">
+                        <div class="panel-body collapse in">
+						<div class="table-responsive">
+						<table class="table stat-table table-bordered" style="text-align:left">
+                                <thead>
+								<tr style="background:#56cfe1;color:white">
+									<th align='left'>No.</th>
+									<th align='left'>PO ID</th>
+									<th align='left'>Trans. Date</th>
+									<th align='left'>Amount</th>
+									<th >Description</th>
+								</tr>
+                                </thead>
+                                <tbody>
+								@if(count($wallet) > 0)
 						@foreach($wallet as $e)
                                     <tr>
                                         <td colspan='5' >{{ $loop->index + 1 }}</td>
@@ -30,9 +42,12 @@
 								<td colspan='5' style="text-align:center">No E-Wallet History </td>
 								</tr>
 							@endif
-	</table>
+                                </tbody>
+                            </table>
 </div>
-<input type="checkbox" name="use_withdrawal" id="use_withdrawal" value="1" onchange="toggleWithdrawalForm()"> Withdraw E-Wallet
+                        </div>
+						<input type="checkbox" name="use_withdrawal" id="use_withdrawal" value="1" onchange="toggleWithdrawalForm()"> Withdraw E-Wallet
+
 <br>
 <br>
 <br>
@@ -74,7 +89,45 @@
 					<p>Note : Other than Bank Mandiri/Bank BCA, you will be charged Rp. 6.500 as transaction fee.</p>
 					</div>
 					</div>
+						</div>
+</div>
 
+						<div class="tab-pane" id="withdrawal">
+                                                <div class="panel-body collapse in">
+												<div class="table-responsive">
+												<table class="table stat-table table-bordered" style="text-align:left">
+                                <thead>
+								<tr style="background:#56cfe1;color:white">
+									<th align='left'>No.</th>
+									<th align='left'>PO ID</th>
+									<th align='left'>Trans. Date</th>
+									<th align='left'>Amount</th>
+									<th >Description</th>
+								</tr>
+                                </thead>
+                                <tbody>
+								@if(count($wallet) > 0)
+						@foreach($wallet as $e)
+                                    <tr>
+                                        <td colspan='5' >{{ $loop->index + 1 }}</td>
+                                        <td colspan='5'>{{ $e->msCustomer?->customer_name}}</td>
+                                        <td colspan='5'>{{ $e->trans_date}}</td>
+                                        <td colspan='5'>{{ $e->amount}}</td>
+                                        <td colspan='5'>{{ $e->description}}</td>
+                                        <td colspan='5'>{{ $e->po?->request_id}}</td>
+                                    </tr>
+                                    @endforeach
+									@else
+								<tr>
+								<td colspan='5' style="text-align:center">No E-Wallet History </td>
+								</tr>
+							@endif
+                                </tbody>
+                            </table>
+</div>
+                        </div>
+                       
+</div>
 <p></p>
 </div>
 	</div></div>

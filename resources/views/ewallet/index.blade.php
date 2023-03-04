@@ -8,7 +8,7 @@
                 <li class="active">Costumer Management</li>
             </ol>
 
-            <h1>Costumer Management</h1>
+            <h1>Ewallet List</h1>
             <
         </div>
 
@@ -18,13 +18,13 @@
               <div class="col-md-12">
                     <div class="panel panel-midnightblue">
                         <div class="panel-heading">
-                            <h4>List of Ewallet</h4>
                             <div class="options">   
                                 <a href="javascript:;"><i class="fa fa-cog"></i></a>
                                 <a href="javascript:;"><i class="fa fa-wrench"></i></a>
                                 <a href="javascript:;" class="panel-collapse"><i class="fa fa-chevron-down"></i></a>
                             </div>
                         </div>
+                        <div class="tab-pane active" id="wallet">
                         <div class="panel-body collapse in">
 						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
                                 <thead>
@@ -51,6 +51,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        </div>
+
+                        
                     </div>
                 </div>
             </div>
