@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\TrRequestOrderDtl;
 use App\Models\TrRequestOrder;
+use App\Models\TrPo;
 use App\Models\LogActv;
 use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
@@ -216,7 +217,23 @@ public function show($id)
 
 public function list()
     {
-        return view('preorder.list');
+        $CustomerUUID = session('user_id');
+        $data['list_of_ro'] = TrRequestOrder::with('msStatus')
+            ->with('msStatus', function ($query) {
+                $query->where('type', 'RO');
+            })
+            ->whereIn('status', ['00', '01'])
+            ->where('CustomerUUID', $CustomerUUID)
+            ->orderBy('OnDateTime', 'DESC')
+            ->get();
+        $data['list_of_po'] = TrPo::with('msStatus')
+            ->with('msStatus', function ($query) {
+                $query->where('type', '!=', 'RO');
+            })
+            ->where('CustomerUUID', $CustomerUUID)
+            ->orderBy('trans_date', 'DESC')
+            ->get();
+        return view('preorder.list', $data);
     }
 
 }

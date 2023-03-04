@@ -69,10 +69,9 @@
   @if ($errors->has('g-recaptcha-response'))
       <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
   @endif
-   
-      {!! NoCaptcha::display() !!}
 
-  
+  {!! NoCaptcha::display() !!}
+
 @section('script')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
