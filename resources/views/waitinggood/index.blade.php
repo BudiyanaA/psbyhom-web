@@ -80,6 +80,10 @@
                         @if ($dtl->status == '00') Not Arrived
                         @elseif ($dtl->status == '01') OK
                         @elseif ($dtl->status == '02') Reject
+						@elseif ($dtl->status == '03') Confirm
+						@elseif ($dtl->status == '04') Shiped
+						@elseif ($dtl->status == '05') Delivered
+						@elseif ($dtl->status == '02') Otw Indo
                         @endif
 											</a>
 											<span class="tambahan">
@@ -139,6 +143,10 @@
         {value: '00', text: 'Not Arrived'},
         {value: '01', text: 'OK'},
         {value: '02', text: 'Reject'},
+		{value: '03', text: 'Confirm'},
+		{value: '04', text: 'Shiped'},
+		{value: '05', text: 'Delivered'},
+		{value: '06', text: 'Otw Indo'},
       ],
     });
 
