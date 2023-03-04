@@ -10,9 +10,12 @@ use App\Models\LogTransaction;
 use App\Models\TrInvoice;
 use App\Models\LogActv;
 use App\Models\Registercostumer;
+use App\Models\TrEwallet;
 use App\Mail\VerifiedPaymentEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Mail\InvoiceLPEmail;
+use App\Mail\RefundEmail;
 
 class WaitingGoodController extends Controller
 {
@@ -25,19 +28,6 @@ class WaitingGoodController extends Controller
             })
             ->orderBy('verify_payment_date', 'DESC')      
             ->get();
-        // return $data['waitinggoods'];
-
-        // $data['waitinggoods'] = TrPoDtl::where()
-
-        // $status = array('02','03');
-		// $da = DB::table('tr_po')->select(DB::raw('*,tr_po_dtl.status as status_item,tr_po.status as status_po,tr_po_dtl.subtotal as subtotal_po,tr_po_dtl.qty as qty_po,tr_po_dtl.batch_no,tr_po.total_seq,tr_po_dtl.keterangan as keterangan_item,tr_po_dtl.price as harga')) 
-		// ->join('tr_po_dtl', 'tr_po_dtl.POUUID', '=', 'tr_po.POUUID')
-		// ->join('tr_request_order_dtl', 'tr_request_order_dtl.RequestOrderDtlUUID', '=', 'tr_po_dtl.RequestOrderDtlUUID')
-		// ->join('ms_customer', 'ms_customer.CustomerUUID', '=', 'tr_po.CustomerUUID')
-		// ->whereIn('tr_po.status',$status)
-		// ->orderBy('tr_po.verify_payment_date','desc')
-		// ->orderBy('tr_po_dtl.seq','asc')->get();
-        // return $da;
 
         return view('waitinggood.index',$data);
     }
@@ -61,10 +51,9 @@ class WaitingGoodController extends Controller
             ->orderBy('seq', 'ASC')
             ->get();
 
-        // $data['logtrans'] = LogTransaction::where('POUUID', $id)
-        //                     ->orderBy('log_date ', 'DESC')
-        //                     ->get();
-        $data['logtrans'] = LogTransaction::get();
+        $data['logtrans'] = LogTransaction::where('POUUID', $id)
+            ->orderBy('log_date', 'DESC')
+            ->get();
 
         return view('waitinggood.edit',$data);     
     }
@@ -74,8 +63,21 @@ class WaitingGoodController extends Controller
         // dd($request->all());
         $AdminUUID = session('admin_id');
         $username = session('admin_name');
+
         DB::beginTransaction();
         try {
+            // $submit = $this->input->post('submit');
+            $CustomerUUID = $request->CustomerUUID;
+            $total_outstanding = $request->total_outstanding;
+            $total_super_grandtotal = $request->super_grand_total;
+            $total_refund = abs($request->total_refund);
+            $total_subtotal = $request->sub_grand_total;
+            $total_row = $request->total_row;
+            $additional_shipping_fee = $request->additional_shipping_fee;
+            $ongkir = $request->delivery_fee;
+            $insurance = $request->insurance_fee;
+            $block_package = $request->block_package_fee;   
+
 			$PaymentUUID = $request->PaymentUUID;
 			$payment_amount = $request->payment_amount;
 
@@ -229,11 +231,12 @@ class WaitingGoodController extends Controller
                 DB::commit();
                 return redirect(route('waitinggood.notification', $id))
                     ->withSuccess("Data berhasil diubah");
-            }
+            } else if ($request->submit == 'prepare_delivery') {
+                $status_ok = TrPoDtl::where('POUUID', $id)
+                    ->where('status', '01')
+                    ->count('*');
+                $total_reject = $request->total_rejects;
 
-            $status_ok = TrPoDtl::where('POUUID', $id)
-                ->where('status', '01')
-                ->count();
                 if ($total_outstanding <= 0 && $total_super_grandtotal != 0 && $status_ok > 0) {
                     $status = '06';
                 } else if ($total_outstanding <= 0 && $total_super_grandtotal == 0 && $total_reject > 0) {
@@ -245,161 +248,158 @@ class WaitingGoodController extends Controller
                 } else {
                     $status = '04';
                 }
+
                 TrPo::where('POUUID', $id)
                     ->update([
-                        'additional_shipping_fee' => $request->additional_shipping_fee,
-                        'ongkir' => $request->ongkir_type,
-                        'insurance' => $request->insurance,
-                        'block_package' => $request->block_package,
+                        'additional_shipping_fee' => $additional_shipping_fee,
+                        'ongkir' => $ongkir,
+                        'insurance' => $insurance,
+                        'block_package' => $block_package,
                         'total_outstanding' => $total_outstanding,
-                        'total_trans' => $request->total_trans,
-                        'refund_amount' => $request->refund_amount,
-                        'subtotal' => $request->subtotal,
-                        'status' => $request->status,
+                        'total_trans' => $total_super_grandtotal,
+                        'refund_amount' => $total_refund,
+                        'subtotal' => $total_subtotal,
+                        'status' => $status,
                         'ByUserUUID' => $AdminUUID,
                         'ByUserIP' =>$request->ip(),
                         'OnDateTime' => date('Y-m-d H:i:s')
-                     ]);  
-                     if ($total_outstanding <='0' && $total_super_grandtotal != 0) {
-                        $status = '06';
-                    } else if ($total_outstanding <='0' && $total_super_grandtotal == 0) {
-                        $status = '09';
-                    } else {
-                        TrInvoice::create([
-                            'InvoiceUUID' => $this->newid(),
-                            'POUUID' => $id,
-                            'RequestOrderUUID' => $request->RequestOrderUUID,
-                            'CustomerUUID' => $request->CustomerUUID,
-                            'invoice_id' => $request->po_id,
-                            'invoice_date' =>  date('Y-m-d'),
-                            'created_by' => $request->$CustomerUUID,
-                            'subtotal' => '0',
+                    ]);
+                
+                if ($total_outstanding <='0' && $total_super_grandtotal != 0) {
+                    $status = '06';
+                } else if ($total_outstanding <='0' && $total_super_grandtotal == 0) {
+                    $status = '09';
+                } else {
+                    $status = '04';
+                    $invoice_id = $request->po_id.'/LP';
+                    TrInvoice::create([
+                        'InvoiceUUID' => $this->newid(),
+                        'POUUID' => $id,
+                        'RequestOrderUUID' => $request->RequestOrderUUID,
+                        'CustomerUUID' => $CustomerUUID,
+                        'invoice_id' => $invoice_id,
+                        'invoice_date' =>  date('Y-m-d'),
+                        'created_by' => $CustomerUUID,
+                        'subtotal' => '0',
+                        'ongkir' => '0',
+                        'insurance' => '0',
+                        'block_package' => '0',
+                        'discount' => '0',
+                        // 'additional_package' => $request->additional_package,
+                        'additional_package' => '0',
+                        'e_wallet_amount' => '0',
+                        'payment_methode' => '0',
+                        'unique_amount' => '0',
+                        'grand_total' => '0',
+                        'status_invoice' => '01',
+                        // 'additional_fee' => $request->additional_fee,
+                        'additional_fee' => '0',
+                        // 'additional_delivery_fee' => $request->additional_ongkir,
+                        'additional_delivery_fee' => '0',
+                        'total_outstanding' => $total_outstanding,
+                        'ByUserUUID' => $CustomerUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+
+                    // Send Email Notification        
+                    $EmailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132'; // Invoice PO for Last Payment
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)->send(new InvoiceLPEmail(
+                        $request->po_id, 
+                        $request->customer_name, 
+                        $request->delivery_address, 
+                        $id, 
+                        $EmailUUID
+                    ));
+                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                        return redirect()->back()->with('error', 'Gagal mengirim email!');
+                    }
+                }
+
+                for($i = 0; $i < $total_row; $i++)
+				{
+                    TrPoDtl::where('PODtlUUID', $request->PODtlUUID[$i])
+                        ->update([
+                            'incoming_qty' => $request->incoming_qty[$i],
+                            'subtotal' => $request->subtotal_po[$i]
+                        ]);
+				}
+
+                if ($total_refund != '0' && $total_refund != '') {
+                    LogTransaction::create([
+                        'LogTransUUID' => $this->newid(),
+                        'POUUID' => $id,
+                        'log_date' => date('Y-m-d H:i:s'),
+                        'action_desc' => "Refund to E-Wallet with total amount of ".number_format($total_refund),
+                        'created_by' => 'Admin',
+                        'UserUUID' => $AdminUUID
+                    ]);
+
+                    TrEwallet::create([
+                        'EWalletUUID' => $this->newid(),
+                        'CustomerUUID' => $CustomerUUID,
+                        'POUUID' => $id,
+                        'trans_date' => date('Y-m-d H:i:s'),
+                        'amount' => $total_refund,
+                        'description' => 'Process Refund to E-Wallet with total amount of : </b>'.number_format($total_refund).' from PO '.$request->po_id
+                    ]);
+
+                    TrPo::where('POUUID', $id)
+                        ->update([
+                            'refund_flag' => '11',
                             'ongkir' => '0',
                             'insurance' => '0',
-                            'block_package' => '0',
-                            'discount' => '0',
-                            'additional_package' => $request->additional_package,
-                            'e_wallet_amount' => '0',
-                            'payment_methode' => '0',
-                            'unique_amount' => '0',
-                            'grand_total' => '0',
-                            'status_invoice' => '01',
-                            'additional_fee' => $request->additional_fee,
-                            'additional_delivery_fee' => $request->additional_ongkir,
-                            'total_outstanding' => $total_outstanding,
-                            'ByUserUUID' => $username,
-                            'ByUserIP' => $request->ip(),
-                            'OnDateTime' => date('Y-m-d H:i:s')
+                            'block_package' => '0'
                         ]);
-                        $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->first();
-                        $po_id = $request->request_id;
-                        $emailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132';
-                        $email = MsEmail::where('EmailUUID', $emailUUID)->first();
-                        $email_content = $email->email_content;
-                        $email_content = str_replace('$po_id', $po_id, $email_content);
-                        $email_content = str_replace('$customer_name', $customer->customer_name, $email_content);
-                        $email_content_bottom = $email->email_content_bottom;
-                        $delivery_address = $request->delivery_address;
-                        $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
-                        ->orderBy('seq', 'ASC')->get();
 
-                        $emailsent = Mail::to($customer->email)
-                        ->send(new InvoiceEmail(
-                            $po_id,
-                            $delivery_address,
-                            $order_dtl, 
-                            $email_content, 
-                            $email_content_bottom, 
-                            $email_notif->value_1));
 
-                            if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
-                                return redirect()->back()->with('error', 'Gagal mengirim email!');
-                            }
-                            $order =TrPoDtl::where('PODtlUUID ', $id);
-                            foreach($order as $id) {
-                                TrPoDtl::where('PODtlUUID', $id)
-                                       ->update([
-                                           'incoming_qty' => $request->incoming_qty,
-                                           'subtotal' => $request->subtotal
-                                       ]);
-                            }
-                            if ($total_refund != '0' && $total_refund != '') {
-                                LogTransaction::update([
-                                    'LogTransUUID' => $this->newid(),
-                                    'POUUID' => $id,
-                                    'log_date' => date('Y-m-d H:i:s'),
-                                    'action_desc' => "Refund to E-Wallet with total amount of ".number_format($total_refund),
-                                    'created_by' => 'Admin',
-                                    'UserUUID' => $AdminUUID
-                                    ]);
-                                    TrEwallet::create([
-                                        'EWalletUUID' => $this->newid(),
-                                        'CustomerUUID' => $request->CustomerUUID,
-                                        'POUUID' => $id,
-                                        'trans_date' => date('Y-m-d H:i:s'),
-                                        'amount' => $total_refund,
-                                        'description' => 'Process Refund to E-Wallet with total amount of : </b>'.number_format($total_refund).' from PO '.$request->po_id
-                                    ]);
-                                    TrPo::where('POUUID', $id)
-                                    ->update([
-                                        'refund_flag' => '11',
-                                        'ongkir' => '0',
-                                        'insurance' => '0',
-                                        'block_package' => '0'
-                                    ]);
-                                    $email_notif = SysParam::where('sys_id', 'SYS_PARAM_43')->first();
-                        $po_id = $request->request_id;
-                        $emailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2';
-                        $email = MsEmail::where('EmailUUID', $emailUUID)->first();
-                        $email_content = $email->email_content;
-                        $email_content = str_replace('$po_id', $po_id, $email_content);
-                        $email_content = str_replace('$customer_name', $customer->customer_name, $email_content);
-                        $email_content_bottom = $email->email_content_bottom;
-                        $total_refund = $request->total_refund;
-                        $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
-                        ->orderBy('seq', 'ASC')->get();
-
-                        $emailsent = Mail::to($customer->email)
+                    $EmailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2'; //Refund Notification
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)
                         ->send(new RefundEmail(
-                            $po_id,
-                            $total_refund,
-                            $order_dtl, 
-                            $email_content, 
-                            $email_content_bottom, 
-                            $email_notif->value_1));
-                            }
-                            LogTransaction::create([
-                                'LogTransUUID' => $this->newid(),
-                                'POUUID' => $id,
-                                'log_date' => date('Y-m-d H:i:s'),
-                                'action_desc' => "Admin process the order",
-                                'created_by' => 'Admin',
-                                'UserUUID' => $AdminUUID
-                            ]);
-                            LogActv::create([
-                                'id' => $this->newid(), //generate
-                                'user_id' => $username, //login
-                                'UserUUID' => $AdminUUID, //login
-                                'menu_nm' => 'Process Order',
-                                'log_time' => date('Y-m-d H:i:s'),
-                                'Description' => '<b>Admin Process Order '.$request->po_id,
-                                'LogType' => 'Insert',
-                                'user_type' => 'Admin',
-                                'RefUUID' => $id,
-                                'is_financial' => '0',
-                                'is_error' => '0',
-                                'ByUserUUID' => $AdminUUID,
-                                'ByUserIP' => $request->ip(),
-                                'OnDateTime' => date('Y-m-d H:i:s')
-                            ]);
-                    }
-    
-            return redirect(route('waitinggood.notification'))
-                ->withSuccess("Data berhasil diubah");
-                
+                            $request->po_id, 
+                            $request->customer_name,
+                            $request->delivery_address,
+                            $id, 
+                            $EmailUUID
+                        ));
+                }
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    'action_desc' => "Admin process the order",
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Process Order',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Admin Process Order '.$request->po_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $id,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
+            }
+
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

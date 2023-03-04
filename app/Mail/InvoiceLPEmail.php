@@ -8,12 +8,16 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\TrRequestOrderDtl;
 use App\Models\SysParam;
 use App\Models\TrPo;
 use App\Models\TrPoDtl;
+use App\Models\MsBank;
 use App\Models\MsEmail;
 
-class RefundEmail extends Mailable
+class InvoiceLPEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,6 +35,11 @@ class RefundEmail extends Mailable
         $this->EmailUUID = $EmailUUID;
     }
 
+    /**
+     * Get the message envelope.
+     *
+     * @return \Illuminate\Mail\Mailables\Envelope
+     */
     public function build()
     {
         $data_notif['line_id'] = '@houseofmakeup';
@@ -45,20 +54,21 @@ class RefundEmail extends Mailable
         $data_notif['view_order'] = TrPo::where('POUUID', $this->POUUID)->with('msCustomer')->first(); 
         $data_notif['order_dtl'] = TrPoDtl::where('POUUID', $this->POUUID)->with('requestOrderDtl')
             ->orderBy('seq', 'ASC')->get();
-        
+        $data_notif['list_of_bank'] = MsBank::where('status', '00')->get();
+
         $email = MsEmail::where('EmailUUID', $this->EmailUUID)->first();
         $email_content = $email->email_content;
         $email_content = str_replace('$customer_name', $this->fullname, $email_content);
-        $email_content = str_replace('$refund_amount', $data_notif['view_order']->refund_amount, $email_content);
-        $email_content = str_replace('https://psbyhom.com/view_ewallet.html', url('ewallet'), $email_content);
+        $email_content = str_replace('https://psbyhom.com/confirm_payment.html', url('payment/confirm'), $email_content);
+        $email_content = str_replace('http://psbyhom.com/confirm_payment.html', url('payment/confirm'), $email_content);
         $email_title = $email->email_title;
-        $email_title = str_replace('$po_id',$this->po_id, $email_title);
-    
+				$email_title = str_replace('$po_id',$this->po_id, $email_title);
+
         $data_notif['email_content'] = $email_content;
         $data_notif['email_content_bottom'] = $email->email_content_bottom;
         $data_notif['EmailUUID'] = $this->EmailUUID;
 
-        return $this->view('emails.refund')
+        return $this->view('emails.invoicelp')
             ->subject($email_title)
             ->with($data_notif);
     }

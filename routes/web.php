@@ -81,6 +81,8 @@ Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->nam
 Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
 Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
 
+Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
+
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
@@ -192,7 +194,6 @@ Route::get('payment_c', [PaymentCostumerController::class, 'index'])->name('paym
 Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name('confirm.index');
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
-Route::get('ewallet', [WalletController::class, 'index'])->name('wallet');
 
 // TODO:
 // /request_order_controller/search_filter_request_transaction
