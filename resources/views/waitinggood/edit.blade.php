@@ -152,6 +152,7 @@
 											<td colspan='2'></td>
 											<td colspan='{{ $colspan }}' style="text-align:right">Subtotal</td>
 											<td class="po_grandtotal">{{ $po->subtotal}}</td>
+											<input type='hidden' name='total_rejects' value="{{ $po->total_reject }}">
 											<input type='hidden' name='total_rejects' value="{{ $total_reject ?? 0 }}">
 											<input type='hidden' id='dp_amounts' value="{{ $po->dp_amount }}">
 											<input type='hidden' id='ongkir_value' value="33000">
