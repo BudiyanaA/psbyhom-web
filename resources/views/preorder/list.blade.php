@@ -18,7 +18,7 @@
 	<tr>
 		<td>
 			@if ($row->status == '01')
-				<a href="{{ url('request/view/' . $row->RequestOrderUUID) }}">{{ $row->request_id }}</a>
+				<a href="{{ url('request/view/' . $row->request_id) }}">{{ $row->request_id }}</a>
 			@else
 				{{ $row->request_id }}
 			@endif
