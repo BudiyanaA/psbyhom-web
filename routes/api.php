@@ -36,3 +36,4 @@ Route::get('invoice/amount/{InvoiceUUID}', [APIController::class, 'invoiceAmount
 Route::post('batch_order/update', [APIController::class, 'updateBatchOrder']);
 Route::post('status_item/update', [APIController::class, 'updateStatusItem']);
 Route::post('keterangan/update', [APIController::class, 'updateKeterangan']);
+Route::post('no_resi/update', [APIController::class, 'updateNoResi']);

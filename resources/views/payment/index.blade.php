@@ -107,8 +107,9 @@
                                 <tbody>
 								@if(count($payment) > 0)
 								@foreach($payment as $p)
-                                    <tr >										<input type="hidden" value="9d042f66-f78b-4034-80ce-baeb72037a26" class='POUUID' name="POUUID1">
-										<input type="hidden" value="ekartikasari22@gmail.com" class='customer_email' name="customer_email1">
+                    <tr >										
+										<input type="hidden" value="{{ $p->POUUID }}" class='POUUID' name="POUUID1">
+										<input type="hidden" value="{{ $p->msCustomer?->email }}" class='customer_email' name="customer_email1">
 										<td valign='top'>{{ $loop->index + 1 }}</td>
 										<td><a href="{{ route('waitinggoods.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
@@ -117,7 +118,7 @@
 										<td>{{ $p->msStatus?->status_name }}</td>
 										@if ($status === '06')
 										<td>
-										<a href="#" class="resi" data-name="no_resi" data-type="text" data-pk="1" data-title="Enter name">N/A</a>
+											<a href="#" class="noresi" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="noresi"></a>
 										</td>
 										@endif 
 										</tr>
@@ -146,41 +147,34 @@
         </div> <!-- container -->
     </div> <!--wrap -->
 </div>
-
-
 @endsection
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>
-    <script>$.fn.poshytip={defaults:null}</script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+
+@section ('script')
 <script type="text/javascript">
     $.fn.editable.defaults.mode = 'inline';
-  
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        }
-    }); 
-  
-    $('.resi').editable({
-           url: "{{ route('resi.update') }}",
-           type: 'text',
-           pk: 1,
-           name: 'no_resi',
-           title: 'Enter resi'
-    });
+		$('.noresi').editable(
+		{
+		  type:  'text',
+		  title: 'Enter No. Resi',
+		});
 
-	function update_no_resi(newNoResi) {
-    $.ajax({
-        url: "{{ route('resi.update') }}",
-        type: 'POST',
-        data: { no_resi: newNoResi },
-        success: function(response) {
-            console.log("no_resi berhasil di-update menjadi " + newNoResi);
-        },
-        error: function(xhr) {
-            console.log(xhr.responseText);
-        }
-    });
-}
+		$('.noresi').on('save', function(e, params) { 
+			var no_resi = params.newValue;
+			var POUUID = $(this).closest('tr').find('.POUUID').val();
+			var customer_email = $(this).closest('tr').find('.customer_email').val();
+
+				$.ajax({
+					url: '/api/no_resi/update',
+        	type:"POST",
+					data:{POUUID:POUUID,no_resi:no_resi,customer_email:customer_email,admin:"{{ session('admin_id') }}"},
+					success: function(respond) 
+					{
+						if (data.success) {					
+							alert("Successfully update no resi !");
+							location.reload();
+						}
+					}
+				})	
+		});
 </script>
+@endsection

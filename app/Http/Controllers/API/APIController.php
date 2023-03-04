@@ -8,7 +8,11 @@ use App\Models\TrInvoice;
 use App\Models\TrPoDtl;
 use App\Models\TrPo;
 use App\Models\TrPayment;
+use App\Models\Registercostumer;
+use App\Models\LogTransaction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResiEmail;
 
 class APIController extends Controller
 {
@@ -178,6 +182,57 @@ class APIController extends Controller
       } catch(\Exception $e) {
         DB::rollback();
         // dd($e);
+        return [
+          "code" => 500,
+          "success" => false,
+        ];
+      }
+    }
+
+    public function updateNoResi(Request $request)
+    {
+      DB::beginTransaction();
+      try {
+        // Send Email Notification
+        $EmailUUID = 'ce7926a7-126b-474c-b6d8-cdab04f96d88'; //No Resi Notification
+        $email_customer = $request->customer_email;
+        $POUUID = $request->POUUID;
+
+        $po = TrPo::where('POUUID', $POUUID)->first();
+        $customer = Registercostumer::where('CustomerUUID', $po->CustomerUUID)->first();
+
+        $emailsent = Mail::to($email_customer)
+            ->send(new ResiEmail(
+                $po->po_id, 
+                $customer->customer_name,
+                $po->receiver_address,
+                $POUUID, 
+                $EmailUUID,
+                $request->no_resi,
+            ));
+        
+        TrPo::where('POUUID', $POUUID)->update([
+          'status' => '07',
+					'no_resi' => $request->no_resi
+        ]);
+
+        LogTransaction::create([
+          'LogTransUUID' => $this->newid(),
+          'POUUID' => $POUUID,
+          'log_date' => date('Y-m-d H:i:s'),
+          'action_desc' => "Admin input No Resi : ".$request->no_resi,
+          'created_by' => 'Admin',
+          'UserUUID' => $request->admin, 
+        ]);
+
+        DB::commit();
+        return [
+          "code" => 200,
+          "success" => true,
+        ];
+      } catch(\Exception $e) {
+        DB::rollback();
+        dd($e);
         return [
           "code" => 500,
           "success" => false,
