@@ -34,7 +34,7 @@
                                         <th>Trans Date</th>
                                         <th>Amount</th>
                                         <th>Description</th>
-                                        <th>Po Id</th>
+                                        <th>PO ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,7 +45,7 @@
                                         <td valign='top'>{{ $e->trans_date}}</td>
                                         <td valign='top'>{{ $e->amount}}</td>
                                         <td valign='top'>{{ $e->description}}</td>
-                                        <td valign='top'>{{ $e->po?->request_id}}</td>
+                                        <td valign='top'>{{ $e->po?->po_id}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
