@@ -14,8 +14,35 @@
 	<th >Status</th>
 </tr>
 </thead>
- 
-<tr>
+	@foreach ($list_of_ro as $row)
+	<tr>
+		<td>
+			@if ($row->status == '01')
+				<a href="{{ url('request/view/' . $row->request_id) }}">{{ $row->request_id }}</a>
+			@else
+				{{ $row->request_id }}
+			@endif
+		</td>
+		<td data-order='{{ $row->created_date }}'>{{ $row->created_date }}</td>
+		<td>{{ $row->msStatus?->status_name }}</td>
+	</tr>
+	@endforeach
+
+	@foreach ($list_of_po as $row)
+	<tr>
+		<td>
+			<a href="#">{{ $row->po_id }}</a>
+		</td>
+		<td data-order='{{ $row->trans_date }}'>{{ $row->trans_date }}</td>
+		<td>
+			{{ $row->msStatus?->status_name }}
+			@if ($row->status == '07')
+				/ No Resi : <strong>{{ $row->no_resi }}</strong>
+			@endif
+		</td>
+	</tr>
+	@endforeach
+	<tr>
 	
 	<td><a href="https://psbyhom.com/view_request_order/267c3b8f-fbf9-42c7-be23-dd18b6d6ab7b.html">TR23020162</a></td>
 	<td data-order='2023-02-10 09:49:21'>10 Feb 2023</td>

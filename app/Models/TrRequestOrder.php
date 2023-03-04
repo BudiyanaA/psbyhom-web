@@ -31,13 +31,12 @@ class TrRequestOrder extends Model
     ];
 
     public function customer()
-{
-    return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
-}
+    {
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
+    }
 
-
-
-
-
-
+    public function msStatus()
+    {
+        return $this->belongsTo(MsStatus::class, 'status', 'status_id');
+    }
 }

@@ -23,8 +23,8 @@
 	{{ Form::open(['url' => route('process_order.store'), 'class' => 'form-horizontal checkout-form', 'id' => 'checkout-form2' ])}}
 		<div id="tabs">
   			<ul>
-			  	<li><a href="#tabs-1">Pre Order</a></li>
-    			<li><a href="#tabs-2">Delivery & Summary</a></li>
+			  	<li id="preorder"><a href="#tabs-1">Pre Order</a></li>
+    			<li id="delivery_summary"><a href="#tabs-2">Delivery & Summary</a></li>
   			</ul>
     		<div id="tabs-1">
     			<div class="row">
@@ -113,7 +113,7 @@
 									<strong>Note : {!! $requestorder->note !!} </strong>
 								</div>
 							</div><p>&nbsp;</p>
-							<p><a href="javascript:history.go(-1)" class="link_kembali"><i class="fa fa-angle-left fa-3"></i>Back</a>
+							<p><a class="link_kembali" href="{{ route('home') }}"><i class="fa fa-angle-left fa-3"></i>Back</a>
 							<p><a href="#" class="link_kembali next-btn">Next <i class="fa fa-angle-right fa-3"></i></a>
 							<!-- <button class="btn btn-primary next-btn">Next</button> -->
 						</div>
@@ -365,7 +365,11 @@
 												</div>
 											</div>
 										</div>
-										<p>Field with asterisk (*) are required</p>
+										<p>
+											Field with asterisk (*) are required <br>
+											**asuransi + jne harus dipakai berbarengan tidak bs salah 1 <br>
+											**peraturan dari jne asuransi + pack kayu harus digunakan barengan <br>
+										</p>
 									</div>	
 								</div>
 								<div class="row">
@@ -396,7 +400,7 @@
 <br>
 <br>
 <br>
-<p><a class="link_kembali" href="{{ route('home') }}"><i class="fa fa-angle-left fa-3"></i>Back</a>
+<p><a href="#" class="link_kembali back-btn"><i class="fa fa-angle-left fa-3"></i>Back</a>
 <!-- <button class="btn btn-default more" onclick="myFunction()">Submit Pre Order</button> -->
 <input class="btn btn-default more" type="button" id='submit_po' value="Submit Pre Order"></p>
 
@@ -770,6 +774,20 @@ function calculateTotal() {
 			$('input[name=use_packing]').attr('checked', false);
     });
 
+		$('#courier_type').on('change', function() {
+			if ($(this).val() == "jne") {
+				$('input[name=isurance]').attr('disabled', false);
+			} else {
+				$('input[name=isurance]').attr('disabled', true);
+				$('input[name=isurance]').attr('checked', false);
+				$('input[name=use_packing]').attr('disabled', true);
+				$('input[name=use_packing]').attr('checked', false);
+			}
+
+			const subdistrict = $('#subdistrict-option').val();
+			loadCosts(subdistrict, $(this).val());
+    });
+
 		$('#paket_kirim').on('change', function() {
 			let selected_text = $("#paket_kirim option:selected").text();
 			selected_text = selected_text.substring(0, selected_text.indexOf("="));
@@ -777,7 +795,9 @@ function calculateTotal() {
 			$('#delivery_fee_summary').html($(this).val());
 			$('#delivery_fee_id_summary').val($(this).val());
 			$('#delivery_fee_description').val(selected_text);
-			$('input[name=use_packing]').attr('disabled', false);
+			if ($('#courier_type').val() == "jne") {
+				$('input[name=use_packing]').attr('disabled', false);
+			}
 			calculateGrandTotal();
     });
 
@@ -787,9 +807,13 @@ function calculateTotal() {
 				insurance_value = (parseInt(subtotal) * 0.002)  + 5000;
 				$('#insurance').html(insurance_value);
 				$('#insurance_value').val(insurance_value);
+
+				$('#use_packing').prop('checked', true)
 			} else {
 				$('#insurance').html(0);
 				$('#insurance_value').val(0);
+
+				$('#use_packing').prop('checked', false)
 			}
 			calculateGrandTotal(); 
 		});
@@ -799,9 +823,13 @@ function calculateTotal() {
 			if ($(this).is(':checked')) {
 				$('#packing_summary').html(ongkir);
 				$('#result_packing').val(ongkir);
+
+				$('#use_insurance').prop('checked', true)
 			} else {
 				$('#packing_summary').html(0);
 				$('#result_packing').val(0);
+
+				$('#use_insurance').prop('checked', false)
 			}
 			calculateGrandTotal(); 
 		});	
@@ -879,10 +907,10 @@ function calculateTotal() {
 		$('#total_outstanding2').val(grandTotal - ewallet);
 	}
 
-	function loadCosts(subdistrictId) {
+	function loadCosts(subdistrictId, courier = "jne") {
 		if(subdistrictId) {
           $.ajax({
-              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=jne`,
+              url: `/api/rajaongkir/costs?subdistrict=${subdistrictId}&courier=${courier}`,
               type: "GET",
               data : {"_token":"{{ csrf_token() }}"},
               dataType: "json",
@@ -1017,10 +1045,33 @@ function calculateTotal() {
     $('#tabs-2').hide();
 
     // When the Next button is clicked, switch to the second tab
+		$('.back-btn').click(function() {
+      $('#tabs-1').show();
+      $('#tabs-2').hide();
+			$('#preorder').addClass('ui-tabs-active ui-state-active');
+			$('#delivery_summary').removeClass('ui-tabs-active ui-state-active');
+		});
+
     $('.next-btn').click(function() {
       $('#tabs-1').hide();
       $('#tabs-2').show();
+			$('#preorder').removeClass('ui-tabs-active ui-state-active');
+			$('#delivery_summary').addClass('ui-tabs-active ui-state-active');
     });
+
+		$('#preorder').click(function() {
+      $('#tabs-1').show();
+      $('#tabs-2').hide();
+			$('#preorder').addClass('ui-tabs-active ui-state-active');
+			$('#delivery_summary').removeClass('ui-tabs-active ui-state-active');
+		});
+
+		$('#delivery_summary').click(function() {
+      $('#tabs-1').hide();
+      $('#tabs-2').show();
+			$('#preorder').removeClass('ui-tabs-active ui-state-active');
+			$('#delivery_summary').addClass('ui-tabs-active ui-state-active');
+		});
   });
 
 		
@@ -1036,7 +1087,12 @@ $(document).ready(function() {
       var couriers = data.couriers;
       var options = '<option value="">Pilih Kurir</option>';
       for (var i = 0; i < couriers.length; i++) {
-		options += '<option value="' + couriers[i].code + '">' + couriers[i].courier + '</option>';
+				let selected = "";
+				if (couriers[i].code == "jne") {
+					selected = "selected";
+				}
+
+				options += '<option value="' + couriers[i].code + '" ' + selected + '>' + couriers[i].courier + '</option>';
       }
       $('#courier_type').html(options);
     },
