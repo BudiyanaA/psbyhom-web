@@ -29,12 +29,12 @@
 								@if(count($wallet) > 0)
 						@foreach($wallet as $e)
                                     <tr>
-                                        <td colspan='5' >{{ $loop->index + 1 }}</td>
-                                        <td colspan='5'>{{ $e->msCustomer?->customer_name}}</td>
-                                        <td colspan='5'>{{ $e->trans_date}}</td>
-                                        <td colspan='5'>{{ $e->amount}}</td>
-                                        <td colspan='5'>{{ $e->description}}</td>
-                                        <td colspan='5'>{{ $e->po?->request_id}}</td>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $e->msCustomer?->customer_name}}</td>
+                                        <td>{{ $e->trans_date}}</td>
+                                        <td>{{ $e->amount}}</td>
+                                        <td>{{ $e->description}}</td>
+                                        <td>{{ $e->po?->request_id}}</td>
                                     </tr>
                                     @endforeach
 									@else
@@ -56,12 +56,24 @@
 <br>
 <br>
 <div class="col-sm-6">
+			{{ Form::open(['url' => route('withdrawal.store'), 'class' => 'form-horizontal' ])}}
 						<div id="dropship_customer" class="dropsipper-content">
 						<h4>Withdrawal Form</h4>
+						@if(Session::has('success'))
+			<script>
+				alert("{{ Session::get('success') }}");
+			</script>
+		@endif
+
+		@if(Session::has('error'))
+			<script>
+				alert("{{ Session::get('error') }}");
+			</script>
+		@endif
 						<fieldset>
 					<div class="form-group"><div class="ol-sm-6 col-md-3 text-right">Bank Name:</div>
 					<div class="col-sm-8 col-md-8">
-					<input type="text" name="dropshipper_name" id='bank_name' class="elem_attr_req" ></div>
+					<input type="text" name="bank_name" id='bank_name' class="elem_attr_req" ></div>
 					</div>
 					<div class="form-group">
 					<div class="col-sm-6 col-md-3 text-right">Account No :</div>
@@ -76,11 +88,11 @@
 					<div class="form-group">
 					<div class="col-sm-6 col-md-3 text-right"></div>
 					<div class="col-sm-8 col-md-8">
-						<button class="btn btn-default more" type="button" name="withdraw" id="withdraw">Withdraw E-Wallet</button></div>
+					<button class="btn btn-default more">Withdraw E-Wallet</button>
+						<!-- <button class="btn btn-default more" type="button" name="withdraw" id="withdraw">Withdraw E-Wallet</button></div> -->
 					</div>
 					<div class="form-group">
 					<div class="col-sm-6 col-md-3 text-right"></div>
-					
 					</div>
 					</fieldset>
 					<br>
@@ -89,6 +101,7 @@
 					<p>Note : Other than Bank Mandiri/Bank BCA, you will be charged Rp. 6.500 as transaction fee.</p>
 					</div>
 					</div>
+					{{ Form::close() }}
 						</div>
 </div>
 
@@ -99,27 +112,32 @@
                                 <thead>
 								<tr style="background:#56cfe1;color:white">
 									<th align='left'>No.</th>
-									<th align='left'>PO ID</th>
-									<th align='left'>Trans. Date</th>
+									<th align='left'>Trans Date</th>
 									<th align='left'>Amount</th>
-									<th >Description</th>
+									<th align='left'>Status</th>
 								</tr>
                                 </thead>
                                 <tbody>
-								@if(count($wallet) > 0)
-						@foreach($wallet as $e)
+								@if(count($withdrawal) > 0)
+						@foreach($withdrawal as $w)
                                     <tr>
-                                        <td colspan='5' >{{ $loop->index + 1 }}</td>
-                                        <td colspan='5'>{{ $e->msCustomer?->customer_name}}</td>
-                                        <td colspan='5'>{{ $e->trans_date}}</td>
-                                        <td colspan='5'>{{ $e->amount}}</td>
-                                        <td colspan='5'>{{ $e->description}}</td>
-                                        <td colspan='5'>{{ $e->po?->request_id}}</td>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $w->trans_date }}</td>
+                                        <td>{{ $w->amount}}</td>
+                                        <td>
+											@if($w->status == '00')
+												Pending
+											@elseif($w->status == '01')
+												Finish
+											@elseif($w->status == '02')
+												Reject
+											@endif
+											</td>
                                     </tr>
                                     @endforeach
 									@else
 								<tr>
-								<td colspan='5' style="text-align:center">No E-Wallet History </td>
+								<td colspan='5' style="text-align:center">No Withdrawal </td>
 								</tr>
 							@endif
                                 </tbody>
