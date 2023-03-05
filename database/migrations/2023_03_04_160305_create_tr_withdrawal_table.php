@@ -13,15 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tr_ewallet', function (Blueprint $table) {
-            // $table->id();
-            $table->string('EWalletUUID')->primary();
+        Schema::create('tr_withdrawal', function (Blueprint $table) {
+            $table->string('withdrawUUID')->primary();
+            $table->string('bank_name');
+            $table->string('account_no');
+            $table->string('account_name');
             $table->string('CustomerUUID');
-            $table->string('POUUID')->nullable();
             $table->datetime('trans_date');
+            $table->string('status');
             $table->string('amount');
-            $table->string('description')->nullable();
-            // $table->timestamps();
+            $table->string('ByUserUUID');
+            $table->string('ByUserIP');
+            $table->datetime('OnDateTime');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tr_ewallet');
+        Schema::dropIfExists('tr_withdrawal');
     }
 };

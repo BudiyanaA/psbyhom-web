@@ -199,6 +199,8 @@ Route::get('confirm_payment', [ConfirmPaymentController::class, 'index'])->name(
 Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])->name('confirm_payment.store');
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
 
+Route::post('withdrawal/create', [WalletController::class, 'store'])->name('withdrawal.store');
+
 // TODO:
 // /request_order_controller/search_filter_request_transaction
 // /po_invoice_controller/search_filter_invoice
