@@ -14,4 +14,12 @@ class EwalletController extends Controller
 
         return view('ewallet.index',$data);
     }
+
+    public function withdrawal()
+    {
+        $data['withdrawal'] = TrEwallet::with(['msCustomer', 'po'])
+            ->orderBy('trans_date', 'DESC')->get();
+
+        return view('ewallet.withdrawal',$data);
+    }
 }
