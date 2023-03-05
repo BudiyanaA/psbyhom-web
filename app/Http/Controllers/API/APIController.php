@@ -10,6 +10,7 @@ use App\Models\TrPo;
 use App\Models\TrPayment;
 use App\Models\Registercostumer;
 use App\Models\LogTransaction;
+use App\Models\TrWithdrawal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResiEmail;
@@ -248,6 +249,29 @@ class APIController extends Controller
       } catch(\Exception $e) {
         DB::rollback();
         dd($e);
+        return [
+          "code" => 500,
+          "success" => false,
+        ];
+      }
+    }
+
+    public function updateStatusWithdrawal(Request $request) {
+      DB::beginTransaction();
+      try {
+        TrWithdrawal::where('withdrawUUID', $request->withdrawUUID)
+          ->update([
+            'status' => $request->status,
+          ]);
+
+        DB::commit();
+        return [
+          "code" => 200,
+          "success" => true,
+        ];
+      } catch(\Exception $e) {
+        DB::rollback();
+        // dd($e);
         return [
           "code" => 500,
           "success" => false,

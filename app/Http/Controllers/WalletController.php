@@ -41,9 +41,13 @@ class WalletController extends Controller
             TrEwallet::where('CustomerUUID', $CustomerUUID)->create([
                 'EWalletUUID' => $this->newid(),
                 'CustomerUUID' => $CustomerUUID,
+                'POUUID' => '',
                 'trans_date' => date('Y-m-d H:i:s'), 
                 'amount' => "-".$ewallet,
-       ]);
+                'description' => "Customer Withdraw All of His/Her E-Wallet",
+            ]);
+
+            // TODO: Send Email
         
             return redirect(route('ewallet'))
                 ->withSuccess("Data berhasil ditambahkan");

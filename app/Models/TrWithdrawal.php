@@ -9,6 +9,7 @@ class TrWithdrawal extends Model
 {
     use HasFactory;
     protected $table = 'tr_withdrawal';
+    public $timestamps = false;
     protected $fillable = [
         'withdrawUUID',
         'bank_name',
@@ -22,4 +23,9 @@ class TrWithdrawal extends Model
         'ByUserIP',
         'OnDateTime',
     ];
+
+    public function msCustomer()
+    {
+        return $this->belongsTo(Registercostumer::class, 'CustomerUUID', 'CustomerUUID');
+    }
 }

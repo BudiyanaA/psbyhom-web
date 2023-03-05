@@ -8,8 +8,7 @@
                 <li class="active">Costumer Management</li>
             </ol>
 
-            <h1>Ewallet List</h1>
-            <
+            <h1>Withdrawal List</h1>
         </div>
 
 
@@ -31,21 +30,32 @@
                                     <tr>
 										<th>No</th>
                                         <th>Costumer Name</th>
-                                        <th>Trans Date</th>
+                                        <th>Bank</th>
+                                        <th>Date</th>
                                         <th>Amount</th>
-                                        <th>Description</th>
-                                        <th>PO ID</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-								@foreach($withdrawal as $e)
+								@foreach($withdrawal as $w)
                                     <tr>
+																				<input type="hidden" value="{{ $w->withdrawUUID }}" class='withdrawUUID' name="withdrawUUID{{$loop->index}}">
                                         <td valign='top'>{{ $loop->index + 1 }}</td>
-                                        <td valign='top'>{{ $e->msCustomer?->customer_name}}</td>
-                                        <td valign='top'>{{ $e->trans_date}}</td>
-                                        <td valign='top'>{{ $e->amount}}</td>
-                                        <td valign='top'>{{ $e->description}}</td>
-                                        <td valign='top'>{{ $e->po?->po_id}}</td>
+                                        <td valign='top'>{{ $w->msCustomer?->customer_name}}</td>
+																				<td valign='top'>{{ $w->bank_name ." | ". $w->account_no ." a/n: ". $w->account_name }}</td>
+                                        <td valign='top'>{{ $w->trans_date}}</td>
+                                        <td valign='top'>{{ $w->amount}}</td>
+                                        <td valign='top'>
+																					<a href="#" class="status_withdrawal" data-type="select" data-pk="87605" data-pk-invoice="SS19041299" data-name="noresi">
+																						@if($w->status == '00')
+																							Pending
+																						@elseif($w->status == '01')
+																							Finish
+																						@elseif($w->status == '02')
+																							Reject
+																						@endif
+																					</a>
+																				</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -61,4 +71,36 @@
         </div> <!-- container -->
     </div> <!--wrap -->
 </div> 
+@endsection
+
+@section ('script')
+<script type="text/javascript">
+    $.fn.editable.defaults.mode = 'inline';
+		$('.status_withdrawal').editable({
+      type: 'select',
+      source: [
+        {value: '00', text: 'Pending'},
+        {value: '01', text: 'Finish'},
+        {value: '02', text: 'Reject'},
+      ],
+    });
+
+		$('.status_withdrawal').on('save', function(e, params) { 
+			var status = params.newValue;
+			var withdrawUUID = $(this).closest('tr').find('.withdrawUUID').val();
+
+				$.ajax({
+					url: '/api/status_withdrawal/update',
+        	type:"POST",
+					data:{withdrawUUID:withdrawUUID,status:status},
+					success: function(respond) 
+					{
+						if (data.success) {					
+							alert("Successfully update status !");
+							location.reload();
+						}
+					}
+				})	
+		});
+</script>
 @endsection

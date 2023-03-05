@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('ByUserUUID');
             $table->string('ByUserIP');
             $table->datetime('OnDateTime');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

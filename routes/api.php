@@ -37,3 +37,4 @@ Route::post('batch_order/update', [APIController::class, 'updateBatchOrder']);
 Route::post('status_item/update', [APIController::class, 'updateStatusItem']);
 Route::post('keterangan/update', [APIController::class, 'updateKeterangan']);
 Route::post('no_resi/update', [APIController::class, 'updateNoResi']);
+Route::post('status_withdrawal/update', [APIController::class, 'updateStatusWithdrawal']);
