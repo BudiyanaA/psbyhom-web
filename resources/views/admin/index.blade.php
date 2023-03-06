@@ -39,7 +39,7 @@
 									@foreach($admins as $a)
 									<tr>
 										<td>{{ $loop->index + 1 }}</td>
-										<td><a href="{{ route('user.edit', $a->id) }}">{{ $a->name }}</a></td>
+										<td><a href="{{ route('user.edit', $a->AdminUUID) }}">{{ $a->name }}</a></td>
 										<td>{{ $a->email }}</td>
 									</tr>
 									@endforeach

@@ -34,7 +34,7 @@
 		</div>
 	@endif
 		
-		{!! Form::model($bank, ['route' => ['bank_management.update', $bank->id], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
+		{!! Form::model($bank, ['route' => ['bank_management.update', $bank->BankUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 
         @include('bank._form')
 

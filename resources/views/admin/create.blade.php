@@ -34,7 +34,7 @@
 		</div>
 	@endif
 
-		{{ Form::open(['url' => route('admin_management.store'), 'class' => 'form-horizontal' ])}}
+		{{ Form::open(['url' => route('user.create'), 'class' => 'form-horizontal' ])}}
 			
         @include('admin._form')
 

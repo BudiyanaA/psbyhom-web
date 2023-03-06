@@ -115,9 +115,9 @@ Route::get('forgot_password', [LoginController::class, 'forgot'])->name('forgot_
 // Route::resource('admin_management', AdminManagementController::class);
 Route::get('admin/user', [AdminManagementController::class, 'index'])->name('user.index');
 Route::get('admin/user/create', [AdminManagementController::class, 'create'])->name('user.create');
-Route::get('admin/user/edit/{id}', [AdminManagementController::class, 'edit'])->name('user.edit');
+Route::get('admin/user/edit{id}', [AdminManagementController::class, 'edit'])->name('user.edit');
 Route::post('admin/user/create', [AdminManagementController::class, 'store'])->name('admin_management.store');
-Route::put('admin/user/edit/{id}', [AdminManagementController::class, 'update'])->name('admin_management.update');
+Route::put('admin/user/edit{id}', [AdminManagementController::class, 'update'])->name('user.update');
 
 
 // Route::resource('page_management', PageManagementController::class);
@@ -156,6 +156,8 @@ Route::post('admin/ecommerce/bank/create', [BankManagementController::class, 'st
 Route::put('admin/ecommerce/bank/edit/{id}', [BankManagementController::class, 'update'])->name('bank_management.update');
 
 Route::get('admin/ecommerce/email', [EmailContentManagementController::class, 'index'])->name('email.index');
+Route::get('admin/ecommerce//view/{id}', [EmailContentManagementController::class, 'edit'])->name('email.detail');
+Route::put('admin/ecommerce/{id}/update', [EmailContentManagementController::class, 'update'])->name('email.update');
 
 // Route::resource('voucher_management', VoucherManagementController::class);
 Route::get('admin/voucher/email', [VoucherManagementController::class, 'index'])->name('voucher_management.index');

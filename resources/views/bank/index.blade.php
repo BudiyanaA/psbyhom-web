@@ -46,7 +46,7 @@
 									@foreach($banks as $b)
 									<tr>
 										<td>{{ $loop->index + 1 }}</td>
-										<td><a href="{{ route('bank_management.edit', $b->id) }}">{{ $b->bank_name }}</a></td>
+										<td><a href="{{ route('bank_management.edit', $b->BankUUID) }}">{{ $b->bank_name }}</a></td>
 										<td>{{ $b->bank_account_no }}</td>
 										<td>{{ $b->bank_account_name }}</td>
 										<td>{{ $b->status }}</td>

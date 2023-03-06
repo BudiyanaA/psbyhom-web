@@ -46,8 +46,8 @@
                                 @foreach($emails as $e)
                                     <tr>
                                         <td valign='top'>{{ $loop->index + 1 }}</td>
-                                        <td valign='top'>{{ $e->email }}</td>
-                                        <td valign='top'></td>
+                                        <td><a href="{{ route('email.detail', $e->EmailUUID) }}">{{ $e->email_name }}</a></td>
+                                        <td valign='top'>{{ $e->email_title }}</td>
                                         <td valign='top'>{{ \Carbon\Carbon::parse($e->created_at)->format('d F Y') }}</td>
                                     </tr>
                                     @endforeach

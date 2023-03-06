@@ -34,7 +34,7 @@
 		</div>
 	@endif
 		
-		{!! Form::model($admin, ['route' => ['admin_management.update', $admin->id], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
+		{!! Form::model($admin, ['route' => ['user.update', $admin->AdminUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 			
 
         @include('admin._form')

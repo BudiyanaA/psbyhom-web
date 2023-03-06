@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use App\Models\MsAdmin;
 
 class AdminManagementController extends Controller
 {
     public function index()
     {
-        $data['admins'] = DB::table('users')->get();
+        $data['admins'] = MsAdmin::get();
         return view('admin.index', $data);
     }
 
@@ -23,20 +23,20 @@ class AdminManagementController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:ms_admin',
             'password' => 'required|confirmed',
         ]);
 
         try {
 
-            $user = User::create([
+            $user = MsAdmin::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'role' => 'admin'
             ]);
     
-            return redirect(route('user.index'))
+            return redirect(route('admin.index'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         } catch(\Exception $e) {
@@ -47,7 +47,7 @@ class AdminManagementController extends Controller
 
     public function edit($id)
     {  
-        $data['admin'] = User::find($id);
+        $data['admin'] = MsAdmin::where('AdminUUID',$id)->first();
         return view('admin.edit', $data);
     }
 
@@ -55,13 +55,13 @@ class AdminManagementController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:ms_admin',
             'password' => 'required|confirmed',
         ]);
 
         try {
 
-            $a = User::find($id);
+            $a = MsAdmin::find($id);
             $a->update([
                 'name' => $request->name,
                 'email' => $request->email,
