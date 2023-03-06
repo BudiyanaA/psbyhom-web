@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-toyo"
-                  href="{{ route('preorder.index') }}">
+                  href="{{ route('preorder.index') }}?status=00">
                   <div class="tiles-heading">New PO</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-shopping-cart"></i>
