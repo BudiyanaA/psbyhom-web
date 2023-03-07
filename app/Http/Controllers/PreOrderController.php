@@ -85,6 +85,7 @@ class PreOrderController extends Controller
             'price_customer.*' => 'required|numeric|min:1',
         ]);
         
+        DB::beginTransaction();
         try {
             // $qty = (int)$validated['qty']; 
             // $seq = 1;
@@ -197,12 +198,15 @@ class PreOrderController extends Controller
             // if (Mail::failures()) {
             //     return redirect()->back()->with('error', 'Gagal mengirim email!');
             // }
+
+            DB::commit();
         
             return redirect(route('preorder.notification'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
