@@ -42,7 +42,7 @@ class WalletController extends Controller
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
 
-            TrEwallet::where('CustomerUUID', $CustomerUUID)->create([
+            TrEwallet::create([
                 'EWalletUUID' => $this->newid(),
                 'CustomerUUID' => $CustomerUUID,
                 'POUUID' => '',

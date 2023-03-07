@@ -289,7 +289,7 @@
 										<td colspan='2'></td>
 										@if ($po->total_outstanding >= 0)
 											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Outstanding</td>
-											<td class="total_kurang"><span id='total_outstandings'><strong>{{ number_format($po->total_outstanding) }}</strong></span></td>
+											<td class="total_kurang"><span id='total_outstandings'><strong>{{ number_format((float) $po->total_outstanding) }}</strong></span></td>
 										@elseif ($po->refund_amount != '')
 											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Refund</td>
 											<td class="total_kurang"><span id='total_outstandings'><strong>{{ number_format($po->refund_amount) }}</strong></span></td>

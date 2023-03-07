@@ -210,16 +210,16 @@
 		}
 		else
 		{
-			// price = price - ((price * disc) / 100);
-			// if(additional_fee != '0' && additional_fee != '')
-			// {
-			// 	additional_price = (parseFloat(price)  * parseFloat(exchange_rate) * 0.07);
-			// }
+			price = price - ((price * disc) / 100);
+			if(additional_fee != '0' && additional_fee != '')
+			{
+				additional_price = (parseFloat(price)  * parseFloat(exchange_rate) * 0.07);
+			}
 
 			// total = ((price * forex) + additional - ((price * disc) / 100)) * qty
-			var price_idr = parseFloat(price) * parseFloat(exchange_rate);
-      var total = (price_idr + parseFloat(additional_fee) - (price_idr * (parseFloat(disc) / 100))) * parseFloat(qty);
-			// var total = ((parseFloat(price)  * parseFloat(exchange_rate) + parseFloat(additional_price)  +parseFloat(additional_fee)) * parseFloat(qty));
+			// var price_idr = parseFloat(price) * parseFloat(exchange_rate);
+      // var total = (price_idr + parseFloat(additional_fee) - (price_idr * (parseFloat(disc) / 100))) * parseFloat(qty);
+			var total = ((parseFloat(price)  * parseFloat(exchange_rate) + parseFloat(additional_price)  +parseFloat(additional_fee)) * parseFloat(qty));
 		
 			total = Math.round(total);
 			// document.getElementById("subtotal_true"+no).value = total;

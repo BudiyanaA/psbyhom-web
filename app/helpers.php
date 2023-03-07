@@ -17,7 +17,7 @@ if (!function_exists('getAdminNew')) {
   function getAdminNew()
   {
     $new = TrRequestOrder::where('status', '00')
-    ->where('po_type', '!=', 'SD')
+    // ->where('po_type', '!=', 'SD')
     ->count(); 
     return $new;
   }
@@ -78,7 +78,7 @@ if (!function_exists('getAdminSgNew')) {
   function getAdminSgNew()
   {
     $new_sg = TrRequestOrder::where('status', '00')
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count();
     return $new_sg;
   }
@@ -88,7 +88,7 @@ if (!function_exists('getAdminSgApproval')) {
   function getAdminSgApproval()
   {
     $approval_sg = TrRequestOrder::where('status', '01')
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count(); 
     return $approval_sg;
   }
@@ -98,7 +98,7 @@ if (!function_exists('getAdminSgPayment')) {
   function getAdminSgPayment()
   {
     $payment_sg = TrPo::where('status', '01')
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count(); 
     return $payment_sg;
   }
@@ -108,7 +108,7 @@ if (!function_exists('getAdminSgDp')) {
   function getAdminSgDp()
   {
     $dp_sg = TrPo::where('status', '00')
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count(); 
     return $dp_sg;
   }
@@ -118,7 +118,7 @@ if (!function_exists('getAdminSgLp')) {
   function getAdminSgLp()
   {
     $lp_sg = TrPo::where('status', '05')
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count(); 
     return $lp_sg;
   }
@@ -128,7 +128,8 @@ if (!function_exists('getAdminSgReady')) {
   function getAdminSgReady()
   {
     $ready_sg = TrPo::where('status', '06')
-    ->where('po_type', 'SD')->count(); 
+    // ->where('po_type', 'SD')
+    ->count(); 
 
     return $ready_sg;
   }
@@ -138,7 +139,7 @@ if (!function_exists('getAdminSgGoods')) {
   function getAdminSgGoods()
   {
     $ready = TrPo::where('status', ['02', '03'])
-    ->where('po_type', 'SD')
+    // ->where('po_type', 'SD')
     ->count(); 
     return $ready;
   }

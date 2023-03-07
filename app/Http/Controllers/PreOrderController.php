@@ -64,17 +64,6 @@ class PreOrderController extends Controller
         return $po_id;
     }
 
-    function newid()
-		{
-			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
-			return $uuid;
-		}
-
-
     public function store(Request $request)
    {
     //    dd(session('customer_name'));
@@ -122,6 +111,8 @@ class PreOrderController extends Controller
                     'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
                     'status' => '00',
                     'seq' => $i + 1,
+
+                    'additional_fee' => 0,
                 ]);
                 
                 $total_items++;

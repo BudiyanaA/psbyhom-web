@@ -28,6 +28,8 @@ class TrRequestOrderDtl extends Model
         'additional_fee',
         'subtotal_final',
         'disc_percentage',
+
+        'additional_fee',
     ];
 
     public function customer()

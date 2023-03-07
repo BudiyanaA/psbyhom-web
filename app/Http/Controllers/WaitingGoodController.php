@@ -55,7 +55,7 @@ class WaitingGoodController extends Controller
         $data['logtrans'] = LogTransaction::where('POUUID', $id)
             ->orderBy('log_date', 'DESC')
             ->get();
-
+        // return $data;
         return view('waitinggood.edit',$data);     
     }
 
