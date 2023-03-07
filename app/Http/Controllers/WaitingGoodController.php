@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use App\Mail\InvoiceLPEmail;
 use App\Mail\RefundEmail;
+use App\Mail\ResiEmail;
 
 class WaitingGoodController extends Controller
 {
     public function index()
     {
-        $data['waitinggoods'] = TrPo::where('status', ['02', '03'])
+        $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
             ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
             ->with('poDtls', function ($query) {
                 $query->orderBy('seq', 'ASC');
@@ -516,11 +517,67 @@ class WaitingGoodController extends Controller
                 DB::commit();
                 return redirect(route('waitinggood.notification', $id))
                     ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == 'update_no_resi') {
+                TrPo::where('POUUID', $id)->update([
+					'status' => '07',
+					'no_resi' => $request->no_resi,
+					'ByUserUUID' => $AdminUUID,
+					'ByUserIP' => $request->ip(),
+					'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogActv::create([
+                    'id' => $this->newid(),
+                    'user_id' => $username,
+                    'UserUUID' => $AdminUUID,
+                    'menu_nm' => 'Input no Resi',
+                    'log_time' => date('Y-m-d H:i:s'),
+                    'Description' => '<b>Input no resi for : </b>'.$request->po_id,
+                    'LogType' => 'Insert',
+                    'user_type' => 'Admin',
+                    'RefUUID' => $id,
+                    'is_financial' => '0',
+                    'is_error' => '0',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
+                ]);
+
+                LogTransaction::create([
+                    'LogTransUUID' => $this->newid(),
+                    'POUUID' => $id,
+                    'log_date' => date('Y-m-d H:i:s'),
+                    // 'action_desc' => "Admin input No Resi JNE : ".$request->no_resi,
+                    'action_desc' => "Admin input No Resi : ".$request->no_resi,
+                    'created_by' => 'Admin',
+                    'UserUUID' => $AdminUUID
+                ]);
+
+                // Send Email Notification
+                $EmailUUID = 'ce7926a7-126b-474c-b6d8-cdab04f96d88'; //No Resi Notification
+                $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
+
+                $po = TrPo::where('POUUID', $id)->first();
+                $customer = Registercostumer::where('CustomerUUID', $po->CustomerUUID)->first();
+
+                $emailsent = Mail::to($email_customer)
+                    ->send(new ResiEmail(
+                        $po->po_id, 
+                        $customer->customer_name,
+                        $po->receiver_address,
+                        $id, 
+                        $EmailUUID,
+                        $request->no_resi,
+                    ));
+                
+                DB::commit();
+                return redirect(route('waitinggood.notification', $id))
+                    ->withSuccess("Data berhasil diubah");
             }
 
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
