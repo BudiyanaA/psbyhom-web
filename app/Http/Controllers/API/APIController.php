@@ -30,6 +30,7 @@ class APIController extends Controller
       return [
           "code" => 200,
           "amount" => $amount,
+          "invoice" => $invoice,
       ];
     }
 

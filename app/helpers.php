@@ -143,3 +143,17 @@ if (!function_exists('getAdminSgGoods')) {
     return $ready;
   }
 }
+
+if (!function_exists('formatDate')) {
+  function formatDate($date)
+  {
+    return date('d M Y', strtotime($date));
+  }
+}
+
+if (!function_exists('formatDateTime')) {
+  function formatDateTime($datetime)
+  {
+    return date('d M Y H:i:s', strtotime($datetime));
+  }
+}

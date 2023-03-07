@@ -119,7 +119,7 @@
 															@endphp
 															<input {{ $disabled  }} style='width:55%' type='number'  class="incoming_qty" name='incoming_qty[{{ $loop->index }}]' id='incoming_qty{{ $loop->index }}' value='{{ trim($incoming_qty) }}'>
 														@elseif (in_array($po->status, ['04', '05', '06', '07', '08', '09']))
-															<td  style='width:10%' >{{ $p->incoming_qty }}</td>
+															{{ $p->incoming_qty }}
 														@endif
 													</td>
 													<td><p id="price"><a href="{{ $p->requestOrderDtl?->product_url }}">LINK</a></p></td>
@@ -130,7 +130,7 @@
 														@if ($po->status == '02' || $po->status == '03')
 															<td>{{ number_format($p->requestOrderDtl?->price_customer - ($p->requestOrderDtl?->price_customer * $p->requestOrderDtl?->disc_percentage / 100),2) }}</td>															
 														@endif
-														<td>{{ $p->price }}</td>
+														<td>{{ number_format($p->price) }}</td>
 														<td class="po_subtotal{{ $loop->index}}">{{ number_format($p->subtotal) }}</td>
 												</tr>
 										@endforeach
@@ -151,7 +151,7 @@
 											<td colspan='2' style="text-align:right"></td>
 											<td colspan='2'></td>
 											<td colspan='{{ $colspan }}' style="text-align:right">Subtotal</td>
-											<td class="po_grandtotal">{{ $po->subtotal}}</td>
+											<td class="po_grandtotal">{{ number_format($po->subtotal) }}</td>
 											<input type='hidden' name='total_rejects' value="{{ $po->total_reject }}">
 											<input type='hidden' name='total_rejects' value="{{ $total_reject ?? 0 }}">
 											<input type='hidden' id='dp_amounts' value="{{ $po->dp_amount }}">
@@ -289,10 +289,10 @@
 										<td colspan='2'></td>
 										@if ($po->total_outstanding >= 0)
 											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Outstanding</td>
-											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $po->total_outstanding }}</strong></span></td>
+											<td class="total_kurang"><span id='total_outstandings'><strong>{{ number_format($po->total_outstanding) }}</strong></span></td>
 										@elseif ($po->refund_amount != '')
 											<td class="remarks_kurang" colspan='{{ $colspan }}' style="text-align:right">Total Refund</td>
-											<td class="total_kurang"><span id='total_outstandings'><strong>{{ $po->refund_amount }}</strong></span></td>
+											<td class="total_kurang"><span id='total_outstandings'><strong>{{ number_format($po->refund_amount) }}</strong></span></td>
 										@endif
 									</tr>
 								
@@ -378,7 +378,7 @@
 									</tr>
 									<tr>
 										<td colspan='2'>Approved Date</td>
-										<td colspan='8'>{{ $po->trans_date }}</td>
+										<td colspan='8'>{{ formatDateTime($po->trans_date) }}</td>
 									</tr>
 										<tr>
 										<td colspan='2'>Status</td>
@@ -446,7 +446,7 @@
 											<td>{{ $pay->account_no_source }}</td>
 											<td>{{ $pay->bank_source }}</td>
 											<td>{{ $pay->account_name_source }}</td>
-											<td>{{ $pay->payment_date  }}</td>
+											<td>{{ formatDate($pay->payment_date)  }}</td>
 											<td><a target="_blank" href="#">Hyperlink</a></td>
 											@if ($po->status == '00' || $po->status == '02' || ($po->status == '05' && $pay->status == '00'))
 											<td style="width:15%">
@@ -575,7 +575,7 @@
 @section ('script')
 <script>
   $(document).ready(function() {
-		recalculate();
+		// recalculate();
 		$('.incoming_qty').on('keyup mouseup', function() 
 		{
 			recalculate();

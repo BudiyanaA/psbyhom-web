@@ -43,7 +43,8 @@
 			<td>{{ $row->requestOrderDtl?->color }}</td>
 			<td>{{ $row->requestOrderDtl?->size }}</td>
 			<td>{{ $row->requestOrderDtl?->remarks }}</td>
-			<td align="right">{{ number_format(floatval($row->subtotal)) }}</td>
+			<td>{{ number_format((float) $row->price) }}</td>
+			<td align="right">{{ number_format((float) $row->subtotal) }}</td>
 		</tr>
 		@php
 			$i++;
@@ -51,79 +52,79 @@
 	@endforeach
 		<tr style='height: 30px; border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Subtotal</td>
-				<td style=' border: none;' align='right'>{{ number_format(floatval($row->subtotal)) }}</td>
+				<td style=' border: none;' align='right'>{{ number_format((float) $view_order->subtotal) }}</td>
 		</tr>
 
 		@if($view_order->additional_shipping_fee != '0' && $view_order->additional_shipping_fee != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}"  align='right'>Additional Shipping Fee</td>
-				<td style=' border: none;' align='right'>{{ number_format(floatval($view_order->additional_shipping_fee)) }}</td>
+				<td style=' border: none;' align='right'>{{ number_format((float) $view_order->additional_shipping_fee) }}</td>
 		</tr>
 		@endif
 
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;'colspan="{{ $colspan  }}" align='right'>Delivery Fee ({{ $view_order->ongkir_type }})</td>
-				<td style=' border: none;' align='right'>{{ number_format(floatval($view_order->ongkir)) }}</td>
+				<td style=' border: none;' align='right'>{{ number_format((float) $view_order->ongkir) }}</td>
 		</tr>
 		
 		@if($view_order->insurance != '0' && $view_order->insurance != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Insurance</td>
-				<td style=' border: none;'align='right'>{{ number_format(floatval($view_order->insurance)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->insurance) }}</td>
 		</tr>
 		@endif
 			
 		@if($view_order->block_package != '0' && $view_order->block_package != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Block Package</td>
-				<td style=' border: none;'align='right'>{{ number_format(floatval($view_order->block_package)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->block_package) }}</td>
 		</tr>
 		@endif
 
 		@if($view_order->disc != '0' && $view_order->disc != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Discount</td>
-				<td style=' border: none;'align='right'>- {{ number_format(floatval($view_order->disc)) }}</td>
+				<td style=' border: none;'align='right'>- {{ number_format((float) $view_order->disc) }}</td>
 		</tr>
 		@endif
 			
 		@if($view_order->unique_amount != '0' && $view_order->unique_amount != '' )	
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Unique Amount</td>
-				<td style=' border: none;'align='right'>{{ number_format(floatval($view_order->unique_amount)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->unique_amount) }}</td>
 		</tr>
 		@endif
 
 		@if($view_order->additional_charge != '0' && $view_order->additional_charge != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Additional Insurance Fee</td>
-				<td style=' border: none;'align='right'>{{ number_format(floatval($view_order->additional_charge)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->additional_charge) }}</td>
 		</tr>
 		@endif
 
 		@if($view_order->additional_package != '0' && $view_order->additional_package != '' )
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Additional Package</td>
-				<td style=' border: none;'align='right'>{{ number_format($view_order->additional_package) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->additional_package) }}</td>
 		</tr>
 		@endif
 
 		@if($view_order->additional_ongkir != '0' && $view_order->additional_ongkir != '')
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Additional Delivery Fee</td>
-				<td style=' border: none;'align='right'>{{ number_format($view_order->additional_ongkir) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->additional_ongkir) }}</td>
 		</tr>
 		@endif
 		
 		<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Grand Total</td>
-				<td style=' border: none;'align='right'>{{ number_format($view_order->total_trans) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->total_trans) }}</td>
 		</tr>
 		
 		@if($view_order->payment_dp != 0)
 				<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Down Payment</td>
-				<td style=' border: none;'align='right'>{{ number_format(abs($view_order->payment_dp)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format(abs((float) $view_order->payment_dp)) }}</td>
 		</tr>
 		@endif
 		
@@ -136,27 +137,27 @@
 		@endphp
 		<tr style=' height: 30px;border: none;'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>E-Wallet Usage</td>
-				<td style=' border: none;'align='right'>{{ number_format($view_order->e_wallet_amount) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->e_wallet_amount) }}</td>
 		</tr>
 		@endif
 		
 		@if($view_order->payment_last != 0)
 		<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Last Payment</td>
-				<td style=' border: none;'align='right'>{{ number_format(abs($view_order->payment_last)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format(abs((float) $view_order->payment_last)) }}</td>
 		</tr>
 		@endif
 
 		<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Outstanding Amount</td>
-				<td style=' border: none;'align='right'>{{ number_format(floatval($view_order->total_outstanding)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format((float) $view_order->total_outstanding) }}</td>
 		</tr>
 </table>
 
 @if($view_order->total_outstanding != '0' && $view_order->total_outstanding != '')
 	<p>Please do payment to below account information 
  	@if($EmailUUID != '6ebb641b-4028-40fd-b1b2-78fada074132') 
-		at least Rp.<strong>{{ number_format( ($view_order->total_trans - $ewallet) * 0.5 )  }}</strong> (50 % of Grand Total 
+		at least Rp.<strong>{{ number_format( ((float) $view_order->total_trans - $ewallet) * 0.5 )  }}</strong> (50 % of Grand Total 
 		@if($view_order->e_wallet_amount != '0' && $view_order->e_wallet_amount != '' )
 			- E-Wallet Amount Usage
 		@endif
