@@ -1,5 +1,5 @@
 
-   <td>
+<td>
 		{{ Form::number('qty[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('qty')) <small class="form-text help-block" style="color:red">{{ $errors->first('qty') }}</small> @endif
     </td>
@@ -19,9 +19,9 @@
 		{{ Form::text('size[]', null, ['class' => 'form-control']) }}
 		@if ($errors->has('size')) <small class="form-text help-block" style="color:red">{{ $errors->first('size') }}</small> @endif
         </td>
-        <td>
-            {{ Form::number('price_customer[]', null, ['class' => 'form-control', 'step' => '0.000000.01']) }}
-            @if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
+    <td>
+		{{ Form::number('price_customer[]', null, ['class' => 'form-control']) }}
+		@if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
         </td>
     <td>
 		{{ Form::text('remarks[]', null, ['class' => 'form-control']) }}

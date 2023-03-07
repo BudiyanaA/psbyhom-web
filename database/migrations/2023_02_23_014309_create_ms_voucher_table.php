@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->id();
             $table->string('VoucherUUID')->primary();
             $table->string('voucher_id');
-            $table->datetime('created_at');
+            $table->datetime('created_date');
             $table->date('valid_until_date');
             $table->string('discount_amount');
             $table->string('POUUID');

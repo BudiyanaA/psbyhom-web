@@ -63,6 +63,7 @@ return new class extends Migration
             $table->string('addendum_note')->nullable();
             $table->string('dropshipper_name')->nullable();
             $table->string('dropshipper_contact')->nullable();
+            $table->string('po_type')->nullable();
             // $table->timestamps();
         });
     }

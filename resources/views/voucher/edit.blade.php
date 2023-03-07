@@ -34,7 +34,7 @@
 		</div>
 	@endif
 		
-		{!! Form::model($voucher, ['route' => ['voucher_management.update', $voucher->id], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
+		{!! Form::model($voucher, ['route' => ['voucher_management.update', $voucher->VoucherUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 		
         @include('voucher._form')
 

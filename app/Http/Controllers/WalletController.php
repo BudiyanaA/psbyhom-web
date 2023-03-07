@@ -10,10 +10,14 @@ class WalletController extends Controller
 {
     public function index()
     {
-        
+        $CustomerUUID = session('user_id');
+
         $data['wallet'] = TrEwallet::with(['msCustomer', 'po'])
-                                        ->orderBy('trans_date', 'DESC')->get();
-        $data['withdrawal'] = TrWithdrawal::orderBy('trans_date', 'DESC')->get();
+                    ->where('CustomerUUID', $CustomerUUID)
+                    ->orderBy('trans_date', 'DESC')->get();
+        $data['withdrawal'] = TrWithdrawal::orderBy('trans_date', 'DESC')
+                                            ->where('CustomerUUID', $CustomerUUID)
+                                            ->get();
         return view('wallet.index',$data);
     }
 

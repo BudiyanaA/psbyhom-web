@@ -13,7 +13,7 @@
 						</script>
 					@endif
                         <div class="col-md-12">
-                        {{ Form::open(['url' => route('preorder.store'), 'class' => 'form-horizontal' ])}}
+                        {{ Form::open(['url' => route('preorder_sg.store'), 'class' => 'form-horizontal' ])}}
                                 <div class="table-responsive">
                                     <table id="pre-order" class="tablex table-borderedx">	
                                         <tr>
@@ -26,15 +26,12 @@
                                             <td>Info</td>
                                         </tr>
                                         <tr>
-                                        @include('preorder._form')
-                                            
+                                        @include('preorder_sg._form')
+                                            <td><a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a></td>
                                         </tr>
                                     </table>
                                 </div><br/>
-																<div class="button-container">
-								<button class="btn btn-default more">Submit</button>
-								<a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a>
-								</div>
+                                <p><button class="btn btn-default more">Submit</button></p>
                                 {{ Form::close() }}
                             <div class="poalert">
                                 <input type="hidden" name="counter" id='counter' value="1">

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('POUUID')->nullable();
             $table->string('InvoiceUUID')->nullable();
             $table->string('note')->nullable();
+            $table->string('po_type')->nullable();
             // $table->timestamps();
         });
     }

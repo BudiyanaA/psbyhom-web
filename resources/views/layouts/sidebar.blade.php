@@ -65,6 +65,25 @@
                     <li><a href="{{ route('payment.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminLp(); ?></span></a></li></li>
                     <li><a href="{{ route('payment.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminReady(); ?></span></a></li></li>
                     <li><a href="{{ route('overall.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
+
+                    <!-- <li>
+                        <a href="javascript:;"><i class="fa fa-money"></i><span>Pre Order(SG)</span></a>
+                        <ul class="acc-menu">
+                            <li>
+                                <a href="{{ route('preorder_sg.index') }}?status=00" class="menu">New<span style="display: inline;" class="badge badge-danger"><?php echo getAdminSgNew(); ?></span></a>
+                            </li>
+                    </li>
+                    <li>
+                        <a href="{{ route('preorder_sg.index') }}?status=01" class="menu">Waiting Approval<span class="badge badge-primary"><?php echo getAdminSgApproval(); ?></span></a>
+                    </li>
+                    </li><li><a href="{{ route('payment_sg.index') }}?status=01" class="menu">Waiting Payment<span class="badge badge-orange"><?php echo getAdminSgPayment(); ?></span></a></li>
+                    </li>
+                    <li><a href="{{ route('payment_sg.index') }}?status=00" class="menu">DP Confirmation<span class="badge badge-indigo"><?php echo getAdminSgDp(); ?></span></a></li></li>
+                    <li><a href="{{ route('Waitinggood_sg.index') }}" class="menu">Waiting Goodies<span class="badge badge-info"><?php echo getAdminSgGoods(); ?></span></a></li></li>
+                    <li><a href="{{ route('payment_sg.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminSgLp(); ?></span></a></li></li>
+                    <li><a href="{{ route('payment_sg.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminSgReady(); ?></span></a></li></li>
+                    <li><a href="{{ route('overall_sg.index') }}" class="menu">Overall Order Report</a></li></li></ul></li> -->
+
                     <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i><span>E-Commerce</span></a>
                     <ul class="acc-menu">
                         <li><a href="{{ route('bank_management.index') }}" class="menu">Bank Management</a></li></li>

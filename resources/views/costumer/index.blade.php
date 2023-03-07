@@ -38,14 +38,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-								
+                                @foreach($costumer as $c)
                                     <tr >
-                                        <td valign='top'>-</td>
-                                        <td valign='top'>-</td>
-                                        <td valign='top'>-</td>
-                                        <td valign='top'>-</td>
-                                        <td valign='top'>-</td>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td><a href="{{ route('customer.detail', $c->CustomerUUID) }}">{{ $c->customer_name }}</a></td>
+                                        <td>{{ $c->email }}</td>
+                                        <td>{{ $c->created_date }}</td>
+                                        <td>{{ $c->status }}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

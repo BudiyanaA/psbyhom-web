@@ -60,6 +60,7 @@ class TrPo extends Model
         'addendum_note',
         'dropshipper_name',
         'dropshipper_contact',
+        'po_type',
     ];
     public function poDtls()
     {

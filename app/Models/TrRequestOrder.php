@@ -28,6 +28,7 @@ class TrRequestOrder extends Model
         'POUUID',
         'InvoiceUUID',
         'note',
+        'po_type',
     ];
 
     public function customer()

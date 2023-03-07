@@ -26,7 +26,7 @@ class WaitingGoodController extends Controller
             ->with('poDtls', function ($query) {
                 $query->orderBy('seq', 'ASC');
             })
-            ->orderBy('verify_payment_date', 'DESC')      
+            ->orderBy('verify_payment_date', 'DESC')
             ->get();
 
         return view('waitinggood.index',$data);

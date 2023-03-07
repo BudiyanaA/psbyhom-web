@@ -63,8 +63,10 @@
 <script src="https://psbyhom.com/assets/js/timepicker/lib/site.js"></script>
 <script src="https://psbyhom.com/assets/js/timepicker/dist/datepair.js"></script>
 <script src="https://psbyhom.com/assets/js/timepicker/dist/jquery.datepair.js"></script>
-<link href="http://psbyhom.com/css/bootstrap-editable.css" rel="stylesheet">
-<script src="http://psbyhom.com/js/bootstrap-editable.js"></script>
+
+<link href="{{ url('assets/plugins/editable/css/bootstrap-editable.css') }}" rel="stylesheet">
+<script src="{{ url('assets/plugins/editable/js/bootstrap-editable.js') }}"></script>
+
 <script>
     // initialize input widgets first
     $('#basicExample .time').timepicker({

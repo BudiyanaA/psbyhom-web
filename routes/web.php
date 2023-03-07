@@ -42,6 +42,12 @@ use App\Http\Controllers\PasswordCostumerController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivationController;
 use App\Http\Controllers\EwalletController;
+use App\Http\Controllers\PreOrderSgController;
+use App\Http\Controllers\OrderSgController;
+use App\Http\Controllers\PaymentSgController;
+use App\Http\Controllers\OverallSgController;
+use App\Http\Controllers\WaitingGoodSgController;
+use App\Http\Controllers\ApprovalSgController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +80,9 @@ Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preo
 Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
 Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
 
+Route::get('preorder_sg/create', [PreOrderSgController::class, 'create'])->name('preorder_sg.create');
+Route::post('preorder_sg/create', [PreOrderSgController::class, 'store'])->name('preorder_sg.store');
+
 Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
 // https://psbyhom.com/view_request/TY23020170 (redirect)
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
@@ -100,11 +109,20 @@ Route::get('admin/preorder/request_order/notification', [ApprovalController::cla
 Route::get('admin/customer/view/{id}', [ApprovalController::class, 'show'])->name('customer.detail');
 Route::get('admin/customer/update/{id}', [ApprovalController::class, 'show'])->name('customer.update'); //TODO: Customer Controller
 
+Route::get('admin/preorder_sg/request_order', [OrderSgController::class, 'index'])->name('preorder_sg.index');
+Route::get('admin/preorder_sg/request_order/view/{id}', [ApprovalSgController::class, 'edit'])->name('preorder_sg.detail');
+Route::put('admin/preorder_sg/request_order/{id}/update', [ApprovalSgController::class, 'update'])->name('preorder_sg.update');
+Route::get('admin/preorder_sg/request_order/notification', [ApprovalController::class, 'notification'])->name('preorder_sg.notification');
+
 Route::get('admin/po_invoice/view/{id}', [WaitingGoodController::class, 'edit'])->name('waitinggoods.detail');
 Route::put('admin/po_invoice/validate/{id}', [WaitingGoodController::class, 'update'])->name('waitinggoods.update');
 Route::get('admin/po_invoice/success/{id}', [WaitingGoodController::class, 'notification'])->name('waitinggood.notification');
 Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
+
+Route::get('admin/preorder_sg/incoming', [WaitingGoodSgController::class, 'index'])->name('Waitinggood_sg.index');
+
+Route::get('admin/preorder_sg/invoice', [PaymentSgController::class, 'index'])->name('payment_sg.index');
 
 
 
@@ -147,6 +165,8 @@ Route::put('/update-status', [WaitingGoodController::class, 'updateStatus'])->na
 Route::get('admin/lp_confirmation', [LpConfirmationController::class, 'index'])->name('lpconfirmation.index');
 Route::get('admin/ready_to_ship', [ReadyController::class, 'index'])->name('ready.index');
 Route::get('admin/overal_order_report', [OverallController::class, 'index'])->name('overall.index');
+
+Route::get('admin/preorder_sg/overal_order_report', [OverallSgController::class, 'index'])->name('overall_sg.index');
 
 // Route::resource('bank_management', BankManagementController::class);
 Route::get('admin/ecommerce/bank', [BankManagementController::class, 'index'])->name('bank_management.index');

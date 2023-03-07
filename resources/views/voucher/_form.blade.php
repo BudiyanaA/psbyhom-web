@@ -9,9 +9,9 @@
     <div class="form-group 	@if ($errors->has('expiry_date')) has-error @endif">
 	<label class="col-sm-3 control-label">Expiry Date</label>
 	<div class="col-sm-6">
-		{{ Form::date('expiry_date', null, ['class' => 'form-control', 'placeholder' => 'Expiry Date']) }}
+		{{ Form::date('valid_until_date', null, ['class' => 'form-control', 'placeholder' => 'Expiry Date']) }}
 	</div>
-		@if ($errors->has('expiry_date')) <small class="form-text help-block" style="color:red">{{ $errors->first('expiry_date') }}</small> @endif
+		@if ($errors->has('valid_until_date')) <small class="form-text help-block" style="color:red">{{ $errors->first('valid_until_date') }}</small> @endif
 	</div>
     <div class="form-group @if ($errors->has('discount_amount')) has-error @endif">
 	<label class="col-sm-3 control-label">Discount Amount</label>

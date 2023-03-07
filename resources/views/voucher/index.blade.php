@@ -48,11 +48,12 @@
 									@foreach($vouchers as $v)
 										<tr>
 											<td>{{ $loop->index + 1 }}</td>
-											<td><a href="{{ route('voucher_management.edit', $v->id) }}">{{ $v->voucher_id }}</a></td>
-											<td>{{ $v->created_at }}</td>
-											<td>{{ $v->expiry_date }}</td>
+											<td><a href="{{ route('voucher_management.edit', $v->VoucherUUID) }}">{{ $v->voucher_id }}</a></td>
+											<td>{{ $v->created_date }}</td>
+											<td>{{ $v->valid_until_date }}</td>
 											<td>{{ $v->discount_amount }}</td>
 											<td>{{ $v->remarks }}</td>
+                                            <td>{{ $v->status }}</td>
 										</tr>
 									@endforeach
 								</tbody>
