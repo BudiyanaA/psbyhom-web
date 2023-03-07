@@ -143,6 +143,7 @@ class PreOrderController extends Controller
                 'OnDateTime' => date('Y-m-d H:i:s'),
 
                 'POUUID' => "",
+                'InvoiceUUID' => "",
             ]);
             
             // $id= uniqid();
