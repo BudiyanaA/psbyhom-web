@@ -280,7 +280,7 @@
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
 										<td colspan='{{ $colspan }}' style="text-align:right">Last Payment</td>
-										<td>{{ number_format(trim($po->payment_last))  }}</td>															
+										<td>{{ number_format((float) $po->payment_last)  }}</td>															
 									</tr>
 									@endif	
 

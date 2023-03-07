@@ -113,6 +113,7 @@ class PreOrderController extends Controller
                     'seq' => $i + 1,
 
                     'additional_fee' => 0,
+                    'subtotal_final' => 0,
                 ]);
                 
                 $total_items++;
