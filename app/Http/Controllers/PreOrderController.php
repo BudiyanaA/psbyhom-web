@@ -140,7 +140,9 @@ class PreOrderController extends Controller
                 'total_price' => $total_price * $forex,
                 'ByUserUUID' => $CustomerUUID,
                 'ByUserIP' => $request->ip(),
-                'OnDateTime' => date('Y-m-d H:i:s')
+                'OnDateTime' => date('Y-m-d H:i:s'),
+
+                'POUUID' => "",
             ]);
             
             // $id= uniqid();
