@@ -114,6 +114,7 @@ class PreOrderController extends Controller
 
                     'additional_fee' => 0,
                     'subtotal_final' => 0,
+                    'disc_percentage' => 0,
                 ]);
                 
                 $total_items++;
