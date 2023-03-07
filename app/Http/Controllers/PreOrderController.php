@@ -144,6 +144,7 @@ class PreOrderController extends Controller
 
                 'POUUID' => "",
                 'InvoiceUUID' => "",
+                'note' => "",
             ]);
             
             // $id= uniqid();
