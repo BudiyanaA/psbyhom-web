@@ -54,8 +54,29 @@
 										<td width="250px"><input type="text" placeholder="Batch Order ID" class="form-control" name='batch_id' autocomplete="off"></td>
 									</tr>
 			-->
-																
-									<input type='hidden' name='status' value='01'>
+			@if(app('request')->input('status') == '')
+				<tr>
+					<td>Status  &nbsp; &nbsp; </td>
+					<td width="250px">
+					<select class="form-control" name="status">
+							<option value="">--All Status--</option>
+							<option value="00">Pending Admin Payment Verification</option> <!-- Status awal saat customer submit -->
+							<option value="01">Waiting Down Payment</option> <!-- Status saat admin kirim penawaran   -->
+							<option value="02">Processed</option> <!-- Status saat customer submit checkout  -->
+							<option value="03">Processed (All Checked)</option>
+							<option value="04">Waiting Last Payment</option>
+							<option value="05">Pending Admin Payment Verification</option>
+							<option value="06">Ready to Ship</option>
+							<option value="07">Shipped</option>
+							<option value="08">Invalid Payment</option>
+							<option value="09">Canceled</option>
+						</select>
+					
+					</td>
+				</tr>
+			@else
+				<input type='hidden' name='status' value="{{ app('request')->input('status') }}">
+			@endif
 																	<tr>
 										<td>Customer Name  &nbsp; &nbsp; </td>
 										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
@@ -113,7 +134,7 @@
 										<td valign='top'>{{ $loop->index + 1 }}</td>
 										<td><a href="{{ route('waitinggoods.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
-										<td>{{ $p->trans_date }}</td>
+										<td>{{ formatDate($p->trans_date) }}</td>
 										<td>{{ number_format($p->total_trans) }}</td>
 										<td>{{ $p->msStatus?->status_name }}</td>
 										@if ($status === '06')

@@ -48,7 +48,7 @@ class ApprovalController extends Controller
                 TrRequestOrder::where('RequestOrderUUID', $id)
                     ->update([
                         'total_price' =>  $request->grand_totals,
-                        'note' =>  $request->note,
+                        'note' =>  $request->note ?? "",
                         'status' => '01',
                         'ByUserUUID' => $AdminUUID,
                         'ByUserIP' => $request->ip(),

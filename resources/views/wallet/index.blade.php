@@ -15,7 +15,7 @@
 					<div class="tab-pane active" id="wallet">
                         <div class="panel-body collapse in">
 						<div class="table-responsive">
-						<table class="table stat-table table-bordered" style="text-align:left">
+						<table class="table stat-table table-bordered" style="text-align:left;font-size: 13px;">
                                 <thead>
 								<tr style="background:#56cfe1;color:white">
 									<th align='left'>No.</th>
@@ -28,13 +28,12 @@
                                 <tbody>
 								@if(count($wallet) > 0)
 						@foreach($wallet as $e)
-                                    <tr>
+                                    <tr >
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $e->msCustomer?->customer_name}}</td>
+                                        <td><a href="#">{{ $e->po?->po_id }}</a></td> <!-- TODO: customer view_po-->
                                         <td>{{ $e->trans_date}}</td>
-                                        <td>{{ $e->amount}}</td>
+                                        <td style="color:green">{{ number_format($e->amount) }}</td>
                                         <td>{{ $e->description}}</td>
-                                        <td>{{ $e->po?->request_id}}</td>
                                     </tr>
                                     @endforeach
 									@else
@@ -48,13 +47,8 @@
                         </div>
 						<input type="checkbox" name="use_withdrawal" id="use_withdrawal" value="1" onchange="toggleWithdrawalForm()"> Withdraw E-Wallet
 
-<br>
-<br>
-<br>
 <div id='withdrawal_form' style="display:none">
-<br>
-<br>
-<br>
+
 <div class="col-sm-6">
 			{{ Form::open(['url' => route('withdrawal.store'), 'class' => 'form-horizontal' ])}}
 						<div id="dropship_customer" class="dropsipper-content">

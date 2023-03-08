@@ -32,9 +32,9 @@
                                     </table>
                                 </div><br/>
 																<div class="button-container">
-								<button class="btn btn-default more">Submit</button>
-								<a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a>
-								</div>
+																	<a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a>
+																	<button class="btn btn-default more">Submit</button>
+																</div>
                                 {{ Form::close() }}
                             <div class="poalert">
                                 <input type="hidden" name="counter" id='counter' value="1">

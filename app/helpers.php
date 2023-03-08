@@ -66,7 +66,7 @@ if (!function_exists('getAdminReady')) {
 if (!function_exists('getAdminGoods')) {
   function getAdminGoods()
   {
-    $ready = TrPo::where('status', ['02', '03'])->count(); 
+    $ready = TrPo::whereIn('status', ['02', '03'])->count(); 
     return $ready;
   }
 }

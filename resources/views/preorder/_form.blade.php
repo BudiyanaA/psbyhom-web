@@ -20,7 +20,7 @@
 		@if ($errors->has('size')) <small class="form-text help-block" style="color:red">{{ $errors->first('size') }}</small> @endif
         </td>
         <td>
-            {{ Form::number('price_customer[]', null, ['class' => 'form-control', 'step' => 'any']) }}
+            {{ Form::text('price_customer[]', null, ['class' => 'form-control', 'step' => 'any']) }}
             @if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
         </td>
     <td>

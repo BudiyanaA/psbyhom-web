@@ -18,6 +18,7 @@ class WalletController extends Controller
         $data['withdrawal'] = TrWithdrawal::orderBy('trans_date', 'DESC')
                                             ->where('CustomerUUID', $CustomerUUID)
                                             ->get();
+                                            // return $data['wallet'];
         return view('wallet.index',$data);
     }
 

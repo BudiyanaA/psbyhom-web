@@ -46,20 +46,10 @@ class PaymentController extends Controller
         if ($request->customer_name) {
             $payment = $payment->where('customer_name', 'like', $request->customer_name);
         }
-        $payment = $payment->orderBy('OnDateTime')->get();
+        $payment = $payment->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC dam DESC dari filter
         
         return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
     }
-
-    function newid()
-		{
-			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
-			return $uuid;
-		}
 
     public function updateResi(Request $request)
     {

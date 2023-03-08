@@ -23,7 +23,7 @@
 				{{ $row->request_id }}
 			@endif
 		</td>
-		<td data-order='{{ $row->created_date }}'>{{ $row->created_date }}</td>
+		<td data-order='{{ $row->created_date }}'>{{ formatDate($row->created_date) }}</td>
 		<td>{{ $row->msStatus?->status_name }}</td>
 	</tr>
 	@endforeach
@@ -33,7 +33,7 @@
 		<td>
 			<a href="#">{{ $row->po_id }}</a>
 		</td>
-		<td data-order='{{ $row->trans_date }}'>{{ $row->trans_date }}</td>
+		<td data-order='{{ $row->trans_date }}'>{{ formatDate($row->trans_date) }}</td>
 		<td>
 			{{ $row->msStatus?->status_name }}
 			@if ($row->status == '07')
