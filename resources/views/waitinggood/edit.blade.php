@@ -54,7 +54,9 @@
 						<div class="tab-pane {{ in_array($po->status, ['02', '03', '06', '07', '09', '99']) ? 'active' : '' }}" id="trans">
 													<ul class="panel-comments">
 							@if (in_array($po->status, ['06', '07', '02', '03', '05', '04']))
-								<div align='right'> <button class="btn-primary btn" value ='print_label' id="print_label"  type="button" name='tombol' > Print Label</button> </div>
+								<div align='right'> 
+									<button class="btn-primary btn" value ='print_label' id="print_label" name='submit'> Print Label</button>
+								</div>
 							@endif
 								<br>
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">

@@ -573,7 +573,21 @@ class WaitingGoodController extends Controller
                 DB::commit();
                 return redirect(route('waitinggood.notification', $id))
                     ->withSuccess("Data berhasil diubah");
-            }
+            } else if($request->submit == 'print_label') {
+				$data['customer_name'] = $request->customer_name;
+				$data['view_po'] = TrPo::with(['trRequestOrder', 'msStatus', 'msCustomer'])
+                    ->where('POUUID', $id)
+                    ->whereHas('msStatus', function ($query) {
+                        $query->where('type', '!=', 'RO');
+                    })
+                    ->first();
+				$data['order_dtl'] = TrPoDtl::where('POUUID', $id)
+                    ->with('requestOrderDtl')
+                    ->orderBy('seq', 'ASC')
+                    ->get();
+                // return $data;
+                return view('waitinggood.print',$data);
+			}
 
         } catch(\Exception $e) {
             DB::rollback();

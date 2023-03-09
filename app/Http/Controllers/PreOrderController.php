@@ -100,13 +100,13 @@ class PreOrderController extends Controller
             for ($i = 0; $i < count($request->qty); $i++) {
                 TrRequestOrderDtl::create([
                     'RequestOrderDtlUUID' => $this->newid(),
-                    'remarks' => $request->remarks[$i],
+                    'remarks' => $request->remarks[$i] ?? "",
                     'RequestOrderUUID' => $request->RequestOrderUUID,
                     'product_name' => $request->product_name[$i],
                     'product_url' => $request->product_url[$i],
                     'qty' => $request->qty[$i],
-                    'size' => $request->size[$i],
-                    'color' => $request->color[$i],
+                    'size' => $request->size[$i] ?? "",
+                    'color' => $request->color[$i] ?? "",
                     'price_customer' => $request->price_customer[$i],
                     'forex_rate' => $forex,
                     'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
