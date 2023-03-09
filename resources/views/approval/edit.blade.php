@@ -81,8 +81,8 @@
 												<input type="text" class="form-control" name='price_customer[{{ $loop->index }}]' id='price_customer{{ $loop->index }}'  value='{{ $r->price_customer }}'  onkeyup='calculatePrice("{{ $loop->index }}")'  >
 											</td>
 											<td style='width:10%'><input type="text" class="form-control" name='remarks[{{ $loop->index }}]' id='remarks{{ $loop->index }}'  value='{{ $r->remarks }}'  ></td>
-											<td style='width:10%'><input type="text" class="form-control" name='additional_fee[{{ $loop->index }}]' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee ?? 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
-											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage[{{ $loop->index }}]' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage ?? 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
+											<td style='width:10%'><input type="text" class="form-control" name='additional_fee[{{ $loop->index }}]' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee != null && $r->additional_fee != "" ? $r->additional_fee  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
+											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage[{{ $loop->index }}]' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage != null && $r->disc_percentage != "" ? $r->disc_percentage  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
 											<td><input type="text" readonly class="form-control" name='subtotal[{{ $loop->index }}]' id='subtotal{{ $loop->index }}' value='{{ $r->subtotal_original ?? 0 }}'></td>																							
 										</tr>
 									@else
@@ -97,7 +97,8 @@
 											<td>{{ $r->remarks }}</td>														
 											<td>{{ $r->additional_fee ?? 0 }}</td>
 											<td>{{ $r->disc_percentage ?? 0 }}</td>						
-											<td>{{ $r->subtotal_final ?? 0 }}</td> 											
+											<!-- <td>{{ $r->subtotal_final ?? 0 }}</td> -->
+											<td>{{ $r->subtotal_original ?? 0 }}</td> 											
 										</tr>
 									@endif
 								@endforeach
