@@ -25,10 +25,9 @@
                                             <td>Price (USD)</td>
                                             <td>Info</td>
                                         </tr>
-                                        <tr>
+                                        
                                         @include('preorder._form')
-                                            
-                                        </tr>
+                                        
                                     </table>
                                 </div><br/>
 																<div class="button-container">
@@ -37,7 +36,6 @@
 																</div>
                                 {{ Form::close() }}
                             <div class="poalert">
-                                <input type="hidden" name="counter" id='counter' value="1">
                                 <i><center>This is the request order list to get the quotation from us in IDR. <br>For each items you requested, you can choose either to continue order or not based on our Quotation.<br> We will send the Quotation to your registered email or you can check <a href="{{ route('orderlist.index') }}" >Request Order List</a> menu..<br> Thank You.</i></center>
                             </div>
                         </div>

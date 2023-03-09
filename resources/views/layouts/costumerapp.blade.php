@@ -223,13 +223,13 @@
 				var lang_remove_product = 'Hapus';
 				var img_remove			= 'https://psbyhom.com//design/deletepic.png'; //TODO: asset local
 				html = `<tr id="remove_po_${counter}">
-					<td><input type="number" name="qty[${counter}]"><input type="hidden" name="item_ar[]" value="${counter}"></td>
-					<td><input type="text" name="product_url[${counter}]"></td>
-					<td><input type="text" name="product_name[${counter}]"></td>
-					<td><input type="text" name="color[${counter}]"></td>
-					<td><input type="text" name="size[${counter}]"></td>
-					<td><input type="text" step="any" name="price_customer[${counter}]"></td>
-					<td><input type="text" name="remarks[${counter}]"></td>
+					<td class="@if ($errors->has('qty.${counter}')) has-error @endif"><input type="number" name="qty[${counter}]"><input type="hidden" name="item_ar[]" value="${counter}"></td>
+					<td class="@if ($errors->has('product_url.${counter}')) has-error @endif"><input type="text" name="product_url[${counter}]"></td>
+					<td class="@if ($errors->has('product_name.${counter}')) has-error @endif"><input type="text" name="product_name[${counter}]"></td>
+					<td class="@if ($errors->has('color.${counter}')) has-error @endif"><input type="text" name="color[${counter}]"></td>
+					<td class="@if ($errors->has('size.${counter}')) has-error @endif"><input type="text" name="size[${counter}]"></td>
+					<td class="@if ($errors->has('price_customer.${counter}')) has-error @endif"><input type="text" step="any" name="price_customer[${counter}]"></td>
+					<td class="@if ($errors->has('remarks.${counter}')) has-error @endif"><input type="text" name="remarks[${counter}]"></td>
 					<td><a href="#" onclick="removeItemReq(${counter})">
 						<img src="${img_remove}" alt="Remove Pro Order">${lang_remove_product}</a>
 					</td>

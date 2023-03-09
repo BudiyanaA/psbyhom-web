@@ -73,18 +73,18 @@ class PreOrderController extends Controller
             'qty' => 'required|array|min:1',
             'product_url' => 'required|array|min:1',
             'product_name' => 'required|array|min:1',
-            'color' => 'required|array|min:1',
-            'size' => 'required|array|min:1',
             'price_customer' => 'required|array|min:1',
 
             'qty.*' => 'required|numeric|min:1',
             'product_url.*' => 'required|url|min:1',
             'product_name.*' => 'required|min:1',
-            'color.*' => 'required|min:1',
-            'size.*' => 'required|min:1',
             'price_customer.*' => 'required|numeric|min:1',
         ]);
         
+        // if($validator->fails()){
+        //     return Redirect::back()->withErrors($validator)->withInput();
+        // }
+
         DB::beginTransaction();
         try {
             // $qty = (int)$validated['qty']; 
