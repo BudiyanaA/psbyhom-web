@@ -28,16 +28,6 @@ class ApprovalController extends Controller
         return view('approval.edit',$data);     
     }
 
-    function newid()
-		{
-			$uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
-			return $uuid;
-		}
-
     public function update(Request $request, $id)
     {
         $AdminUUID = session('admin_id');
@@ -66,13 +56,13 @@ class ApprovalController extends Controller
                         'qty' => $request->qty[$i],
                         'product_url' => $request->product_url[$i],
                         'price_customer' => $request->price_customer[$i],
-                        'size'	=> $request->size[$i],
-                        'color' => $request->color[$i],
+                        'size'	=> $request->size[$i] ?? "",
+                        'color' => $request->color[$i] ?? "",
                         'disc_percentage' => $request->disc_percentage[$i],
                         'additional_fee' => $request->additional_fee[$i],
                         'subtotal_final' => $request->subtotal[$i],
                         'forex_rate' => $forex,
-                        'remarks' => $request->remarks[$i],
+                        'remarks' => $request->remarks[$i] ?? "",
                     ];
                     TrRequestOrderDtl::where('RequestOrderDtlUUID', $row->RequestOrderDtlUUID)
                         ->update($data);

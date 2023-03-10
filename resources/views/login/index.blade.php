@@ -32,7 +32,7 @@
                 {{session('message')}}
             </div>
             @endif
-				<form action="{{ route('actionlogin') }}" class="form-horizontal" method='post'>
+				<form action="{{ route('login') }}" class="form-horizontal" method='post'>
                 @csrf
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-4" style="text-align: left;">User ID</label>

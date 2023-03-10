@@ -95,7 +95,7 @@ Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
 
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
-Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+Route::post('admin/login', [LoginController::class, 'actionlogin'])->name('login');
 Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
