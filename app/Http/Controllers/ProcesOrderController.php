@@ -202,6 +202,15 @@ class ProcesOrderController extends Controller
             'courier_name' => $courier_name,
             'payment_dp' => '0',
             'address' => $request->address,
+
+            'disc' => 0,
+            'no_resi' => "",
+            'dropshipper_name' => "",
+            'dropshipper_contact' => "",
+            'refund_amount' => 0,
+            'addendum_fee' => "",
+            'addendum_note' => "",
+            'addendum_unique_amount' => "",
         ]);
 
         $invoice_id = $po_id.'/DP';

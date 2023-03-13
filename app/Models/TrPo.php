@@ -58,6 +58,7 @@ class TrPo extends Model
         'payment_last',
         'addendum_fee',
         'addendum_note',
+        'addendum_unique_amount',
         'dropshipper_name',
         'dropshipper_contact',
         'po_type',
