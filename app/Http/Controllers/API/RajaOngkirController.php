@@ -103,102 +103,102 @@ class RajaOngkirController extends Controller
                 "code" => "jne",
                 "courier" => "JNE",
             ],
-            [
-              "code" => "pos",
-              "courier" => "POS",
-          ],
-          [
-            "code" => "tiki",
-            "courier" => "TIKI",
-        ],
-        [
-          "code" => "rpx",
-          "courier" => "RPX",
-      ],
-      [
-        "code" => "pandu",
-        "courier" => "PANDU",
-    ],
-    [
-      "code" => "wahana",
-      "courier" => "Wahana",
-  ],
-  [
-    "code" => "sicepat",
-    "courier" => "SICEPAT",
-],
-[
-  "code" => "jnt",
-  "courier" => "JNT",
-],
-[
-  "code" => "pahala",
-  "courier" => "PAHALA",
-],
-[
-  "code" => "sap",
-  "courier" => "SAP",
-],
-[
-  "code" => "jet",
-  "courier" => "JET",
-],
-[
-  "code" => "indah",
-  "courier" => "INDAH",
-],
-[
-  "code" => "dse",
-  "courier" => "DSE",
-],
-[
-  "code" => "slis",
-  "courier" => "SLIS",
-],
-[
-  "code" => "first",
-  "courier" => "FIRST",
-],
-[
-  "code" => "ncs",
-  "courier" => "NCS",
-],
-[
-  "code" => "star",
-  "courier" => "STAR",
-],
-[
-  "code" => "ninja",
-  "courier" => "NINJA",
-],
-[
-  "code" => "lion",
-  "courier" => "LION",
-],
-[
-  "code" => "idl",
-  "courier" => "IDL",
-],
-[
-  "code" => "rex",
-  "courier" => "REX",
-],
-[
-  "code" => "ide",
-  "courier" => "IDE",
-],
-[
-  "code" => "sentral",
-  "courier" => "SENTRAL",
-],
-[
-  "code" => "anteraja",
-  "courier" => "ANTERAJA",
-],
-[
-  "code" => "anteraja",
-  "courier" => "ANTERAJA",
-],
+//             [
+//               "code" => "pos",
+//               "courier" => "POS",
+//           ],
+//           [
+//             "code" => "tiki",
+//             "courier" => "TIKI",
+//         ],
+//         [
+//           "code" => "rpx",
+//           "courier" => "RPX",
+//       ],
+//       [
+//         "code" => "pandu",
+//         "courier" => "PANDU",
+//     ],
+//     [
+//       "code" => "wahana",
+//       "courier" => "Wahana",
+//   ],
+//   [
+//     "code" => "sicepat",
+//     "courier" => "SICEPAT",
+// ],
+// [
+//   "code" => "jnt",
+//   "courier" => "JNT",
+// ],
+// [
+//   "code" => "pahala",
+//   "courier" => "PAHALA",
+// ],
+// [
+//   "code" => "sap",
+//   "courier" => "SAP",
+// ],
+// [
+//   "code" => "jet",
+//   "courier" => "JET",
+// ],
+// [
+//   "code" => "indah",
+//   "courier" => "INDAH",
+// ],
+// [
+//   "code" => "dse",
+//   "courier" => "DSE",
+// ],
+// [
+//   "code" => "slis",
+//   "courier" => "SLIS",
+// ],
+// [
+//   "code" => "first",
+//   "courier" => "FIRST",
+// ],
+// [
+//   "code" => "ncs",
+//   "courier" => "NCS",
+// ],
+// [
+//   "code" => "star",
+//   "courier" => "STAR",
+// ],
+// [
+//   "code" => "ninja",
+//   "courier" => "NINJA",
+// ],
+// [
+//   "code" => "lion",
+//   "courier" => "LION",
+// ],
+// [
+//   "code" => "idl",
+//   "courier" => "IDL",
+// ],
+// [
+//   "code" => "rex",
+//   "courier" => "REX",
+// ],
+// [
+//   "code" => "ide",
+//   "courier" => "IDE",
+// ],
+// [
+//   "code" => "sentral",
+//   "courier" => "SENTRAL",
+// ],
+// [
+//   "code" => "anteraja",
+//   "courier" => "ANTERAJA",
+// ],
+// [
+//   "code" => "anteraja",
+//   "courier" => "ANTERAJA",
+// ],
             
             // tambahkan kurir lainnya di sini
         ];

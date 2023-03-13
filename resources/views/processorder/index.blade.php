@@ -96,8 +96,11 @@
     </td>
     <td align="center">{{ $p->size }}</td>
     <td align="center"><input type="checkbox" name="approved" value="{{$p->id}}" class="po_approved" data-index="{{ $loop->index }}" checked></td>
-    <td align="right">{{ $p->subtotal_final / $p->qty }}</td>
-    <td align="right" class="subtotal" id="total{{$loop->index}}">{{ $p->subtotal_final }}</td>
+    <td align="right">{{ number_format($p->subtotal_final / $p->qty) }}</td>
+    <td align="right" class="subtotal" id="total{{$loop->index}}">
+			{{ number_format($p->subtotal_final) }}
+		</td>
+		<input type="hidden" class="total_value" name="total_value[{{$loop->index}}]" id="total_value{{$loop->index}}" value="{{ $p->subtotal_final }}">
   </tr>
 	@endforeach			
 	<tr class="cart_total_price">
@@ -105,7 +108,7 @@
 	  <td colspan="4" align="right" style="font-weight:bold;border-top:1px solid #ddd"><strong>Total</strong></td>
 	  <td align="right" style="border-top:1px solid #ddd">
 			<input type="hidden" name="total_amount" id="total_amount" value="{{ collect($preorders)->sum('subtotal_final') }}">
-			<span id="grand_total">{{ collect($preorders)->sum('subtotal_final') }}</span>
+			<span id="grand_total">{{ number_format(collect($preorders)->sum('subtotal_final')) }}</span>
 		</td>
 	</tr>
 
@@ -161,7 +164,8 @@
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Kota*:</div>
 													<div class="col-sm-8 col-md-8">
-														<select  name="city-option" class="form-control" id="city-option">													
+														<select  name="city-option" class="form-control" id="city-option">		
+															<option value="">--Pilih Provinsi Dulu--</option>											
 														</select>
 														<input type="hidden" id="nama_kota" name="nama_kota" value=''>
 													</div>
@@ -169,7 +173,8 @@
 												<div class="form-group">
 													<div class="col-sm-4 col-md-3 text-right">Kecamatan *:</div>
 													<div class="col-sm-8 col-md-8">
-														<select  name="subdistrict-option" class="form-control" id="subdistrict-option">				
+														<select  name="subdistrict-option" class="form-control" id="subdistrict-option">	
+															<option value="">--Pilih Kota Dulu--</option>			
 														</select>
 														<input type="hidden" id="nama_kecamatan" name="nama_kecamatan" value=''>
 													</div>
@@ -178,7 +183,7 @@
 													<div class="col-sm-4 col-md-3 text-right">Courier :</div>
 													<div class="col-sm-8 col-md-8">
 													<select required name="courier_type" id="courier_type" class="form-control">
-														<option value="">Pilih Kurir</option>
+														<option value="" disabled>Pilih Kurir</option>
 													</select>
 													</div>
 												</div>		
@@ -186,7 +191,7 @@
 													<div class="col-sm-4 col-md-3 text-right">Delivery Fee :</div>
 													<div class="col-sm-8 col-md-8">
 														<select required name="paket_kirim" id="paket_kirim" class="form-control"   >
-															<option value="">--Pilih Kecamatan Dulu--</option>
+															<option value="" disabled>--Pilih Kecamatan Dulu--</option>
 														</select>
 													</div>
 												</div>
@@ -312,7 +317,8 @@
 													<fieldset> 
 														<div class="form-group"><div class="ol-sm-4 col-md-3 text-right">Subtotal</div>
 														<div class="col-sm-8 col-md-8">
-															<span id='subtotal_summary'>{{ collect($preorders)->sum('subtotal_final') }}</span>
+															<span id='subtotal_summary'>{{ number_format(collect($preorders)->sum('subtotal_final')) }}</span>
+															<input type="hidden" name='subtotal_value' id='subtotal_value' value="{{ collect($preorders)->sum('subtotal_final') }}">
 														</div>
 													</div>
 													<div class="form-group">
@@ -344,7 +350,7 @@
 														<div class="form-group">
 															<div class="col-sm-4 col-md-3 text-right"><strong>Grand Total</strong></div>
 															<div class="col-sm-8 col-md-8">
-																<span id='grand_total_summary'><strong>{{ collect($preorders)->sum('subtotal_final') }}</strong></span>
+																<span id='grand_total_summary'><strong>{{ number_format(collect($preorders)->sum('subtotal_final')) }}</strong></span>
 																<input type='hidden' name='grand_total_summary' id='grand_total_summary2' value='0'>
 															</div>
 														</div>					
@@ -428,7 +434,8 @@ $(document).ready(function() {
 		const price = $(this).data('price');
 		
 		$(`#qty_ori${index}`).val(qty);
-		$(`#total${index}`).html(price * qty);
+		$(`#total${index}`).html(format_rupiah(price * qty));
+		$(`#total_value${index}`).val(price * qty);
 		calculateTotal();
 
 		// var qty =  $(this).val();
@@ -449,7 +456,8 @@ $(document).ready(function() {
 			$(`#qty${index}`).val(0);
 		}
 
-		$(`#total${index}`).html($(`#qty${index}`).data('price') * $(`#qty${index}`).val());
+		$(`#total${index}`).html(format_rupiah($(`#qty${index}`).data('price') * $(`#qty${index}`).val()));
+		$(`#total_value${index}`).val($(`#qty${index}`).data('price') * $(`#qty${index}`).val());
 		calculateTotal();
 
 		// var checked = $(this);
@@ -485,7 +493,8 @@ $(document).ready(function() {
 				id.val(0);
 			}	
 
-			$(`#total${index}`).html(id.data('price') * id.val());
+			$(`#total${index}`).html(format_rupiah(id.data('price') * id.val()));
+			$(`#total_value${index}`).val(id.data('price') * id.val());
 		})
 
 		calculateTotal();
@@ -494,13 +503,14 @@ $(document).ready(function() {
 
 function calculateTotal() {
   var subtotal = 0;
-  $('.subtotal').each(function() {
-    subtotal += parseInt($(this).text());
+  $('.total_value').each(function() {
+    subtotal += parseInt($(this).val());
   });
-  $('#grand_total').text(subtotal);
+  $('#grand_total').text(format_rupiah(subtotal));
 	$('#total_amount').val(subtotal);
 
-	$('#subtotal_summary').text(subtotal);
+	$('#subtotal_summary').text(format_rupiah(subtotal));
+	$('#subtotal_value').val(subtotal);
 }
 
 	// function recalculate() {
@@ -726,9 +736,9 @@ function calculateTotal() {
             $('#province-option').empty();
             $('#province-option').prop('disabled', false);
             $('#city-option').empty();
-            $('#city-option').prop('disabled', true);
+						$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
             $('#subdistrict-option').empty();
-            $('#subdistrict-option').prop('disabled', true);
+						$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 						$('#paket_kirim').empty();
 						$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 
@@ -745,9 +755,9 @@ function calculateTotal() {
             $('#province-option').empty();
             $('#province-option').prop('disabled', true);
             $('#city-option').empty();
-            $('#city-option').prop('disabled', true);
+						$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
             $('#subdistrict-option').empty();
-            $('#subdistrict-option').prop('disabled', true);
+						$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 						$('#paket_kirim').empty();
 						$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
         }
@@ -792,7 +802,7 @@ function calculateTotal() {
 			let selected_text = $("#paket_kirim option:selected").text();
 			selected_text = selected_text.substring(0, selected_text.indexOf("="));
 
-			$('#delivery_fee_summary').html($(this).val());
+			$('#delivery_fee_summary').html(format_rupiah($(this).val()));
 			$('#delivery_fee_id_summary').val($(this).val());
 			$('#delivery_fee_description').val(selected_text);
 			if ($('#courier_type').val() == "jne") {
@@ -802,41 +812,60 @@ function calculateTotal() {
     });
 
 		$('#use_insurance').on('click', function() {
-			const subtotal = parseFloat($('#subtotal_summary').text());
+			const subtotal = parseFloat($('#subtotal_value').val());
+			const ongkir = parseFloat($('#delivery_fee_id_summary').val());
 			if ($(this).is(':checked')) {
+				if ($('#paket_kirim').val() === null) {
+					alert('Pilih Delivery Fee Dulu!');
+					$('#use_insurance').prop('checked', false)
+					return;
+				}
+
 				insurance_value = (parseInt(subtotal) * 0.002)  + 5000;
-				$('#insurance').html(insurance_value);
+				insurance_value = Math.round(insurance_value/1000)*1000;
+				$('#insurance').html(format_rupiah(insurance_value));
 				$('#insurance_value').val(insurance_value);
 
-				$('#use_packing').prop('checked', true)
+				$('#use_packing').prop('checked', true);
+				$('#packing_summary').html(format_rupiah(ongkir));
+				$('#result_packing').val(ongkir);
 			} else {
 				$('#insurance').html(0);
 				$('#insurance_value').val(0);
 
-				$('#use_packing').prop('checked', false)
+				$('#use_packing').prop('checked', false);
+				$('#packing_summary').html(0);
+				$('#result_packing').val(0);
 			}
 			calculateGrandTotal(); 
 		});
 
 		$('#use_packing').on('click', function() {
-			const ongkir = parseFloat($('#delivery_fee_summary').text());
+			const subtotal = parseFloat($('#subtotal_value').val());
+			const ongkir = parseFloat($('#delivery_fee_id_summary').val());
 			if ($(this).is(':checked')) {
-				$('#packing_summary').html(ongkir);
+				$('#packing_summary').html(format_rupiah(ongkir));
 				$('#result_packing').val(ongkir);
 
 				$('#use_insurance').prop('checked', true)
+				insurance_value = (parseInt(subtotal) * 0.002)  + 5000;
+				insurance_value = Math.round(insurance_value/1000)*1000;
+				$('#insurance').html(format_rupiah(insurance_value));
+				$('#insurance_value').val(insurance_value);
 			} else {
 				$('#packing_summary').html(0);
 				$('#result_packing').val(0);
 
-				$('#use_insurance').prop('checked', false)
+				$('#use_insurance').prop('checked', false);
+				$('#insurance').html(0);
+				$('#insurance_value').val(0);
 			}
 			calculateGrandTotal(); 
 		});	
 
 		$('#use_ewallet').on('click', function() {
 			let ewallet = parseInt($('#customer_ewallet').val());
-			let total_price = parseInt($('#grand_total_summary').text());
+			let total_price = parseInt($('#grand_total_summary2').val());
 			if ($(this).is(':checked')) 
 			{
 				if(ewallet == 0)
@@ -848,22 +877,22 @@ function calculateTotal() {
 				{
 					ewallet = total_price;
 					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
 					$('#ewallet_value').val(ewallet);
 					$("#div_outstanding").show();
 				}
 				else 
 				{
 					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
 					$('#ewallet_value').val(ewallet);
 					$("#div_outstanding").show();
 				}
-				$('#total_outstanding').html('<strong>'+ total_price +'</strong>');
+				$('#total_outstanding').html('<strong>'+ format_rupiah(total_price) +'</strong>');
 				$('#total_outstanding2').val(total_price);
 			}
 			else {
-				$('#e_wallet_summary').html("0");
+				$('#e_wallet_summary').html(0);
 				$('#ewallet_value').val(0);
 				$("#div_outstanding").hide();
 			}
@@ -871,6 +900,14 @@ function calculateTotal() {
 		});	
 
 		$('#submit_po').click(function() {
+			// Validation
+			if($('#paket_kirim').val() === null)
+			{
+				alert("Delivery Fee must be selected in order to submit your Pre Orders !");
+				$('#paket_kirim').focus();
+				return false;
+			}
+
 			if(!$('#i_agree').is(':checked') )
 			{
 				alert("You must agree with our term and conditions first before submit your Pre Orders !");
@@ -892,18 +929,24 @@ function calculateTotal() {
 		});
 	});
 
+	function format_rupiah(str) {
+		var symbol = '';
+		return accounting.formatMoney(str, symbol, 0, ",", ".");
+		// return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	function calculateGrandTotal() {
-	  const subtotal = parseFloat($('#subtotal_summary').text());
-		const ongkir = parseFloat($('#delivery_fee_summary').text());
-		const insurance = parseFloat($('#insurance').text());
-		const packing = parseFloat($('#packing_summary').text());
+	  const subtotal = parseFloat($('#subtotal_value').val());
+		const ongkir = parseFloat($('#delivery_fee_id_summary').val());
+		const insurance = parseFloat($('#insurance_value').val());
+		const packing = parseFloat($('#result_packing').val());
 		const discount = parseFloat($('#discount_promo_summary').text());
 		const ewallet = parseFloat($('#ewallet_value').val());
 
 		const grandTotal = subtotal + ongkir + insurance + packing - discount;
-	  $('#grand_total_summary').html(grandTotal);
+	  $('#grand_total_summary').html('<strong>' + format_rupiah(grandTotal) + '</strong>');
 		$('#grand_total_summary2').val(grandTotal);
-		$('#total_outstanding').html('<strong>'+ (grandTotal - ewallet) +'</strong>');
+		$('#total_outstanding').html('<strong>'+ format_rupiah(grandTotal - ewallet) +'</strong>');
 		$('#total_outstanding2').val(grandTotal - ewallet);
 	}
 
@@ -952,8 +995,9 @@ function calculateTotal() {
                 if(data.cities){
                   $('#city-option').empty();
                   $('#city-option').prop('disabled', false);
-                  $('#subdistrict-option').empty();
-                  $('#subdistrict-option').prop('disabled', true);
+            			$('#subdistrict-option').empty();
+									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
+
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 									$('input[name=use_packing]').attr('disabled', true); 
@@ -969,10 +1013,10 @@ function calculateTotal() {
                     $('#city-option').append('<option value="'+ city.city_id +'" '+ selected + '>' + city.type + ' ' + city.city_name+ '</option>');
                   });
               }else{
-                  $('#city-option').empty();
-                  $('#city-option').prop('disabled', true);
-                  $('#subdistrict-option').empty();
-                  $('#subdistrict-option').prop('disabled', true);
+									$('#city-option').empty();
+									$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
+            			$('#subdistrict-option').empty();
+									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 									$('input[name=use_packing]').attr('disabled', true); 
@@ -981,10 +1025,10 @@ function calculateTotal() {
             }
           });
       }else{
-        $('#city-option').empty();
-        $('#city-option').prop('disabled', true);
+				$('#city-option').empty();
+				$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
         $('#subdistrict-option').empty();
-        $('#subdistrict-option').prop('disabled', true);
+				$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 				$('#paket_kirim').empty();
 				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 				$('input[name=use_packing]').attr('disabled', true); 
@@ -1021,8 +1065,8 @@ function calculateTotal() {
 										$('#subdistrict-option').append('<option value="'+ district.subdistrict_id +'" '+ selected + '>' + district.subdistrict_name+ '</option>');
                   });
               }else{
-                  $('#subdistrict-option').empty();
-                  $('#subdistrict-option').prop('disabled', true);
+									$('#subdistrict-option').empty();
+									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 									$('input[name=use_packing]').attr('disabled', true);
@@ -1031,8 +1075,8 @@ function calculateTotal() {
             }
           });
       }else{
-        $('#subdistrict-option').empty();
-        $('#subdistrict-option').prop('disabled', true);
+				$('#subdistrict-option').empty();
+				$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 				$('#paket_kirim').empty();
 				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 				$('input[name=use_packing]').attr('disabled', true);
@@ -1085,7 +1129,7 @@ $(document).ready(function() {
     success: function(data) {
       // Mengisi daftar pilihan dengan opsi kurir yang diterima
       var couriers = data.couriers;
-      var options = '<option value="">Pilih Kurir</option>';
+      var options = '<option value="" disabled>Pilih Kurir</option>';
       for (var i = 0; i < couriers.length; i++) {
 				let selected = "";
 				if (couriers[i].code == "jne") {
