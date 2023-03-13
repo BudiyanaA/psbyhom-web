@@ -31,7 +31,7 @@
                                     <tr >
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td><a href="#">{{ $e->po?->po_id }}</a></td> <!-- TODO: customer view_po-->
-                                        <td>{{ $e->trans_date}}</td>
+                                        <td>{{ formatDate($e->trans_date) }}</td>
                                         <td style="color:green">{{ number_format($e->amount) }}</td>
                                         <td>{{ $e->description}}</td>
                                     </tr>
@@ -102,7 +102,7 @@
 						<div class="tab-pane" id="withdrawal">
                                                 <div class="panel-body collapse in">
 												<div class="table-responsive">
-												<table class="table stat-table table-bordered" style="text-align:left">
+												<table class="table stat-table table-bordered" style="text-align:left;font-size: 13px;">
                                 <thead>
 								<tr style="background:#56cfe1;color:white">
 									<th align='left'>No.</th>
@@ -116,8 +116,8 @@
 						@foreach($withdrawal as $w)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $w->trans_date }}</td>
-                                        <td>{{ $w->amount}}</td>
+                                        <td>{{ formatDate($w->trans_date) }}</td>
+                                        <td>{{ number_format($w->amount) }}</td>
                                         <td>
 											@if($w->status == '00')
 												Pending
