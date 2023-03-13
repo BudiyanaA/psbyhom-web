@@ -242,7 +242,9 @@ class ProcesOrderController extends Controller
                 'status_invoice' => $status_po,
                 'ByUserUUID' => $CustomerUUID,    
                 'ByUserIP' => $request->ip(),
-                'OnDateTime' => date('Y-m-d H:i:s')
+                'OnDateTime' => date('Y-m-d H:i:s'),
+                
+                'total_outstanding' => "",
             ]);
 
             TrRequestOrder::where('RequestOrderUUID', $RequestOrderUUID)->update([
