@@ -124,7 +124,7 @@
 		@if($view_order->payment_dp != 0)
 				<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Down Payment</td>
-				<td style=' border: none;'align='right'>{{ number_format(abs($view_order->payment_dp)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format(abs(floatval($view_order->payment_dp))) }}</td>
 		</tr>
 		@endif
 		
@@ -144,7 +144,7 @@
 		@if($view_order->payment_last != 0)
 		<tr style=' height: 30px;border: none;font-weight:bolder'>
 				<td style=' border: none;' colspan="{{ $colspan  }}" align='right'>Last Payment</td>
-				<td style=' border: none;'align='right'>{{ number_format(abs($view_order->payment_last)) }}</td>
+				<td style=' border: none;'align='right'>{{ number_format(abs(floatval($view_order->payment_last))) }}</td>
 		</tr>
 		@endif
 
