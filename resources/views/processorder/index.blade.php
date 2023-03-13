@@ -719,6 +719,31 @@ function calculateTotal() {
   // $('#grand_total').text(subtotal);
 // });loadCourier
 </script>
+<script>
+$(document).ready(function() {
+  $.ajax({
+    url: '/api/rajaongkir/couriers',
+    type: 'GET',
+    success: function(data) {
+      // Mengisi daftar pilihan dengan opsi kurir yang diterima
+      var couriers = data.couriers;
+      var options = '<option value="" disabled>Pilih Kurir</option>';
+      for (var i = 0; i < couriers.length; i++) {
+				let selected = "";
+				if (couriers[i].code == "jne") {
+					selected = "selected";
+				}
+
+				options += '<option value="' + couriers[i].code + '" ' + selected + '>' + couriers[i].courier + '</option>';
+      }
+      $('#courier_type').html(options);
+    },
+    error: function(xhr, status, error) {
+      console.error("Error: ", error);
+    }
+  });
+});
+</script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		const costumerProvinsi = $("#costumer_provinsi").val();
@@ -1120,30 +1145,5 @@ function calculateTotal() {
 
 		
 
-</script>
-<script>
-$(document).ready(function() {
-  $.ajax({
-    url: '/api/rajaongkir/couriers',
-    type: 'GET',
-    success: function(data) {
-      // Mengisi daftar pilihan dengan opsi kurir yang diterima
-      var couriers = data.couriers;
-      var options = '<option value="" disabled>Pilih Kurir</option>';
-      for (var i = 0; i < couriers.length; i++) {
-				let selected = "";
-				if (couriers[i].code == "jne") {
-					selected = "selected";
-				}
-
-				options += '<option value="' + couriers[i].code + '" ' + selected + '>' + couriers[i].courier + '</option>';
-      }
-      $('#courier_type').html(options);
-    },
-    error: function(xhr, status, error) {
-      console.error("Error: ", error);
-    }
-  });
-});
 </script>
 @endsection
