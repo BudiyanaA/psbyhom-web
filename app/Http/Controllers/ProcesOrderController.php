@@ -74,7 +74,10 @@ class ProcesOrderController extends Controller
 				    'subtotal' => $subtotal_po,
 				    'status' => '00',
 				    'seq' => $seq,
-				    'refund_amount' => '0'
+				    'refund_amount' => '0',
+
+                    'batch_no' => "",
+                    'keterangan' => "",
                 ]);
 				$seq++;
 			}

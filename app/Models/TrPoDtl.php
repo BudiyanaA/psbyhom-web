@@ -23,6 +23,7 @@ class TrPoDtl extends Model
         'seq',
         'refund_amount',
         'batch_no',
+        'keterangan',
     ];
     public function customer()
     {
