@@ -1,0 +1,35 @@
+
+
+
+<IfModule mod_rewrite.c>
+ 
+RewriteEngine On
+ 
+RewriteRule ^(.*)$ public/$1 [L]
+
+<FilesMatch "\.(svg|ttf|otf|eot|woff|woff2|png|jpg)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+ 
+RewriteEngine On
+ 
+RewriteRule ^(.*)$ public/$1 [L]
+
+<FilesMatch "\.(svg|ttf|otf|eot|woff|woff2|png|jpg)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+ 
+<FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">
+    SetHandler application/x-httpd-alt-php80___lsphp
+</FilesMatch>
+ 
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php56” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php56 .php .php5 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

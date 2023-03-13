@@ -119,7 +119,7 @@ class ProcesOrderController extends Controller
 
         // TODO: IS DROPSHIP
 
-        $use_ewallet = $request->use_ewallet;
+        $use_ewallet = $request->use_ewallet ?? 0;
         $total_outstanding = $request->total_outstanding;
         // $grand_total = $request->total_amount;
         $grand_total = $request->grand_total_summary;
@@ -193,7 +193,7 @@ class ProcesOrderController extends Controller
             'total_paid' => $total_paid,
             'dp_amount' => '0',
             'total_outstanding' => $total_outstanding, 
-            'notes' => $request->note,
+            'notes' => $request->note ?? "",
             'ByUserUUID' => $CustomerUUID,
             'additional_shipping_fee' => '0',
             'ByUserIP' => $request->ip(),
@@ -211,6 +211,8 @@ class ProcesOrderController extends Controller
             'addendum_fee' => "",
             'addendum_note' => "",
             'addendum_unique_amount' => "",
+            'payment_last' => "",
+            'receiver_hp2' => "",
         ]);
 
         $invoice_id = $po_id.'/DP';
