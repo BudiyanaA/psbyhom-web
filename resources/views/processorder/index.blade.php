@@ -952,6 +952,34 @@ $(document).ready(function() {
 				}
 			}
 		});
+
+		$('#use_dropship').click(function() {
+			if (!$(this).is(':checked')) {
+				// $('#billing_customer').show();
+				// $('#receiver_customer').each(function(i, v) {
+				// 	input = $(this).find('input');
+				// 	input.attr('disabled', true);
+				// });
+				$('#dropship_customer').each(function(i, v) {
+					input = $(this).find('input');
+					input.attr('disabled', true);
+				});
+				// $('#receiver_customer').addClass('mfp-hide').hide();
+				$('#dropship_customer').addClass('mfp-hide').hide();
+			} else {
+				// $('#billing_customer').hide();
+				// $('#receiver_customer').each(function(i, v) {
+				// 	input = $(this).find('input');
+				// 	input.attr('disabled', false);
+				// });
+				$('#dropship_customer').each(function(i, v) {
+					input = $(this).find('input');
+					input.attr('disabled', false);
+				});
+				// $('#receiver_customer').removeClass('mfp-hide').show();
+				$('#dropship_customer').removeClass('mfp-hide').show();
+			}
+		});
 	});
 
 	function format_rupiah(str) {

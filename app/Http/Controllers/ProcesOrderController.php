@@ -117,8 +117,6 @@ class ProcesOrderController extends Controller
         //     ]);
         // }
 
-        // TODO: IS DROPSHIP
-
         $use_ewallet = $request->use_ewallet ?? 0;
         $total_outstanding = $request->total_outstanding;
         // $grand_total = $request->total_amount;
@@ -187,8 +185,7 @@ class ProcesOrderController extends Controller
             'receiver_hp2' => $hp2,
             'receiver_kodepos' => $kode_pos,
             'status' => $status_po,
-            // 'is_dropshipper' => $request->is_dropshipper, 
-            'is_dropshipper' => '0', //TODO: dari field is dropship
+            'is_dropshipper' => $request->use_dropship ?? 0, 
             'use_ewallet' => $use_ewallet,
             'total_paid' => $total_paid,
             'dp_amount' => '0',
@@ -205,12 +202,11 @@ class ProcesOrderController extends Controller
 
             'disc' => 0,
             'no_resi' => "",
-            'dropshipper_name' => "",
-            'dropshipper_contact' => "",
+            'dropshipper_name' => $request->dropshipper_name ?? "",
+            'dropshipper_contact' => $request->dropshipper_contact ?? "",
             'refund_amount' => 0,
             'addendum_fee' => "",
             'addendum_note' => "",
-            'addendum_unique_amount' => "",
             'payment_last' => "",
             'receiver_hp2' => "",
         ]);
@@ -345,7 +341,7 @@ class ProcesOrderController extends Controller
 
     } catch(\Exception $e) {
         DB::rollback();
-        // dd($e);
+        dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
 }
