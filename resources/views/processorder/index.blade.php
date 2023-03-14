@@ -760,12 +760,12 @@ $(document).ready(function() {
           if(data.provinces){
             $('#province-option').empty();
             $('#province-option').prop('disabled', false);
-            $('#city-option').empty();
-						$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
-            $('#subdistrict-option').empty();
-						$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
-						$('#paket_kirim').empty();
-						$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+            // $('#city-option').empty();
+						// $('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
+            // $('#subdistrict-option').empty();
+						// $('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
+						// $('#paket_kirim').empty();
+						// $('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 
             $('#province-option').append('<option value="" selected disabled>Pilih Provinsi</option>'); 
             $.each(data.provinces, function(key, province){
@@ -779,12 +779,12 @@ $(document).ready(function() {
         }else{
             $('#province-option').empty();
             $('#province-option').prop('disabled', true);
-            $('#city-option').empty();
-						$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
-            $('#subdistrict-option').empty();
-						$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
-						$('#paket_kirim').empty();
-						$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
+            // $('#city-option').empty();
+						// $('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
+            // $('#subdistrict-option').empty();
+						// $('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
+						// $('#paket_kirim').empty();
+						// $('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
         }
       }
     });
@@ -1048,6 +1048,8 @@ $(document).ready(function() {
                 if(data.cities){
                   $('#city-option').empty();
                   $('#city-option').prop('disabled', false);
+
+									if (cityId === null) {
             			$('#subdistrict-option').empty();
 									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 
@@ -1055,6 +1057,7 @@ $(document).ready(function() {
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 									$('input[name=use_packing]').attr('disabled', true); 
 									$('input[name=use_packing]').attr('checked', false);
+									}
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
@@ -1068,24 +1071,30 @@ $(document).ready(function() {
               }else{
 									$('#city-option').empty();
 									$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
+
+									if (cityId === null) {
             			$('#subdistrict-option').empty();
 									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 									$('input[name=use_packing]').attr('disabled', true); 
 									$('input[name=use_packing]').attr('checked', false);
+									}
               }
             }
           });
       }else{
 				$('#city-option').empty();
 				$('#city-option').append('<option value="" selected disabled>--Pilih Provinsi Dulu--</option>');
+				
+				if (cityId === null) {
         $('#subdistrict-option').empty();
 				$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
 				$('#paket_kirim').empty();
 				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>');
 				$('input[name=use_packing]').attr('disabled', true); 
 				$('input[name=use_packing]').attr('checked', false);
+				}
       }
 	}
 
@@ -1104,10 +1113,13 @@ $(document).ready(function() {
                   $('#subdistrict-option').empty();
                   $('#subdistrict-option').prop('disabled', false);
                   $('#subdistrict-option').append('<option value="" selected disabled>Pilih Kecamatan</option>');
+
+									if (subdistrictId === null) {
 									$('#paket_kirim').empty(); 
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 									$('input[name=use_packing]').attr('disabled', true);
 									$('input[name=use_packing]').attr('checked', false);
+									}
 
                   $.each(data.subdistricts, function(key, district){
 										let selected = "";
@@ -1120,20 +1132,26 @@ $(document).ready(function() {
               }else{
 									$('#subdistrict-option').empty();
 									$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
+
+									if (subdistrictId === null) {
 									$('#paket_kirim').empty();
 									$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 									$('input[name=use_packing]').attr('disabled', true);
 									$('input[name=use_packing]').attr('checked', false);
+									}
               }
             }
           });
       }else{
 				$('#subdistrict-option').empty();
 				$('#subdistrict-option').append('<option value="" selected disabled>--Pilih Kota Dulu--</option>'); 
+
+				if (subdistrictId === null) {
 				$('#paket_kirim').empty();
 				$('#paket_kirim').append('<option value="" selected disabled>--Pilih Kecamatan Dulu--</option>'); 
 				$('input[name=use_packing]').attr('disabled', true);
 				$('input[name=use_packing]').attr('checked', false);
+				}
       }
 	}
 	
