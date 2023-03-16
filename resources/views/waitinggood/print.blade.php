@@ -206,7 +206,7 @@ h3{margin-bottom:7px}
         @if($view_po->is_dropshipper == '0' )
           <br/>House of Makeup <br> 08179369610 
 	      @else
-          {{ $view_po->dropshipper }} <br> {{ $view_po->dropshipper_contact }} 
+          <br/>{{ $view_po->dropshipper_name }} <br> {{ $view_po->dropshipper_contact }} 
 	      @endif
 	      </p></td>
 	    </tr>
