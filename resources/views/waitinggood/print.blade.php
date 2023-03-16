@@ -183,7 +183,7 @@ h3{margin-bottom:7px}
 	    <tr>
 		    <td><p class=""><label><b>{{ strtoupper($view_po->courier_name) }} {{ $view_po->ongkir_type }}</b></label>
 	        <br/>@if($view_po->block_package != '0' ) Pack Kayu @endif
-	        <br/>@if($view_po->insurance != '0' ) Asuransi @else {{ number_format($view_po->subtotal) }} @endif</p>
+	        <br/>@if($view_po->insurance != '0' ) Asuransi  {{ number_format($view_po->subtotal) }} @endif</p>
 	      </td>
 		    <td><p class="header-right"><label><b>Order ID</b></label><br/>{{ $view_po->po_id }}</p></td>
 	    </tr>
