@@ -96,11 +96,15 @@ Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('admin/login', [LoginController::class, 'actionlogin'])->name('login');
-Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout');
 
 Route::get('admin/register', [RegisterController::class, 'register'])->name('register');
 Route::post('admin/register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
+
+Route::group(['middleware' => ['admin']], function () {
+    Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::get('admin/preorder/request_order', [OrderController::class, 'index'])->name('preorder.index');
 Route::get('admin/preorder/request_order/view/{id}', [ApprovalController::class, 'edit'])->name('preorder.detail');
@@ -190,6 +194,7 @@ Route::put('admin/voucher/email/edit/{id}', [VoucherManagementController::class,
 // Route::resource('admin/system/config', SystemController::class);
 Route::get('admin/system/config', [SystemController::class, 'index'])->name('system_params');
 Route::post('admin/system/config', [SystemController::class, 'store'])->name('system_params');
+});
 Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
 Route::post('my_profil', [ProfilController::class, 'store'])->name('profil.store');
 Route::get('change_password', [PasswordController::class, 'edit'])->name('change_password');
