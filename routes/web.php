@@ -76,22 +76,22 @@ Route::get('register/activation/failed', [RegisterCostumerController::class, 'ac
 Route::get('login', [LoginCostumerController::class, 'index']);
 Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
 
-Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
+Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create'); //TODO: redirect login jika belum, bukan if di view
 Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
-Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification'); //TODO: auth cust
 
 Route::get('preorder_sg/create', [PreOrderSgController::class, 'create'])->name('preorder_sg.create');
 Route::post('preorder_sg/create', [PreOrderSgController::class, 'store'])->name('preorder_sg.store');
 
-Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order'); //TODO: auth cust
 // https://psbyhom.com/view_request/TY23020170 (redirect)
 Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
-Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
-Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
+Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification'); //TODO: auth cust
+Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm'); //TODO: auth cust
 Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
-Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');
+Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');  //TODO: auth cust
 
-Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
+Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet'); //TODO: auth cust
 
 // ADMIN
 Route::get('admin/login', [LoginController::class, 'login'])->name('login');
@@ -228,9 +228,3 @@ Route::post('confirm_payment/store', [ConfirmPaymentController::class, 'store'])
 Route::get('confirm_payment/notification', [ConfirmPaymentController::class, 'notification'])->name('confirm_payment.notification');
 
 Route::post('withdrawal/create', [WalletController::class, 'store'])->name('withdrawal.store');
-
-// TODO:
-// /request_order_controller/search_filter_request_transaction
-// /po_invoice_controller/search_filter_invoice
-// /incoming_item_controller/incoming_item_filter
-// /po_invoice_controller/search_filter_invoice
