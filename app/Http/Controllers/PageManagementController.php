@@ -34,7 +34,7 @@ class PageManagementController extends Controller
             'image' => 'required',
             'status' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
 
             $page = DB::table('pages')
@@ -44,11 +44,12 @@ class PageManagementController extends Controller
                 'image' => $request->image,
                 'status' => $request->status,
             ]);
-    
+            DB::commit();
             return redirect(route('page_management.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

@@ -29,7 +29,7 @@ class SlideManagementController extends Controller
         'notes' => 'required',
         'status' => 'required',
     ]);
-
+    DB::beginTransaction();
     try {
         $image = $request->file('image');
         $name_image = time()."_".$image->getClientOriginalName();
@@ -43,11 +43,12 @@ class SlideManagementController extends Controller
             'notes' => $request->notes,
             'status' => $request->status,
         ]);
-
+        DB::commit();
         return redirect(route('slideshow_management.index'))
             ->withSuccess("Data berhasil ditambahkan");
             
     } catch(\Exception $e) {
+        DB::rollback();
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
 }
@@ -74,7 +75,7 @@ class SlideManagementController extends Controller
             'notes' => 'required',
             'status' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
 
             $slide = Slide::find($id);
@@ -86,11 +87,12 @@ class SlideManagementController extends Controller
                 'notes' => $request->notes,
                 'status' => $request->status,
             ]);
-    
+            DB::commit();
             return redirect(route('slideshow_management.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

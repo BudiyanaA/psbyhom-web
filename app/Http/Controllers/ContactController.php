@@ -28,7 +28,7 @@ class ContactController extends Controller
     // Validate reCAPTCHA response using the NoCaptcha facade
     if (NoCaptcha::verifyResponse($request->input('g-recaptcha-response'))) {
         // reCAPTCHA response is valid
-
+        DB::beginTransaction();
         try {
             // Save form data to database
             Contac::create([
@@ -38,11 +38,12 @@ class ContactController extends Controller
                 'email' => $request->email,
                 'message' => $request->message,
             ]);
-
+            DB::commit();
             return redirect(route('contac.index'))
                 ->withSuccess("Data berhasil ditambahkan");
 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
 

@@ -42,7 +42,7 @@ class BankManagementController extends Controller
             'status' => 'required',
             // 'notes' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
 
             MsBank::create([
@@ -57,11 +57,12 @@ class BankManagementController extends Controller
                 'ByUserIP' =>  $request->ip(),
                 'OnDateTime' =>  date('Y-m-d H:i:s')
             ]);
-    
+            DB::commit();
             return redirect(route('bank_management.index'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
     }
@@ -87,7 +88,7 @@ class BankManagementController extends Controller
             'status' => 'required',
             // 'notes' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
 
             MsBank::where('BankUUID',$id)
@@ -98,11 +99,12 @@ class BankManagementController extends Controller
                 'status' => $request->status,
                 // 'notes' => $request->notes,
             ]);
-    
+            DB::commit();
             return redirect(route('bank_management.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }

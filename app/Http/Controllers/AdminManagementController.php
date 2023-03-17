@@ -27,6 +27,7 @@ class AdminManagementController extends Controller
             'password' => 'required|confirmed',
         ]);
 
+        DB::beginTransaction();
         try {
 
             $user = MsAdmin::create([
@@ -35,11 +36,12 @@ class AdminManagementController extends Controller
                 'password' => bcrypt($request->password),
                 'role' => 'admin'
             ]);
-    
+            DB::commit();
             return redirect(route('admin.index'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
@@ -58,7 +60,7 @@ class AdminManagementController extends Controller
             'email' => 'required|email|unique:ms_admin',
             'password' => 'required|confirmed',
         ]);
-
+        DB::beginTransaction();
         try {
 
             $a = MsAdmin::find($id);
@@ -67,11 +69,12 @@ class AdminManagementController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-    
+            DB::commit();
             return redirect(route('admin_management.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

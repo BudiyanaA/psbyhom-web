@@ -38,7 +38,7 @@ class VoucherManagementController extends Controller
             'remarks' => 'required',
         ]);
         $AdminUUID = session('admin_id');
-
+        DB::beginTransaction();
         try {
 
             MsVoucher::create([
@@ -54,11 +54,12 @@ class VoucherManagementController extends Controller
                 'OnDateTime' => date('Y-m-d H:i:s'),
                 'remarks' => $request->remarks,
             ]);
-    
+            DB::commit();
             return redirect(route('voucher_management.index'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
@@ -84,7 +85,7 @@ class VoucherManagementController extends Controller
             // 'discount_amount' => 'required',
             // 'remarks' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
 
             MsVoucher::where('VoucherUUID',$id)
@@ -95,11 +96,12 @@ class VoucherManagementController extends Controller
                 'discount_amount' => $request->discount_amount,
                 'remarks' => $request->remarks,
     ]);
-    
+    DB::commit();
             return redirect(route('voucher_management.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

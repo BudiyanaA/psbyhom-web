@@ -28,7 +28,7 @@ class ConfirmPaymentController extends Controller
         'bank_account' => 'required',
         'account_name' => 'required',
     ]);
-
+    DB::beginTransaction();
     try {
 
         Confirmpayment::create([
@@ -44,11 +44,12 @@ class ConfirmPaymentController extends Controller
         ]);
 
         Mail::to("dederizki130102@gmail.com")->send(new ConfirmEmail());
-
+        DB::commit();
         return redirect(route('confirm_payment.notification'))
             ->withSuccess("Data berhasil ditambahkan");
 
     } catch(\Exception $e) {
+        DB::rollback();
         dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }

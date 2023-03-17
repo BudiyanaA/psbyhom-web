@@ -72,7 +72,7 @@ class RegisterCostumerController extends Controller
         // if (!$validated['captcha']) {
         //     return redirect()->back()->with('error', 'Error: captcha tidak benar!');
         // }
-        
+        DB::beginTransaction();
         try {
             $CustomerUUID = $this->newid();
             $token_id = $this->newid();
@@ -125,10 +125,12 @@ class RegisterCostumerController extends Controller
                 'ByUserIP' => $request->ip(),
                 'OnDateTime' => date('Y-m-d H:i:s')
             ]);
+            DB::commit();
         return redirect(route('loginaction'))
                 ->withSuccess("Registrasi Sukses, Silahkan Periksa Email Anda Untuk Mulai Mengaktifkan Akun Anda...");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
     }

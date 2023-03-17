@@ -23,7 +23,7 @@ class ProfilController extends Controller
             'email' => 'required|email|unique:users',
             'status' => 'required',
         ]);
-
+        DB::beginTransaction();
         try {
             $payload_user = [
                 'name' => $request->name,
@@ -45,11 +45,12 @@ class ProfilController extends Controller
             }
             
             Profil::updateOrCreate(['id' => Auth::id()], $payload_profil);
-            
+            DB::commit();
             return redirect(route('profil.index'))
                 ->withSuccess("Data berhasil diubah");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
