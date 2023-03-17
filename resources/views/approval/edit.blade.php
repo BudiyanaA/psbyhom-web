@@ -38,10 +38,15 @@
 											<input type="text" readonly  placeholder="Required Field"  class="form-control" name='request_id' value='{{ $order->request_id }}'>
 										</div>
 									</div>
-							<div class="form-group">
-										<label for="txtarea1" class="col-sm-3 control-label">Transaction Date</label>
-										<div class="col-sm-6"><input type="text" readonly  name="request_date" id="request_date" cols="50" rows="4" class="form-control" value='{{ $order->created_date }}'></div>
-									 </div>		
+									<div class="form-group">
+									<label for="txtarea1" class="col-sm-3 control-label">Transaction Date</label>
+									<div class="col-sm-6">
+										@php
+										$created_date = \Carbon\Carbon::parse($order->created_date)->timezone('Asia/Jakarta');
+										@endphp
+										<input type="text" readonly name="request_date" id="request_date" cols="50" rows="4" class="form-control" value="{{ $created_date->format('Y-m-d H:i:s') }}">
+									</div>
+									</div>	
 							<div class="form-group">
 										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate USD - IDR</label>
 										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $forex }}'></div>
@@ -83,7 +88,7 @@
 											<td style='width:10%'><input type="text" class="form-control" name='remarks[{{ $loop->index }}]' id='remarks{{ $loop->index }}'  value='{{ $r->remarks }}'  ></td>
 											<td style='width:10%'><input type="text" class="form-control" name='additional_fee[{{ $loop->index }}]' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee != null && $r->additional_fee != "" ? $r->additional_fee  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
 											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage[{{ $loop->index }}]' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage != null && $r->disc_percentage != "" ? $r->disc_percentage  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
-											<td><input type="text" readonly class="form-control" name='subtotal[{{ $loop->index }}]' id='subtotal{{ $loop->index }}' value='{{ $r->subtotal_original ?? 0 }}'></td>																							
+											<td><input type="text" readonly class="form-control" name='subtotal[{{ $loop->index }}]' id='subtotal{{ $loop->index }}' value='{{ number_format($r->subtotal_original ?? 0) }}'></td>																							
 										</tr>
 									@else
 										<tr>
@@ -98,7 +103,8 @@
 											<td>{{ $r->additional_fee ?? 0 }}</td>
 											<td>{{ $r->disc_percentage ?? 0 }}</td>						
 											<!-- <td>{{ $r->subtotal_final ?? 0 }}</td> -->
-											<td>{{ $r->subtotal_original ?? 0 }}</td> 											
+											
+											<td>{{ number_format($r->subtotal_original ?? 0) }}</td> 											
 										</tr>
 									@endif
 								@endforeach
@@ -108,7 +114,7 @@
 								</tr>
 							@endif
 										<tr>
-											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ $order->total_price }}</td></tr>									<tr>
+											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ number_format($order->total_price) }}</td></tr>									<tr>
 											<td colspan='2'>Notes From Admin</td>
 											<td colspan='8'>
 												@if ($order->status == "00")<textarea name="note" id="note"  cols="50" rows="4" class="ckeditor">{{ $order->note }}</textarea> 

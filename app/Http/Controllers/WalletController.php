@@ -27,6 +27,7 @@ class WalletController extends Controller
         
         $CustomerUUID = session('user_id');
         $ewallet = TrEwallet::where('CustomerUUID', $CustomerUUID)->sum('amount');
+        DB::beginTransaction();
         try {
             
             TrWithdrawal::create([
@@ -53,11 +54,12 @@ class WalletController extends Controller
             ]);
 
             // TODO: Send Email
-        
+            DB::commit();
             return redirect(route('ewallet'))
                 ->withSuccess("Data berhasil ditambahkan");
                 
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }

@@ -31,7 +31,7 @@
 	@foreach ($list_of_po as $row)
 	<tr>
 		<td>
-			<a href="#">{{ $row->po_id }}</a>
+			<a href="{{ route('payment.confirm') }}">{{ $row->po_id }}</a>
 		</td>
 		<td data-order='{{ $row->trans_date }}'>{{ formatDate($row->trans_date) }}</td>
 		<td>

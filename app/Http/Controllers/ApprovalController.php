@@ -33,6 +33,7 @@ class ApprovalController extends Controller
         $AdminUUID = session('admin_id');
         $username = session('admin_name');
         
+        DB::beginTransaction();
         try {
             if ($request->submit == "send_invoice") {
                 TrRequestOrder::where('RequestOrderUUID', $id)
@@ -118,7 +119,8 @@ class ApprovalController extends Controller
                 if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
                     return redirect()->back()->with('error', 'Gagal mengirim email!');
                 }
-    
+
+                DB::commit();
                 return redirect(route('order.notification'))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == "cancel") {
@@ -146,7 +148,7 @@ class ApprovalController extends Controller
                     'ByUserIP' => $request->ip(),
                     'OnDateTime' => date('Y-m-d H:i:s')
                 ]);
-
+                DB::commit();
                 return redirect(route('order.notification'))
                     ->withSuccess("Data berhasil diubah");
             } else {
@@ -154,6 +156,7 @@ class ApprovalController extends Controller
             }
 
         } catch(\Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
