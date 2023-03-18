@@ -71,7 +71,7 @@ class ProcesOrderController extends Controller
 				    'qty' => $qty_po, 
 				    'incoming_qty' => $qty_po,
 				    'price' => $price_po,
-				    'subtotal' => $subtotal_po,
+				    'subtotal' => round($subtotal_po),
 				    'status' => '00',
 				    'seq' => $seq,
 				    'refund_amount' => '0',
