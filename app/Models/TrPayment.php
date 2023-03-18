@@ -16,7 +16,7 @@ class TrPayment extends Model
         'POUUID',
         'InvoiceUUID',
         'BankUUID',
-        // 'image_path',
+        'image_path',
         'created_date',
         'created_by',
         'payment_amount',

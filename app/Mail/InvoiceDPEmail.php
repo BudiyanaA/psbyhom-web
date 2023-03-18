@@ -61,6 +61,11 @@ class InvoiceDPEmail extends Mailable
         $email_content = $email->email_content;
         $email_content = str_replace('$customer_name', $this->fullname, $email_content);
         $email_content = str_replace('https://psbyhom.com/confirm_payment.html', url('payment/confirm'), $email_content);
+
+        if ($data_notif['view_order']->total_paid >= 50) {
+            $email_content = str_replace(' once down payment is confirmed (minimum 50%)', "", $email_content);
+        }
+
         $data_notif['email_content'] = $email_content;
         $data_notif['email_content_bottom'] = $email->email_content_bottom;
         $data_notif['EmailUUID'] = $this->EmailUUID;

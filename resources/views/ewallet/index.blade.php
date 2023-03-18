@@ -9,7 +9,6 @@
             </ol>
 
             <h1>Ewallet List</h1>
-            <
         </div>
 
 
@@ -43,7 +42,7 @@
                                         <td valign='top'>{{ $loop->index + 1 }}</td>
                                         <td valign='top'>{{ $e->msCustomer?->customer_name}}</td>
                                         <td valign='top'>{{ formatDateTime($e->trans_date) }}</td>
-                                        <td valign='top'>{{ number_format($e->amount) }}</td>
+                                        <td valign='top'>{{ number_format(floatval($e->amount)) }}</td>
                                         <td valign='top'>{{ $e->description}}</td>
                                         <td valign='top'>{{ $e->po?->po_id}}</td>
                                     </tr>

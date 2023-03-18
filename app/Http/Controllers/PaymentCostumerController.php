@@ -31,7 +31,8 @@ public function create()
     {
         $CustomerUUID = session('user_id');
         $data['invoice'] = TrInvoice::where('CustomerUUID', $CustomerUUID)
-            ->where('status_invoice', '01')->pluck('invoice_id', 'InvoiceUUID');
+            ->where('status_invoice', '01')->orderBy('OnDateTime', 'DESC')
+            ->pluck('invoice_id', 'InvoiceUUID');
         
         $banks = MsBank::where('status', '00')->get();
         $data['banks'] = [];
@@ -72,6 +73,8 @@ public function store(Request $request)
             'PaymentUUID' => $this->newid(),
             'payment_id' => $payment_id,
             'POUUID' => $POUUID,
+            'InvoiceUUID' => '',
+            'image_path' => '',
 			'BankUUID' => $request->bank_id,
 			'created_date' => date('Y-m-d H:i:s'),
 			'created_by' => $CustomerUUID,
