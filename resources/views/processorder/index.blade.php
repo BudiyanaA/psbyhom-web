@@ -992,29 +992,39 @@ $(document).ready(function() {
 	}
 
 	function calculateGrandTotal() {
-		// Recalculate e-wallet
-		let ewallet = parseInt($('#customer_ewallet').val());
-		let total_price = parseInt($('#grand_total_summary2').val());
-		if ($("#use_ewallet").is(':checked')) 
+	  const subtotal = parseFloat($('#subtotal_value').val());
+		const ongkir = parseFloat($('#delivery_fee_id_summary').val());
+		const insurance = parseFloat($('#insurance_value').val());
+		const packing = parseFloat($('#result_packing').val());
+		const discount = parseFloat($('#discount_promo_summary').text());
+		const ewallet = parseFloat($('#ewallet_value').val());
+
+		const grandTotal = subtotal + ongkir + insurance + packing - discount;
+	  $('#grand_total_summary').html('<strong>' + format_rupiah(grandTotal) + '</strong>');
+		$('#grand_total_summary2').val(grandTotal);
+
+			let customer_ewallet = parseInt($('#customer_ewallet').val());
+			let total_price = parseInt($('#grand_total_summary2').val());
+			if ($('#use_ewallet').is(':checked')) 
 			{
-				if(ewallet == 0)
+				if(customer_ewallet == 0)
 				{
 					alert("Your E-Wallet value is empty !");
 					$('#use_ewallet').prop('checked', false);
 				}
-				else if(ewallet >= total_price)
+				else if(customer_ewallet >= total_price)
 				{
-					ewallet = total_price;
-					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
-					$('#ewallet_value').val(ewallet);
+					customer_ewallet = total_price;
+					total_price -= parseInt(customer_ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(customer_ewallet));
+					$('#ewallet_value').val(customer_ewallet);
 					$("#div_outstanding").show();
 				}
 				else 
 				{
-					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
-					$('#ewallet_value').val(ewallet);
+					total_price -= parseInt(customer_ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(customer_ewallet));
+					$('#ewallet_value').val(customer_ewallet);
 					$("#div_outstanding").show();
 				}
 				$('#total_outstanding').html('<strong>'+ format_rupiah(total_price) +'</strong>');
@@ -1026,18 +1036,8 @@ $(document).ready(function() {
 				$("#div_outstanding").hide();
 			}
 
-	  const subtotal = parseFloat($('#subtotal_value').val());
-		const ongkir = parseFloat($('#delivery_fee_id_summary').val());
-		const insurance = parseFloat($('#insurance_value').val());
-		const packing = parseFloat($('#result_packing').val());
-		const discount = parseFloat($('#discount_promo_summary').text());
-		const ewallet_val = parseFloat($('#ewallet_value').val());
-
-		const grandTotal = subtotal + ongkir + insurance + packing - discount;
-	  $('#grand_total_summary').html('<strong>' + format_rupiah(grandTotal) + '</strong>');
-		$('#grand_total_summary2').val(grandTotal);
-		$('#total_outstanding').html('<strong>'+ format_rupiah(grandTotal - ewallet_val) +'</strong>');
-		$('#total_outstanding2').val(grandTotal - ewallet_val);
+		$('#total_outstanding').html('<strong>'+ format_rupiah(grandTotal - customer_ewallet) +'</strong>');
+		$('#total_outstanding2').val(grandTotal - customer_ewallet);
 	}
 
 	function loadCosts(subdistrictId, courier = "jne") {
