@@ -102,9 +102,9 @@
 											<td>{{ $r->remarks }}</td>														
 											<td>{{ $r->additional_fee ?? 0 }}</td>
 											<td>{{ $r->disc_percentage ?? 0 }}</td>						
-											<!-- <td>{{ $r->subtotal_final ?? 0 }}</td> -->
+											<td>{{ number_format($r->subtotal_final ?? 0) }}</td>
 											
-											<td>{{ number_format($r->subtotal_original ?? 0) }}</td> 											
+											<!-- <td>{{ number_format($r->subtotal_original ?? 0) }}</td> -->
 										</tr>
 									@endif
 								@endforeach
