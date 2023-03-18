@@ -70,7 +70,7 @@ class ProcesOrderController extends Controller
 				    'RequestOrderDtlUUID' => $row->RequestOrderDtlUUID,
 				    'qty' => $qty_po, 
 				    'incoming_qty' => $qty_po,
-				    'price' => $price_po,
+				    'price' => round($price_po),
 				    'subtotal' => round($subtotal_po),
 				    'status' => '00',
 				    'seq' => $seq,
