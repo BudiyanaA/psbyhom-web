@@ -126,6 +126,7 @@ class ProcesOrderController extends Controller
             $status_po = '00';
             $status_ro = '02';
             $total_paid = 100;
+            $unique_amount = 0;
             $dp_amount = $e_wallet_value;
             $grand_total = $e_wallet_value;
             $total_outstanding = "0";
@@ -341,7 +342,7 @@ class ProcesOrderController extends Controller
 
     } catch(\Exception $e) {
         DB::rollback();
-        dd($e);
+        // dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Registercostumer;
 use App\Models\MsEmail;
 use App\Mail\QuotationEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class ApprovalController extends Controller
 {
@@ -22,7 +23,7 @@ class ApprovalController extends Controller
     public function edit(Request $request, $id)
     {
         $data['order'] = TrRequestOrder::with('customer')->where('RequestOrderUUID', $id)->first();
-        $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
+        // $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
         $data['requestorder'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)
             ->orderBy('seq', 'ASC')->get();
         return view('approval.edit',$data);     

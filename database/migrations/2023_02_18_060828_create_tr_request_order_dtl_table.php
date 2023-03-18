@@ -24,12 +24,12 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->decimal('price_customer', 12, 2)->nullable();
             $table->decimal('forex_rate', 12, 6)->nullable();
-            $table->decimal('subtotal_original', 12, 2)->nullable();
+            $table->string('subtotal_original', 12, 2)->nullable();
             $table->string('status')->nullable();
             $table->integer('seq')->nullable();
-            $table->decimal('additional_fee', 12, 2)->nullable();
-            $table->decimal('subtotal_final', 12, 2)->nullable();
-            $table->decimal('disc_percentage', 5, 2)->nullable();
+            $table->string('additional_fee')->nullable();
+            $table->string('subtotal_final')->nullable();
+            $table->string('disc_percentage')->nullable();
             // $table->timestamps();
         });
     }

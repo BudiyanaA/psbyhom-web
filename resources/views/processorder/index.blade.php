@@ -511,6 +511,9 @@ function calculateTotal() {
 
 	$('#subtotal_summary').text(format_rupiah(subtotal));
 	$('#subtotal_value').val(subtotal);
+
+	$('#grand_total_summary').html('<strong>' + format_rupiah(subtotal) + '</strong>');
+	$('#grand_total_summary2').val(subtotal);
 }
 
 	// function recalculate() {

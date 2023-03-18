@@ -84,6 +84,7 @@
     var datepair = new Datepair(basicExampleEl);
 </script>
 
+<script src="{{ url('assets/js/accounting.min.js') }}"></script>
 
 @yield('script')
 
