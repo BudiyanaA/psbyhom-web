@@ -93,13 +93,14 @@ Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name(
 
 
 Route::group(['middleware' => ['customer']], function () {
-Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet'); //TODO: auth cust
-Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification');  //TODO: auth cust
-Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm'); //TODO: auth cust
-Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification'); //TODO: auth cust
-Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order'); //TODO: auth cust
-Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification'); //TODO: auth cust
-Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create'); //TODO: redirect login jika belum, bukan if di view
+    Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
+    Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification'); 
+    Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
+    Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
+    Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+    Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
+    Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+    Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
 });
 
 

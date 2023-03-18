@@ -349,7 +349,16 @@ class ProcesOrderController extends Controller
 
     public function show($id)
     {
-        //
+        $CustomerUUID = session('user_id');
+        $data['view_po'] = TrPo::with(['msStatus', 'trRequestOrder'])
+            ->where('POUUID', $id)->first();
+        $data['view_customer'] = Registercostumer::where('CustomerUUID', $CustomerUUID)
+            ->first();
+        $data['view_po_dtl'] = TrPoDtl::with('requestOrderDtl')
+            ->where('POUUID', $id)->orderBy('seq')->get();
+
+    // return $data;
+        return view('processorder.show', $data);
     }
 
     public function edit($id)
