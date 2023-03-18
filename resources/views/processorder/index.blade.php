@@ -892,38 +892,38 @@ $(document).ready(function() {
 		});	
 
 		$('#use_ewallet').on('click', function() {
-			let ewallet = parseInt($('#customer_ewallet').val());
-			let total_price = parseInt($('#grand_total_summary2').val());
-			if ($(this).is(':checked')) 
-			{
-				if(ewallet == 0)
-				{
-					alert("Your E-Wallet value is empty !");
-					$('#use_ewallet').prop('checked', false);
-				}
-				else if(ewallet >= total_price)
-				{
-					ewallet = total_price;
-					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
-					$('#ewallet_value').val(ewallet);
-					$("#div_outstanding").show();
-				}
-				else 
-				{
-					total_price -= parseInt(ewallet);
-					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
-					$('#ewallet_value').val(ewallet);
-					$("#div_outstanding").show();
-				}
-				$('#total_outstanding').html('<strong>'+ format_rupiah(total_price) +'</strong>');
-				$('#total_outstanding2').val(total_price);
-			}
-			else {
-				$('#e_wallet_summary').html(0);
-				$('#ewallet_value').val(0);
-				$("#div_outstanding").hide();
-			}
+			// let ewallet = parseInt($('#customer_ewallet').val());
+			// let total_price = parseInt($('#grand_total_summary2').val());
+			// if ($(this).is(':checked')) 
+			// {
+			// 	if(ewallet == 0)
+			// 	{
+			// 		alert("Your E-Wallet value is empty !");
+			// 		$('#use_ewallet').prop('checked', false);
+			// 	}
+			// 	else if(ewallet >= total_price)
+			// 	{
+			// 		ewallet = total_price;
+			// 		total_price -= parseInt(ewallet);
+			// 		$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
+			// 		$('#ewallet_value').val(ewallet);
+			// 		$("#div_outstanding").show();
+			// 	}
+			// 	else 
+			// 	{
+			// 		total_price -= parseInt(ewallet);
+			// 		$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
+			// 		$('#ewallet_value').val(ewallet);
+			// 		$("#div_outstanding").show();
+			// 	}
+			// 	$('#total_outstanding').html('<strong>'+ format_rupiah(total_price) +'</strong>');
+			// 	$('#total_outstanding2').val(total_price);
+			// }
+			// else {
+			// 	$('#e_wallet_summary').html(0);
+			// 	$('#ewallet_value').val(0);
+			// 	$("#div_outstanding").hide();
+			// }
 			calculateGrandTotal();
 		});	
 
@@ -992,6 +992,40 @@ $(document).ready(function() {
 	}
 
 	function calculateGrandTotal() {
+		// Recalculate e-wallet
+		let ewallet = parseInt($('#customer_ewallet').val());
+		let total_price = parseInt($('#grand_total_summary2').val());
+		if ($("#use_ewallet").is(':checked')) 
+			{
+				if(ewallet == 0)
+				{
+					alert("Your E-Wallet value is empty !");
+					$('#use_ewallet').prop('checked', false);
+				}
+				else if(ewallet >= total_price)
+				{
+					ewallet = total_price;
+					total_price -= parseInt(ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
+					$('#ewallet_value').val(ewallet);
+					$("#div_outstanding").show();
+				}
+				else 
+				{
+					total_price -= parseInt(ewallet);
+					$('#e_wallet_summary').html('- ' + format_rupiah(ewallet));
+					$('#ewallet_value').val(ewallet);
+					$("#div_outstanding").show();
+				}
+				$('#total_outstanding').html('<strong>'+ format_rupiah(total_price) +'</strong>');
+				$('#total_outstanding2').val(total_price);
+			}
+			else {
+				$('#e_wallet_summary').html(0);
+				$('#ewallet_value').val(0);
+				$("#div_outstanding").hide();
+			}
+
 	  const subtotal = parseFloat($('#subtotal_value').val());
 		const ongkir = parseFloat($('#delivery_fee_id_summary').val());
 		const insurance = parseFloat($('#insurance_value').val());
