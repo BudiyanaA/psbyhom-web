@@ -1031,13 +1031,13 @@ $(document).ready(function() {
 		const insurance = parseFloat($('#insurance_value').val());
 		const packing = parseFloat($('#result_packing').val());
 		const discount = parseFloat($('#discount_promo_summary').text());
-		const ewallet = parseFloat($('#ewallet_value').val());
+		const ewallet_val = parseFloat($('#ewallet_value').val());
 
 		const grandTotal = subtotal + ongkir + insurance + packing - discount;
 	  $('#grand_total_summary').html('<strong>' + format_rupiah(grandTotal) + '</strong>');
 		$('#grand_total_summary2').val(grandTotal);
-		$('#total_outstanding').html('<strong>'+ format_rupiah(grandTotal - ewallet) +'</strong>');
-		$('#total_outstanding2').val(grandTotal - ewallet);
+		$('#total_outstanding').html('<strong>'+ format_rupiah(grandTotal - ewallet_val) +'</strong>');
+		$('#total_outstanding2').val(grandTotal - ewallet_val);
 	}
 
 	function loadCosts(subdistrictId, courier = "jne") {
