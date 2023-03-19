@@ -90,8 +90,6 @@ Route::post('process_order/create', [ProcesOrderController::class, 'store'])->na
 
 Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
 
-
-
 Route::group(['middleware' => ['customer']], function () {
     Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
     Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification'); 
@@ -101,6 +99,7 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
+    Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
 });
 
 
@@ -228,7 +227,6 @@ Route::post('admin/register/action', [RegisterController::class, 'registeraction
 
 
 // Route::resource('preorder', PreOrderController::class);
-Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
 
 Route::get('list_of_request_order', [OrderListController::class, 'index'])->name('orderlist.index');
 // Route::resource('process_order', ProcesOrderController::class);

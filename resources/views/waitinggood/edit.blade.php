@@ -676,6 +676,8 @@
 		var dp_amount = $("#dp_amounts").val();
 		var total_outstanding = 0;
 		var grand_total_ori = $("#super_grand_total_ori").val();
+
+		var super_grand_total = $('#super_grand_total').val();
 		
 		if(insurance == '')
 		{
@@ -749,20 +751,16 @@
 			{
 				super_grand_total = (parseInt(unique_amount_value) + parseInt(grandtotal) + parseInt(ongkir) + parseInt(insurance) + parseInt(package_value) - parseInt(disc)) + parseInt(additional_shipping_fee);				
 			}
-			console.log(unique_amount_value);
-			console.log(grandtotal);
-			console.log(ongkir);
-			console.log(insurance);
-			console.log(package_value);
-			console.log("Disc: " + disc);
-			console.log(additional_shipping_fee);
 
-			var super_grand_total = $('#super_grand_total').val();
-    var dp_amount = $('#dp_amount').val();
+		// var super_grand_total = $('#super_grand_total').val();
+    // var dp_amount = $('#dp_amount').val();
+
+		console.log("sgd: " + super_grand_total);
+		console.log("dp: " + dp_amount);
 
     $('.super_grand_total').html(numberWithCommas(super_grand_total));
     var total_outstanding = parseInt(super_grand_total) - parseInt(dp_amount);
-    $('#total_outstandings').html(numberWithCommas(total_outstanding));
+    $('#total_outstandings').html("<strong>" + numberWithCommas(total_outstanding) + "</strong>");
 
     if (parseInt(total_outstanding) < 0) {
         var total_refund = total_outstanding;
