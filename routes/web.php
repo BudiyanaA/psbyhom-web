@@ -97,7 +97,7 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
     Route::get('request/info', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
     Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
-    Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
+    Route::post('request/update', [ProcesOrderController::class, 'store'])->name('process_order.store');
     Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
