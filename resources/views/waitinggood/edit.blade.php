@@ -97,7 +97,7 @@
 												<tr >
 													<input type="hidden" value="{{ $p->PODtlUUID }}" name="PODtlUUID[{{ $loop->index }}]">
 													<input type="hidden" value="{{ $p->price }}" id="price{{ $loop->index }}">
-													<input type="hidden" value="{{ $p->qty }}" id="po_qty{{ $loop->index }}">
+													<input type="hidden" value="{{ $p->qty }}" id="qty_po{{ $loop->index }}" name="qty_po[{{ $loop->index }}]">
 													<input type="hidden" value="{{ $p->subtotal }}" id="subtotal_po{{ $loop->index }}" name="subtotal_po[{{ $loop->index }}]">
 													<td style='width:10%'>
 														@if ($po->status == '00' || $po->status == '01')

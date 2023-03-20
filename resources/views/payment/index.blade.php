@@ -160,7 +160,10 @@
 											</tr>
                                 </tbody>
                             </table>
-							<ul class="pagination"><li class="active"><a href="#">1</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=2">2</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=3">3</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=4">4</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=2">&raquo</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=45">Last</a></li></ul>                        </div>
+							<ul class="pagination">
+								{{ $payment->links() }}
+							</ul>
+						</div>
                     </div>
                 </div>
             </div>

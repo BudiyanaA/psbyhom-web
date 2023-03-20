@@ -323,6 +323,7 @@ class WaitingGoodController extends Controller
 				{
                     TrPoDtl::where('PODtlUUID', $request->PODtlUUID[$i])
                         ->update([
+                            'qty' => $request->incoming_qty[$i],
                             'incoming_qty' => $request->incoming_qty[$i],
                             'subtotal' => $request->subtotal_po[$i]
                         ]);
@@ -344,7 +345,7 @@ class WaitingGoodController extends Controller
                         'POUUID' => $id,
                         'trans_date' => date('Y-m-d H:i:s'),
                         'amount' => $total_refund,
-                        'description' => 'Process Refund to E-Wallet with total amount of : </b>'.number_format($total_refund).' from PO '.$request->po_id
+                        'description' => 'Process Refund to E-Wallet with total amount of : '.number_format($total_refund).' from PO '.$request->po_id
                     ]);
 
                     TrPo::where('POUUID', $id)
@@ -591,7 +592,7 @@ class WaitingGoodController extends Controller
 
         } catch(\Exception $e) {
             DB::rollback();
-            // dd($e);
+            dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
