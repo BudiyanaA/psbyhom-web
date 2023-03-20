@@ -5,7 +5,7 @@
         <div id="page-heading">
             <ol class="breadcrumb">
 				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('preorder.index') }}">Pre Order</a></li>
+                <!-- <li><a href="{{ route('preorder.index') }}">Pre Order</a></li> -->
                 <li class="active">List of Pre Order </li>
             </ol>
 			
@@ -132,7 +132,7 @@
 										<input type="hidden" value="{{ $p->POUUID }}" class='POUUID' name="POUUID1">
 										<input type="hidden" value="{{ $p->msCustomer?->email }}" class='customer_email' name="customer_email1">
 										<td valign='top'>{{ $loop->index + 1 }}</td>
-										<td><a href="{{ route('waitinggoods.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
+										<td><a href="{{ route('poinvoice.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
 										<td>{{ formatDate($p->trans_date) }}</td>
 										<td>{{ number_format($p->total_trans) }}</td>

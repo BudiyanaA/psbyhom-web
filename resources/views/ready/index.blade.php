@@ -5,7 +5,7 @@
         <div id="page-heading">
             <ol class="breadcrumb">
 				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('preorder.index') }}">Pre Order</a></li>
+                <!-- <li><a href="{{ route('preorder.index') }}">Pre Order</a></li> -->
                 <li class="active">List of Pre Order </li>
             </ol>
 			

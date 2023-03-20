@@ -4,8 +4,8 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
-                <li class="active">Costumer Management</li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li class="active">Ewallet</li>
             </ol>
 
             <h1>Ewallet List</h1>

@@ -4,7 +4,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ul class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                  <li class="active"><strong>Waiting Goodies</strong> PO</li>
             </ul>
 	
@@ -17,7 +17,7 @@
     <div class="col-xs-12">
 		<div class="panel panel-midnightblue">
 			<div class="panel-heading">
-				{!! Form::model($po, ['route' => ['waitinggoods.update', $po->POUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
+				{!! Form::model($po, ['route' => ['poinvoice.update', $po->POUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 				  <h4>
 						<ul class="nav nav-tabs">
 							@if (in_array($po->status, ['00', '01', '04', '05', '08']))

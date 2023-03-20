@@ -48,6 +48,7 @@ use App\Http\Controllers\PaymentSgController;
 use App\Http\Controllers\OverallSgController;
 use App\Http\Controllers\WaitingGoodSgController;
 use App\Http\Controllers\ApprovalSgController;
+use App\Http\Controllers\PoInvoiceController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,17 +86,18 @@ Route::post('preorder_sg/create', [PreOrderSgController::class, 'store'])->name(
 
 
 // https://psbyhom.com/view_request/TY23020170 (redirect)
-Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
+
 
 
 Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
 
 Route::group(['middleware' => ['customer']], function () {
     Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
-    Route::get('payment_c/notification', [PaymentCostumerController::class, 'notification'])->name('payment_c.notification'); 
+    Route::get('payment/success', [PaymentCostumerController::class, 'notification'])->name('payment.success'); 
     Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
-    Route::get('notification', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
+    Route::get('request/info', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
     Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+    Route::post('process_order/create', [ProcesOrderController::class, 'store'])->name('process_order.store');
     Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
@@ -128,9 +130,9 @@ Route::get('admin/preorder_sg/request_order/view/{id}', [ApprovalSgController::c
 Route::put('admin/preorder_sg/request_order/{id}/update', [ApprovalSgController::class, 'update'])->name('preorder_sg.update');
 Route::get('admin/preorder_sg/request_order/notification', [ApprovalController::class, 'notification'])->name('preorder_sg.notification');
 
-Route::get('admin/po_invoice/view/{id}', [WaitingGoodController::class, 'edit'])->name('waitinggoods.detail');
-Route::put('admin/po_invoice/validate/{id}', [WaitingGoodController::class, 'update'])->name('waitinggoods.update');
-Route::get('admin/po_invoice/success/{id}', [WaitingGoodController::class, 'notification'])->name('waitinggood.notification');
+Route::get('admin/po_invoice/view/{id}', [PoInvoiceController ::class, 'edit'])->name('poinvoice.detail');
+Route::put('admin/po_invoice/validate/{id}', [PoInvoiceController::class, 'update'])->name('poinvoice.update');
+Route::get('admin/po_invoice/success/{id}', [PoInvoiceController::class, 'success'])->name('poinvoice.success');
 Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
 Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
 

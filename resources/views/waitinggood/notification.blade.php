@@ -23,8 +23,15 @@
             <div class="panel-body" align='center'>
 
 				 <p align='center'>PO Invoice has been successfully updated</p>
-			  
-				<a href="https://psbyhom.com/po_invoice_controller/view_po_invoice/e4abd4f4-dd96-464d-a66e-a18bac84b62a.html">Go to updated PO</a>            </div>
+                 @php $isLinkDisplayed = false; @endphp
+
+@foreach($waitinggoods as $waitinggood)
+    @if (!$isLinkDisplayed)
+        @php $isLinkDisplayed = true; @endphp
+        <a href="{{ route('poinvoice.detail', $waitinggood->POUUID) }}">Go to updated PO</a>
+    @endif
+@endforeach
+				           </div>
     </div>
 </div>
 

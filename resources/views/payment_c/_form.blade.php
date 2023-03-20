@@ -2,7 +2,7 @@
 	<div style="text-weight:bolder;color:red">{{-- $error_message --}}</div>
 	<div class="form-group 	@if ($errors->has('invoice_amount')) has-error @endif col-md-6 col-lg-12">
 		<span class="text-right req">Invoice<span class="reqsign">*</span></span>
-		{{ Form::select('invoice_id', $invoice, null, ['class' => 'form-control',  'placeholder' => '--Pilih Invoice--', 'id' => 'invoice_id']); }}
+		{{ Form::select('invoice_id', $invoice, null, ['class' => 'form-control',  'placeholder' => '--Select Invoice No You Want to Confirm Payment--', 'id' => 'invoice_id']); }}
 		@if ($errors->has('invoice_amount')) <small class="form-text help-block" style="color:red">{{ $errors->first('invoice_amount') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('invoice_amount')) has-error @endif col-md-6 col-lg-12">
@@ -23,22 +23,22 @@
 	</div>
     <div class="form-group @if ($errors->has('payment_date')) has-error @endif col-md-6 col-lg-12">
     <span class="text-right req">Payment Date<span class="reqsign">*</span></span>
-    {{ Form::text('payment_date', null, ['id' => 'datepicker', 'class' => 'form-control', 'placeholder' => 'Payment Date']) }}
+    {{ Form::text('payment_date', null, ['id' => 'datepicker', 'class' => 'form-control']) }}
     @if ($errors->has('payment_date')) <small class="form-text help-block" style="color:red">{{ $errors->first('payment_date') }}</small> @endif
 </div>
     <div class="form-group 	@if ($errors->has('bank_name')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Your Bank name<span class="reqsign">*</span></span>
-		{{ Form::text('source_bank_name', null, ['class' => 'form-control', 'placeholder' => 'Bank Name']) }}
+		{{ Form::text('source_bank_name', null, ['class' => 'form-control']) }}
 		@if ($errors->has('bank_name')) <small class="form-text help-block" style="color:red">{{ $errors->first('bank_name') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('bank_account')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Your Bank Account No<span class="reqsign">*</span></span>
-		{{ Form::number('source_acct_no', null, ['class' => 'form-control', 'placeholder' => 'Bank Account']) }}
+		{{ Form::number('source_acct_no', null, ['class' => 'form-control']) }}
 		@if ($errors->has('bank_account')) <small class="form-text help-block" style="color:red">{{ $errors->first('bank_account') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('account_name')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Your Account Name<span class="reqsign">*</span></span>
-		{{ Form::text('source_acct_name', null, ['class' => 'form-control', 'placeholder' => 'Account Name']) }}
+		{{ Form::text('source_acct_name', null, ['class' => 'form-control']) }}
 		@if ($errors->has('account_name')) <small class="form-text help-block" style="color:red">{{ $errors->first('account_name') }}</small> @endif
 	</div>
 

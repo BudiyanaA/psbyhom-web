@@ -163,7 +163,7 @@ public function store(Request $request)
         }
 
         DB::commit();
-        return redirect(route('payment_c.notification'))
+        return redirect(route('payment.success'))
             ->withSuccess("Data berhasil ditambahkan");
 
     } catch(\Exception $e) {

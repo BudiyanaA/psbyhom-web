@@ -78,7 +78,8 @@
         'format': 'm/d/yyyy',
         'autoclose': true
     });
-
+    
+    
     // initialize datepair
     var basicExampleEl = document.getElementById('basicExample');
     var datepair = new Datepair(basicExampleEl);

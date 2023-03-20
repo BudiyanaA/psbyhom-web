@@ -4,7 +4,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Home</a></li>
+                <li><a href="{{ route('dashboard') }}">Home</a></li>
   
                 <li class="active">List of PO Waiting Goodies</li>
             </ol>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="panel-body collapse in">
 						<form action="https://psbyhom.com/incoming_item_controller/validate_update.html" class="form-horizontal row-border "  data-validate="parsley" id="validate-form"  method="post" accept-charset="utf-8" enctype="multipart/form-data" >
-                            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                           <table id="example" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
 										<tr>
 											<th>PO ID</th>
@@ -53,7 +53,7 @@
 										<input type="hidden" value="1" name="qty_po100">
 										<td>
                       @if ($loop->index == 0)
-                        <a href="{{ route('waitinggoods.detail', $dtl->POUUID) }}">{{ $w->po_id }}</a>
+                        <a href="{{ route('poinvoice.detail', $dtl->POUUID) }}">{{ $w->po_id }}</a>
                       @else
                         <p style='color: white;font-size: 1px;'>{{ $w->po_id }}</p>
                       @endif
@@ -225,5 +225,11 @@
 			})
 		})
 	}
+
+	$('#example').dataTable( {
+        "order": [],
+        "paging":   false,
+        } );
+
 </script>
 @endsection
