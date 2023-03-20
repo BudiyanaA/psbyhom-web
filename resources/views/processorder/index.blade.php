@@ -104,9 +104,9 @@
   </tr>
 	@endforeach			
 	<tr class="cart_total_price">
-	  <td align="left" colspan="4" style="solid #ddd"></td>
-	  <td colspan="4" align="right" style="font-weight:bold; solid #ddd"><strong>Total</strong></td>
-	  <td align="right" style=" solid #ddd">
+	  <td align="left" colspan="4" style="border-top:1px solid #ddd"></td>
+	  <td colspan="4" align="right" style="font-weight:bold;border-top:1px solid #ddd"><strong>Total</strong></td>
+	  <td align="right" style="border-top:1px solid #ddd">
 			<input type="hidden" name="total_amount" id="total_amount" value="{{ collect($preorders)->sum('subtotal_final') }}">
 			<span id="grand_total">{{ number_format(collect($preorders)->sum('subtotal_final')) }}</span>
 		</td>

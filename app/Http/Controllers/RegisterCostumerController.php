@@ -11,6 +11,7 @@ use App\Models\SysParam;
 use App\Mail\RegisterEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\LogActv;
+use Illuminate\Support\Facades\DB;
 
 class RegisterCostumerController extends Controller
 {

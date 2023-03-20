@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TrEwallet;
 use App\Models\TrWithdrawal;
+use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
