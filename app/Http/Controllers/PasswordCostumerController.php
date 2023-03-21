@@ -14,11 +14,16 @@ class PasswordCostumerController extends Controller
     }
 
     public function update(UpdatePasswordRequest $request)
-{
-    $request->user()->update([
-        'password' => Hash::make($request->get('password'))
-    ]);
-
-    return redirect()->route('user.password.edit');
-}
+    {
+        try {
+            $request->user()->update([
+                'password' => sha1($request->get('password')),
+            ]);
+    
+            return redirect()->route('changepassword');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('changepassword')->with('error', 'Gagal mengubah kata sandi. Silakan coba lagi.');
+        }
+    }
 }

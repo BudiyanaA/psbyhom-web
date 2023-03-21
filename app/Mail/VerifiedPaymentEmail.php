@@ -30,7 +30,7 @@ class VerifiedPaymentEmail extends Mailable
     {
         $this->po_id = $po_id;
         $this->fullname = $fullname;
-        $this->payment_amount = $payment_amount;
+        $this->payment_amount = number_format(floatval($payment_amount));
         $this->EmailUUID = $EmailUUID;
     }
 

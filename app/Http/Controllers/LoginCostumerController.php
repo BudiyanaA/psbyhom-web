@@ -27,6 +27,7 @@ class LoginCostumerController extends Controller
 
         session()->put('user_id', $customer->CustomerUUID);
         session(['customer_name' => $customer->customer_name]);
+        session()->put('user_password', $customer->password);
         return redirect('/')->with('success', 'Sukses Login');
     }
 

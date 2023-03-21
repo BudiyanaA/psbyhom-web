@@ -16,9 +16,10 @@ class CurrentPassword implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {
-        return Hash::check($value, Auth::user()->password);
-    }
+{
+    $userPassword = session()->get('user_password');
+    return Hash::check($value, $userPassword);
+}
 
     /**
      * Get the validation error message.

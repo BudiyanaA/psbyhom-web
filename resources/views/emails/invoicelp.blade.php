@@ -177,7 +177,7 @@
 			</tr>
 			<tr>
 				<td>Account Name</td>
-				<td>{{ $row_bank->bank_account_name }}</td>
+				<td>: {{ $row_bank->bank_account_name }}</td>
 			</tr>
 			</table>
 			<br>

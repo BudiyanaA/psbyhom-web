@@ -102,6 +102,8 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
     Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
+    Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
+    Route::patch('password/change', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
 });
 
 
@@ -215,8 +217,7 @@ Route::patch('password', [PasswordController::class, 'update'])->name('change_pa
 
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
-Route::patch('password', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
+
 Route::get('profil', [ProfilCostumer::class, 'index'])->name('profile');
 Route::get('how_order', [HowOrderController::class, 'index'])->name('how_order');
 Route::get('faq', [FaqController::class, 'index'])->name('faq');

@@ -12,14 +12,14 @@
 				<div class="col-sm-6">
                 <div class="form-group">
 						<span class="text-right req">{{ __('Current Password') }}<span class="reqsign">*</span></span>
-						<input class="form-control @error('current_password') is-invalid @enderror" name="password" id='current_password' type="password" size="40" maxlength="50" required="required" value='' >
+						<input class="form-control @error('current_password') is-invalid @enderror" name="current_password" id='current_password' type="password" size="40" maxlength="50" required="required" value=''>
 		
 					</div>
-
+{{var_dump($errors)}}
 					<div class="form-group">
 						<span class="text-right req">Password Baru<span class="reqsign">*</span></span>
 						<input class="form-control" name="password" id='password' type="password" size="40" maxlength="50" required="required" value='' >
-		
+						@if ($errors->has('password')) <small class="form-text help-block" style="color:red">{{ $errors->first('password') }}</small> @endif
 					</div>
 					<div class="form-group">
 						<span class="text-right req">Konfirmasi Password Baru<span class="reqsign">*</span></span>

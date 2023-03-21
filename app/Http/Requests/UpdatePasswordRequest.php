@@ -15,7 +15,7 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return session()->has('user_id');
     }
 
     /**
