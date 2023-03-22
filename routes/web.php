@@ -77,6 +77,13 @@ Route::get('register/activation/failed', [RegisterCostumerController::class, 'ac
 Route::get('login', [LoginCostumerController::class, 'index']);
 Route::post('login', [LoginCostumerController::class, 'loginaction'])->name('loginaction');
 
+Route::get('password/forgot', [PasswordCostumerController::class, 'forgot'])->name('password.forgot');
+Route::post('password/forgot', [PasswordCostumerController::class, 'forgotaction'])->name('password.forgotaction');
+Route::get('password/reset', [PasswordCostumerController::class, 'reset'])->name('password.reset');
+Route::post('password/reset', [PasswordCostumerController::class, 'resetaction'])->name('password.resetaction');
+Route::get('password/change/success', [PasswordCostumerController::class, 'changeSuccess'])->name('password.change.success');
+Route::get('password/reset/success', [PasswordCostumerController::class, 'resetSuccess'])->name('password.reset.success');
+Route::get('password/reset/fail', [PasswordCostumerController::class, 'resetFail'])->name('password.reset.fail');
 
 Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
 
@@ -102,6 +109,7 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
     Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
+    
     Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
     Route::patch('password/change', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
 });

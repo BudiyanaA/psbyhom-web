@@ -31,7 +31,7 @@
 									class="is_required validate account_input form-control"/>
 								</div>
 								<p class="lost_password form-group">
-									<a id="webmember_forgot" href="https://psbyhom.com/forgot_password.html">Forgot Password?</a></p>
+									<a id="webmember_forgot" href="{{ route('password.forgot') }}">Forgot Password?</a></p>
 								<table border="0">	
 								<tr>
 								<td>
