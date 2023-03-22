@@ -220,6 +220,9 @@ class PoInvoiceController extends Controller
                 return redirect(route('poinvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'prepare_delivery') {
+                $send_email_lp = false;
+                $send_email_refund = false;
+
                 $status_ok = TrPoDtl::where('POUUID', $id)
                     ->where('status', '01')
                     ->count('*');
@@ -290,19 +293,7 @@ class PoInvoiceController extends Controller
                         'OnDateTime' => date('Y-m-d H:i:s')
                     ]);
 
-                    // Send Email Notification        
-                    $EmailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132'; // Invoice PO for Last Payment
-                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
-                    $emailsent = Mail::to($email_customer)->send(new InvoiceLPEmail(
-                        $request->po_id, 
-                        $request->customer_name, 
-                        $request->delivery_address, 
-                        $id, 
-                        $EmailUUID
-                    ));
-                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
-                        return redirect()->back()->with('error', 'Gagal mengirim email!');
-                    }
+                    $send_email_lp = true;
                 }
 
                 for($i = 0; $i < $total_row; $i++)
@@ -342,17 +333,7 @@ class PoInvoiceController extends Controller
                             'block_package' => '0'
                         ]);
 
-
-                    $EmailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2'; //Refund Notification
-                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
-                    $emailsent = Mail::to($email_customer)
-                        ->send(new RefundEmail(
-                            $request->po_id, 
-                            $request->customer_name,
-                            $request->delivery_address,
-                            $id, 
-                            $EmailUUID
-                        ));
+                    $send_email_refund = true;
                 }
 
                 LogTransaction::create([
@@ -382,6 +363,35 @@ class PoInvoiceController extends Controller
                 ]);
 
                 DB::commit();
+                if ($send_email_lp) {
+                    // Send Email Notification        
+                    $EmailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132'; // Invoice PO for Last Payment
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)->send(new InvoiceLPEmail(
+                        $request->po_id, 
+                        $request->customer_name, 
+                        $request->delivery_address, 
+                        $id, 
+                        $EmailUUID
+                    ));
+                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                        return redirect()->back()->with('error', 'Gagal mengirim email!');
+                    }
+                }
+
+                if ($send_email_refund) {
+                    $EmailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2'; //Refund Notification
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)
+                        ->send(new RefundEmail(
+                            $request->po_id, 
+                            $request->customer_name,
+                            $request->delivery_address,
+                            $id, 
+                            $EmailUUID
+                        ));
+                }
+
                 return redirect(route('poinvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'verify_last') {

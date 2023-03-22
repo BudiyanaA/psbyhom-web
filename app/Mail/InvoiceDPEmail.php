@@ -60,11 +60,16 @@ class InvoiceDPEmail extends Mailable
         $email = MsEmail::where('EmailUUID', $this->EmailUUID)->first();
         $email_content = $email->email_content;
         $email_content = str_replace('$customer_name', $this->fullname, $email_content);
-        $email_content = str_replace('https://psbyhom.com/confirm_payment.html', url('payment/confirm'), $email_content);
 
         if ($data_notif['view_order']->total_paid >= 50) {
             $email_content = str_replace(' once down payment is confirmed (minimum 50%)', "", $email_content);
+            $email_content = str_replace(
+                'Don&#39;t forget to confirm your payment after make a down payment <a href="https://psbyhom.com/confirm_payment.html">here</a>', 
+                "Pembayaran telah menggunakan e-wallet, anda tidak perlu melakukan konfirmasi pembayaran", 
+                $email_content
+            );
         }
+        $email_content = str_replace('https://psbyhom.com/confirm_payment.html', url('payment/confirm'), $email_content);
 
         $data_notif['email_content'] = $email_content;
         $data_notif['email_content_bottom'] = $email->email_content_bottom;

@@ -191,7 +191,7 @@
 					url: '/api/no_resi/update',
         	type:"POST",
 					data:{POUUID:POUUID,no_resi:no_resi,customer_email:customer_email,admin:"{{ session('admin_id') }}"},
-					success: function(respond) 
+					success: function(data) 
 					{
 						if (data.success) {					
 							alert("Successfully update no resi !");

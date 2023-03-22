@@ -249,7 +249,7 @@ class APIController extends Controller
         ];
       } catch(\Exception $e) {
         DB::rollback();
-        dd($e);
+        // dd($e);
         return [
           "code" => 500,
           "success" => false,

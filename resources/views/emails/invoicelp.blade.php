@@ -44,7 +44,7 @@
 			<td>{{ $row->requestOrderDtl?->size }}</td>
 			<td>{{ $row->requestOrderDtl?->remarks }}</td>
 			<td>{{ number_format((float) $row->price) }}</td>
-			<td align="right">{{ number_format((float) $view_order->subtotal) }}</td>
+			<td align="right">{{ number_format((float) $row->subtotal) }}</td>
 		</tr>
 		@php
 			$i++;
