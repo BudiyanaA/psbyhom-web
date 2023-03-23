@@ -10,6 +10,7 @@
     <p><a href="{{ url('register/activation?token_id=' . $token_id)}}">Activate Your Account</a></p>
     <p>Best regards,</p>
     <p>House of Makeup</p>
+    <p>Instagram : <a href="https://www.instagram.com/houseofmakeup/">@houseofmakeup</a></p>
     <p>Email : <a href="mailto:{{ $email_notif }}">{{ $email_notif }}</a></p>
 </body>
 </html>
