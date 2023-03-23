@@ -267,6 +267,7 @@ class ProcesOrderController extends Controller
                 'account_no_source' => '-',
                 'account_name_source' => '-',
                 'remarks' => '',
+                'InvoiceUUID' => '',
                 'image_path' => '',
                 'status' => '00',
                 'ByUserUUID' => $CustomerUUID,
