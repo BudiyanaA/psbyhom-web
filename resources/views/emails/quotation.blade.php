@@ -25,13 +25,13 @@
       <td>{{ $row->size }}</td>
       <td>{{ $row->price_customer }}</td>
       <td>{{ $row->remarks }}</td>
-      <td align="right">{{ $row->subtotal_final }}</td>	
+      <td align="right">{{ number_format($row->subtotal_final) }}</td>	
     </tr>
     @endforeach
 
 		<tr style=' height: 30px;font-weight:bolder;'>
 				<td colspan="7" align='right'>Grand Total (IDR)</td>
-				<td align='right'>{{ collect($order_dtl)->sum('subtotal_final') }}</td>
+				<td align='right'>{{ number_format(collect($order_dtl)->sum('subtotal_final')) }}</td>
 		</tr>
 	</table>
 
