@@ -226,10 +226,7 @@
 		})
 	}
 
-	$('#example').dataTable( {
-        "order": [],
-        "paging":   false,
-        } );
+	
 
 </script>
 @endsection

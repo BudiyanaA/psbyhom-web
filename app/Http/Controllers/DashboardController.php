@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TrRequestOrder;
+use App\Models\TrPo;
 
 class DashboardController extends Controller
 {
@@ -22,7 +24,18 @@ class DashboardController extends Controller
         $data['total_waiting_goodies'] = [];
         $data['total_waiting_processed'] = [];
         $data['top_5_product'] = [];
-        
+        $data['orders'] = TrRequestOrder::with('customer')->where('status', '00')->orderBy('OnDateTime', 'DESC')->get();
+        $data['dppayment'] = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('status', '00')->orderBy('OnDateTime', 'DESC')->get();
+        $data['lppayment'] = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('status', '00')->orderBy('OnDateTime', 'DESC')->get();
+        $data['approval'] = TrRequestOrder::with('customer')->whereIn('status', ['01', '02'])->orderBy('OnDateTime', 'DESC')->get();
+        $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
+            ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
+            ->with('poDtls', function ($query) {
+                $query->orderBy('seq', 'ASC');
+            })
+            ->orderBy('verify_payment_date', 'DESC')
+            ->get();
+            $data['readytoship'] = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('status', '06')->orderBy('OnDateTime', 'DESC')->get();
         return view('dashboard', $data);
     }
 }

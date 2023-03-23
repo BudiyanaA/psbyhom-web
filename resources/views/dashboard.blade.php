@@ -104,70 +104,51 @@
 
                         <th class="col-xs-6 col-sm-3">PO ID</th>
                         <th class="col-sm-6 hidden-xs">Customer Name</th>
-                        <th class="col-xs-2 col-sm-2">Date</th>
+                        <th >Date</th>
                       </tr>
                     </thead>
                     <tbody class="selects">
-                      <?php
-										$datestring = "%d %M %Y";
-										$i = 1;
-								    foreach ($pending_request_order as $row_req)
-									{
-									
-									?>
-                      <tr>
-
-                        <td>
-                          <?php  echo anchor('request_order_controller/view_request_order/'.$row_req->RequestOrderUUID,$row_req->request_id) ?>
-                        </td>
-                        <td>
-                          <?php echo anchor('isms_customer_management/view_customer/'.$row_req->CustomerUUID,$row_req->customer_name) ?>
-                        </td>
-                        <td style="width:20%">
-                          <?php  echo mdate($datestring,strtotime($row_req->request_date)); ?>
-                        </td>
-                      </tr>
-                      <?php
-									$i++;
-									}
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                      <tr>
-                        <td colspan='3'>N/A</td>
-                      </tr>
-                      <?php
-										}
-									}
-									
-									if($i == 6)
-									{
-									?>
-                      <tr>
-                        <td colspan='2'><a
-                            href='<?php echo base_url() ?>request_order_controller/search_filter_request_transaction?trans_date_start=&trans_date_end=&request_id=&status=00&customer_name=&order_by=DESC'>View
-                            More...</a></td>
-                      </tr>
-                      <?php
-									}
-									else
-									{
-									?>
-                      <tr>
-                        <td>..</td>
-                      </tr>
-                      <?php
-									}
-									?>
-
-
-
-                    </tbody>
+                      @php
+                          $i = 1;
+                          $showMore = count($orders) > 5;
+                      @endphp
+                      @foreach($orders->take(5) as $o)
+                          <tr>
+                              <td>
+                                  <a href="{{ route('preorder.detail', $o->RequestOrderUUID) }}">
+                                      {{ $o->request_id }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <a href="{{ route('customer.detail', $o->CustomerUUID) }}">
+                                      {{ $o->customer?->customer_name }}
+                                  </a>
+                              </td>
+                              <td>
+                                  {{ formatDate($o->created_date) }}
+                              </td>
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('preorder.index') }}?status=00">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                   </table>
                 </div>
@@ -189,112 +170,47 @@
 
                         <th class="col-xs-6 col-sm-3">PO ID </th>
                         <th class="col-sm-6 hidden-xs">Customer Name</th>
-                        <th class="col-xs-2 col-sm-2">Status</th>
+                        <th>Status</th>
                       </tr>
                     </thead>
                     <tbody class="selects">
-                      <?php
-									$i = 1;
-									foreach ($total_pending_dp as $row_po)
-									{
-									
-									?>
-                      <tr>
-
-                        <td>
-                          <?php echo anchor('po_invoice_controller/view_po_invoice/'.$row_po->POUUID,$row_po->po_id); ?>
-                        </td>
-                        <td>
-                          <?php echo anchor('isms_customer_management/view_customer/'.$row_po->CustomerUUID,$row_po->customer_name) ?>
-                        </td>
-                        <td style="width:30%">
-                          <?php
-											if($row_po->status_po=='00')
-												{
-													echo "Pending Verify";
-												}
-												else if($row_po->status_po=='01')
-												{
-													echo "Pending Customer Payment";
-												}
-												else if($row_po->status_po=='02')
-												{
-													echo "Processed";
-												}
-												else if($row_po->status_po=='03')
-												{
-													echo "All Incoming Items Checked";
-												}
-												else if($row_po->status_po=='04')
-												{
-													echo "Pending Last Payment";
-												}
-												else if($row_po->status_po=='05')
-												{
-													echo "Pending Admin Verify LP";
-												}
-												else if($row_po->status_po=='06')
-												{
-													echo "Ready to be Delivered";
-												}
-												else if($row_po->status_po=='07')
-												{
-													echo "Delivered";
-												}
-												else if($row_po->status_po=='08')
-												{
-													echo "Pending Payment Addendum";
-												}
-												else if($row_po->status_po=='09')
-												{
-													echo "Pending Verify Addendum";
-												}
-
-
-											?>
-                        </td>
-                      </tr>
-                      <?php 	
-									 $i++;
-									}
-									
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                      <tr>
-                        <td colspan='3'>N/A</td>
-                      </tr>
-                      <?php
-										}
-									}
-									
-									
-									if($i == 6)
-									{
-									?>
-                      <tr>
-                        <td colspan='3'><a
-                            href='<?php echo base_url() ?>po_invoice_controller/search_filter_invoice?trans_date_start=&trans_date_end=&po_id=&batch_id=&status=00&customer_name=&order_by=DESC'>View
-                            More...</a></td>
-                      </tr>
-                      <?php
-									}
-									else
-									{
-									?>
-                      <tr>
-                        <td>.</td>
-                      </tr>
-                      <?php
-									}
-									?>
-
-                    </tbody>
+                      @php
+                          $i = 1;
+                          $showMore = count($dppayment) > 5;
+                      @endphp
+                      @foreach($dppayment->take(5) as $dp)
+                          <tr>
+                          <td>
+                            <a href="{{ route('poinvoice.detail', $dp->POUUID) }}">{{ $dp->po_id }}</a>
+                          </td>
+										      <td>
+                            <a href="{{ route('customer.detail', $dp->CustomerUUID) }}">{{ $dp->msCustomer?->customer_name }}</a>
+                          </td>
+                              <td>
+                              {{ $dp->msStatus?->status_name }}
+                              </td>
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('payment.index') }}?status=00">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                   </table>
                 </div>
@@ -320,108 +236,43 @@
                       </tr>
                     </thead>
                     <tbody class="selects">
-                      <?php
-									$i = 1;
-									foreach ($total_pending_fp as $row_po)
-									{
-									
-									?>
-                      <tr>
-
-                        <td>
-                          <?php echo anchor('po_invoice_controller/view_po_invoice/'.$row_po->POUUID,$row_po->po_id); ?>
-                        </td>
-                        <td>
-                          <?php echo anchor('isms_customer_management/view_customer/'.$row_po->CustomerUUID,$row_po->customer_name) ?>
-                        </td>
-                        <td style="width:80%">
-                          <?php
-											if($row_po->status_po=='00')
-												{
-													echo "DP Confirmation";
-												}
-												else if($row_po->status_po=='01')
-												{
-													echo "Pending Customer Payment";
-												}
-												else if($row_po->status_po=='02')
-												{
-													echo "Processed";
-												}
-												else if($row_po->status_po=='03')
-												{
-													echo "All Incoming Items Checked";
-												}
-												else if($row_po->status_po=='04')
-												{
-													echo "Pending LP";
-												}
-												else if($row_po->status_po=='05')
-												{
-													echo "Pending Verify";
-												}
-												else if($row_po->status_po=='06')
-												{
-													echo "Ready to be Delivered";
-												}
-												else if($row_po->status_po=='07')
-												{
-													echo "Delivered";
-												}
-												else if($row_po->status_po=='08')
-												{
-													echo "Pending Payment Addendum";
-												}
-												else if($row_po->status_po=='09')
-												{
-													echo "Pending Verify Addendum";
-												}
-
-
-											?>
-                        </td>
-                      </tr>
-                      <?php 	
-									 $i++;
-									}
-									
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                      <tr>
-                        <td colspan='3'>N/A</td>
-                      </tr>
-                      <?php
-										}
-									}
-									
-									
-									if($i == 6)
-									{
-									?>
-                      <tr>
-                        <td colspan='3'><a
-                            href='<?php echo base_url() ?>po_invoice_controller/search_filter_invoice?trans_date_start=&trans_date_end=&po_id=&batch_id=&status=05&customer_name=&order_by=DESC'>View
-                            More...</a></td>
-                      </tr>
-                      <?php
-									}
-									else
-									{
-									?>
-                      <tr>
-                        <td>..</td>
-                      </tr>
-                      <?php
-									}
-									?>
-
-                    </tbody>
+                      @php
+                          $i = 1;
+                          $showMore = count($lppayment) > 5;
+                      @endphp
+                      @foreach($lppayment->take(5) as $lp)
+                          <tr>
+                          <td>
+                            <a href="{{ route('poinvoice.detail', $lp->POUUID) }}">{{ $lp->po_id }}</a>
+                          </td>
+										      <td>
+                            <a href="{{ route('customer.detail', $lp->CustomerUUID) }}">{{ $lp->msCustomer?->customer_name }}</a>
+                          </td>
+                              <td>
+                              {{ $lp->msStatus?->status_name }}
+                              </td>
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('payment.index') }}?status=05">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                   </table>
                 </div>
@@ -511,72 +362,51 @@
 
                           <th class="col-xs-6 col-sm-3">PO ID </th>
                           <th class="col-sm-6 hidden-xs">Customer Name</th>
-                          <th class="col-xs-2 col-sm-2">Date</th>
+                          <th>Date</th>
                         </tr>
                       </thead>
                       <tbody class="selects">
-                        <?php
-									$i = 1;
-									foreach ($waiting_approval as $row_wait)
-									{
-									
-									?>
-                        <tr>
-
-
-
-                          <td>
-                            <?php  echo anchor('request_order_controller/view_request_order/'.$row_wait->RequestOrderUUID,$row_wait->request_id) ?>
-                          </td>
-                          <td>
-                            <?php echo anchor('isms_customer_management/view_customer/'.$row_wait->CustomerUUID,$row_wait->customer_name) ?>
-                          </td>
-                          <td style="width:20%">
-                            <?php  echo mdate($datestring,strtotime($row_wait->request_date)); ?>
-                          </td>
-                        </tr>
-
-
-
-                        <?php 	
-									 $i++;
-									}
-									
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                        <tr>
-                          <td colspan='3'>N/A</td>
-                        </tr>
-                        <?php
-										}
-									}
-										if($i == 6)
-									{
-									?>
-                        <tr>
-                          <td colspan='2'><a
-                              href='<?php echo base_url() ?>request_order_controller/search_filter_request_transaction?trans_date_start=&trans_date_end=&request_id=&status=01&customer_name=&order_by=DESC'>View
-                              More...</a></td>
-                        </tr>
-                        <?php
-									}
-									else
-									{
-									?>
-                        <tr>
-                          <td>.</td>
-                        </tr>
-                        <?php
-									}
-									?>
-
-                      </tbody>
+                      @php
+                          $i = 1;
+                          $showMore = count($approval) > 5;
+                      @endphp
+                      @foreach($approval->take(5) as $a)
+                          <tr>
+                              <td>
+                                  <a href="{{ route('preorder.detail', $a->RequestOrderUUID) }}">
+                                      {{ $a->request_id }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <a href="{{ route('customer.detail', $a->CustomerUUID) }}">
+                                      {{ $o->customer?->customer_name }}
+                                  </a>
+                              </td>
+                              <td>
+                                  {{ formatDate($o->created_date) }}
+                              </td>
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('preorder.index') }}?status=00">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                     </table>
                   </div>
@@ -601,65 +431,44 @@
                         </tr>
                       </thead>
                       <tbody class="selects">
-                        <?php
-									$i = 1;
-									foreach ($total_waiting_goodies as $row_po)
-									{
-									
-									?>
-                        <tr>
-
-                          <td>
-                            <?php echo anchor('po_invoice_controller/view_po_invoice/'.$row_po->POUUID,$row_po->po_id); ?>
+                      @php
+                          $i = 1;
+                          $showMore = count($waitinggoods) > 5;
+                      @endphp
+                      @foreach($waitinggoods->take(5) as $w)
+                      @foreach ($w->poDtls as $dtl)
+                          <tr>
+                          <td>                          
+                         
+                        <a href="{{ route('poinvoice.detail', $dtl->POUUID) }}">{{ $w->po_id }}</a>
+                     
                           </td>
-                          <td>
-                            <?php echo anchor('isms_customer_management/view_customer/'.$row_po->CustomerUUID,$row_po->customer_name) ?>
-                          </td>
-
-                        </tr>
-                        <?php 	
-									 $i++;
-									}
-									
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                        <tr>
-                          <td colspan='3'>N/A</td>
-                        </tr>
-                        <?php
-										}
-									}
-									
-									
-									if($i == 6)
-									{
-									?>
-                        <tr>
-                          <td colspan='3'><a
-                              href='#'>View
-                              More...</a></td>
-                        </tr>
-                        <?php
-									}
-									else
-									{
-									?>
-                        <tr>
-                          <td colspan='4'><a
-                              href="#">Go to Waiting
-                              Goodies</a></td>
-                        </tr>
-                        <?php
-									}
-									?>
-
-                      </tbody>
+                          <td style="width:20%">
+                            <a href="{{ route('customer.detail', $w->CustomerUUID) }}">{{ $w->msCustomer?->customer_name  }}</a>
+                          </td>			
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                          @endforeach
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('preorder.index') }}?status=00">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                     </table>
                   </div>
@@ -682,112 +491,47 @@
 
                           <th class="col-xs-6 col-sm-3">PO ID </th>
                           <th class="col-sm-6 hidden-xs">Customer Name</th>
-                          <th class="col-xs-2 col-sm-2">Status</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody class="selects">
-                        <?php
-									$i = 1;
-									foreach ($total_waiting_processed as $row_po)
-									{
-									
-									?>
-                        <tr>
-
+                      @php
+                          $i = 1;
+                          $showMore = count($readytoship) > 5;
+                      @endphp
+                      @foreach($readytoship->take(5) as $r)
+                          <tr>
                           <td>
-                            <?php echo anchor('po_invoice_controller/view_po_invoice/'.$row_po->POUUID,$row_po->po_id); ?>
+                            <a href="{{ route('poinvoice.detail', $r->POUUID) }}">{{ $r->po_id }}</a>
                           </td>
-                          <td>
-                            <?php echo anchor('isms_customer_management/view_customer/'.$row_po->CustomerUUID,$row_po->customer_name) ?>
+										      <td>
+                            <a href="{{ route('customer.detail', $r->CustomerUUID) }}">{{ $r->msCustomer?->customer_name }}</a>
                           </td>
-                          <td style="width:30%">
-                            <?php
-											if($row_po->status_po=='00')
-												{
-													echo "DP Confirmation";
-												}
-												else if($row_po->status_po=='01')
-												{
-													echo "Pending Customer Payment";
-												}
-												else if($row_po->status_po=='02')
-												{
-													echo "Waiting Goodies";
-												}
-												else if($row_po->status_po=='03')
-												{
-													echo "All Incoming Items Checked";
-												}
-												else if($row_po->status_po=='04')
-												{
-													echo "Pending Last Payment";
-												}
-												else if($row_po->status_po=='05')
-												{
-													echo "Pending Admin Verify LP";
-												}
-												else if($row_po->status_po=='06')
-												{
-													echo "Ready to Ship";
-												}
-												else if($row_po->status_po=='07')
-												{
-													echo "Delivered";
-												}
-												else if($row_po->status_po=='08')
-												{
-													echo "Pending Payment Addendum";
-												}
-												else if($row_po->status_po=='09')
-												{
-													echo "Pending Verify Addendum";
-												}
-
-
-											?>
-                          </td>
-                        </tr>
-                        <?php 	
-									 $i++;
-									}
-									
-									if($i < 6)
-									{
-									
-										for($j = $i;$j<6;$j++)
-										{
-											
-										
-									?>
-                        <tr>
-                          <td colspan='3'>N/A</td>
-                        </tr>
-                        <?php
-										}
-									}
-									
-									
-									if($i == 6)
-									{
-									?>
-                        <tr>
-                          <td colspan='3'><a
-                              href='<?php echo base_url() ?>po_invoice_controller/search_filter_invoice?trans_date_start=&trans_date_end=&po_id=&batch_id=&status=06&customer_name=&order_by=DESC'>View
-                              More...</a></td>
-                        </tr>
-                        <?php
-									}
-									else
-									{
-									?>
-                        <tr>
-                          <td>.</td>
-                        </tr>
-                        <?php
-									}
-									?>
-
-                      </tbody>
+                              <td>
+                              {{ $r->msStatus?->status_name }}
+                              </td>
+                          </tr>
+                          @php
+                              $i++;
+                          @endphp
+                      @endforeach
+                      @if($i < 5 && !$showMore)
+                          @for($j = $i; $j <= 5; $j++)
+                              <tr>
+                                  <td colspan='3'>N/A</td>
+                              </tr>
+                          @endfor
+                      @endif
+                  </tbody>
+                  @if($showMore)
+                      <tfoot>
+                          <tr>
+                              <td colspan="3">
+                                  <a href="{{ route('payment.index') }}?status=00">View More...</a>
+                              </td>
+                          </tr>
+                      </tfoot>
+                  @endif
 
                     </table>
                   </div>
