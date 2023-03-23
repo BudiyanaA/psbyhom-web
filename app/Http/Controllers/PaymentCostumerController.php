@@ -64,6 +64,15 @@ public function store(Request $request)
         $InvoiceUUID = $request->invoice_id;
         $invoice = TrInvoice::where('InvoiceUUID', $InvoiceUUID)->first();
         $payment_id ='PAY/'.str_replace('INV/','',$invoice->invoice_id).'/1';
+
+        // Check if invoice alreadi paid
+        $check = TrPayment::where('payment_id', $payment_id)
+            ->whereIn('status', ['00', '01'])->first();
+        if ($check) {
+            DB::rollback();
+            return redirect()->back()->withError('Invoice Tidak Valid');
+        }
+
         $CustomerUUID = session('user_id');
         $POUUID = $invoice->POUUID;
 
@@ -168,7 +177,7 @@ public function store(Request $request)
 
     } catch(\Exception $e) {
         DB::rollback();
-        dd($e);
+        // dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
 }

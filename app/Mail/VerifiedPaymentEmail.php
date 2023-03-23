@@ -49,6 +49,7 @@ class VerifiedPaymentEmail extends Mailable
         $email_content = $email->email_content;
         $email_content = str_replace('$customer_name', $this->fullname, $email_content);
         $email_content = str_replace(' $payment_amount', $this->payment_amount, $email_content);
+        $email_content = str_replace('4-5', '3-6', $email_content);
         $email_title = $email->email_title;
 				$email_title = str_replace('$po_id',$this->po_id, $email_title);
         $data_notif['email_content'] = $email_content;
