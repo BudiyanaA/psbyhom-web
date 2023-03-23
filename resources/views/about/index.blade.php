@@ -13,7 +13,6 @@
 
 <p>Kita melakukan order 1-2 x dalam seminggu dan tanpa minimum pesanan , kecuali beberapa website tertentu <u>(detail)</u>.</p>
 
-<p>Line@ : @houseofmakeup</p>
 </div><p><a class="buton" href="{{ route('home') }}">Back</a></p>	</div></div>
 	<div class="blockfooter"><div class="wrapper"></div></div>
 </div>

@@ -9,7 +9,7 @@
       </a>
     <div style="color:#808080;font-family:Arial;font-size:14px;line-height:150%;text-align:left" align="left">
       <div style="color:inherit;font-family:Arial;font-size:14px;line-height:150%;text-align:left;text-decoration:none" align="left">
-        Line@ : <a href="https://line.me/R/ti/p/{{ $line_id }}">{{ $line_id }}</a><br>
+        <!-- Line@ : <a href="https://line.me/R/ti/p/{{ $line_id }}">{{ $line_id }}</a><br> -->
         Email : <a href="mailto:{{ $email_notif }}">{{ $email_notif }}</a>
         <br>
       </div>

@@ -13,8 +13,6 @@ Saturday 8am - 1pm</p>
 <p><strong>INSTAGRAM</strong><br />
 @houseofmakeup</p>
 
-<p><strong>LINE@</strong><br />
-@houseofmakeup</p>
 </div>
 <div id="contactform">
 	@if (Session::has('success'))
