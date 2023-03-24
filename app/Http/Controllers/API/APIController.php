@@ -110,6 +110,8 @@ class APIController extends Controller
         }
         else if($status_item == '02')
         {	
+          $podtl = TrPoDtl::where('PODtlUUID', $PODtlUUID)->first();
+
           TrPoDtl::where('PODtlUUID', $PODtlUUID)
             ->update([
               'status' => $status_item,
@@ -117,7 +119,6 @@ class APIController extends Controller
               'subtotal' => '0'
             ]);
 
-          $podtl = TrPoDtl::where('PODtlUUID', $PODtlUUID)->first();
           $subtotal = $podtl->subtotal;
           $POUUID = $podtl->POUUID;
           $po = TrPo::where('POUUID', $POUUID)->first();

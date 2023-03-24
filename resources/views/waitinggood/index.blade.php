@@ -143,12 +143,17 @@
         {value: '00', text: 'Not Arrived'},
         {value: '01', text: 'OK'},
         {value: '02', text: 'Reject'},
-		{value: '03', text: 'Confirm'},
-		{value: '04', text: 'Shiped'},
-		{value: '05', text: 'Delivered'},
-		{value: '06', text: 'Otw Indo'},
+				{value: '03', text: 'Confirm'},
+				{value: '04', text: 'Shiped'},
+				{value: '05', text: 'Delivered'},
+				{value: '06', text: 'Otw Indo'},
       ],
     });
+		$('.keterangan_item').editable(
+		{
+			type:  'text',
+			title: 'Enter batch order',
+		});
 
     $('.batchorder').on('save', function(e, params) {
 	  	var batch_no = params.newValue;
@@ -197,6 +202,23 @@
 		  	}
 		  })
 	  });
+		$('.keterangan_item').on('save', function(e, params) 
+		{
+			var keterangan = params.newValue;
+			var PODtlUUID = $(this).closest('tr').find('.PODtlUUID').val();
+				
+			$.ajax({
+        url: '/api/keterangan/update',
+        type: "POST",
+				data:{PODtlUUID:PODtlUUID,keterangan:keterangan},
+				success: function(data) 
+				{
+          console.log(data);
+					//$(this).closest('tr').find('.batchorder').html(batch_no);
+					//alert("Success update keterangan !");
+				}
+			})
+		})
   });
 
   function keterangan()
