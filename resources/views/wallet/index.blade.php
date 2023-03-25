@@ -30,10 +30,10 @@
 						@foreach($wallet as $e)
                                     <tr >
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td><a href="#">{{ $e->po?->po_id }}</a></td> <!-- TODO: customer view_po-->
+                                        <td><a href="{{ url('po/view/' .$e->po?->POUUID) }}">{{ $e->po?->po_id }}</a></td> <!-- TODO: customer view_po-->
                                         <td>{{ formatDate($e->trans_date) }}</td>
                                         <td style="color:green">{{ number_format($e->amount) }}</td>
-                                        <td>{{ $e->description}}</td>
+                                        <td>{{ str_replace("</b>", "", $e->description) }}</td>
                                     </tr>
                                     @endforeach
 									@else

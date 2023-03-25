@@ -577,7 +577,7 @@
 @section ('script')
 <script>
   $(document).ready(function() {
-		recalculate();
+		// recalculate();
 		$('.incoming_qty').on('keyup mouseup', function() 
 		{
 			recalculate();

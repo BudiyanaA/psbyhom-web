@@ -18,7 +18,7 @@
 
 <script type='text/javascript' src='https://psbyhom.com/assets/js/jquery-1.10.2.min.js'></script> 
 <script type='text/javascript' src='https://psbyhom.com/assets/js/jqueryui-1.10.3.min.js'></script> 
-<script type='text/javascript' src='https://psbyhom.com/assets/js/bootstrap.min.js'></script> 
+<script type='text/javascript' src="{{ url('assets/js/bootstrap.min.js') }}"></script> 
 <script type='text/javascript' src='https://psbyhom.com/assets/js/enquire.js'></script> 
 <script type='text/javascript' src='https://psbyhom.com/assets/js/jquery.cookie.js'></script> 
 <script type='text/javascript' src='https://psbyhom.com/assets/js/jquery.nicescroll.min.js'></script> 

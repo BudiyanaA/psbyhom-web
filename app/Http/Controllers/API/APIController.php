@@ -81,6 +81,10 @@ class APIController extends Controller
         
         if($status_item != '02')
         {
+          $podtl = TrPoDtl::where('PODtlUUID', $PODtlUUID)->first();
+          $POUUID = $podtl->POUUID;
+          $po = TrPo::where('POUUID', $POUUID)->first();
+
           TrPoDtl::where('PODtlUUID', $PODtlUUID)
             ->update([
               'incoming_qty' => $qty,
@@ -88,10 +92,8 @@ class APIController extends Controller
               'subtotal' => $subtotal_now
             ]);
           
-          $podtl = TrPoDtl::where('PODtlUUID', $PODtlUUID)->first();
           $subtotal = $podtl->subtotal;
-          $POUUID = $podtl->POUUID;
-          $po = TrPo::where('POUUID', $POUUID)->first();
+
           $subtotal_po = $po->subtotal;
           $grand_total = $po->total_trans;
           $total_outstanding = $po->total_outstanding;
@@ -111,6 +113,8 @@ class APIController extends Controller
         else if($status_item == '02')
         {	
           $podtl = TrPoDtl::where('PODtlUUID', $PODtlUUID)->first();
+          $POUUID = $podtl->POUUID;
+          $po = TrPo::where('POUUID', $POUUID)->first();
 
           TrPoDtl::where('PODtlUUID', $PODtlUUID)
             ->update([
@@ -120,8 +124,7 @@ class APIController extends Controller
             ]);
 
           $subtotal = $podtl->subtotal;
-          $POUUID = $podtl->POUUID;
-          $po = TrPo::where('POUUID', $POUUID)->first();
+          
           $subtotal_po = $po->subtotal;
           $grand_total = $po->total_trans;
           $total_outstanding = $po->total_outstanding;
@@ -172,7 +175,7 @@ class APIController extends Controller
 
       } catch(\Exception $e) {
         DB::rollback();
-        // dd($e);
+        dd($e);
         return [
           "code" => 500,
           "success" => false,
