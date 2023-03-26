@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="https://psbyhom.com/po_invoice_controller/search_filter_invoice">
+						<form method="get" action="{{ route('payment.index') }}">
 								<table class="search-table">
 									<tr>
 										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
@@ -136,7 +136,9 @@
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
 										<td>{{ formatDate($p->trans_date) }}</td>
 										<td>{{ number_format($p->total_trans) }}</td>
-										<td>{{ $p->msStatus?->status_name }}</td>
+										<td>{{ $p->msStatus?->status_name }}@if ($p->status == '07')
+				/ No Resi : <strong>{{ $p->no_resi }}</strong>
+			@endif</td>
 										@if ($status === '06')
 										<td>
 											<a href="#" class="noresi" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="noresi"></a>

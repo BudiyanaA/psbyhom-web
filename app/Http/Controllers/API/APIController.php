@@ -234,7 +234,8 @@ class APIController extends Controller
         
         TrPo::where('POUUID', $POUUID)->update([
           'status' => '07',
-					'no_resi' => $request->no_resi
+					'no_resi' => $request->no_resi,
+	'OnDateTime' => date('Y-m-d H:i:s'),				
         ]);
 
         LogTransaction::create([
