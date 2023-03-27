@@ -63,7 +63,8 @@ class PoInvoiceController extends Controller
             $additional_shipping_fee = $request->additional_shipping_fee;
             $ongkir = $request->delivery_fee;
             $insurance = $request->insurance_fee;
-            $block_package = $request->block_package_fee;   
+            $block_package = $request->block_package_fee;
+
 
 			$PaymentUUID = $request->PaymentUUID;
 			$payment_amount = $request->payment_amount;
@@ -177,7 +178,7 @@ class PoInvoiceController extends Controller
                 TrPayment::where('PaymentUUID', $PaymentUUID)->update([
                     'ByUserUUID' => $AdminUUID,
                     'ByUserIP' => $request->ip(),
-                    'OnDateTime' => date('Y-m-d H:i:s')
+                    'OnDateTime' => date('Y-m-d H:i:s'),
                 ]);
 
                 LogActv::create([
@@ -251,6 +252,7 @@ class PoInvoiceController extends Controller
                         'refund_amount' => $total_refund,
                         'subtotal' => $total_subtotal,
                         'status' => $status,
+                        'notes' => $request->note ?? "",
                         'ByUserUUID' => $AdminUUID,
                         'ByUserIP' =>$request->ip(),
                         'OnDateTime' => date('Y-m-d H:i:s')
@@ -548,6 +550,10 @@ class PoInvoiceController extends Controller
                     'action_desc' => "Admin input No Resi : ".$request->no_resi,
                     'created_by' => 'Admin',
                     'UserUUID' => $AdminUUID
+                ]);
+
+                TrPo::where('POUUID', $id)->update([
+                    'notes' => $request->note ?? "",
                 ]);
 
                 // Send Email Notification

@@ -299,7 +299,7 @@
 									</tr>
 								
 								<td colspan='2' style="text-align:right">Note</td>
-								<td colspan='7' rowspan='2'><textarea {{ $readonly }}  name="note2" id="note"  cols="50" rows="4" class="form-control">{{ $po->remarks }}</textarea></td>
+								<td colspan='7' rowspan='2'><textarea {{ $readonly }}  name="note" id="note"  cols="50" rows="4" class="form-control">{{ $po->remarks }}</textarea></td>
 
 								
 								@if ($po->status == 99 || $po->addendum_fee != '')
