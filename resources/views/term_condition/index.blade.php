@@ -72,7 +72,7 @@
 	<li><strong>Yang dirasa tidak berkenan menunggu dan butuh URGENT disarankan&nbsp;pesan barang READY saja via www.MYHOUSEOFMAKEUP.co&nbsp;.</strong></li>
 	<li><strong>HAPPY SHOPPING!!</strong></li>
 </ol>
-</div><p><a class="buton" href="home">Back</a></p>	</div></div>
+</div><p><a class="buton" href="{{ route('home') }}">Back</a></p>	</div></div>
 	<div class="blockfooter"><div class="wrapper"></div></div>
 </div>
 <div class="blockseparator"></div>
