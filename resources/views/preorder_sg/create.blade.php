@@ -27,11 +27,14 @@
                                         </tr>
                                         <tr>
                                         @include('preorder_sg._form')
-                                            <td><a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a></td>
+                                            
                                         </tr>
                                     </table>
                                 </div><br/>
-                                <p><button class="btn btn-default more">Submit</button></p>
+																<div class="button-container">
+																	<a id="tambahpo" href="javascript:void(0)" class="btn btn-default more">Add</a>
+																	<button class="btn btn-default more">Submit</button>
+																</div>
                                 {{ Form::close() }}
                             <div class="poalert">
                                 <input type="hidden" name="counter" id='counter' value="1">

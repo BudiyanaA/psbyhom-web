@@ -16,7 +16,7 @@ class OrderController extends Controller
     $request_id = $request->input('request_id');
     
     
-    $orders = TrRequestOrder::with('customer');
+    $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
     if ($status) {
         $orders = $orders->where('status', $status);

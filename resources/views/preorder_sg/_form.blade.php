@@ -1,36 +1,51 @@
 
-<td>
+
+@if (Session::has('errors'))
+    <div class="alert alert-danger">
+        <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <input type="hidden" name="counter" id='counter' value="{{ old('counter', 1) }}">
+    @php
+        $row = old('counter') ?? 1;
+    @endphp
+    @for ($i = 1; $i <= $row; $i++)
+    <tr  id="remove_po_{{ $i }}">
+   <td class="@if ($errors->has('qty.'.$i-1)) has-error @endif">
 		{{ Form::number('qty[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('qty')) <small class="form-text help-block" style="color:red">{{ $errors->first('qty') }}</small> @endif
     </td>
-    <td>
+    <td class="@if ($errors->has('product_url.'.$i-1)) has-error @endif">
 		{{ Form::text('product_url[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('product_url')) <small class="form-text help-block" style="color:red">{{ $errors->first('product_url') }}</small> @endif
         </td>
-    <td>
+    <td class="@if ($errors->has('product_name.'.$i-1)) has-error @endif">
 		{{ Form::text('product_name[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('product_name')) <small class="form-text help-block" style="color:red">{{ $errors->first('product_name') }}</small> @endif
         </td>
-    <td>
+    <td class="@if ($errors->has('color.'.$i-1)) has-error @endif">
 		{{ Form::text('color[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('color')) <small class="form-text help-block" style="color:red">{{ $errors->first('color') }}</small> @endif
         </td>
-    <td>
+    <td class="@if ($errors->has('size.'.$i-1)) has-error @endif">
 		{{ Form::text('size[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('size')) <small class="form-text help-block" style="color:red">{{ $errors->first('size') }}</small> @endif
         </td>
-    <td>
-		{{ Form::number('price_customer[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('price_customer')) <small class="form-text help-block" style="color:red">{{ $errors->first('price_customer') }}</small> @endif
+        <td class="@if ($errors->has('price_customer.'.$i-1)) has-error @endif">
+            {{ Form::text('price_customer[]', null, ['class' => 'form-control', 'step' => 'any']) }}
         </td>
-    <td>
+    <td class="@if ($errors->has('remarks.'.$i-1)) has-error @endif">
 		{{ Form::text('remarks[]', null, ['class' => 'form-control']) }}
-		@if ($errors->has('remarks')) <small class="form-text help-block" style="color:red">{{ $errors->first('remarks') }}</small> @endif
         </td>
-        <td>
+        @if ($i != 1 )
+            <td><a href="#" onclick="removeItemReq({{ $i }})">
+	        	<img src="https://psbyhom.com//design/deletepic.png" alt="Remove Pro Order">Hapus</a>
+	        </td>
+        @endif
+    </tr>
+    @endfor
+
     {{ Form::hidden('RequestOrderUUID', null, ['class' => 'form-control' , 'id' => 'RequestOrderUUID']) }}
-    @if ($errors->has('RequestOrderUUID')) <small class="form-text help-block" style="color:red">{{ $errors->first('RequestOrderUUID') }}</small> @endif
-</td>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

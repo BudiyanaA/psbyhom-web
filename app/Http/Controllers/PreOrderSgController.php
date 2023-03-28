@@ -18,6 +18,11 @@ use App\Mail\AdminEmail;
 
 class PreOrderSgController extends Controller
 {
+    public function index()
+    {
+        return view('preorder_sg.notification');
+    }
+
     public function create()
     {
  
@@ -74,22 +79,18 @@ function newid()
      //    dd(session('customer_name'));
      //    dd(session('user_id'));
      //    dd($request->all());
-         $validated = $request->validate([
-             'qty' => 'required|array|min:1',
-             'product_url' => 'required|array|min:1',
-             'product_name' => 'required|array|min:1',
-             'color' => 'required|array|min:1',
-             'size' => 'required|array|min:1',
-             'price_customer' => 'required|array|min:1',
- 
-             'qty.*' => 'required|numeric|min:1',
-             'product_url.*' => 'required|url|min:1',
-             'product_name.*' => 'required|min:1',
-             'color.*' => 'required|min:1',
-             'size.*' => 'required|min:1',
-             'price_customer.*' => 'required|numeric|min:1',
+     $validated = $request->validate([
+        'qty' => 'required|array|min:1',
+        'product_url' => 'required|array|min:1',
+        'product_name' => 'required|array|min:1',
+        'price_customer' => 'required|array|min:1',
+
+        'qty.*' => 'required|numeric|min:1',
+        'product_url.*' => 'required|url|min:1',
+        'product_name.*' => 'required|min:1',
+        'price_customer.*' => 'required|numeric|min:1',
          ]);
-         
+         DB::beginTransaction();
          try {
              // $qty = (int)$validated['qty']; 
              // $seq = 1;
@@ -98,25 +99,29 @@ function newid()
              $total_items = 0;
              $total_price = 0;
  
-             $forex = SysParam::where('sys_id', 'SYS_PARAM_46')->first()->value_1;
+             $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
  
              // Insert tr_request_order_dtl
              for ($i = 0; $i < count($request->qty); $i++) {
-                 TrRequestOrderDtl::create([
-                     'RequestOrderDtlUUID' => $this->newid(),
-                     'remarks' => $request->remarks[$i],
-                     'RequestOrderUUID' => $request->RequestOrderUUID,
-                     'product_name' => $request->product_name[$i],
-                     'product_url' => $request->product_url[$i],
-                     'qty' => $request->qty[$i],
-                     'size' => $request->size[$i],
-                     'color' => $request->color[$i],
-                     'price_customer' => $request->price_customer[$i],
-                     'forex_rate' => $forex,
-                     'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
-                     'status' => '00',
-                     'seq' => $i + 1,
-                 ]);
+                TrRequestOrderDtl::create([
+                    'RequestOrderDtlUUID' => $this->newid(),
+                    'remarks' => $request->remarks[$i] ?? "",
+                    'RequestOrderUUID' => $request->RequestOrderUUID,
+                    'product_name' => $request->product_name[$i],
+                    'product_url' => $request->product_url[$i],
+                    'qty' => $request->qty[$i],
+                    'size' => $request->size[$i] ?? "",
+                    'color' => $request->color[$i] ?? "",
+                    'price_customer' => $request->price_customer[$i],
+                    'forex_rate' => $forex,
+                    'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
+                    'status' => '00',
+                    'seq' => $i + 1,
+
+                    'additional_fee' => 0,
+                    'subtotal_final' => 0,
+                    'disc_percentage' => 0,
+                ]);
                  
                  $total_items++;
                  $total_price = $total_price + ($request->qty[$i] * $request->price_customer[$i]);
@@ -142,7 +147,10 @@ function newid()
                  'ByUserUUID' => $CustomerUUID,
                  'ByUserIP' => $request->ip(),
                  'OnDateTime' => date('Y-m-d H:i:s'),
-                 'po_type' => 'SG'
+                 'po_type' => 'SG',
+                 'POUUID' => "",
+                    'InvoiceUUID' => "",
+                    'note' => "",
              ]);
              
              // $id= uniqid();
@@ -195,12 +203,15 @@ function newid()
              // if (Mail::failures()) {
              //     return redirect()->back()->with('error', 'Gagal mengirim email!');
              // }
+
+             DB::commit();
          
-             return redirect(route('preorder.notification'))
+             return redirect(route('notif_sg.notification'))
                  ->withSuccess("Data berhasil ditambahkan");
                  
          
          } catch(\Exception $e) {
+            DB::rollback();
              dd($e);
              return redirect()->back()->withError('Data gagal ditambahkan');
          } 

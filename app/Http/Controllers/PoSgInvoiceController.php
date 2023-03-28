@@ -18,23 +18,8 @@ use App\Mail\InvoiceLPEmail;
 use App\Mail\RefundEmail;
 use App\Mail\ResiEmail;
 
-class WaitingGoodController extends Controller
+class PoSgInvoiceController extends Controller
 {
-    public function index()
-    {
-        $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
-            ->whereNull('po_type')
-            ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
-            ->with('poDtls', function ($query) {
-                $query->orderBy('seq', 'ASC');
-            })
-            ->orderBy('OnDateTime', 'DESC')
-            ->get();
-
-        return view('waitinggood.index',$data);
-    }
-
-
     public function edit(Request $request, $id)
     {
         $data['po'] = TrPo::with(['trRequestOrder', 'msStatus', 'msCustomer'])
@@ -57,7 +42,7 @@ class WaitingGoodController extends Controller
             ->orderBy('log_date', 'DESC')
             ->get();
         // return $data;
-        return view('waitinggood.edit',$data);     
+        return view('waitinggood_sg.edit',$data);     
     }
 
     public function update(Request $request, $id)
@@ -78,7 +63,8 @@ class WaitingGoodController extends Controller
             $additional_shipping_fee = $request->additional_shipping_fee;
             $ongkir = $request->delivery_fee;
             $insurance = $request->insurance_fee;
-            $block_package = $request->block_package_fee;   
+            $block_package = $request->block_package_fee;
+
 
 			$PaymentUUID = $request->PaymentUUID;
 			$payment_amount = $request->payment_amount;
@@ -169,7 +155,7 @@ class WaitingGoodController extends Controller
                 }
 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'cancel') {
                 $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
@@ -192,7 +178,7 @@ class WaitingGoodController extends Controller
                 TrPayment::where('PaymentUUID', $PaymentUUID)->update([
                     'ByUserUUID' => $AdminUUID,
                     'ByUserIP' => $request->ip(),
-                    'OnDateTime' => date('Y-m-d H:i:s')
+                    'OnDateTime' => date('Y-m-d H:i:s'),
                 ]);
 
                 LogActv::create([
@@ -232,9 +218,12 @@ class WaitingGoodController extends Controller
                 }
                 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'prepare_delivery') {
+                $send_email_lp = false;
+                $send_email_refund = false;
+
                 $status_ok = TrPoDtl::where('POUUID', $id)
                     ->where('status', '01')
                     ->count('*');
@@ -263,6 +252,7 @@ class WaitingGoodController extends Controller
                         'refund_amount' => $total_refund,
                         'subtotal' => $total_subtotal,
                         'status' => $status,
+                        'notes' => $request->note ?? "",
                         'ByUserUUID' => $AdminUUID,
                         'ByUserIP' =>$request->ip(),
                         'OnDateTime' => date('Y-m-d H:i:s')
@@ -305,19 +295,7 @@ class WaitingGoodController extends Controller
                         'OnDateTime' => date('Y-m-d H:i:s')
                     ]);
 
-                    // Send Email Notification        
-                    $EmailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132'; // Invoice PO for Last Payment
-                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
-                    $emailsent = Mail::to($email_customer)->send(new InvoiceLPEmail(
-                        $request->po_id, 
-                        $request->customer_name, 
-                        $request->delivery_address, 
-                        $id, 
-                        $EmailUUID
-                    ));
-                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
-                        return redirect()->back()->with('error', 'Gagal mengirim email!');
-                    }
+                    $send_email_lp = true;
                 }
 
                 for($i = 0; $i < $total_row; $i++)
@@ -357,17 +335,7 @@ class WaitingGoodController extends Controller
                             'block_package' => '0'
                         ]);
 
-
-                    $EmailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2'; //Refund Notification
-                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
-                    $emailsent = Mail::to($email_customer)
-                        ->send(new RefundEmail(
-                            $request->po_id, 
-                            $request->customer_name,
-                            $request->delivery_address,
-                            $id, 
-                            $EmailUUID
-                        ));
+                    $send_email_refund = true;
                 }
 
                 LogTransaction::create([
@@ -397,7 +365,36 @@ class WaitingGoodController extends Controller
                 ]);
 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                if ($send_email_lp) {
+                    // Send Email Notification        
+                    $EmailUUID = '6ebb641b-4028-40fd-b1b2-78fada074132'; // Invoice PO for Last Payment
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)->send(new InvoiceLPEmail(
+                        $request->po_id, 
+                        $request->customer_name, 
+                        $request->delivery_address, 
+                        $id, 
+                        $EmailUUID
+                    ));
+                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                        return redirect()->back()->with('error', 'Gagal mengirim email!');
+                    }
+                }
+
+                if ($send_email_refund) {
+                    $EmailUUID = 'd5dac8ca-f68d-4122-9b18-da8de83f93f2'; //Refund Notification
+                    $email_customer = Registercostumer::where('CustomerUUID', $CustomerUUID)->first()->email;
+                    $emailsent = Mail::to($email_customer)
+                        ->send(new RefundEmail(
+                            $request->po_id, 
+                            $request->customer_name,
+                            $request->delivery_address,
+                            $id, 
+                            $EmailUUID
+                        ));
+                }
+
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'verify_last') {
                 TrPo::where('POUUID', $id)->update([
@@ -464,7 +461,7 @@ class WaitingGoodController extends Controller
                 }
                 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'cancel_last') {
                 TrPo::where('POUUID', $id)->update([
@@ -517,7 +514,7 @@ class WaitingGoodController extends Controller
                 // }
                 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'update_no_resi') {
                 TrPo::where('POUUID', $id)->update([
@@ -555,6 +552,10 @@ class WaitingGoodController extends Controller
                     'UserUUID' => $AdminUUID
                 ]);
 
+                TrPo::where('POUUID', $id)->update([
+                    'notes' => $request->note ?? "",
+                ]);
+
                 // Send Email Notification
                 $EmailUUID = 'ce7926a7-126b-474c-b6d8-cdab04f96d88'; //No Resi Notification
                 $email_customer = Registercostumer::where('CustomerUUID', $request->CustomerUUID)->first()->email;
@@ -573,7 +574,7 @@ class WaitingGoodController extends Controller
                     ));
                 
                 DB::commit();
-                return redirect(route('waitinggood.notification', $id))
+                return redirect(route('po_sginvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
             } else if($request->submit == 'print_label') {
 				$data['customer_name'] = $request->customer_name;
@@ -588,7 +589,7 @@ class WaitingGoodController extends Controller
                     ->orderBy('seq', 'ASC')
                     ->get();
                 // return $data;
-                return view('waitinggood.print',$data);
+                return view('waitinggood_sg.print',$data);
 			}
 
         } catch(\Exception $e) {
@@ -597,8 +598,7 @@ class WaitingGoodController extends Controller
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
-
-    public function notification()
+    public function success()
     {
         $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
             ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
@@ -607,109 +607,6 @@ class WaitingGoodController extends Controller
             })
             ->orderBy('verify_payment_date', 'DESC')
             ->get();
-        return view('waitinggood.notification',$data);
-    }
-
-    public function updateBatch(Request $request)
-    {
-        $batch_no = $request->batch_no;
-        $id = $request->id;
-
-        TrPoDetail::where('PODtlUUID', $id)
-        ->update(['batch_no' => $batch_no]);
-
-        return response()->json(['success' => true]);
-    }
-    
-    public function updateStatus(Request $request)
-    {
-        $id = $request->pk;
-        $statusItem = $request->status;
-        $qty = $request->incoming_qty;
-        $harga = $request->price_customer;
-        $subtotal_now = 0;
-        if ($statusItem !== '02') {
-            TrPoDtl::update([
-                'incoming_qty' => $qty,
-                'status' => $status_item,
-                'subtotal' => $subtotal_now ($qty * $harga)
-            ]);
-            
-
-                $subtotal = TrPoDtl::where('PODtlUUID', $id)->pluck('subtotal');
-                $POUUID = TrPoDtl::where('PODtlUUID', $id)->pluck('POUUID');
-                $subtotal_po = TrPo::where('POUUID',$POUUID)->pluck('POUUID');
-                $grand_total = TrPo::where('POUUID',$POUUID)->pluck('total_trans');
-                $total_outstanding  = TrPo::where('POUUID',$POUUID)->pluck('total_outstanding');
-                if($subtotal_now != $subtotal || $subtotal == '0') 
-				{
-					$subtotal_po = $subtotal_po + $subtotal_now;
-					$grand_total = $grand_total + $subtotal_now;
-					$total_outstanding = $total_outstanding + $subtotal_now;
-				}
-
-                TrPo::update([
-                        'subtotal' => $subtotal_po,
-                        'total_trans' => $grand_total,
-                        'total_outstanding' => $total_outstanding
-                    ]);
-            
-        }
-        if ($statusItem == '02') {
-            TrPoDtl::where('PODtlUUID',$id)
-            ->update([
-                    'status' => $status_item,
-					'incoming_qty' => '0',
-					'subtotal' => '0'
-            ]);
-            $subtotal = TrPoDtl::where('PODtlUUID', $id)->pluck('subtotal');
-            $POUUID = TrPoDtl::where('PODtlUUID', $id)->pluck('POUUID');
-            $subtotal_po = TrPo::where('POUUID',$POUUID)->pluck('POUUID');
-            $grand_total = TrPo::where('POUUID',$POUUID)->pluck('total_trans');
-            $total_outstanding  = TrPo::where('POUUID',$POUUID)->pluck('total_outstanding');
-
-            $subtotal_po = $subtotal_po - $subtotal;
-            $grand_total = $grand_total - $subtotal;
-            $total_outstanding = $total_outstanding - $subtotal;
-
-            $refund_amount = 0;
-				if($total_outstanding < 0)
-				{
-					$refund_amount = $total_outstanding;
-				}
-
-            TrPo::where('POUUID',$id)
-            ->update([
-                'subtotal' => $subtotal_po,
-				'refund_amount' => $refund_amount,
-				'total_trans' => $grand_total,
-				'total_outstanding' => $total_outstanding
-        ]);
-        }
-        $total = TrPoDtl::where('POUUID', $POUUID)
-                 ->where(function ($query) {
-                     $query->where('status', '00')
-                           ->orWhere('status', '01');
-                 })
-                 ->count();
-
-        $status_ok = TrPoDtl::where('POUUID', $POUUID)
-                     ->where('status', '01')
-                     ->count();
-
-                     if ($total == 0 && $status_ok > 0) {
-                        TrPo::where('POUUID', $POUUID)
-                            ->update(['status' => '03']);
-                    } else if ($total == 0 && $status_ok == 0) {
-                        $total_refund = TrPayment::where('POUUID', $POUUID)
-                                                  ->where('status', '01')
-                                                  ->sum('payment_amount');
-                        TrPo::where('POUUID', $POUUID)
-                            ->update(['status' => '03', 'refund_amount' => $total_refund]);
-                    } else if ($total != 0) {
-                        TrPo::where('POUUID', $POUUID)
-                            ->update(['status' => '02']);
-                    }
-        return response()->json(['success' => true]);
+        return view('waitinggood_sg.notification',$data);
     }
 }

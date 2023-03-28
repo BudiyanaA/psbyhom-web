@@ -18,6 +18,6 @@ class WaitingGoodSgController extends Controller
             ->orderBy('verify_payment_date', 'DESC')      
             ->get();
 
-        return view('waitinggood.index',$data);
+        return view('waitinggood_sg.index',$data);
     }
 }

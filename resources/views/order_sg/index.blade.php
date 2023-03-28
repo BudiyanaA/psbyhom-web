@@ -107,7 +107,7 @@
 								@foreach($orders as $o)
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
-									<td><a href="{{ route('preorder_dtl.detail', $o->RequestOrderUUID) }}">{{ $o->request_id }}</a></td>
+									<td><a href="{{ route('preorder_sg.detail', $o->RequestOrderUUID) }}">{{ $o->request_id }}</a></td>
 									<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $o->customer?->customer_name }}</a></td>
 									<td>{{ $o->created_date }}</td>
 									<td>{{ $o->total_items }}</td>

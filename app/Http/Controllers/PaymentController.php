@@ -27,7 +27,7 @@ class PaymentController extends Controller
             $subtitle = '';
         }
 
-        $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus']);
+        $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
         if ($request->status) {
             $payment = $payment->where('status', $status);
         }

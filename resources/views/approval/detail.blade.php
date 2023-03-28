@@ -4,8 +4,8 @@
     <div id='wrap'>
         <div id="page-heading">
             <ul class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
-                <li><a href="https://psbyhom.com/isms_customer_management/list_of_customer.html">Customer Management</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <!-- <li><a href="https://psbyhom.com/isms_customer_management/list_of_customer.html">Customer Management</a></li> -->
                 <li class="active">View Customer Detail</li>
             </ul>
 

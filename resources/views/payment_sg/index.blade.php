@@ -5,7 +5,7 @@
         <div id="page-heading">
             <ol class="breadcrumb">
 				<li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('preorder.index') }}">Pre Order</a></li>
+                <!-- <li><a href="{{ route('preorder.index') }}">Pre Order</a></li> -->
                 <li class="active">List of Pre Order </li>
             </ol>
 			
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="https://psbyhom.com/po_invoice_controller/search_filter_invoice">
+						<form method="get" action="{{ route('payment.index') }}">
 								<table class="search-table">
 									<tr>
 										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
@@ -54,8 +54,29 @@
 										<td width="250px"><input type="text" placeholder="Batch Order ID" class="form-control" name='batch_id' autocomplete="off"></td>
 									</tr>
 			-->
-																
-									<input type='hidden' name='status' value='01'>
+			@if(app('request')->input('status') == '')
+				<tr>
+					<td>Status  &nbsp; &nbsp; </td>
+					<td width="250px">
+					<select class="form-control" name="status">
+							<option value="">--All Status--</option>
+							<option value="00">Pending Admin Payment Verification</option> <!-- Status awal saat customer submit -->
+							<option value="01">Waiting Down Payment</option> <!-- Status saat admin kirim penawaran   -->
+							<option value="02">Processed</option> <!-- Status saat customer submit checkout  -->
+							<option value="03">Processed (All Checked)</option>
+							<option value="04">Waiting Last Payment</option>
+							<option value="05">Pending Admin Payment Verification</option>
+							<option value="06">Ready to Ship</option>
+							<option value="07">Shipped</option>
+							<option value="08">Invalid Payment</option>
+							<option value="09">Canceled</option>
+						</select>
+					
+					</td>
+				</tr>
+			@else
+				<input type='hidden' name='status' value="{{ app('request')->input('status') }}">
+			@endif
 																	<tr>
 										<td>Customer Name  &nbsp; &nbsp; </td>
 										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
@@ -111,11 +132,13 @@
 										<input type="hidden" value="{{ $p->POUUID }}" class='POUUID' name="POUUID1">
 										<input type="hidden" value="{{ $p->msCustomer?->email }}" class='customer_email' name="customer_email1">
 										<td valign='top'>{{ $loop->index + 1 }}</td>
-										<td><a href="{{ route('waitinggoods_sg.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
+										<td><a href="{{ route('po_sginvoice.detail', $p->POUUID) }}">{{ $p->po_id }}</a></td>
 										<td><a href="{{ route('customer.detail', $p->CustomerUUID) }}">{{ $p->msCustomer?->customer_name }}</a></td>
-										<td>{{ $p->trans_date }}</td>
+										<td>{{ formatDate($p->trans_date) }}</td>
 										<td>{{ number_format($p->total_trans) }}</td>
-										<td>{{ $p->msStatus?->status_name }}</td>
+										<td>{{ $p->msStatus?->status_name }}@if ($p->status == '07')
+				/ No Resi : <strong>{{ $p->no_resi }}</strong>
+			@endif</td>
 										@if ($status === '06')
 										<td>
 											<a href="#" class="noresi" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="noresi"></a>
@@ -139,7 +162,10 @@
 											</tr>
                                 </tbody>
                             </table>
-							<ul class="pagination"><li class="active"><a href="#">1</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=2">2</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=3">3</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=4">4</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=2">&raquo</a></li><li><a href="https://psbyhom.com/po_invoice_controller/search_filter_invoice?trans_date_start=&batch_id=&trans_date_end=&po_id=&status=01&customer_name=&order_by=ASC&amp;per_page=45">Last</a></li></ul>                        </div>
+							<ul class="pagination">
+								{{ $payment->links() }}
+							</ul>
+						</div>
                     </div>
                 </div>
             </div>
@@ -167,7 +193,7 @@
 					url: '/api/no_resi/update',
         	type:"POST",
 					data:{POUUID:POUUID,no_resi:no_resi,customer_email:customer_email,admin:"{{ session('admin_id') }}"},
-					success: function(respond) 
+					success: function(data) 
 					{
 						if (data.success) {					
 							alert("Successfully update no resi !");

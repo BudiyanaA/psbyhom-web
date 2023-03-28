@@ -46,7 +46,7 @@ class PaymentSgController extends Controller
         if ($request->customer_name) {
             $payment = $payment->where('customer_name', 'like', $request->customer_name);
         }
-        $payment = $payment->orderBy('OnDateTime')->get();
+        $payment = $payment->orderBy('OnDateTime', 'DESC')->paginate(10);
         
         return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
     }

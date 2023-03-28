@@ -20,7 +20,7 @@
 <script type='text/javascript' src="{{ url('assets/js/jqueryui-1.10.3.min.js') }}"></script> 
 <script type='text/javascript' src="{{ url('assets/js/bootstrap.min.js') }}"></script> 
 <script type='text/javascript' src="{{ url('assets/js/enquire.js') }}"></script> 
-<script type='text/javascript' src="{{ url('assets/js/query.cookie.js') }}"></script> 
+<script type='text/javascript' src="{{ url('assets/js/jquery.cookie.js') }}"></script> 
 <script type='text/javascript' src="{{ url('assets/js/jquery.nicescroll.min.js') }}"></script> 
 <script type='text/javascript' src="{{ url('assets/plugins/form-tokenfield/bootstrap-tokenfield.min.js') }}"></script> 
 
@@ -44,7 +44,6 @@
 <script type='text/javascript' src="{{ url('assets/plugins/form-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
 <script type='text/javascript' src="{{ url('assets/demo/demo-mask.js') }}"></script>
 
-<!-- <script type='text/javascript' src="{{ url('assets/js/chosen.jquery.js') }}"></script> -->
 <!--new javascript src-->
 <script type='text/javascript' src="{{ url('assets/js/chosen.jquery.js') }}"></script>	
 
@@ -56,6 +55,8 @@
 <script type='text/javascript' src="{{ url('assets/plugins/form-jasnyupload/fileinput.min.js') }}"></script> 
 <script type='text/javascript' src="{{ url('assets/plugins/form-tokenfield/bootstrap-tokenfield.min.js') }}"></script> 
 <script src="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+
+
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="{{ url('assets/js/timepicker/lib/pikaday.js') }}"></script>
 <!-- <script src=">assets/js/timepicker/lib/jquery.ptTimeSelect.js"></script> -->
