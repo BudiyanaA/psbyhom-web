@@ -137,8 +137,10 @@
 														</tr>
 																			</tbody>
 								</table>
-							Total Current E-Wallet Amount : 
-							<strong>0</strong>							</div>
+							Total Current E-Wallet Amount :
+							
+							<strong>{{ $ewallet }}</strong>
+													</div>
 							<div class="tab-pane" id="comments">
 							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
 									<thead>

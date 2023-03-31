@@ -9,7 +9,7 @@ class CostumerManagementController extends Controller
 {
     public function index()
     {
-        $data['costumer'] = Registercostumer::get();
+        $data['costumer'] = Registercostumer::orderBy('OnDateTime', 'DESC')->get();
         return view('costumer.index',$data);
     }
 }
