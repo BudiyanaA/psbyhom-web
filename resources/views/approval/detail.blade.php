@@ -122,24 +122,25 @@
 									<thead>
 										<tr>
 											<th>No</th>
-											<th>Trans Date</th>
-											
+											<th>Trans Date</th>			
 											<th>Amount</th>
 											<th>Description</th>
-										
-
 										</tr>
 									</thead>
 									<tbody>
-																						<tr >
-															<td valign='top' colspan='5' align='center'>No Record Found</td>
-															
-														</tr>
-																			</tbody>
+									@foreach($wallet as $e)
+										<tr>
+											<td>{{ $loop->index + 1 }}</td>
+											<td>{{ formatDate($e->trans_date) }}</td>
+											<td>{{ number_format($e->amount) }}</td>
+											<td>{{ $e->description }}</td>
+										</tr>
+										@endforeach
+									</tbody>
 								</table>
 							Total Current E-Wallet Amount :
 							
-							<strong>{{ $ewallet }}</strong>
+							<strong>{{ number_format($ewallet) }}</strong>
 													</div>
 							<div class="tab-pane" id="comments">
 							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
