@@ -379,11 +379,11 @@
                               </td>
                               <td>
                                   <a href="{{ route('customer.detail', $a->CustomerUUID) }}">
-                                      {{ $o->customer?->customer_name }}
+                                      {{ $a->customer?->customer_name }}
                                   </a>
                               </td>
                               <td>
-                                  {{ formatDate($o->created_date) }}
+                                  {{ formatDate($a->created_date) }}
                               </td>
                           </tr>
                           @php
