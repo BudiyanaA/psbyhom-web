@@ -29,7 +29,7 @@ class PaymentController extends Controller
 
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
         if ($request->status) {
-            $payment = $payment->where('status', $status);
+            $payment = $payment->whereIn('status', explode(",", $request->input('status')));
         }
         if ($request->trans_date_start) {
             $payment = $payment->where('date', '>=', $request->trans_date_start);
