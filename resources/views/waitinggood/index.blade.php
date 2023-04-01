@@ -83,7 +83,7 @@
 						@elseif ($dtl->status == '03') Confirm
 						@elseif ($dtl->status == '04') Shiped
 						@elseif ($dtl->status == '05') Delivered
-						@elseif ($dtl->status == '02') Otw Indo
+						@elseif ($dtl->status == '06') Otw Indo
                         @endif
 											</a>
 											<span class="tambahan">
