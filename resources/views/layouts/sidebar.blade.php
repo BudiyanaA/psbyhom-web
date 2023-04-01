@@ -58,11 +58,11 @@
                     <li>
                         <a href="{{ route('preorder.index') }}?status=01" class="menu">Waiting Approval<span class="badge badge-primary"><?php echo getAdminApproval(); ?></span></a>
                     </li>
-                    </li><li><a href="{{ route('payment.index') }}?status=01,04" class="menu">Waiting Payment<span class="badge badge-orange"><?php echo getAdminPayment(); ?></span></a></li>
+                    </li><li><a href="{{ route('payment.index') }}?status=01" class="menu">Waiting Payment<span class="badge badge-orange"><?php echo getAdminPayment(); ?></span></a></li>
                     </li>
                     <li><a href="{{ route('payment.index') }}?status=00" class="menu">DP Confirmation<span class="badge badge-indigo"><?php echo getAdminDp(); ?></span></a></li></li>
                     <li><a href="{{ route('Waitinggood.index') }}" class="menu">Waiting Goodies<span class="badge badge-info"><?php echo getAdminGoods(); ?></span></a></li></li>
-                    <li><a href="{{ route('payment.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminLp(); ?></span></a></li></li>
+                    <li><a href="{{ route('payment.index') }}?status=04,05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminLp(); ?></span></a></li></li>
                     <li><a href="{{ route('payment.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminReady(); ?></span></a></li></li>
                     <li><a href="{{ route('payment.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
 

@@ -36,7 +36,7 @@ if (!function_exists('getAdminApproval')) {
 if (!function_exists('getAdminPayment')) {
   function getAdminPayment()
   {
-    $payment = TrPo::whereIn('status', ['01', '04'])
+    $payment = TrPo::where('status', '01')
     ->whereNull('po_type')
     ->count(); 
     return $payment;
@@ -56,7 +56,7 @@ if (!function_exists('getAdminDp')) {
 if (!function_exists('getAdminLp')) {
   function getAdminLp()
   {
-    $lp = TrPo::where('status', '05')
+    $lp = TrPo::whereIn('status', ['04', '05'])
     ->whereNull('po_type')
     ->count();
     return $lp;
