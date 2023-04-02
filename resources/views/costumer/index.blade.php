@@ -44,7 +44,15 @@
                                         <td><a href="{{ route('customer.detail', $c->CustomerUUID) }}">{{ $c->customer_name }}</a></td>
                                         <td>{{ $c->email }}</td>
                                         <td>{{ $c->created_date }}</td>
-                                        <td>{{ $c->status }}</td>
+                                        <td>
+                                        @if ($c->status == '01')
+                                            Active
+                                        @elseif ($c->status == '03')
+                                            Not Active / Reset
+                                        @else
+                                            {{ $c->status }}
+                                        @endif
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>

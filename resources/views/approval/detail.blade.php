@@ -133,7 +133,7 @@
 											<td>{{ $loop->index + 1 }}</td>
 											<td>{{ formatDate($e->trans_date) }}</td>
 											<td>{{ number_format($e->amount) }}</td>
-											<td>{{ $e->description }}</td>
+											<td>{{ str_replace("</b>", "", $e->description) }}</td>
 										</tr>
 										@endforeach
 									</tbody>
