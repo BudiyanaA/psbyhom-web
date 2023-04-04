@@ -137,7 +137,7 @@
                     </div>
                 </div>
             </div>
-
+			</div>
         </div> <!-- container -->
     </div> <!--wrap -->
 </div>
