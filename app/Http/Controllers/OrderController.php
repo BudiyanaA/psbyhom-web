@@ -7,15 +7,27 @@ use App\Models\TrRequestOrder;
 
 class OrderController extends Controller
 {
+
+    public function removeOldUnapprovedOrders()
+{
+    $threeMonthsAgo = now()->subMonths(3);
+
+    TrRequestOrder::where('status', '01')
+        ->where('OnDateTime', '<=', $threeMonthsAgo)
+        ->delete();
+}
+
     public function index(Request $request)
 {
+
+    
     $data = array();
     $status = $request->input('status');
     $trans_date_start = $request->input('trans_date_start');
     $trans_date_end = $request->input('trans_date_end');
     $request_id = $request->input('request_id');
     
-    
+
     $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
     if ($status) {
@@ -33,7 +45,9 @@ class OrderController extends Controller
     if ($request_id) {
         $orders = $orders->where('request_id', $request_id);
     }
-    
+
+    $threeMonthsAgo = now()->subMonths(3);
+    $orders = $orders->where('OnDateTime', '>=', $threeMonthsAgo);
 
     $orders = $orders->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC or DESC from filter
 
