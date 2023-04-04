@@ -5,7 +5,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="active">Costumer Management</li>
             </ol>
 
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
+						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                 <thead>
                                     <tr>
 										<th>No</th>
@@ -57,7 +57,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <ul class="pagination">
+								{{ $costumer->links() }}
+							</ul>
                         </div>
+                       
                     </div>
                 </div>
             </div>
