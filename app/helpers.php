@@ -26,8 +26,11 @@ if (!function_exists('getAdminNew')) {
 if (!function_exists('getAdminApproval')) {
   function getAdminApproval()
   {
+    $threeMonthsAgo = now()->subMonths(3);
+    
     $approval = TrRequestOrder::where('status', '01')
     ->whereNull('po_type')
+    ->where('OnDateTime', '>=', $threeMonthsAgo)
     ->count(); 
     return $approval;
   }
