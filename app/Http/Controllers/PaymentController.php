@@ -50,7 +50,7 @@ class PaymentController extends Controller
                 $query->where('customer_name', 'like', $request->customer_name);
             });
         }
-        $payment = $payment->orderBy('OnDateTime', 'DESC')->paginate(10); //TODO: ASC dam DESC dari filter
+        $payment = $payment->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC dam DESC dari filter
         
         return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
     }

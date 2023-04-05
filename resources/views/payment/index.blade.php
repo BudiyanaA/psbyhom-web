@@ -162,9 +162,6 @@
 											</tr>
                                 </tbody>
                             </table>
-							<ul class="pagination">
-								{{ $payment->links() }}
-							</ul>
 						</div>
                     </div>
                 </div>
