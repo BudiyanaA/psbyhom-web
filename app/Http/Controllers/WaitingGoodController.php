@@ -20,17 +20,38 @@ use App\Mail\ResiEmail;
 
 class WaitingGoodController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data['waitinggoods'] = TrPo::whereIn('status', ['02', '03'])
             ->whereNull('po_type')
             ->with(['msCustomer', 'poDtls', 'poDtls.requestOrderDtl'])
             ->with('poDtls', function ($query) {
                 $query->orderBy('seq', 'ASC');
-            })
-            ->orderBy('OnDateTime', 'DESC')
-            ->get();
-
+            });
+            if ($request->status) {
+                $data['waitinggoods'] = $data['waitinggoods']->whereIn('status', explode(",", $request->input('status')));
+            }
+            if ($request->trans_date_start) {
+                $data['waitinggoods'] =$data['waitinggoods']->where('trans_date', '>=', $request->trans_date_start);
+            }
+            if ($request->trans_date_end) {
+                $data['waitinggoods'] = $data['waitinggoods']->where('trans_date', '<=', $request->trans_date_end);
+            }
+            if ($request->po_id) {
+                $data['waitinggoods'] = $data['waitinggoods']->where('po_id', 'like', $request->po_id);
+            }
+            if ($request->batch_id) {
+                $data['waitinggoods'] = $data['waitinggoods']->whereHas('msBatch', function($query) use($request) {
+                    $query->where('batch_id', 'like', $request->batch_id);
+                });
+            }
+            if ($request->customer_name) {
+                $data['waitinggoods'] = $data['waitinggoods']->whereHas('msCustomer', function($query) use($request) {
+                    $query->where('customer_name', 'like', $request->customer_name);
+                });
+            }
+            $data['waitinggoods'] = $data['waitinggoods']->orderBy('OnDateTime', 'DESC')->get();
+       
         return view('waitinggood.index',$data);
     }
 
