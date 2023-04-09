@@ -27,6 +27,23 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
+                        <form method="get" action="{{ route('costumer_management.index') }}">
+								<table class="search-table">
+																	<tr>
+										<td>Customer Name  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+									</tr>
+								<tr>
+										<td>&nbsp; &nbsp;  </td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<input type="submit" class="btn-primary btn" value='Search'>
+										</td>
+									</tr>
+								</table>
+							</form>
+</div>
 						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                 <thead>
                                     <tr>
