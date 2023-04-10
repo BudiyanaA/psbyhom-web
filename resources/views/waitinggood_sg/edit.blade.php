@@ -530,7 +530,7 @@
 											@elseif ($po->status == '06')
 												<button class="btn-primary btn" value='update_no_resi' id="update_no_resi" name='submit'>Update No. Resi</button>
 											@elseif ($po->status == '08')
-												<button class="btn-primary btn" value='verify_addendum' id="verify_addendum" name='submit'>Verify Payment</button>
+												< value='verify_addendum' id="verify_addendum" name='submit'>Verify Payment</button>
 											@else
 												<button class="btn-primary btn" value='back' id="back" name='button' onclick="window.history.go(-1); return false;">Back</button>
 											@endif
@@ -540,7 +540,7 @@
 												
 										
 										  													<!--<button class="btn-primary btn" value ='update' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Update</button>
-													<button class="btn-primary btn" value ='delete' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Delete</button>-->
+													< value ='delete' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Delete</button>-->
 											</div>
 										</div>
 									</div>

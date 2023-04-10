@@ -15,6 +15,16 @@
         </div>
 <div class="row">
 <div class="container">
+@if (Session::has('error'))
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			{{ Session::get('error') }}
+		</div>
+	@endif
+	@if (Session::has('success'))
+		<div class="alert alert-success  alert-dismissible" role="alert">
+			{{ Session::get('success') }}
+		</div>
+	@endif
     <div class="col-xs-12">
 		<div class="panel panel-midnightblue">
 			<div class="panel-heading">
@@ -31,35 +41,36 @@
 						<div class="tab-pane active" id="threads">
 						 <font color='red';size='8'> <p align='center' style="font-size:smaller"></p></font>
 							<ul class="panel-threads">
-								<form action="https://psbyhom.com/isms_global_config/validate_update_sys_param" class="form-horizontal row-border"  data-validate="parsley" method="post" accept-charset="utf-8" enctype="multipart/form-data" id="validate-form">
+								<form action="{{ route('sysparam_update') }}" class="form-horizontal row-border"  data-validate="parsley" method="post" accept-charset="utf-8" enctype="multipart/form-data" id="validate-form">
+								@csrf
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Running Text</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="running_text" id="running_text" value="PO US OPEN DAILY | NEW WEBSITE  - PO US OPEN Everyday - Personal Shopper By Houseofmakeup">
+											<input type="text" required="required" class="form-control" name="running_text" id="running_text" value="{{$runing_text->value_1}}">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Admin Email Notification</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="admin_email_notif" id="admin_email_notif" value="order@psbyhom.com">
+											<input type="text" required="required" class="form-control" name="admin_email_notif" id="admin_email_notif" value="{{$email_notif->value_1}}">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Footer Email Notif</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="footer_notif_email" id="footer_notif_email" value="info@psbyhom.com">
+											<input type="text" required="required" class="form-control" name="footer_notif_email" id="footer_notif_email" value="{{$footer_notif->value_1}}">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">USD Exhange Rate</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="exchange_rate" id="exchange_rate" value="16000">
+											<input type="text" required="required" class="form-control" name="exchange_rate" id="exchange_rate" value="{{$exhange_rate->value_1}}">
 										</div>
 									</div>		
 									<div class="form-group">
 										<label class="col-sm-3 control-label">SGD Exhange Rate</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="exchange_rate" id="exchange_rate" value="16000">
+											<input type="text" required="required" class="form-control" name="exchange_rate" id="exchange_rate" value="{{$exhange_rate->value_1}}">
 										</div>
 									</div>						
 								</ul>
@@ -72,7 +83,7 @@
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
 											<div class="btn-toolbar">					
-												<button class="btn-primary btn" value ='update' name='submit' onclick="javascript:$('#validate-form').parsley( 'validate' );">Submit</button>											</div>
+												<button class="btn-primary btn" type ='submit' name='submit'>Submit</button>											</div>
 										</div>
 									</div>
 								</div>
@@ -95,3 +106,14 @@
     </div> <!--wrap -->
 </div>
 @endsection
+<script>
+    const errorMessage = "{{ session('error') }}";
+    if(errorMessage){
+        alert(errorMessage);
+    }
+
+    const successMessage = "{{ session('success') }}";
+    if(successMessage){
+        alert(successMessage);
+    }
+</script>

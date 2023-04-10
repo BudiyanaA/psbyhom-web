@@ -225,7 +225,7 @@ Route::put('admin/voucher/email/edit/{id}', [VoucherManagementController::class,
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 // Route::resource('admin/system/config', SystemController::class);
 Route::get('admin/system/config', [SystemController::class, 'index'])->name('system_params');
-Route::post('admin/system/config', [SystemController::class, 'store'])->name('system_params');
+Route::post('admin/system/config', [SystemController::class, 'update'])->name('sysparam_update');
 });
 Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
 Route::post('my_profil', [ProfilController::class, 'store'])->name('profil.store');
