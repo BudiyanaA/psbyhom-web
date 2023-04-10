@@ -37,7 +37,7 @@ use App\Http\Controllers\PaymentCostumerController;
 use App\Http\Controllers\ConfirmPaymentController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\ProfilCostumer;
+use App\Http\Controllers\ProfilCostumerController;
 use App\Http\Controllers\PasswordCostumerController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivationController;
@@ -115,7 +115,8 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('request/view/sg/{uuid}', [ProcesOrderSgController::class, 'edit'])->name('process_order');
     Route::post('request/sg/update', [ProcesOrderSgController::class, 'store'])->name('process_order_sg.store');
     Route::get('request/sg/info', [ProcesOrderSgController::class, 'notification'])->name('process_order_sg.notification');
-    
+    Route::get('profil', [ProfilCostumerController::class, 'index'])->name('profile');
+    Route::post('profile', [ProfilCostumerController::class, 'update'])->name('profil.update');
     Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
     Route::patch('password/change', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
 });
@@ -236,7 +237,7 @@ Route::patch('password', [PasswordController::class, 'update'])->name('change_pa
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('profil', [ProfilCostumer::class, 'index'])->name('profile');
+
 Route::get('how_order', [HowOrderController::class, 'index'])->name('how_order');
 Route::get('faq', [FaqController::class, 'index'])->name('faq');
 Route::get('terms', [TermConditionController::class, 'index'])->name('term_condition');
