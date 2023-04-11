@@ -94,6 +94,7 @@ INSERT INTO `sys_param` (`sys_id`, `name`, `value_name`, `value_max`, `value_siz
 ('SYS_PARAM_42', 'Footer Fax Notif', 'footer_notif_fax', '100', '100', 'footer_notif_fax', 'text', '(021)585242', '', '', '', '', 'GEN', 'Y', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32'),
 ('SYS_PARAM_43', 'Footer Email Notif', 'footer_notif_email', '100', '100', 'footer_notif_email', 'text', 'info@psbyhom.com', '', '', '', '', 'GEN', 'N', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32'),
 ('SYS_PARAM_44', 'USD Exhange Rate', 'exchange_rate', '100', '100', 'exchange_rate', 'text', '16000', '', '', '', '', 'GEN', 'N', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32'),
+('SYS_PARAM_99', 'SGD Exhange Rate', 'exchange_rate_sgd', '100', '100', 'exchange_rate_sgd', 'text', '13000', '', '', '', '', 'GEN', 'N', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32'),
 ('SYS_PARAM_45', 'Calculate Price Factor', 'factor', '100', '100', 'factor', 'text', '1.07', '', '', '', '', 'GEN', 'Y', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32'),
 ('SYS_PARAM_63', 'Path Header Pages', 'Path Header Pages', '100', '100', 'rekening_bca', 'text', '0', '', '', '', '', 'GEN', 'Y', 'be1236a9-0b74-11e2-8d29-b8ac6fc3234d', '127.0.0.1', '2012-10-05 10:12:32');
 
