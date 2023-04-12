@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\RegisterCostumer;
+use App\Models\Registercostumer;
 
 class ProfilCostumerController extends Controller
 {
     public function index()
     {
         $userId = session('user_id');
-        $profil = RegisterCostumer::where('CustomerUUID', $userId)->first(); 
+        $profil = Registercostumer::where('CustomerUUID', $userId)->first(); 
         return view('profil_c.index', ['profil' => $profil]);
     }
 
@@ -39,7 +39,7 @@ class ProfilCostumerController extends Controller
             $district = $request->input('kecamatan');
             $CustomerUUID = $this->newid();
             $userId = session('user_id');
-            RegisterCostumer::where('CustomerUUID', $userId)->update([
+            Registercostumer::where('CustomerUUID', $userId)->update([
                 'email' => $email,
                 'customer_name' => $customer_name,
                 'handphone' => $handphone,
