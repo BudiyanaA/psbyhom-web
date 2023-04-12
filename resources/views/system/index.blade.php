@@ -70,7 +70,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">SGD Exhange Rate</label>
 										<div class="col-sm-6">
-											<input type="text" required="required" class="form-control" name="exchange_rate_sgd" id="exchange_rate_sgd" value="{{$exchange_rate_sgd->value_1}}">
+											<input type="text" required="required" class="form-control" name="exchange_rate_sgd" id="exchange_rate_sgd" value="{{$exchange_rate_sgd?->value_1}}">
 										</div>
 									</div>						
 								</ul>
