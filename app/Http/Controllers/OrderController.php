@@ -43,7 +43,7 @@ class OrderController extends Controller
     }
 
     if ($request_id) {
-        $orders = $orders->where('request_id', $request_id);
+        $orders = $orders->where('request_id', 'like', '%'.$request_id.'%');
     }
 
     $threeMonthsAgo = now()->subMonths(3);

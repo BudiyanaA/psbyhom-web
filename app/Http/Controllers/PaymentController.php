@@ -38,16 +38,16 @@ class PaymentController extends Controller
             $payment = $payment->where('trans_date', '<=', $request->trans_date_end);
         }
         if ($request->po_id) {
-            $payment = $payment->where('po_id', 'like', $request->po_id);
+            $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');
         }
         if ($request->batch_id) {
             $payment = $payment->whereHas('msBatch', function($query) use($request) {
-                $query->where('batch_id', 'like', $request->batch_id);
+                $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
             });
         }
         if ($request->customer_name) {
             $payment = $payment->whereHas('msCustomer', function($query) use($request) {
-                $query->where('customer_name', 'like', $request->customer_name);
+                $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
             });
         }
         $payment = $payment->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC dam DESC dari filter

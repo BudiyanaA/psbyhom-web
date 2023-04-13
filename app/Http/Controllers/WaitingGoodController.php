@@ -38,16 +38,16 @@ class WaitingGoodController extends Controller
                 $data['waitinggoods'] = $data['waitinggoods']->where('trans_date', '<=', $request->trans_date_end);
             }
             if ($request->po_id) {
-                $data['waitinggoods'] = $data['waitinggoods']->where('po_id', 'like', $request->po_id);
+                $data['waitinggoods'] = $data['waitinggoods']->where('po_id', 'like', '%'.$request->po_id.'%');
             }
             if ($request->batch_id) {
                 $data['waitinggoods'] = $data['waitinggoods']->whereHas('msBatch', function($query) use($request) {
-                    $query->where('batch_id', 'like', $request->batch_id);
+                    $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
                 });
             }
             if ($request->customer_name) {
                 $data['waitinggoods'] = $data['waitinggoods']->whereHas('msCustomer', function($query) use($request) {
-                    $query->where('customer_name', 'like', $request->customer_name);
+                    $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
                 });
             }
             $data['waitinggoods'] = $data['waitinggoods']->orderBy('OnDateTime', 'DESC')->get();
