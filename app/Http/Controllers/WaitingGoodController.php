@@ -40,9 +40,9 @@ class WaitingGoodController extends Controller
             if ($request->po_id) {
                 $data['waitinggoods'] = $data['waitinggoods']->where('po_id', 'like', '%'.$request->po_id.'%');
             }
-            if ($request->batch_id) {
+            if ($request->batch_no) {
                 $data['waitinggoods'] = $data['waitinggoods']->whereHas('msBatch', function($query) use($request) {
-                    $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
+                    $query->where('batch_id', 'like', '%'.$request->batch_no.'%');
                 });
             }
             if ($request->customer_name) {
