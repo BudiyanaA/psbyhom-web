@@ -16,10 +16,10 @@
 	<div class="form-group">
     <label class="col-sm-3 control-label">Slideshow Image</label>
     <div class="col-sm-6">
-        @if ($slide->image)
+        @if (isset($slide) && $slide->image)
             <img src="{{ asset('assets/images/' . $slide->image) }}" alt="Slideshow Image" style="max-height: 200px;">
         @endif
-        {{ Form::file('image', ['class' => 'form-control', 'placeholder' => 'Image', 'value' => $slide->image]) }}
+        {{ Form::file('image', ['class' => 'form-control', 'placeholder' => 'Image']) }}
     </div>
     @if ($errors->has('image')) 
         <small class="form-text help-block" style="color:red">{{ $errors->first('image') }}</small> 
