@@ -13,13 +13,18 @@
 		</div>
 		@if ($errors->has('hyperlink')) <small class="form-text help-block" style="color:red">{{ $errors->first('hyperlink') }}</small> @endif
 	</div>
-	<div class="form-group 	@if ($errors->has('image')) has-error @endif">
-		<label class="col-sm-3 control-label">Slideshow Image</label>
-		<div class="col-sm-6">
-		{{ Form::file('image', ['class' => 'form-control', 'placeholder' => 'Image']) }}
-		</div>
-		@if ($errors->has('image')) <small class="form-text help-block" style="color:red">{{ $errors->first('image') }}</small> @endif
-	</div>
+	<div class="form-group">
+    <label class="col-sm-3 control-label">Slideshow Image</label>
+    <div class="col-sm-6">
+        @if ($slide->image)
+            <img src="{{ asset('assets/images/' . $slide->image) }}" alt="Slideshow Image" style="max-height: 200px;">
+        @endif
+        {{ Form::file('image', ['class' => 'form-control', 'placeholder' => 'Image', 'value' => $slide->image]) }}
+    </div>
+    @if ($errors->has('image')) 
+        <small class="form-text help-block" style="color:red">{{ $errors->first('image') }}</small> 
+    @endif
+</div>
     <div class="form-group @if ($errors->has('slideshow_no')) has-error @endif">
 		<label class="col-sm-3 control-label">Slideshow No </label>
 		<div class="col-sm-6">
