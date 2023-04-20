@@ -70,7 +70,7 @@ class SlideManagementController extends Controller
     public function edit($id)
     {
 
-        $data['slide'] = MsFrontpageSlideshow::find($id);
+        $data['slide'] = MsFrontpageSlideshow::where('SlideUUID', $id)->first();
 
         return view('slideshow.edit', $data);
     }
