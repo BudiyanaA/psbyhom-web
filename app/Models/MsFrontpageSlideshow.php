@@ -9,6 +9,7 @@ class MsFrontpageSlideshow extends Model
 {
     use HasFactory;
     protected $table = 'ms_frontpage_slideshow';
+    public $timestamps = false;
     protected $fillable = [
         'SlideUUID',
         // 'ProductUUID',
