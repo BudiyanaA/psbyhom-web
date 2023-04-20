@@ -39,6 +39,7 @@ class SlideManagementController extends Controller
         $destination = 'assets/img/slide';
         $image->move($destination,$name_image);
         MsFrontpageSlideshow::create([
+            'SlideUUID' => $this->newid(),
             'slide_name' => $request->slideshow_name,
             'ArticleUUID' => $request->hyperlink,
             'image_slide' => $name_image,
