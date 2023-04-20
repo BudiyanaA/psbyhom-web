@@ -42,7 +42,7 @@ class SlideManagementController extends Controller
             'SlideUUID' => $this->newid(),
             'slide_name' => $request->slideshow_name,
             'ArticleUUID' => $request->hyperlink,
-            'image_slide' => $name_image,
+            'image_slide' => 'img/slide/' . $name_image,
             'seq' => $request->slideshow_no,
             'remarks' => $request->notes,
             'status' => $request->status,
