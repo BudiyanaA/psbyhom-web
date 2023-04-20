@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Slide;
+use App\Models\MsFrontpageSlideshow;
 
 class SlideManagementController extends Controller
 {
     public function index()
     {
-        $data['slides'] = DB::table('slides')->get();
+        $data['slides'] = MsFrontpageSlideshow::all();
         return view('slideshow.index', $data);
     }
 

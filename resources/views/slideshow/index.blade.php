@@ -45,12 +45,17 @@
 									@foreach($slides as $s)
 									<tr>
 										<td>{{ $loop->index + 1 }}</td>
-										<td><a href="{{ route('slideshow_management.edit', $s->id) }}">{{ $s->slideshow_name }}</a></td>
-										<td>{{ $s->slideshow_no }}</td>
+										<td><a href="{{ route('slideshow_management.edit', $s->SlideUUID) }}">{{ $s->slide_name }}</a></td>
+										<td>{{ $s->seq }}</td>
 										<td>
-                                            <img src="{{ asset('assets/images/'.$s->image) }}" alt="Thumbnail" width="100" height="100%">
+                                            <img src="{{ asset('assets/images/'.$s->image_slide) }}" alt="{{ $s->slide_name }}" width="200" height="100%" class="post_images" title="{{ $s->slide_name }}" rel="lightbox">
 										</td>
-										<td>{{ $s->status }}</td>
+                                        @if($s->status == '01')
+                                            <td>Enabled</td>
+                                        @else
+                                            <td>Disabled</td>
+                                        @endif
+										
 									</tr>
 									@endforeach
 								</tbody>
