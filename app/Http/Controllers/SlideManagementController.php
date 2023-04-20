@@ -11,7 +11,8 @@ class SlideManagementController extends Controller
 {
     public function index()
     {
-        $data['slides'] = MsFrontpageSlideshow::all();
+        $data['slides'] = MsFrontpageSlideshow::whereIn('status', ['01', '02'])
+            ->orderBy('seq', 'ASC')->get();
         return view('slideshow.index', $data);
     }
 

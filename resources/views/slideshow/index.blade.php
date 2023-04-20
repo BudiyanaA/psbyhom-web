@@ -48,7 +48,7 @@
 										<td><a href="{{ route('slideshow_management.edit', $s->SlideUUID) }}">{{ $s->slide_name }}</a></td>
 										<td>{{ $s->seq }}</td>
 										<td>
-                                            <img src="{{ asset('assets/images/'.$s->image_slide) }}" alt="{{ $s->slide_name }}" width="200" height="100%" class="post_images" title="{{ $s->slide_name }}" rel="lightbox">
+                                            <img src="{{ asset('assets/'.$s->image_slide) }}" alt="{{ $s->slide_name }}" width="200" height="100%" class="post_images" title="{{ $s->slide_name }}" rel="lightbox">
 										</td>
                                         @if($s->status == '01')
                                             <td>Enabled</td>
