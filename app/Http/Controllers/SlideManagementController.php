@@ -76,6 +76,15 @@ class SlideManagementController extends Controller
             'notes' => 'required',
             'status' => 'required',
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time()."_".$image->getClientOriginalName();
+            $destination = 'assets/images';
+            $image->move($destination,$name_image);
+            $data['image'] = $name_image;
+        }
+
         DB::beginTransaction();
         try {
 
@@ -83,7 +92,7 @@ class SlideManagementController extends Controller
             $slide->update([
                 'slideshow_name' => $request->slideshow_name,
                 'hyperlink' => $request->hyperlink,
-                'image' => $request->image,
+                'image' => $name_image,
                 'slideshow_no' => $request->slideshow_no,
                 'notes' => $request->notes,
                 'status' => $request->status,

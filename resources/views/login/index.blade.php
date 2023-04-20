@@ -18,7 +18,7 @@
 </head>
 <body class="focusedform">
 <div class="verticalcenter">
-	<a href=""><img src="https://psbyhom.com/images/hom_logo.png" alt="Logo" class="brand" /></a>
+	<a href=""><img src="{{ url('assets/img/logo.jpg') }}" alt="Logo" class="brand" /></a>
 	<div class="panel panel-primary">
 		<div class="panel-body">
 			<h4 class="text-center" style="margin-bottom: 25px;">Administrator Login</h4>

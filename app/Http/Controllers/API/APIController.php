@@ -39,7 +39,7 @@ class APIController extends Controller
       try {
         TrPoDtl::where('PODtlUUID', $request->PODtlUUID)
           ->update([
-            'batch_no' => $request->batch_no
+            'batch_no' => $request->batch_no ?? ""
           ]);
 
         return [
@@ -49,7 +49,7 @@ class APIController extends Controller
       } catch(\Exception $e) {
         return [
           "code" => 500,
-          "success" => false,
+          "success" => $e,
         ];
       }
     }

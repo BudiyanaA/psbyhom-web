@@ -37,7 +37,7 @@ use App\Http\Controllers\PaymentCostumerController;
 use App\Http\Controllers\ConfirmPaymentController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\ProfilCostumer;
+use App\Http\Controllers\ProfilCostumerController;
 use App\Http\Controllers\PasswordCostumerController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivationController;
@@ -115,7 +115,8 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('request/view/sg/{uuid}', [ProcesOrderSgController::class, 'edit'])->name('process_order');
     Route::post('request/sg/update', [ProcesOrderSgController::class, 'store'])->name('process_order_sg.store');
     Route::get('request/sg/info', [ProcesOrderSgController::class, 'notification'])->name('process_order_sg.notification');
-    
+    Route::get('profil', [ProfilCostumerController::class, 'index'])->name('profile');
+    Route::post('profile', [ProfilCostumerController::class, 'update'])->name('profil.update');
     Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
     Route::patch('password/change', [PasswordCostumerController::class, 'update'])->name('changepassword.update');
 });
@@ -225,7 +226,7 @@ Route::put('admin/voucher/email/edit/{id}', [VoucherManagementController::class,
 // Route::post('system_params', [SystemController::class, 'store'])->name('system.create'); 
 // Route::resource('admin/system/config', SystemController::class);
 Route::get('admin/system/config', [SystemController::class, 'index'])->name('system_params');
-Route::post('admin/system/config', [SystemController::class, 'store'])->name('system_params');
+Route::post('admin/system/config', [SystemController::class, 'update'])->name('sysparam_update');
 });
 Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');
 Route::post('my_profil', [ProfilController::class, 'store'])->name('profil.store');
@@ -236,7 +237,7 @@ Route::patch('password', [PasswordController::class, 'update'])->name('change_pa
 Route::get('logoutaction', [LoginCostumerController::class, 'logoutaction'])->name('logoutaction');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('profil', [ProfilCostumer::class, 'index'])->name('profile');
+
 Route::get('how_order', [HowOrderController::class, 'index'])->name('how_order');
 Route::get('faq', [FaqController::class, 'index'])->name('faq');
 Route::get('terms', [TermConditionController::class, 'index'])->name('term_condition');

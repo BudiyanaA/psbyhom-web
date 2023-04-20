@@ -36,7 +36,7 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-success"
-                  href="{{ route('dpconfirmation.index') }}">
+                  href="{{ route('payment.index') }}?status=00">
                   <div class="tiles-heading">DP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-money"></i>
@@ -66,7 +66,7 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-orange"
-                  href="{{ route('lpconfirmation.index') }}">
+                  href="{{ route('payment.index') }}?status=04,05">
                   <div class="tiles-heading">LP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-dollar"></i>
@@ -603,7 +603,10 @@
 
 
             </div>
+            </div>
+            </div>
 
+            </div>
           </div> <!-- container -->
         </div>
         <!--wrap -->

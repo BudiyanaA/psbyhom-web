@@ -35,7 +35,7 @@
 	@endif
 
 		
-		{!! Form::model($slide, ['route' => ['slideshow_management.update', $slide->id], 'class' => 'form-horizontal', 'method' => 'PUT', enctype="multipart/form-data" ]) !!}
+		{!! Form::model($slide, ['route' => ['slideshow_management.update', $slide->id], 'class' => 'form-horizontal', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
 			
 
         @include('slideshow._form')

@@ -171,7 +171,8 @@ class ApprovalController extends Controller
         $data['log_actv'] = LogActv::where('UserUUID', $id)
             ->orderBy('log_time', 'DESC')->get();
             $data['ewallet'] = TrEwallet::where('CustomerUUID', $id)->sum('amount');
-            $data['wallet'] = TrEwallet::where('CustomerUUID', $id)->get();
+            $data['wallet'] = TrEwallet::where('CustomerUUID', $id)
+            ->orderBy('trans_date', 'DESC')->get();
         return view('approval.detail', $data);
     }
 
