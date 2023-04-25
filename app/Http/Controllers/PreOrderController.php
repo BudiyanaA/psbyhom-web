@@ -15,6 +15,7 @@ use Auth;
 use App\Models\MsEmail;
 use App\Models\SysParam;
 use App\Mail\AdminEmail;
+use Illuminate\Support\Facades\Log;
 
 class PreOrderController extends Controller
 {
@@ -208,6 +209,7 @@ class PreOrderController extends Controller
         } catch(\Exception $e) {
             DB::rollback();
             // dd($e);
+            Log::error($e->toJson());
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
 }
