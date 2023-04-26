@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Slide;
+use App\Models\MsFrontpageSlideshow;
 
 class SlideManagementController extends Controller
 {
     public function index()
     {
-        $data['slides'] = Slide::get();
+        $data['slides'] = MsFrontpageSlideshow::whereIn('status', ['01', '02'])
+            ->orderBy('seq', 'ASC')->get();
         return view('slideshow.index', $data);
     }
 
@@ -31,17 +33,24 @@ class SlideManagementController extends Controller
     ]);
     DB::beginTransaction();
     try {
+        $AdminUUID = session('admin_id');
         $image = $request->file('image');
         $name_image = time()."_".$image->getClientOriginalName();
-        $destination = 'assets/images';
+        $destination = 'assets/img/slide';
         $image->move($destination,$name_image);
-        Slide::create([
-            'slideshow_name' => $request->slideshow_name,
-            'hyperlink' => $request->hyperlink,
-            'image' => $name_image,
-            'slideshow_no' => $request->slideshow_no,
-            'notes' => $request->notes,
+        MsFrontpageSlideshow::create([
+            'SlideUUID' => $this->newid(),
+            'slide_name' => $request->slideshow_name,
+            'ArticleUUID' => $request->hyperlink,
+            'image_slide' => 'img/slide/' . $name_image,
+            'seq' => $request->slideshow_no,
+            'remarks' => $request->notes,
             'status' => $request->status,
+            'created_date' => date('Y-m-d H:i:s'),
+            'created_by' => $AdminUUID,
+            'ByUserUUID' => $AdminUUID,
+            'ByUserIP' =>  $request->ip(),
+            'OnDateTime' =>  date('Y-m-d H:i:s')
         ]);
         DB::commit();
         return redirect(route('slideshow_management.index'))
@@ -61,7 +70,7 @@ class SlideManagementController extends Controller
     public function edit($id)
     {
 
-        $data['slide'] = Slide::find($id);
+        $data['slide'] = MsFrontpageSlideshow::where('SlideUUID', $id)->first();
 
         return view('slideshow.edit', $data);
     }

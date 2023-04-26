@@ -183,9 +183,9 @@ Route::put('admin/cms/edit/{id}', [PageManagementController::class, 'update'])->
 // Route::resource('slideshow_management', SlideManagementController::class);
 Route::get('admin/cms/slideshow', [SlideManagementController::class, 'index'])->name('slideshow_management.index');
 Route::get('admin/cms/slideshow/create', [SlideManagementController::class, 'create'])->name('slideshow_management.create');
-Route::get('admin/user/edit/{id}', [SlideManagementController::class, 'edit'])->name('slideshow_management.edit');
-Route::post('admin/user/create', [SlideManagementController::class, 'store'])->name('slideshow_management.store');
-Route::put('admin/user/edit/{id}', [SlideManagementController::class, 'update'])->name('slideshow_management.update');
+Route::get('admin/cms/slideshow/edit/{id}', [SlideManagementController::class, 'edit'])->name('slideshow_management.edit');
+Route::post('admin/cms/slideshow/create', [SlideManagementController::class, 'store'])->name('slideshow_management.store');
+Route::put('admin/cms/slideshow/edit/{id}', [SlideManagementController::class, 'update'])->name('slideshow_management.update');
 
 // Route::resource('costumer_management', CostumerManagementController::class);
 Route::get('admin/customer', [CostumerManagementController::class, 'index'])->name('costumer_management.index');
