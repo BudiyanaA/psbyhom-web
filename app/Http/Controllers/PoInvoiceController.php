@@ -525,7 +525,7 @@ class PoInvoiceController extends Controller
                     ]);
 
                     $super_grand_total = $request->super_grand_total;
-                    $total_paid = $payment_amount + $request->e_wallet; //todo : tambahkan ewallet di form
+                    $total_paid = $payment_amount + $request->e_wallet; //todo : tambahkan ewallet di form input hiden di waiting good bawah grandtotal
                     
                     if ($super_grand_total != 0 ){ 
                         $total_paid_percentage = round(( $total_paid / $super_grand_total) * 100);
