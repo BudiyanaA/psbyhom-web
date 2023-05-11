@@ -15,6 +15,7 @@ use Auth;
 use App\Models\MsEmail;
 use App\Models\SysParam;
 use App\Mail\AdminEmail;
+use Log;
 
 class PreOrderController extends Controller
 {
@@ -80,7 +81,6 @@ class PreOrderController extends Controller
             'product_name.*' => 'required|min:1',
             'price_customer.*' => 'required|numeric|min:1',
         ]);
-        
         // if($validator->fails()){
         //     return Redirect::back()->withErrors($validator)->withInput();
         // }
@@ -207,6 +207,8 @@ class PreOrderController extends Controller
         
         } catch(\Exception $e) {
             DB::rollback();
+            Log::error($request->all());
+            Log::error($e->getMessage());
             // dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
