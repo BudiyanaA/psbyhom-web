@@ -251,12 +251,13 @@
 										<td colspan='2' style="text-align:right"></td>
 										<td colspan='2'></td>
 										<td colspan='{{ $colspan }}' style="text-align:right">Grand Total</td>
+										<!-- <input type='text' name='e_wallet' value="{{ $po->e_wallet }}"> -->
 										<td class="super_grand_total"><strong>{{ number_format($po->total_trans) }}</strong></td>
 										<input type="hidden" name="sub_grand_total" id='sub_grand_total' value="{{ $po->subtotal }}">
 										<input type="hidden" name="super_grand_total_ori" id='super_grand_total_ori' value="{{ $po->total_trans }}">
 										<input type="hidden" name="super_grand_total" id='super_grand_total' value="{{ $po->total_trans }}">
 										<input type="hidden" name="total_refund" id='total_refund' value="{{ $po->refund_amount }}">
-										<input type="hidden" name="e_wallet" id='e_wallet' value="0">
+										<input type="hidden" name="e_wallet" id='e_wallet' value="{{ $po->e_wallet_amount }}">
 									</tr>
 
 									@if ($po->dp_amount > 0)

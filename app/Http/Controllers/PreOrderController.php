@@ -210,6 +210,7 @@ class PreOrderController extends Controller
             Log::error($request->all());
             Log::error($e->getMessage());
             // dd($e);
+            Log::error($e->toJson());
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
 }

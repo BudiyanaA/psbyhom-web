@@ -516,6 +516,34 @@ class PoInvoiceController extends Controller
                 DB::commit();
                 return redirect(route('poinvoice.success', $id))
                     ->withSuccess("Data berhasil diubah");
+                } else if ($request->submit == 'update_payment') {
+                    TrPayment::where('PaymentUUID', $PaymentUUID)->update([
+                        'payment_amount' => $payment_amount,
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+
+                    $super_grand_total = $request->super_grand_total;
+                    $total_paid = $payment_amount + $request->e_wallet; //todo : tambahkan ewallet di form input hiden di waiting good bawah grandtotal
+                    
+                    if ($super_grand_total != 0 ){ 
+                        $total_paid_percentage = round(( $total_paid / $super_grand_total) * 100);
+                    }
+                    else 
+                    $total_paid_percentage = 0;
+
+                    TrPo::where('POUUID', $id)->update([
+                        'dp_amount' => $payment_amount + $request->e_wallet, //todo : tambahkan ewallet di form
+                        'total_paid' => $total_paid_percentage,
+                        'total_outstanding' => $super_grand_total - $total_paid,
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+                    DB::commit();
+                    return redirect(route('poinvoice.success', $id))
+                        ->withSuccess("Data berhasil diubah");
             } else if ($request->submit == 'update_no_resi') {
                 TrPo::where('POUUID', $id)->update([
 					'status' => '07',

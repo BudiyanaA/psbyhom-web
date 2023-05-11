@@ -47,11 +47,11 @@
 								<input type="text" name="keyword" id="keyword" class="searchtext" placeholder="Search.."> 
 								<button type="submit" class="searchubmit" value="Cari"><i class="fa fa-search"></i></button>
 							</form> -->
-							<div id="close-search-icon">
+							<!-- <div id="close-search-icon">
 								<span>
 									<i class="fa fa-close"></i>
 								</span>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -66,11 +66,11 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<div id="search-icon">
+		<!-- <div id="search-icon">
 			<span>
 				<i class="fa fa-search"></i>
 			</span>
-		</div>
+		</div> -->
 		<a class="navbar-brand" href="https://psbyhom.com/"><img class='resize' src="{{ url('assets/img/logo.jpg') }}" border="0" /><!--<img src="https://myhouseofmakeup.co/template/zuta/img/logo.png" alt="logo" />--></a>
 	</div>
 	<!-- Collect the nav links, forms, and other content for toggling -->
