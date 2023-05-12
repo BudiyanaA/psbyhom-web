@@ -544,6 +544,61 @@ class PoInvoiceController extends Controller
                     DB::commit();
                     return redirect(route('poinvoice.success', $id))
                         ->withSuccess("Data berhasil diubah");
+            } else if ($request->submit == 'reload_invoice') {
+                $status_po = TrPo::where('POUUID', $id)->first()->status;
+                if($status_po == '01')
+			    {
+			        $tipe_payment = 'DP';
+			    }
+			    else if($status_po == '04')
+			    {
+			        $tipe_payment = 'LP';
+			    }
+
+                $Invoice = TrInvoice::where('status_invoice', '02')
+                    ->where('POUUID', $id)->whereRaw('RIGHT(invoice_id,2) = ?', [$tipe_payment])
+                    ->first();
+
+                if ($Invoice) {
+                    TrInvoice::where('InvoiceUUID', $Invoice->InvoiceUUID)->update([
+                        'status_invoice' => '01',
+    					'ByUserUUID' => $AdminUUID,
+    					'ByUserIP' => $request->ip(),
+    					'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+
+                    LogActv::create([
+                        'id' => $this->newid(),
+                        'user_id' => $username,
+                        'UserUUID' => $AdminUUID,
+                        'menu_nm' => 'Admin Reload Invoice',
+                        'log_time' => date('Y-m-d H:i:s'),
+                        'Description' => '<b>Admin Reload Invoice : </b>'.$request->po_id,
+                        'LogType' => 'Insert',
+                        'user_type' => 'Admin',
+                        'RefUUID' => $id,
+                        'is_financial' => '0',
+                        'is_error' => '0',
+                        'ByUserUUID' => $AdminUUID,
+                        'ByUserIP' => $request->ip(),
+                        'OnDateTime' => date('Y-m-d H:i:s')
+                    ]);
+
+                    LogTransaction::create([
+                        'LogTransUUID' => $this->newid(),
+                        'POUUID' => $id,
+                        'log_date' => date('Y-m-d H:i:s'),
+                        'action_desc' => "Admin Reload invoice",
+                        'created_by' => 'Admin',
+                        'UserUUID' => $AdminUUID
+                    ]);
+
+                    DB::commit();
+                    return redirect(route('poinvoice.success', $id))
+                        ->withSuccess("Data berhasil diubah");
+                } else {
+                    return redirect(route('poinvoice.detail', $id));
+                }
             } else if ($request->submit == 'update_no_resi') {
                 TrPo::where('POUUID', $id)->update([
 					'status' => '07',
