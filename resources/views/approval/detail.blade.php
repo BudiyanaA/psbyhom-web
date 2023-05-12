@@ -158,7 +158,7 @@
 												<td valign='top'>{{ $loop->index + 1 }}</td>
 												<td>{{ $row->log_time }}</td>
 												<td>{{ $row->menu_nm }}</td>
-												<td>{{ $row->Description }}</td>
+												<td>{{ $row->description }}</td>
 											</tr>
 										@endforeach								
 									</tbody>
