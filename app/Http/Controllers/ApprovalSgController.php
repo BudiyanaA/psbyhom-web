@@ -59,7 +59,8 @@ class ApprovalSgController extends Controller
     
                     $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
                         ->orderBy('seq', 'ASC')->get();
-                    $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
+                    // SGD
+                    $forex = SysParam::where('sys_id', 'SYS_PARAM_99')->first()->value_1;
         
                     $i = 0;
                     foreach ($order_dtl as $row) {
@@ -160,7 +161,7 @@ class ApprovalSgController extends Controller
                         'OnDateTime' => date('Y-m-d H:i:s')
                     ]);
                     DB::commit();
-                    return redirect(route('preorder_sg.notification'))
+                    return redirect(route('order_sg.notification'))
                         ->withSuccess("Data berhasil diubah");
                 } else {
                     return redirect(route('dashboard'));
@@ -168,7 +169,7 @@ class ApprovalSgController extends Controller
     
             } catch(\Exception $e) {
                 DB::rollback();
-                dd($e);
+                // dd($e);
                 return redirect()->back()->withError('Data gagal diubah');
             }
         }
