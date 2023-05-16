@@ -86,15 +86,7 @@ Route::get('password/change/success', [PasswordCostumerController::class, 'chang
 Route::get('password/reset/success', [PasswordCostumerController::class, 'resetSuccess'])->name('password.reset.success');
 Route::get('password/reset/fail', [PasswordCostumerController::class, 'resetFail'])->name('password.reset.fail');
 
-Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
-
-
-
-
-
 // https://psbyhom.com/view_request/TY23020170 (redirect)
-
-
 
 Route::post('payment/store', [PaymentCostumerController::class, 'store'])->name('payment.store');
 
@@ -106,12 +98,16 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
     Route::post('request/update', [ProcesOrderController::class, 'store'])->name('process_order.store');
     Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
-    Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
+    Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
+    Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
     Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
+
     Route::get('preorder_sg/create', [PreOrderSgController::class, 'create'])->name('preorder_sg.create');
     Route::post('preorder_sg/create', [PreOrderSgController::class, 'store'])->name('preorder_sg.store');
-    Route::get('preorder_sg/notification', [PreOrderSgController::class, 'index'])->name('notif_sg.notification');
+    Route::get('preorder_sg/notification', [PreOrderSgController::class, 'index'])->name('preorder_sg.notification');
+
     Route::get('request/view/sg/{uuid}', [ProcesOrderSgController::class, 'edit'])->name('process_order');
     Route::post('request/sg/update', [ProcesOrderSgController::class, 'store'])->name('process_order_sg.store');
     Route::get('request/sg/info', [ProcesOrderSgController::class, 'notification'])->name('process_order_sg.notification');

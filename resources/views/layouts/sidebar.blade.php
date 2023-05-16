@@ -66,7 +66,7 @@
                     <li><a href="{{ route('payment.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminReady(); ?></span></a></li></li>
                     <li><a href="{{ route('payment.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
 
-                    <!-- <li>
+                    <li>
                         <a href="javascript:;"><i class="fa fa-money"></i><span>Pre Order(SG)</span></a>
                         <ul class="acc-menu">
                             <li>
@@ -82,7 +82,7 @@
                     <li><a href="{{ route('Waitinggood_sg.index') }}" class="menu">Waiting Goodies<span class="badge badge-info"><?php echo getAdminSgGoods(); ?></span></a></li></li>
                     <li><a href="{{ route('payment_sg.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminSgLp(); ?></span></a></li></li>
                     <li><a href="{{ route('payment_sg.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminSgReady(); ?></span></a></li></li>
-                    <li><a href="{{ route('payment_sg.index') }}" class="menu">Overall Order Report</a></li></li></ul></li> -->
+                    <li><a href="{{ route('payment_sg.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
 
                     <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i><span>E-Commerce</span></a>
                     <ul class="acc-menu">
