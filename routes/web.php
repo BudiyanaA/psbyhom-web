@@ -94,23 +94,26 @@ Route::group(['middleware' => ['customer']], function () {
     Route::get('ewallet', [WalletController::class, 'index'])->name('ewallet');
     Route::get('payment/success', [PaymentCostumerController::class, 'notification'])->name('payment.success'); 
     Route::get('payment/confirm', [PaymentCostumerController::class, 'create'])->name('payment.confirm');
-    Route::get('request/info', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
-    Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
-    Route::post('request/update', [ProcesOrderController::class, 'store'])->name('process_order.store');
     Route::get('po/view/{uuid}', [ProcesOrderController::class, 'show'])->name('process_order.view');
 
+    // US
     Route::get('preorder/create', [PreOrderController::class, 'create'])->name('preorder.create');
     Route::post('preorder/create', [PreOrderController::class, 'store'])->name('preorder.store');
     Route::get('preorder/notification', [PreOrderController::class, 'index'])->name('preorder.notification');
+    Route::get('request/view/{uuid}', [ProcesOrderController::class, 'edit'])->name('process_order');
+    Route::post('request/update', [ProcesOrderController::class, 'store'])->name('process_order.store');
+    Route::get('request/info', [ProcesOrderController::class, 'notification'])->name('process_order.notification');
     Route::get('preorder/list', [PreOrderController::class, 'list'])->name('preorderlist');
 
+    // SG
     Route::get('preorder_sg/create', [PreOrderSgController::class, 'create'])->name('preorder_sg.create');
     Route::post('preorder_sg/create', [PreOrderSgController::class, 'store'])->name('preorder_sg.store');
     Route::get('preorder_sg/notification', [PreOrderSgController::class, 'index'])->name('preorder_sg.notification');
-
-    Route::get('request/view/sg/{uuid}', [ProcesOrderSgController::class, 'edit'])->name('process_order');
+    Route::get('request/view/sg/{uuid}', [ProcesOrderSgController::class, 'edit'])->name('process_order_sg');
     Route::post('request/sg/update', [ProcesOrderSgController::class, 'store'])->name('process_order_sg.store');
     Route::get('request/sg/info', [ProcesOrderSgController::class, 'notification'])->name('process_order_sg.notification');
+    
+
     Route::get('profil', [ProfilCostumerController::class, 'index'])->name('profile');
     Route::post('profile', [ProfilCostumerController::class, 'update'])->name('profil.update');
     Route::get('password/change', [PasswordCostumerController::class, 'edit'])->name('changepassword');
