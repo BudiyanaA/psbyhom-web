@@ -8,7 +8,7 @@
                 
                 <li class="active">List of Pre Orders</li>
             </ol>
-							 <h1>New Pre Orders</h1>
+							 <h1>New Pre Orders Singapore</h1>
 			            <div class="options">
                 
             </div>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="https://psbyhom.com/request_order_controller/search_filter_request_transaction">
+						<form method="get" action="{{ route('preorder_sg.index') }}">
 								<table class="search-table">
 									<tr>
 										<td>Order Date Start &nbsp; &nbsp; </td>
@@ -104,14 +104,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+								@if(count($orders) > 0)
 								@foreach($orders as $o)
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
 									<td><a href="{{ route('preorder_sg.detail', $o->RequestOrderUUID) }}">{{ $o->request_id }}</a></td>
 									<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $o->customer?->customer_name }}</a></td>
-									<td>{{ $o->created_date }}</td>
+									<td>{{ formatDate($o->created_date) }}</td>
 									<td>{{ $o->total_items }}</td>
-									<td>{{ $o->total_price }}</td>
+									<td>{{ number_format($o->total_price) }}</td>
 									<td>
 										@if ($o->status === '00')
 											Pending Admin Verification
@@ -129,6 +130,11 @@
 									</td>
 								</tr>
 									@endforeach
+									@else
+								<tr>
+									<td colspan="10">Data not found</td>
+								</tr>
+							@endif
 								</tbody>
                             </table>
 							                        </div>

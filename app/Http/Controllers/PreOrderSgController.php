@@ -15,6 +15,7 @@ use Auth;
 use App\Models\MsEmail;
 use App\Models\SysParam;
 use App\Mail\AdminEmail;
+use Log;
 
 class PreOrderSgController extends Controller
 {
@@ -99,7 +100,8 @@ function newid()
              $total_items = 0;
              $total_price = 0;
  
-             $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
+            //  Using SGD
+             $forex = SysParam::where('sys_id', 'SYS_PARAM_99')->first()->value_1;
  
              // Insert tr_request_order_dtl
              for ($i = 0; $i < count($request->qty); $i++) {
@@ -147,10 +149,10 @@ function newid()
                  'ByUserUUID' => $CustomerUUID,
                  'ByUserIP' => $request->ip(),
                  'OnDateTime' => date('Y-m-d H:i:s'),
-                 'po_type' => 'SG',
                  'POUUID' => "",
-                    'InvoiceUUID' => "",
-                    'note' => "",
+                 'InvoiceUUID' => "",
+                 'note' => "",
+                 'po_type' => 'SG',
              ]);
              
              // $id= uniqid();
@@ -206,14 +208,16 @@ function newid()
 
              DB::commit();
          
-             return redirect(route('notif_sg.notification'))
+             return redirect(route('preorder_sg.notification'))
                  ->withSuccess("Data berhasil ditambahkan");
                  
          
          } catch(\Exception $e) {
             DB::rollback();
-             dd($e);
-             return redirect()->back()->withError('Data gagal ditambahkan');
+            Log::error($request->all());
+            Log::error($e->getMessage());
+            //  dd($e);
+            return redirect()->back()->withError('Data gagal ditambahkan');
          } 
 }
 }
