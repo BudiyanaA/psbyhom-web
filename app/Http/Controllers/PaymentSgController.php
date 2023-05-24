@@ -29,24 +29,28 @@ class PaymentSgController extends Controller
 
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('po_type', 'SG');
         if ($request->status) {
-            $payment = $payment->where('status', $status);
+            $payment = $payment->whereIn('status', explode(",", $request->input('status')));
         }
         if ($request->trans_date_start) {
-            $payment = $payment->where('date', '>=', $request->trans_date_start);
+            $payment = $payment->where('trans_date', '>=', $request->trans_date_start);
         }
         if ($request->trans_date_end) {
-            $payment = $payment->where('date', '<=', $request->trans_date_end);
+            $payment = $payment->where('trans_date', '<=', $request->trans_date_end);
         }
         if ($request->po_id) {
-            $payment = $payment->where('po_id', 'like', $request->po_id);
+            $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');
         }
         if ($request->batch_id) {
-            $payment = $payment->where('batch_id', 'like', $request->batch_id);
+            $payment = $payment->whereHas('msBatch', function($query) use($request) {
+                $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
+            });
         }
         if ($request->customer_name) {
-            $payment = $payment->where('customer_name', 'like', $request->customer_name);
+            $payment = $payment->whereHas('msCustomer', function($query) use($request) {
+                $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
+            });
         }
-        $payment = $payment->orderBy('OnDateTime', 'DESC')->paginate(10);
+        $payment = $payment->orderBy('OnDateTime', 'DESC')->get();
         
         return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
     }

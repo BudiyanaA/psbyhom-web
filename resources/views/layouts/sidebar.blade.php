@@ -80,7 +80,7 @@
                     </li>
                     <li><a href="{{ route('payment_sg.index') }}?status=00" class="menu">DP Confirmation<span class="badge badge-indigo"><?php echo getAdminSgDp(); ?></span></a></li></li>
                     <li><a href="{{ route('Waitinggood_sg.index') }}" class="menu">Waiting Goodies<span class="badge badge-info"><?php echo getAdminSgGoods(); ?></span></a></li></li>
-                    <li><a href="{{ route('payment_sg.index') }}?status=05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminSgLp(); ?></span></a></li></li>
+                    <li><a href="{{ route('payment_sg.index') }}?status=04,05" class="menu">LP Confirmation<span class="badge badge-warning"><?php echo getAdminSgLp(); ?></span></a></li></li>
                     <li><a href="{{ route('payment_sg.index') }}?status=06" class="menu">Ready to Ship<span class="badge badge-success"><?php echo getAdminSgReady(); ?></span></a></li></li>
                     <li><a href="{{ route('payment_sg.index') }}" class="menu">Overall Order Report</a></li></li></ul></li>
 

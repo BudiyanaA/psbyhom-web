@@ -376,9 +376,9 @@ class PoInvoiceController extends Controller
                         $id, 
                         $EmailUUID
                     ));
-                    if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
-                        return redirect()->back()->with('error', 'Gagal mengirim email!');
-                    }
+                    // if (!($emailsent instanceof \Illuminate\Mail\SentMessage)) {
+                    //     return redirect()->back()->with('error', 'Gagal mengirim email!');
+                    // }
                 }
 
                 if ($send_email_refund) {

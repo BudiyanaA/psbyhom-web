@@ -256,7 +256,7 @@
 										<input type="hidden" name="super_grand_total_ori" id='super_grand_total_ori' value="{{ $po->total_trans }}">
 										<input type="hidden" name="super_grand_total" id='super_grand_total' value="{{ $po->total_trans }}">
 										<input type="hidden" name="total_refund" id='total_refund' value="{{ $po->refund_amount }}">
-										<input type="hidden" name="e_wallet" id='e_wallet' value="0">
+										<input type="hidden" name="e_wallet" id='e_wallet' value="{{ $po->e_wallet_amount }}">
 									</tr>
 
 									@if ($po->dp_amount > 0)

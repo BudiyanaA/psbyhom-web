@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="{{ route('payment.index') }}">
+						<form method="get" action="{{ route('payment_sg.index') }}">
 								<table class="search-table">
 									<tr>
 										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
@@ -162,9 +162,6 @@
 											</tr>
                                 </tbody>
                             </table>
-							<ul class="pagination">
-								{{ $payment->links() }}
-							</ul>
 						</div>
                     </div>
                 </div>
