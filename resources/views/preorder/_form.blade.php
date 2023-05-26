@@ -14,36 +14,38 @@
     @php
         $row = old('counter') ?? 1;
     @endphp
-    @for ($i = 1; $i <= $row; $i++)
-    <tr  id="remove_po_{{ $i }}">
-   <td class="@if ($errors->has('qty.'.$i-1)) has-error @endif">
-		{{ Form::number('qty[]', null, ['class' => 'form-control']) }}
-    </td>
-    <td class="@if ($errors->has('product_url.'.$i-1)) has-error @endif">
-		{{ Form::text('product_url[]', null, ['class' => 'form-control']) }}
+    @for ($i = 0; $i < $row; $i++)
+    <tr id="remove_po_{{ $i }}">
+        <td class="@if ($errors->has('qty.'.$i)) has-error @endif">
+            {{ Form::number('qty['.$i.']', null, ['class' => 'form-control']) }}
         </td>
-    <td class="@if ($errors->has('product_name.'.$i-1)) has-error @endif">
-		{{ Form::text('product_name[]', null, ['class' => 'form-control']) }}
+        <td class="@if ($errors->has('product_url.'.$i)) has-error @endif">
+            {{ Form::text('product_url['.$i.']', null, ['class' => 'form-control']) }}
         </td>
-    <td class="@if ($errors->has('color.'.$i-1)) has-error @endif">
-		{{ Form::text('color[]', null, ['class' => 'form-control']) }}
+        <td class="@if ($errors->has('product_name.'.$i)) has-error @endif">
+            {{ Form::text('product_name['.$i.']', null, ['class' => 'form-control']) }}
         </td>
-    <td class="@if ($errors->has('size.'.$i-1)) has-error @endif">
-		{{ Form::text('size[]', null, ['class' => 'form-control']) }}
+        <td class="@if ($errors->has('color.'.$i)) has-error @endif">
+            {{ Form::text('color['.$i.']', null, ['class' => 'form-control']) }}
         </td>
-        <td class="@if ($errors->has('price_customer.'.$i-1)) has-error @endif">
-            {{ Form::text('price_customer[]', null, ['class' => 'form-control', 'step' => 'any']) }}
+        <td class="@if ($errors->has('size.'.$i)) has-error @endif">
+            {{ Form::text('size['.$i.']', null, ['class' => 'form-control']) }}
         </td>
-    <td class="@if ($errors->has('remarks.'.$i-1)) has-error @endif">
-		{{ Form::text('remarks[]', null, ['class' => 'form-control']) }}
+        <td class="@if ($errors->has('price_customer.'.$i)) has-error @endif">
+            {{ Form::text('price_customer['.$i.']', null, ['class' => 'form-control', 'step' => 'any']) }}
         </td>
-        @if ($i != 1 )
-            <td><a href="#" onclick="removeItemReq({{ $i }})">
-	        	<img src='{{ url("assets/img/deletepic.png") }}' alt="Remove Pro Order">Hapus</a>
-	        </td>
+        <td class="@if ($errors->has('remarks.'.$i)) has-error @endif">
+            {{ Form::text('remarks['.$i.']', null, ['class' => 'form-control']) }}
+        </td>
+        @if ($i != 0)
+            <td>
+                <a href="#" onclick="removeItemReq('{{ $i }}')">
+                    <img src='{{ url("assets/img/deletepic.png") }}' alt="Remove Pro Order">
+                </a>
+            </td>
         @endif
     </tr>
-    @endfor
+@endfor
 
     {{ Form::hidden('RequestOrderUUID', null, ['class' => 'form-control' , 'id' => 'RequestOrderUUID']) }}
 

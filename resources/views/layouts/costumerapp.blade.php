@@ -124,34 +124,7 @@
 
 	<script>
 function removeItemReq(counter) {
-    if (counter !== 1) {
-        $("#remove_po_" + counter).remove();
-        $('#img_remove_' + counter).hide(); // Menyembunyikan gambar dengan ID img_remove_${counter}
-        // Memperbarui nomor indeks
-        var rowCount = $('#pre-order tr').length - 2; // Mengurangi 2 untuk baris header dan baris terakhir kosong
-        for (var i = counter + 1; i <= rowCount; i++) {
-            $('#remove_po_' + i).attr('id', 'remove_po_' + (i - 1));
-            $('#img_remove_' + i).attr('id', 'img_remove_' + (i - 1));
-            $('input[name="qty[' + i + ']"]').attr('name', 'qty[' + (i - 1) + ']');
-            $('input[name="product_url[' + i + ']"]').attr('name', 'product_url[' + (i - 1) + ']');
-            $('input[name="product_name[' + i + ']"]').attr('name', 'product_name[' + (i - 1) + ']');
-            $('input[name="color[' + i + ']"]').attr('name', 'color[' + (i - 1) + ']');
-            $('input[name="size[' + i + ']"]').attr('name', 'size[' + (i - 1) + ']');
-            $('input[name="price_customer[' + i + ']"]').attr('name', 'price_customer[' + (i - 1) + ']');
-            $('input[name="remarks[' + i + ']"]').attr('name', 'remarks[' + (i - 1) + ']');
-        }
-        rowCount--;
-        $("#counter").val(rowCount);
-    } else {
-        // Mengosongkan nilai input pada baris pertama
-        $('input[name="qty[1]"]').val('');
-        $('input[name="product_url[1]"]').val('');
-        $('input[name="product_name[1]"]').val('');
-        $('input[name="color[1]"]').val('');
-        $('input[name="size[1]"]').val('');
-        $('input[name="price_customer[1]"]').val('');
-        $('input[name="remarks[1]"]').val('');
-    }
+    $('#remove_po_' + counter).remove();
 }
 		/* $(function() {
 			$(".form_beli").submit(function() {
