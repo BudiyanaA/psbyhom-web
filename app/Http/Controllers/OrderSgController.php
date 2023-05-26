@@ -21,7 +21,7 @@ class OrderSgController extends Controller
     $data = array();
     $status = $request->input('status');
     $trans_date_start = $request->input('trans_date_start');
-    $trans_date_end = $request->input('trans_date_end');
+    $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
     
     
@@ -31,12 +31,18 @@ class OrderSgController extends Controller
         $orders = $orders->where('status', $status);
     }
 
-    if ($trans_date_start) {
-        $orders = $orders->where('created_date', '>=', $trans_date_start);
+    if ($request->customer_name) {
+        $orders = $orders->whereHas('customer', function($query) use($request) {
+            $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
+        });
     }
 
-    if ($trans_date_end) {
-        $orders = $orders->where('created_date', '<=', $trans_date_end);
+    if ($total_price) {
+        // Menghapus tanda koma dari input pencarian
+        $total_price = str_replace(',', '', $total_price);
+    
+        // Melakukan pencarian dengan operator LIKE
+        $orders = $orders->where('total_price', 'like', '%' . $total_price . '%');
     }
 
     if ($request_id) {
