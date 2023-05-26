@@ -28,20 +28,20 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="https://psbyhom.com/request_order_controller/search_filter_request_transaction">
+						<form method="get" action="{{ route('preorder_sg.index') }}">
 								<table class="search-table">
 									<tr>
-										<td>Order Date Start &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start" value="" data-inputmask="'alias': 'date'"></td>
+										<td>Customer Name &nbsp; &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="customer_name" value="{{ $customer_name }}" autocomplete="off" placeholder="Customer Name"></td>
 									</tr>
 									<tr>
-										<td>Order Date End &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td>Total Price &nbsp;  &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="total_price"  value="{{ $total_price }}" autocomplete="off" placeholder="Total Price"></td>
 									</tr>
 									
 									<tr>
 										<td>PO ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="" name='request_id' autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="{{ $request_id }}" name='request_id' autocomplete="off"></td>
 									</tr>
 
 									<!--<tr>
@@ -72,8 +72,8 @@
 										<td>Order By &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
+												<option value="{{ $order_by }}">Ascending</option>
+												<option selected value="{{ $order_by }}">Descending</option>
 												
 											</select>
 										
@@ -104,12 +104,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+								@if(count($orders) > 0)
 								@foreach($orders as $o)
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
 									<td><a href="{{ route('preorder_sg.detail', $o->RequestOrderUUID) }}">{{ $o->request_id }}</a></td>
 									<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $o->customer?->customer_name }}</a></td>
-									<td>{{ $o->created_date }}</td>
+									<td>{{ formatDate($o->created_date) }}</td>
 									<td>{{ $o->total_items }}</td>
 									<td>{{ $o->total_price * $o->forex }}</td>
 									<td>
@@ -129,16 +130,24 @@
 									</td>
 								</tr>
 									@endforeach
-									
+									@else
+								<tr>
+									<td colspan="10">Data not found</td>
+								</tr>
+							@endif
 								</tr>
 									
 								</tbody>
                             </table>
                     </div>
                 </div>
-            </div>
-
-        </div> <!-- container -->
-    </div> <!--wrap -->
+			</div>
+		</div>
+	</div>
 </div>
+</div>			
+
+            
+
+ 
 @endsection 

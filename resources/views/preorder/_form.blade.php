@@ -39,7 +39,7 @@
         </td>
         @if ($i != 1 )
             <td><a href="#" onclick="removeItemReq({{ $i }})">
-	        	<img src="https://psbyhom.com//design/deletepic.png" alt="Remove Pro Order">Hapus</a>
+	        	<img src='{{ url("assets/img/deletepic.png") }}' alt="Remove Pro Order">Hapus</a>
 	        </td>
         @endif
     </tr>

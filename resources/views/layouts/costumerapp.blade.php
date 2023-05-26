@@ -123,12 +123,35 @@
 	<script type="text/javascript" src="{{ url('assets/js/jquery.elevateZoom-3.0.8.min.js') }}"></script>
 
 	<script>
-	function removeItemReq(counter) {
-    var counter = $("#counter").val();
-    counter--;
-    $("#counter").val(counter);
-    $('#remove_po_' + counter).remove();
-    $('#img_remove_' + counter).hide(); // Menyembunyikan gambar dengan ID img_remove_${counter}
+function removeItemReq(counter) {
+    if (counter !== 1) {
+        $("#remove_po_" + counter).remove();
+        $('#img_remove_' + counter).hide(); // Menyembunyikan gambar dengan ID img_remove_${counter}
+        // Memperbarui nomor indeks
+        var rowCount = $('#pre-order tr').length - 2; // Mengurangi 2 untuk baris header dan baris terakhir kosong
+        for (var i = counter + 1; i <= rowCount; i++) {
+            $('#remove_po_' + i).attr('id', 'remove_po_' + (i - 1));
+            $('#img_remove_' + i).attr('id', 'img_remove_' + (i - 1));
+            $('input[name="qty[' + i + ']"]').attr('name', 'qty[' + (i - 1) + ']');
+            $('input[name="product_url[' + i + ']"]').attr('name', 'product_url[' + (i - 1) + ']');
+            $('input[name="product_name[' + i + ']"]').attr('name', 'product_name[' + (i - 1) + ']');
+            $('input[name="color[' + i + ']"]').attr('name', 'color[' + (i - 1) + ']');
+            $('input[name="size[' + i + ']"]').attr('name', 'size[' + (i - 1) + ']');
+            $('input[name="price_customer[' + i + ']"]').attr('name', 'price_customer[' + (i - 1) + ']');
+            $('input[name="remarks[' + i + ']"]').attr('name', 'remarks[' + (i - 1) + ']');
+        }
+        rowCount--;
+        $("#counter").val(rowCount);
+    } else {
+        // Mengosongkan nilai input pada baris pertama
+        $('input[name="qty[1]"]').val('');
+        $('input[name="product_url[1]"]').val('');
+        $('input[name="product_name[1]"]').val('');
+        $('input[name="color[1]"]').val('');
+        $('input[name="size[1]"]').val('');
+        $('input[name="price_customer[1]"]').val('');
+        $('input[name="remarks[1]"]').val('');
+    }
 }
 		/* $(function() {
 			$(".form_beli").submit(function() {
@@ -219,34 +242,37 @@
 		})
 
 		$('#tambahpo').click(function() {
-				var counter = $( "#counter" ).val();
-				var lang_remove_product = 'Hapus';
-				var img_remove			= '{{ url("assets/img/deletepic.png") }}'; //TODO: asset local
-				html = `<tr id="remove_po_${counter}">
-					<td class="@if ($errors->has('qty.${counter}')) has-error @endif"><input type="number" name="qty[${counter}]"><input type="hidden" name="item_ar[]" value="${counter}"></td>
-					<td class="@if ($errors->has('product_url.${counter}')) has-error @endif"><input type="text" name="product_url[${counter}]"></td>
-					<td class="@if ($errors->has('product_name.${counter}')) has-error @endif"><input type="text" name="product_name[${counter}]"></td>
-					<td class="@if ($errors->has('color.${counter}')) has-error @endif"><input type="text" name="color[${counter}]"></td>
-					<td class="@if ($errors->has('size.${counter}')) has-error @endif"><input type="text" name="size[${counter}]"></td>
-					<td class="@if ($errors->has('price_customer.${counter}')) has-error @endif"><input type="text" step="any" name="price_customer[${counter}]"></td>
-					<td class="@if ($errors->has('remarks.${counter}')) has-error @endif"><input type="text" name="remarks[${counter}]"></td>
-					<td>
-						<a href="#" onclick="removeItemReq(${counter})">
-							<img id="img_remove_${counter}" src="${img_remove}" alt="Remove Pro Order">
-						</a>
-					</td>
-				</tr>`;
-				counter++;
-				$("#counter").val(counter);				
-				$('#pre-order tr:last').after(html);
-				remove_obj('.remove');
-				$('input[name="qty['+counter+']"]').rules("add", {
-					required: true, number: true
-				});
-				$('input[name="link['+counter+']"]').rules("add", {
-					required: true, url: true
-				});
-		});
+    var counter = $("#counter").val();
+    var lang_remove_product = 'Hapus';
+    var img_remove = '{{ url("assets/img/deletepic.png") }}'; //TODO: asset local
+    html = `<tr id="remove_po_${counter}">
+        <td class="@if ($errors->has('qty.${counter}')) has-error @endif"><input type="number" name="qty[${counter}]"><input type="hidden" name="item_ar[]" value="${counter}"></td>
+        <td class="@if ($errors->has('product_url.${counter}')) has-error @endif"><input type="text" name="product_url[${counter}]"></td>
+        <td class="@if ($errors->has('product_name.${counter}')) has-error @endif"><input type="text" name="product_name[${counter}]"></td>
+        <td class="@if ($errors->has('color.${counter}')) has-error @endif"><input type="text" name="color[${counter}]"></td>
+        <td class="@if ($errors->has('size.${counter}')) has-error @endif"><input type="text" name="size[${counter}]"></td>
+        <td class="@if ($errors->has('price_customer.${counter}')) has-error @endif"><input type="text" step="any" name="price_customer[${counter}]"></td>
+        <td class="@if ($errors->has('remarks.${counter}')) has-error @endif"><input type="text" name="remarks[${counter}]"></td>
+        <td>
+            <a href="#" onclick="removeItemReq(${counter})">
+                <img id="img_remove_${counter}" src="${img_remove}" alt="Remove Pro Order">
+            </a>
+        </td>
+    </tr>`;
+    counter++;
+    $("#counter").val(counter);
+    $('#pre-order tr:last').after(html);
+    remove_obj('.remove');
+    $('input[name="qty[' + counter + ']"]').rules("add", {
+        required: true,
+        number: true
+    });
+    $('input[name="link[' + counter + ']"]').rules("add", {
+        required: true,
+        url: true
+    });
+});
+
 		
 		$(".qty-trigger").click(function() {
 			var ID = $(this).attr("data-id");
