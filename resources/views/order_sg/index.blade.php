@@ -32,16 +32,16 @@
 								<table class="search-table">
 									<tr>
 										<td>Customer Name &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="customer_name" value="" autocomplete="off" placeholder="Customer Name"></td>
+										<td><input type="text" class="form-control mask" name="customer_name" value="{{ $customer_name }}" autocomplete="off" placeholder="Customer Name"></td>
 									</tr>
 									<tr>
 										<td>Total Price &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="total_price"  value="" autocomplete="off" placeholder="Total Price"></td>
+										<td><input type="text" class="form-control mask" name="total_price"  value="{{ $total_price }}" autocomplete="off" placeholder="Total Price"></td>
 									</tr>
 									
 									<tr>
 										<td>PO ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="" name='request_id' autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="{{ $request_id }}" name='request_id' autocomplete="off"></td>
 									</tr>
 
 									<!--<tr>
@@ -72,8 +72,8 @@
 										<td>Order By &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
+												<option value="{{ $order_by }}">Ascending</option>
+												<option selected value="{{ $order_by }}">Descending</option>
 												
 											</select>
 										

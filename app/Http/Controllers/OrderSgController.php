@@ -20,7 +20,7 @@ class OrderSgController extends Controller
 {
     $data = array();
     $status = $request->input('status');
-    $trans_date_start = $request->input('trans_date_start');
+    $customer_name = $request->input('customer_name');
     $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
     $order_by = $request->input('order_by', 'DESC');
@@ -32,7 +32,7 @@ class OrderSgController extends Controller
         $orders = $orders->where('status', $status);
     }
 
-    if ($request->customer_name) {
+    if ($customer_name) {
         $orders = $orders->whereHas('customer', function($query) use($request) {
             $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
         });
@@ -56,6 +56,10 @@ class OrderSgController extends Controller
     $orders = $orders->orderBy('OnDateTime', $order_by)->get(); //ASC or DESC from filter
 
     $data['orders'] = $orders;
+    $data['customer_name'] = $customer_name;
+    $data['total_price'] = $total_price;
+    $data['request_id'] =$request_id;
+    $data['order_by'] = $order_by;
 
     if ($status === '00') {
         return view('order_sg.index', $data);

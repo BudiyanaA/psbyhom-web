@@ -21,8 +21,8 @@ public function index(Request $request)
 {
     $data = array();
     $status = $request->input('status');
-    $trans_date_start = $request->input('trans_date_start');
-    $trans_date_end = $request->input('trans_date_end');
+    $customer_name = $request->input('customer_name');
+    $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
     $order_by = $request->input('order_by', 'DESC');
 
@@ -32,12 +32,18 @@ public function index(Request $request)
         $orders = $orders->where('status', $status);
     }
 
-    if ($trans_date_start) {
-        $orders = $orders->where('created_date', '>=', $trans_date_start);
+    if ($customer_name) {
+        $orders = $orders->whereHas('customer', function($query) use($request) {
+            $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
+        });
     }
 
-    if ($trans_date_end) {
-        $orders = $orders->where('created_date', '<=', $trans_date_end);
+    if ($total_price) {
+        // Menghapus tanda koma dari input pencarian
+        $total_price = str_replace(',', '', $total_price);
+    
+        // Melakukan pencarian dengan operator LIKE
+        $orders = $orders->where('total_price', 'like', '%' . $total_price . '%');
     }
 
     if ($request_id) {
@@ -50,6 +56,10 @@ public function index(Request $request)
     $orders = $orders->orderBy('OnDateTime', $order_by)->get();
 
     $data['orders'] = $orders;
+    $data['customer_name'] = $customer_name;
+    $data['total_price'] = $total_price;
+    $data['request_id'] =$request_id;
+    $data['order_by'] = $order_by;
 
     if ($status === '00') {
         return view('order.index', $data);
