@@ -112,7 +112,8 @@
 									<td><a href="{{ route('customer.detail', $o->CustomerUUID) }}">{{ $o->customer?->customer_name }}</a></td>
 									<td>{{ formatDate($o->created_date) }}</td>
 									<td>{{ $o->total_items }}</td>
-									<td>{{ $o->total_price * $o->forex }}</td>
+									<!-- <td>{{ $o->total_price * $o->forex }}</td> -->
+									<td>{{ $o->total_price }}</td>
 									<td>
 										@if ($o->status === '00')
 											Pending Admin Verification
