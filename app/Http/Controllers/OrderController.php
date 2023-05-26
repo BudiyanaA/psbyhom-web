@@ -17,16 +17,14 @@ class OrderController extends Controller
         ->delete();
 }
 
-    public function index(Request $request)
+public function index(Request $request)
 {
-
-    
     $data = array();
     $status = $request->input('status');
     $trans_date_start = $request->input('trans_date_start');
     $trans_date_end = $request->input('trans_date_end');
     $request_id = $request->input('request_id');
-    
+    $order_by = $request->input('order_by', 'DESC');
 
     $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
@@ -49,7 +47,7 @@ class OrderController extends Controller
     $threeMonthsAgo = now()->subMonths(3);
     $orders = $orders->where('OnDateTime', '>=', $threeMonthsAgo);
 
-    $orders = $orders->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC or DESC from filter
+    $orders = $orders->orderBy('OnDateTime', $order_by)->get();
 
     $data['orders'] = $orders;
 

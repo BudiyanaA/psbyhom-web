@@ -23,6 +23,7 @@ class OrderSgController extends Controller
     $trans_date_start = $request->input('trans_date_start');
     $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
+    $order_by = $request->input('order_by', 'DESC');
     
     
     $orders = TrRequestOrder::with('customer')->where('po_type', 'SG');
@@ -52,7 +53,7 @@ class OrderSgController extends Controller
     $threeMonthsAgo = now()->subMonths(3);
     $orders = $orders->where('OnDateTime', '>=', $threeMonthsAgo);
 
-    $orders = $orders->orderBy('OnDateTime', 'ASC')->get(); //ASC or DESC from filter
+    $orders = $orders->orderBy('OnDateTime', $order_by)->get(); //ASC or DESC from filter
 
     $data['orders'] = $orders;
 
