@@ -23,11 +23,11 @@
 					<p><a href="{{ route('contact_us.index') }}">Contact Us</a></p>
 				</div>
 				<div class="col-sm-3 col-md-3">
-					<!-- <h3>Contact Us&nbsp;</h3>
+					<h3>Contact Us&nbsp;</h3>
 <ul class="footer-social">
-<li><a href="mailto:info@myhouseofmakeup.com"><img src="https://psbyhom.com/design/socmed-mail.png" alt="socmed-mail" /> info@psbyhom.com</a></li>
-<li><a href="https://line.me/R/ti/p/%40houseofmakeup"><img src="https://psbyhom.com/design/socmed-line.png" alt="socmed-line" /> @houseofmakeup</a></li>
-</ul> -->
+<li><a href="mailto:info@myhouseofmakeup.com"><img src="{{ url('assets/img/mail.png') }}" alt="socmed-mail" />info@psbyhom.com</a></li>
+<li><a href="https://line.me/R/ti/p/%40houseofmakeup"><img src="{{ url('assets/img/line.png') }}" alt="socmed-line" /> @houseofmakeup</a></li>
+</ul>
 <h3>Open Hours</h3>
 <p>Monday - Friday 8 AM - 4 PM</p>
 <p>Saturday 8 AM - 1 PM</p>
@@ -61,7 +61,9 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div id="footerkanan">
-<p>All Rights Reserved. Design by&nbsp;<a href="https://www.fiesto.com/" target="_blank"><img src="../../../../myhouseofmakeup.com/file/media/source/logo-fiesto-footer%20%5b1%5d.png" alt="logo-fiesto-footer [1]" /></a></p>
+<p>All Rights Reserved. Design by Hyperlynx&nbsp;
+	<!-- <a href="https://www.fiesto.com/" target="_blank"><img src="{{ url('assets/img/fiesto.svg') }}" alt="logo-fiesto-footer [1]" /></a> -->
+</p>
 </div>				</div>
 			</div>
 			</div>
