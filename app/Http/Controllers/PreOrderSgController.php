@@ -34,7 +34,7 @@ class PreOrderSgController extends Controller
     {
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
-    $randomString = '';
+    $randomString = 'SG';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
@@ -133,7 +133,6 @@ function newid()
              $CustomerUUID = session('user_id');
              $customer_name = session('customer_name');
              $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
- 
              // Insert tr_request_order
              TrRequestOrder::create([
                  'RequestOrderUUID' => $request->RequestOrderUUID,
