@@ -20,10 +20,10 @@ class OrderSgController extends Controller
 {
     $data = array();
     $status = $request->input('status');
-    $customer_name = $request->input('customer_name');
-    $total_price = $request->input('total_price');
+    $order_date_start = $request->input('order_date_start');
+    $order_date_end = $request->input('order_date_end');
     $request_id = $request->input('request_id');
-    $order_by = $request->input('order_by', 'DESC');
+    $order_by = $request->input('order_by','desc');
     
     
     $orders = TrRequestOrder::with('customer')->where('po_type', 'SG');
@@ -31,21 +31,9 @@ class OrderSgController extends Controller
     if ($status) {
         $orders = $orders->where('status', $status);
     }
-
-    if ($customer_name) {
-        $orders = $orders->whereHas('customer', function($query) use($request) {
-            $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
-        });
+    if ($order_date_start && $order_date_end) {
+        $orders = $orders->whereBetween('created_date', [$order_date_start, $order_date_end]);
     }
-
-    if ($total_price) {
-        // Menghapus tanda koma dari input pencarian
-        $total_price = str_replace(',', '', $total_price);
-    
-        // Melakukan pencarian dengan operator LIKE
-        $orders = $orders->where('total_price', 'like', '%' . $total_price . '%');
-    }
-
     if ($request_id) {
         $orders = $orders->where('request_id', 'like', '%'.$request_id.'%');
     }
@@ -56,8 +44,8 @@ class OrderSgController extends Controller
     $orders = $orders->orderBy('OnDateTime', $order_by)->get(); //ASC or DESC from filter
 
     $data['orders'] = $orders;
-    $data['customer_name'] = $customer_name;
-    $data['total_price'] = $total_price;
+    $data['order_date_start'] = $order_date_start;
+    $data['order_date_end'] = $order_date_end;
     $data['request_id'] =$request_id;
     $data['order_by'] = $order_by;
 

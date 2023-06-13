@@ -25,7 +25,7 @@ public function index(Request $request)
     $customer_name = $request->input('customer_name');
     $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
-    $order_by = $request->input('order_by', 'DESC');
+    $order_by = $request->input('order_by', 'desc');
     $order_date_start = $request->input('order_date_start');
     $order_date_end = $request->input('order_date_end');
 
@@ -39,13 +39,7 @@ public function index(Request $request)
         $orders = $orders->where('request_id', 'like', '%'.$request_id.'%');
     }
     
-    if ($order_date_start) {
-        $order_date_start = Carbon::createFromFormat('d/m/Y', $order_date_start)->format('Y-m-d');
-    }
-    
-    if ($order_date_end) {
-        $order_date_end = Carbon::createFromFormat('d/m/Y', $order_date_end)->format('Y-m-d');
-    }
+   
     
     if ($order_date_start && $order_date_end) {
         $orders = $orders->whereBetween('created_date', [$order_date_start, $order_date_end]);

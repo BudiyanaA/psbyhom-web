@@ -33,13 +33,13 @@
 								<tr>
 										<td>Order Date Start &nbsp; &nbsp; </td>
 										<td width="250px">
-											<input type="text" class="form-control mask" name="order_date_start" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+											<input type="date" class="form-control mask" name="order_date_start" value="{{ $order_date_start }}">
 										</td>
 									</tr>
 									<tr>
 										<td>Order Date End &nbsp; &nbsp; </td>
 										<td width="250px">
-											<input type="text" class="form-control mask" name="order_date_end" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+											<input type="date" class="form-control mask" name="order_date_end" value="{{ $order_date_end }}">
 										</td>
 									</tr>
 									
@@ -76,8 +76,8 @@
 										<td>Order By &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
+										<option value="asc" {{ $order_by == 'asc' ? 'selected' : '' }}>Ascending</option>
+            							<option value="desc" {{ $order_by == 'desc' ? 'selected' : '' }}>Descending</option>
 												
 											</select>
 										
