@@ -26,13 +26,18 @@ class PaymentSgController extends Controller
             $title = '';
             $subtitle = '';
         }
-        $order_by = $request->input('order_by', 'DESC');
+        $order_by = $request->input('order_by', 'desc');
         $customer_name = $request->input('customer_name');
         $total_trans = $request->input('total_trans');
         $po_id = $request->input('po_id');
+        $order_date_start = $request->input('order_date_start');
+        $order_date_end = $request->input('order_date_end');
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('po_type', 'SG');
         if ($request->status) {
             $payment = $payment->whereIn('status', explode(",", $request->input('status')));
+        }
+        if ($order_date_start && $order_date_end) {
+            $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
         // if ($request->trans_date_start) {
         //     $payment = $payment->where('trans_date', '>=', $request->trans_date_start);
@@ -67,7 +72,7 @@ class PaymentSgController extends Controller
         $data['po_id'] =$po_id;
         $data['order_by'] = $order_by;
         
-        return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment ,'po_id' => $po_id,'total_trans' => $total_trans,'customer_name' => $customer_name,'order_by' => $order_by]);
+        return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment ,'po_id' => $po_id,'total_trans' => $total_trans,'customer_name' => $customer_name,'order_by' => $order_by,'order_date_start' => $order_date_start,'order_date_end' => $order_date_end]);
     }
 
     function newid()
