@@ -176,3 +176,55 @@ if (!function_exists('formatDateTime')) {
     return date('d M Y H:i:s', strtotime($datetime));
   }
 }
+
+if (!function_exists('getNewPo')) {
+  function getNewPo()
+  {
+    $np = TrRequestOrder::where('status', '00')
+    ->where(function ($query) {
+        $query->whereNull('po_type')
+            ->orWhere('po_type', 'SG');
+    })
+    ->count(); 
+    return $np;
+  }
+}
+
+if (!function_exists('getDashDp')) {
+  function getDashDp()
+  {
+      $dpd = TrPo::where('status', '00')
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count(); 
+      return $dpd;
+  }
+}
+
+if (!function_exists('getDasgGoods')) {
+  function getDasgGoods()
+  {
+      $dg = TrPo::whereIn('status', ['02', '03'])
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count(); 
+      return $dg;
+  }
+}
+
+if (!function_exists('getDashLp')) {
+  function getDashLp()
+  {
+      $lp = TrPo::whereIn('status', ['04', '05'])
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count();
+      return $lp;
+  }
+}
