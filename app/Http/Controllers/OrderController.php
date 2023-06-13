@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrRequestOrder;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -25,29 +26,29 @@ public function index(Request $request)
     $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
     $order_by = $request->input('order_by', 'DESC');
+    $order_date_start = $request->input('order_date_start');
+    $order_date_end = $request->input('order_date_end');
 
     $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
-    if ($status) {
-        $orders = $orders->where('status', $status);
-    }
-
-    if ($customer_name) {
-        $orders = $orders->whereHas('customer', function($query) use($request) {
-            $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
-        });
-    }
-
-    if ($total_price) {
-        // Menghapus tanda koma dari input pencarian
-        $total_price = str_replace(',', '', $total_price);
     
-        // Melakukan pencarian dengan operator LIKE
-        $orders = $orders->where('total_price', 'like', '%' . $total_price . '%');
-    }
+    
+    
 
     if ($request_id) {
         $orders = $orders->where('request_id', 'like', '%'.$request_id.'%');
+    }
+    
+    if ($order_date_start) {
+        $order_date_start = Carbon::createFromFormat('d/m/Y', $order_date_start)->format('Y-m-d');
+    }
+    
+    if ($order_date_end) {
+        $order_date_end = Carbon::createFromFormat('d/m/Y', $order_date_end)->format('Y-m-d');
+    }
+    
+    if ($order_date_start && $order_date_end) {
+        $orders = $orders->whereBetween('created_date', [$order_date_start, $order_date_end]);
     }
 
     $threeMonthsAgo = now()->subMonths(3);
@@ -60,6 +61,8 @@ public function index(Request $request)
     $data['total_price'] = $total_price;
     $data['request_id'] =$request_id;
     $data['order_by'] = $order_by;
+    $data['order_date_start'] = $order_date_start;
+    $data['order_date_end'] = $order_date_end;
 
     if ($status === '00') {
         return view('order.index', $data);

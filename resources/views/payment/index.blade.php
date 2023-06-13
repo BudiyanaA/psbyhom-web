@@ -34,11 +34,11 @@
 								<table class="search-table">
 									<tr>
 										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start"  value=""  data-inputmask="'alias': 'date'"></td>
+										<td><input type="text" class="form-control mask" name="order_date_start"  value=""  data-inputmask="'alias': 'date'"></td>
 									</tr>
 									<tr>
 										<td>Pre Order Date End  &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td><input type="text" class="form-control mask" name="order_date_end"  value="" data-inputmask="'alias': 'date'"></td>
 									</tr>
 									<tr>
 										<td>Pre Order ID  &nbsp; &nbsp; </td>

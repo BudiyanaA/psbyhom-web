@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrPo;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -26,16 +27,22 @@ class PaymentController extends Controller
             $title = '';
             $subtitle = '';
         }
-
+        $order_date_start = $request->input('order_date_start');
+        $order_date_end = $request->input('order_date_end');
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
         if ($request->status) {
             $payment = $payment->whereIn('status', explode(",", $request->input('status')));
         }
-        if ($request->trans_date_start) {
-            $payment = $payment->where('trans_date', '>=', $request->trans_date_start);
+        if ($order_date_start) {
+            $order_date_start = Carbon::createFromFormat('d/m/Y', $order_date_start)->format('Y-m-d');
         }
-        if ($request->trans_date_end) {
-            $payment = $payment->where('trans_date', '<=', $request->trans_date_end);
+        
+        if ($order_date_end) {
+            $order_date_end = Carbon::createFromFormat('d/m/Y', $order_date_end)->format('Y-m-d');
+        }
+        
+        if ($order_date_start && $order_date_end) {
+            $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
         if ($request->po_id) {
             $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');

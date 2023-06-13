@@ -30,18 +30,22 @@
                         <div class="panel-body collapse in">
 						<form method="get" action="{{ route('preorder.index') }}">
 								<table class="search-table">
-									<tr>
+								<tr>
 										<td>Order Date Start &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start" value="" data-inputmask="'alias': 'date'"></td>
+										<td width="250px">
+											<input type="text" class="form-control mask" name="order_date_start" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+										</td>
 									</tr>
 									<tr>
-										<td>Order Date End &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td>Order Date End &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="text" class="form-control mask" name="order_date_end" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+										</td>
 									</tr>
 									
 									<tr>
 										<td>PO ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="" name='request_id' autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="{{ $request_id }}" name='request_id' autocomplete="off"></td>
 									</tr>
 
 									<!--<tr>

@@ -31,12 +31,16 @@
 						<form method="get" action="{{ route('preorder.index') }}">
 								<table class="search-table">
 								<tr>
-										<td>Customer Name &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="customer_name" value="{{ $customer_name }}" autocomplete="off" placeholder="Customer Name"></td>
+										<td>Order Date Start &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="text" class="form-control mask" name="order_date_start" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+										</td>
 									</tr>
 									<tr>
-										<td>Total Price &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="total_price"  value="{{ $total_price }}" autocomplete="off" placeholder="Total Price"></td>
+										<td>Order Date End &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="text" class="form-control mask" name="order_date_end" value="" data-inputmask="'alias': 'date'" placeholder="dd/mm/yyyy">
+										</td>
 									</tr>
 									
 									<tr>
