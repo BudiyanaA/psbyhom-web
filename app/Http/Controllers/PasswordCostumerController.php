@@ -23,6 +23,9 @@ class PasswordCostumerController extends Controller
     {
         $email_forgot = $request->email_forgot;
         $customer = Registercostumer::where('email', $email_forgot)->first();
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Email Tidak Terdaftar !');
+        }
         $token_id = $this->newid();
 
         Registercostumer::where('CustomerUUID', $customer->CustomerUUID)
