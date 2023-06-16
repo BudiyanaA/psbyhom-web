@@ -13,6 +13,9 @@ class CostumerManagementController extends Controller
         if ($request->customer_name) {
             $data['costumer'] = $data['costumer']->where('customer_name', 'like', '%' . $request->customer_name . '%');
         }
+        if ($request->email) {
+            $data['costumer'] = $data['costumer']->where('email', 'like', '%' . $request->email . '%');
+        }
         $data['costumer'] = $data['costumer']->paginate(10);
         return view('costumer.index',$data);
     }

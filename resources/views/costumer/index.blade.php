@@ -32,6 +32,12 @@
 																	<tr>
 										<td>Customer Name  &nbsp; &nbsp; </td>
 										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+                                        
+									</tr>
+                                    <tr>
+										<td>Email  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="email" placeholder="Email" class="form-control" name='email'  value="" autocomplete="off"></td>
+                                        
 									</tr>
 								<tr>
 										<td>&nbsp; &nbsp;  </td>
