@@ -32,7 +32,9 @@ public function index(Request $request)
     $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
     
-    
+    if ($status) {
+        $orders = $orders->where('status', 'like', '%'.$status.'%');
+    }
     
 
     if ($request_id) {

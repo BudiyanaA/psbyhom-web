@@ -33,6 +33,9 @@ class PaymentController extends Controller
         $po_id = $request->input('po_id');
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
         
+        if ($status) {
+            $payment = $payment->whereIn('status', explode(",", $status));
+        }
         if ($order_date_start && $order_date_end) {
             $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
