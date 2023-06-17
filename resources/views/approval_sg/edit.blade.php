@@ -9,7 +9,7 @@
                 <li class="active">View Order</li>
             </ul>
 
-            <h1>View Order</h1>
+            <h1>View Order Singapore</h1>
 			<br>
 			<br>
         </div>
@@ -45,7 +45,7 @@
 									</div>
 									</div>	
 							<div class="form-group">
-										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate USD - IDR</label>
+										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate SGD - IDR</label>
 										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $order->forex }}'></div>
 									 </div>			
 				
@@ -57,7 +57,7 @@
 											<th >Product Name</th>
 											<th>Color</th>							
 											<th>Size/Weight</th>
-											<th>Price(USD)</th>
+											<th>Price(SGD)</th>
 											<th>Info</th>					
 											<th>Add. Fee (IDR)</th>
 											<th>Disc. (%)</th>

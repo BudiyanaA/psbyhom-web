@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrRequestOrder;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -17,41 +18,45 @@ class OrderController extends Controller
         ->delete();
 }
 
-    public function index(Request $request)
+public function index(Request $request)
 {
-
-    
     $data = array();
     $status = $request->input('status');
-    $trans_date_start = $request->input('trans_date_start');
-    $trans_date_end = $request->input('trans_date_end');
+    $customer_name = $request->input('customer_name');
+    $total_price = $request->input('total_price');
     $request_id = $request->input('request_id');
-    
+    $order_by = $request->input('order_by', 'desc');
+    $order_date_start = $request->input('order_date_start');
+    $order_date_end = $request->input('order_date_end');
 
     $orders = TrRequestOrder::with('customer')->whereNull('po_type');
 
-    if ($status) {
-        $orders = $orders->where('status', $status);
-    }
-
-    if ($trans_date_start) {
-        $orders = $orders->where('created_date', '>=', $trans_date_start);
-    }
-
-    if ($trans_date_end) {
-        $orders = $orders->where('created_date', '<=', $trans_date_end);
-    }
+    
+    
+    
 
     if ($request_id) {
         $orders = $orders->where('request_id', 'like', '%'.$request_id.'%');
+    }
+    
+   
+    
+    if ($order_date_start && $order_date_end) {
+        $orders = $orders->whereBetween('created_date', [$order_date_start, $order_date_end]);
     }
 
     $threeMonthsAgo = now()->subMonths(3);
     $orders = $orders->where('OnDateTime', '>=', $threeMonthsAgo);
 
-    $orders = $orders->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC or DESC from filter
+    $orders = $orders->orderBy('OnDateTime', $order_by)->get();
 
     $data['orders'] = $orders;
+    $data['customer_name'] = $customer_name;
+    $data['total_price'] = $total_price;
+    $data['request_id'] =$request_id;
+    $data['order_by'] = $order_by;
+    $data['order_date_start'] = $order_date_start;
+    $data['order_date_end'] = $order_date_end;
 
     if ($status === '00') {
         return view('order.index', $data);

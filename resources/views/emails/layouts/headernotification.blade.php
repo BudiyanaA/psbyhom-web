@@ -20,7 +20,7 @@
         <tbody><tr>
           <td style="border-collapse:collapse;border-bottom: 3px solid #081071;text-align:center;vertical-align:top" align="left" valign="top">
             <a href="" style="color:#a30046;font-weight:normal;text-decoration:none" target="_blank">
-            <img alt="" height="80" src="{{ url('design/headerlogo.jpg') }}" style="border:0;min-height:auto;line-height:100%;outline:none;text-decoration:none"  ></a>
+            <img alt="" height="80" src="{{ url('assets/img/logo.png') }}" style="border:0;min-height:auto;line-height:100%;outline:none;text-decoration:none"  ></a>
           </td>
         </tr>
       </tbody></table>

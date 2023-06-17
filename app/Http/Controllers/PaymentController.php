@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrPo;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -26,16 +27,14 @@ class PaymentController extends Controller
             $title = '';
             $subtitle = '';
         }
-
+        $order_date_start = $request->input('order_date_start');
+        $order_date_end = $request->input('order_date_end');
+        $order_by = $request->input('order_by', 'desc');
+        $po_id = $request->input('po_id');
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
-        if ($request->status) {
-            $payment = $payment->whereIn('status', explode(",", $request->input('status')));
-        }
-        if ($request->trans_date_start) {
-            $payment = $payment->where('trans_date', '>=', $request->trans_date_start);
-        }
-        if ($request->trans_date_end) {
-            $payment = $payment->where('trans_date', '<=', $request->trans_date_end);
+        
+        if ($order_date_start && $order_date_end) {
+            $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
         if ($request->po_id) {
             $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');
@@ -50,9 +49,10 @@ class PaymentController extends Controller
                 $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
             });
         }
-        $payment = $payment->orderBy('OnDateTime', 'DESC')->get(); //TODO: ASC dam DESC dari filter
+        $payment = $payment->orderBy('OnDateTime', $order_by)->get();
+      
         
-        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
+        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment,'order_date_start' => $order_date_start,'order_date_end' => $order_date_end,'order_by' => $order_by,'po_id' => $po_id]);
     }
 
     public function updateResi(Request $request)

@@ -102,8 +102,11 @@ if (!function_exists('getAdminSgNew')) {
 if (!function_exists('getAdminSgApproval')) {
   function getAdminSgApproval()
   {
+    $threeMonthsAgo = now()->subMonths(3);
+
     $approval_sg = TrRequestOrder::where('status', '01')
     ->where('po_type', 'SG')
+    ->where('OnDateTime', '>=', $threeMonthsAgo)
     ->count(); 
     return $approval_sg;
   }
@@ -132,7 +135,7 @@ if (!function_exists('getAdminSgDp')) {
 if (!function_exists('getAdminSgLp')) {
   function getAdminSgLp()
   {
-    $lp_sg = TrPo::where('status', '05')
+    $lp_sg = TrPo::whereIn('status', ['04', '05'])
     ->where('po_type', 'SG')
     ->count(); 
     return $lp_sg;
@@ -143,7 +146,7 @@ if (!function_exists('getAdminSgReady')) {
   function getAdminSgReady()
   {
     $ready_sg = TrPo::where('status', '06')
-    // ->where('po_type', 'SD')
+    ->where('po_type', 'SG')
     ->count(); 
 
     return $ready_sg;
@@ -153,7 +156,7 @@ if (!function_exists('getAdminSgReady')) {
 if (!function_exists('getAdminSgGoods')) {
   function getAdminSgGoods()
   {
-    $ready = TrPo::where('status', ['02', '03'])
+    $ready = TrPo::whereIn('status', ['02', '03'])
     ->where('po_type', 'SG')
     ->count(); 
     return $ready;
@@ -171,5 +174,57 @@ if (!function_exists('formatDateTime')) {
   function formatDateTime($datetime)
   {
     return date('d M Y H:i:s', strtotime($datetime));
+  }
+}
+
+if (!function_exists('getNewPo')) {
+  function getNewPo()
+  {
+    $np = TrRequestOrder::where('status', '00')
+    ->where(function ($query) {
+        $query->whereNull('po_type')
+            ->orWhere('po_type', 'SG');
+    })
+    ->count(); 
+    return $np;
+  }
+}
+
+if (!function_exists('getDashDp')) {
+  function getDashDp()
+  {
+      $dpd = TrPo::where('status', '00')
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count(); 
+      return $dpd;
+  }
+}
+
+if (!function_exists('getDasgGoods')) {
+  function getDasgGoods()
+  {
+      $dg = TrPo::whereIn('status', ['02', '03'])
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count(); 
+      return $dg;
+  }
+}
+
+if (!function_exists('getDashLp')) {
+  function getDashLp()
+  {
+      $lp = TrPo::whereIn('status', ['04', '05'])
+          ->where(function ($query) {
+              $query->whereNull('po_type')
+                  ->orWhere('po_type', 'SG');
+          })
+          ->count();
+      return $lp;
   }
 }

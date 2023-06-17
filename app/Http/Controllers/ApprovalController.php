@@ -51,6 +51,7 @@ class ApprovalController extends Controller
 
                 $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
                     ->orderBy('seq', 'ASC')->get();
+                // USD
                 $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
     
                 $i = 0;
@@ -160,7 +161,7 @@ class ApprovalController extends Controller
 
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }

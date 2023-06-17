@@ -10,7 +10,7 @@
 	</div>
 	<div class="col-lg-12">
 <ul class="success">
-<li>Thank you for submitting Request Order. <br> Our Admin will verifify your request then we will send the quotation based on your request order to your registered email !</li>
+<li>Thank you for submitting your Payment Confirmation! <br> Our Admin will verify your Payment Confirmation if its valid, then your transaction will be processed.</li>
 </ul>
 <br>
 <br>

@@ -94,6 +94,7 @@ class PreOrderController extends Controller
             $total_items = 0;
             $total_price = 0;
 
+            // Using USD
             $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
 
             // Insert tr_request_order_dtl
@@ -210,7 +211,7 @@ class PreOrderController extends Controller
             Log::error($request->all());
             Log::error($e->getMessage());
             // dd($e);
-            Log::error($e->toJson());
+            // Log::error($e->toJson());
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
 }

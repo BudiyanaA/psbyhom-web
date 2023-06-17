@@ -10,6 +10,11 @@
       </div>
       <div class="col-lg-12">
         <div class="form-checkout">
+        @if(Session::has('error'))
+			<script>
+				alert("{{ Session::get('error') }}");
+			</script>
+		@endif
           <div class="form-register">
             <form class="form-group row" id='forgot_password_form' name='change_password_form' method="POST" action="{{ route('password.forgotaction') }}">
               @csrf

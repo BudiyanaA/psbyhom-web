@@ -12,7 +12,7 @@
 <div class="container" id="content">
 	<div class="content-wrapper">
 		<div class="row">
-			<div class="col-lg-12"><h3 ><strong style="color:darkgray ">Process Pre Order</strong></h3>
+			<div class="col-lg-12"><h3 ><strong style="color:darkgray ">Process Pre Order Singapore</strong></h3>
 		</div>
 		@if (Session::has('error'))
                         <div class="alert alert-danger alert-dismissible" role="alert">

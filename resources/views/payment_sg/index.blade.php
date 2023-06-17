@@ -30,19 +30,23 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="{{ route('payment.index') }}">
+						<form method="get" action="{{ route('payment_sg.index') }}">
 								<table class="search-table">
-									<tr>
-										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start"  value=""  data-inputmask="'alias': 'date'"></td>
+								<tr>
+										<td>Pre Order Date Start &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_start" value="{{ $order_date_start }}">
+										</td>
 									</tr>
 									<tr>
-										<td>Pre Order Date End  &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td>Pre Order Date End &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_end" value="{{ $order_date_end }}">
+										</td>
 									</tr>
 									<tr>
 										<td>Pre Order ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="PO ID" class="form-control" name='po_id'  value="" autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="PO ID" class="form-control" name='po_id'  value="{{ $po_id }}" autocomplete="off"></td>
 									</tr>
 									<tr>
 										<td>Batch Order ID  &nbsp; &nbsp; </td>
@@ -79,7 +83,7 @@
 			@endif
 																	<tr>
 										<td>Customer Name  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="{{ $customer_name }}" autocomplete="off"></td>
 									</tr>
 									
 								
@@ -89,8 +93,8 @@
 										<td>Order By  &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
+										<option value="asc" {{ $order_by == 'asc' ? 'selected' : '' }}>Ascending</option>
+            							<option value="desc" {{ $order_by == 'desc' ? 'selected' : '' }}>Descending</option>
 												
 											</select>
 										
@@ -162,9 +166,6 @@
 											</tr>
                                 </tbody>
                             </table>
-							<ul class="pagination">
-								{{ $payment->links() }}
-							</ul>
 						</div>
                     </div>
                 </div>

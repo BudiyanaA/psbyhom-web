@@ -29,8 +29,85 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form action="https://psbyhom.com/incoming_item_controller/validate_update.html" class="form-horizontal row-border "  data-validate="parsley" id="validate-form"  method="post" accept-charset="utf-8" enctype="multipart/form-data" >
-                           <table id="example" class="table table-striped table-bordered" style="width:100%">
+						<form action="{{ route('Waitinggood_sg.index') }}" class="form-horizontal row-border "  data-validate="parsley" id="validate-form"  method="post" accept-charset="utf-8" enctype="multipart/form-data" >
+						<table class="search-table">
+									<!-- <tr>
+										<td>Pre Order Date Start  &nbsp; &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="trans_date_start"  value=""  data-inputmask="'alias': 'date'"></td>
+									</tr>
+									<tr>
+										<td>Pre Order Date End  &nbsp; &nbsp; </td>
+										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+									</tr> -->
+									<tr>
+										<td>Pre Order ID  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="PO ID" class="form-control" name='po_id'  value="" autocomplete="off"></td>
+									</tr>
+									<tr>
+										<td>Batch Order ID  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Batch ID" class="form-control" name='batch_id'  value="" autocomplete="off"></td>
+									</tr>
+									
+								<!--	<tr>
+										<td>Batch Order ID</td>
+										<td width="250px"><input type="text" placeholder="Batch Order ID" class="form-control" name='batch_id' autocomplete="off"></td>
+									</tr>
+			-->
+			@if(app('request')->input('status') == '')
+				<tr>
+					<td>Status  &nbsp; &nbsp; </td>
+					<td width="250px">
+					<select class="form-control" name="status">
+							<option value="">--All Status--</option>
+							<option value="00">Pending Admin Payment Verification</option> <!-- Status awal saat customer submit -->
+							<option value="01">Waiting Down Payment</option> <!-- Status saat admin kirim penawaran   -->
+							<option value="02">Processed</option> <!-- Status saat customer submit checkout  -->
+							<option value="03">Processed (All Checked)</option>
+							<option value="04">Waiting Last Payment</option>
+							<option value="05">Pending Admin Payment Verification</option>
+							<option value="06">Ready to Ship</option>
+							<option value="07">Shipped</option>
+							<option value="08">Invalid Payment</option>
+							<option value="09">Canceled</option>
+						</select>
+					
+					</td>
+				</tr>
+			@else
+				<input type='hidden' name='status' value="{{ app('request')->input('status') }}">
+			@endif
+																	<tr>
+										<td>Customer Name  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+									</tr>
+									
+								
+									
+									<!--pilihan untuk sorting data 21-12-2015-->
+									<tr>
+										<td>Order By  &nbsp; &nbsp; </td>
+										<td width="250px">
+										<select class="form-control" name="order_by">
+												<option value="ASC">Ascending</option>
+												<option selected value="DESC">Descending</option>
+												
+											</select>
+										
+										</td>
+									</tr>
+								<tr>
+										<td>&nbsp; &nbsp;  </td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<input type="submit" class="btn-primary btn" value='Search'>
+										</td>
+									</tr>
+								</table>
+							</form>
+							<br>
+							<br>               
+						<table id="example" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
 										<tr>
 											<th>PO ID</th>

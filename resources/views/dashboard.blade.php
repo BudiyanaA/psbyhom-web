@@ -26,7 +26,7 @@
                     <i class="fa fa-shopping-cart"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                      <?php echo getAdminNew(); ?>
+                      <?php echo getNewPo(); ?>
                       </font>
                     </div>
                     <small>.</small>
@@ -42,7 +42,7 @@
                     <i class="fa fa-money"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                      <?php echo getAdminDp(); ?><span class="text-smallcaps"></span>
+                      <?php echo getDashDp(); ?><span class="text-smallcaps"></span>
                       </font>
                     </div>
                     <small>.</small>
@@ -57,7 +57,7 @@
                   <div class="tiles-body-alt">
                     <i class="fa fa-truck"></i>
                     <div class="text-center">
-                    <?php echo getAdminGoods(); ?>
+                    <?php echo getDasgGoods(); ?>
                     </div>
                     <small>.</small>
                   </div>
@@ -71,7 +71,7 @@
                   <div class="tiles-body-alt">
                     <i class="fa fa-dollar"></i>
                     <div class="text-center">
-                    <?php echo getAdminLp(); ?>
+                    <?php echo getDashLp(); ?>
                     </div>
                     <small>.</small>
                   </div>

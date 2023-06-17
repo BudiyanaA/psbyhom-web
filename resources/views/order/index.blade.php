@@ -30,54 +30,34 @@
                         <div class="panel-body collapse in">
 						<form method="get" action="{{ route('preorder.index') }}">
 								<table class="search-table">
-									<tr>
+								<tr>
 										<td>Order Date Start &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start" value="" data-inputmask="'alias': 'date'"></td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_start" value="{{ $order_date_start }}">
+										</td>
 									</tr>
 									<tr>
-										<td>Order Date End &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td>Order Date End &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_end" value="{{ $order_date_end }}">
+										</td>
 									</tr>
 									
 									<tr>
 										<td>PO ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="" name='request_id' autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="{{ $request_id }}" name='request_id' autocomplete="off"></td>
 									</tr>
 
-									<!--<tr>
-										<td>Status &nbsp; &nbsp;</td>
-										<td width="250px">
-										<select class="form-control" name="status">
-												<option value="">--All Status--</option>
-												<option value="00">Pending Admin Verification</option> <!-- Status awal saat customer submit 
-												<option value="01">Pending Customer Approval</option> <!-- Status saat admin kirim penawaran 
-												<option value="02">Customer Approved</option> <!-- Status saat customer submit checkout 
-												<option value="03">Rejected</option>
-											</select>
-										
-										</td>
-									</tr>
-									-->
-									<input type="hidden" name="status" value='00'>
-									<!--<tr>
-										
-										<td>Nama Customer  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
-									</tr>
-									--
 								
+									<input type="hidden" name="status" value='00'>
 									
-									<!--pilihan untuk sorting data 21-12-2015-->
 									<tr>
 										<td>Order By &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
-												
-											</select>
-										
-										</td>
+										<option value="asc" {{ $order_by == 'asc' ? 'selected' : '' }}>Ascending</option>
+            							<option value="desc" {{ $order_by == 'desc' ? 'selected' : '' }}>Descending</option>
+										</select>
 									</tr>
 									<tr>
 										<td>&nbsp; &nbsp;  </td>
