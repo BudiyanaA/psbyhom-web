@@ -5,6 +5,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="{{ url('assets/less/styles.less') }}" rel="stylesheet/less" media="all"> 
     <script type="text/javascript" src="{{ url('assets/js/less.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
 </head>
 <body>
 @include('layouts.header')

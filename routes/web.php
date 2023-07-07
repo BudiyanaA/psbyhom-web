@@ -149,7 +149,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin/po_invoice/success/{id}', [PoInvoiceController::class, 'success'])->name('poinvoice.success');
     Route::get('admin/preorder/incoming', [WaitingGoodController::class, 'index'])->name('Waitinggood.index');
     Route::get('admin/preorder/invoice', [PaymentController::class, 'index'])->name('payment.index');
-
     Route::get('admin/po_sg_invoice/view/{id}', [PoSgInvoiceController ::class, 'edit'])->name('po_sginvoice.detail');
     Route::put('admin/po_sg_invoice/validate/{id}', [PoSgInvoiceController::class, 'update'])->name('po_sginvoice.update');
     Route::get('admin/po_sg_invoice/success/{id}', [PoSgInvoiceController::class, 'success'])->name('po_sginvoice.success');

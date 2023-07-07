@@ -85,6 +85,8 @@ class PaymentSgController extends Controller
 			return $uuid;
 		}
 
+        
+
     public function updateResi(Request $request)
     {
         
