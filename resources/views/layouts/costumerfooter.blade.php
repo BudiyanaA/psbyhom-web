@@ -62,7 +62,10 @@
 				<div class="col-lg-12">
 					<div id="footerkanan">
 <p>All Rights Reserved. Design by&nbsp;
-	<a href="https://sites.google.com/view/hyperlynx-software-house/home" target="_blank"><img src="{{ url('assets/img/hyperlynx.png') }}" alt="logo-fiesto-footer [1]" /></a>
+<a href="https://sites.google.com/view/hyperlynx-software-house/home" target="_blank">
+  <img src="{{ url('assets/img/hyperlynx.png') }}" alt="logo-fiesto-footer [1]" width="200px" />
+</a>
+
 </p>
 </div>				</div>
 			</div>
