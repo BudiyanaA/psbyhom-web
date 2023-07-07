@@ -183,20 +183,6 @@
 		var doc = new jsPDF('landscape'); // Mengatur orientasi kertas menjadi landscape
 
     doc.setFontSize(12);
-    doc.text('Status', 10, 20);
-    doc.text('Customer Name', 50, 20);
-    doc.text('Order By', 100, 20);
-
-    doc.setLineWidth(0.1); // Mengatur lebar garis antara kolom
-
-    doc.line(10, 22, 290, 22); // Garis horisontal di bawah judul kolom
-
-    doc.setFontSize(10);
-    doc.text('All Status', 10, 30);
-    doc.text('Customer Name', 50, 30);
-    doc.text('Ascending', 100, 30);
-
-    doc.setFontSize(12);
     doc.text('No', 10, 40);
     doc.text('Pre Order ID', 30, 40);
     doc.text('Customer Name', 70, 40);
