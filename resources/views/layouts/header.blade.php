@@ -14,7 +14,7 @@
 		</style>
 		
         <div class="navbar-header centers" >
-			<img src="https://psbyhom.com/images/logo-putih.png" height="40" width="150" alt="Logo" class="brand" />
+			<img src="{{ url('assets/img/logo.jpg') }}" height="40" width="150" alt="Logo" class="brand" />
         </div>
 
         <ul class="nav navbar-nav pull-right toolbar">

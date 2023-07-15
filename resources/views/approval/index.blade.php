@@ -28,20 +28,24 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						<form method="get" action="https://psbyhom.com/request_order_controller/search_filter_request_transaction">
+						<form method="get" action="{{ route('preorder.index') }}">
 								<table class="search-table">
-									<tr>
+								<tr>
 										<td>Order Date Start &nbsp; &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_start" value="" data-inputmask="'alias': 'date'"></td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_start" value="{{ $order_date_start }}">
+										</td>
 									</tr>
 									<tr>
-										<td>Order Date End &nbsp;  &nbsp; </td>
-										<td><input type="text" class="form-control mask" name="trans_date_end"  value="" data-inputmask="'alias': 'date'"></td>
+										<td>Order Date End &nbsp; &nbsp; </td>
+										<td width="250px">
+											<input type="date" class="form-control mask" name="order_date_end" value="{{ $order_date_end }}">
+										</td>
 									</tr>
 									
 									<tr>
 										<td>PO ID  &nbsp; &nbsp; </td>
-										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="" name='request_id' autocomplete="off"></td>
+										<td width="250px"><input type="text" placeholder="Request No" class="form-control" value="{{ $request_id }}" name='request_id' autocomplete="off"></td>
 									</tr>
 
 									<!--<tr>
@@ -72,8 +76,8 @@
 										<td>Order By &nbsp; &nbsp; </td>
 										<td width="250px">
 										<select class="form-control" name="order_by">
-												<option value="ASC">Ascending</option>
-												<option selected value="DESC">Descending</option>
+										<option value="asc" {{ $order_by == 'asc' ? 'selected' : '' }}>Ascending</option>
+            							<option value="desc" {{ $order_by == 'desc' ? 'selected' : '' }}>Descending</option>
 												
 											</select>
 										
@@ -104,6 +108,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+								@if(count($orders) > 0)
 								@foreach($orders as $o)
 								<tr>
 									<td>{{ $loop->index + 1 }}</td>
@@ -129,7 +134,11 @@
 									</td>
 								</tr>
 									@endforeach
-									
+									@else
+								<tr>
+									<td colspan="10">Data not found</td>
+								</tr>
+							@endif
 								</tr>
 									
 								</tbody>
@@ -137,7 +146,7 @@
                     </div>
                 </div>
             </div>
-
+			</div>
         </div> <!-- container -->
     </div> <!--wrap -->
 </div>

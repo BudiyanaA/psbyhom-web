@@ -26,29 +26,53 @@ class PaymentSgController extends Controller
             $title = '';
             $subtitle = '';
         }
-
+        $order_by = $request->input('order_by', 'desc');
+        $customer_name = $request->input('customer_name');
+        $total_trans = $request->input('total_trans');
+        $po_id = $request->input('po_id');
+        $order_date_start = $request->input('order_date_start');
+        $order_date_end = $request->input('order_date_end');
         $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->where('po_type', 'SG');
         if ($request->status) {
-            $payment = $payment->where('status', $status);
+            $payment = $payment->whereIn('status', explode(",", $request->input('status')));
         }
-        if ($request->trans_date_start) {
-            $payment = $payment->where('date', '>=', $request->trans_date_start);
+        if ($order_date_start && $order_date_end) {
+            $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
-        if ($request->trans_date_end) {
-            $payment = $payment->where('date', '<=', $request->trans_date_end);
-        }
+        // if ($request->trans_date_start) {
+        //     $payment = $payment->where('trans_date', '>=', $request->trans_date_start);
+        // }
+        // if ($request->trans_date_end) {
+        //     $payment = $payment->where('trans_date', '<=', $request->trans_date_end);
+        // }
         if ($request->po_id) {
-            $payment = $payment->where('po_id', 'like', $request->po_id);
+            $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');
         }
-        if ($request->batch_id) {
-            $payment = $payment->where('batch_id', 'like', $request->batch_id);
-        }
-        if ($request->customer_name) {
-            $payment = $payment->where('customer_name', 'like', $request->customer_name);
-        }
-        $payment = $payment->orderBy('OnDateTime')->get();
+
+        if ($request->total_trans) {
+            // Menghapus tanda koma dari input pencarian
+            $total_trans = str_replace(',', '', $request->total_trans);
         
-        return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
+            // Melakukan pencarian dengan operator LIKE
+            $payment = $payment->where('total_trans', 'like', '%' . $total_trans . '%');
+        }
+        // if ($request->batch_id) {
+        //     $payment = $payment->whereHas('msBatch', function($query) use($request) {
+        //         $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
+        //     });
+        // }
+        if ($request->customer_name) {
+            $payment = $payment->whereHas('msCustomer', function($query) use($request) {
+                $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
+            });
+        }
+        $payment = $payment->orderBy('OnDateTime', $order_by)->get();
+        $data['customer_name'] = $customer_name;
+        $data['total_trans'] = number_format($total_trans);
+        $data['po_id'] =$po_id;
+        $data['order_by'] = $order_by;
+        
+        return view('payment_sg.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment ,'po_id' => $po_id,'total_trans' => $total_trans,'customer_name' => $customer_name,'order_by' => $order_by,'order_date_start' => $order_date_start,'order_date_end' => $order_date_end]);
     }
 
     function newid()

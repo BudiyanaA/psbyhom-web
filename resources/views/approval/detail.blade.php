@@ -4,8 +4,8 @@
     <div id='wrap'>
         <div id="page-heading">
             <ul class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
-                <li><a href="https://psbyhom.com/isms_customer_management/list_of_customer.html">Customer Management</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <!-- <li><a href="https://psbyhom.com/isms_customer_management/list_of_customer.html">Customer Management</a></li> -->
                 <li class="active">View Customer Detail</li>
             </ul>
 
@@ -122,23 +122,26 @@
 									<thead>
 										<tr>
 											<th>No</th>
-											<th>Trans Date</th>
-											
+											<th>Trans Date</th>			
 											<th>Amount</th>
 											<th>Description</th>
-										
-
 										</tr>
 									</thead>
 									<tbody>
-																						<tr >
-															<td valign='top' colspan='5' align='center'>No Record Found</td>
-															
-														</tr>
-																			</tbody>
+									@foreach($wallet as $e)
+										<tr>
+											<td>{{ $loop->index + 1 }}</td>
+											<td>{{ formatDate($e->trans_date) }}</td>
+											<td>{{ number_format($e->amount) }}</td>
+											<td>{{ str_replace("</b>", "", $e->description) }}</td>
+										</tr>
+										@endforeach
+									</tbody>
 								</table>
-							Total Current E-Wallet Amount : 
-							<strong>0</strong>							</div>
+							Total Current E-Wallet Amount :
+							
+							<strong>{{ number_format($ewallet) }}</strong>
+													</div>
 							<div class="tab-pane" id="comments">
 							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
 									<thead>
@@ -155,7 +158,7 @@
 												<td valign='top'>{{ $loop->index + 1 }}</td>
 												<td>{{ $row->log_time }}</td>
 												<td>{{ $row->menu_nm }}</td>
-												<td>{{ $row->Description }}</td>
+												<td>{{ $row->description }}</td>
 											</tr>
 										@endforeach								
 									</tbody>

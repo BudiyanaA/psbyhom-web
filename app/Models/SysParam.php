@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class SysParam extends Model
 {
     use HasFactory;
+    protected $guarded = ['sys_id'];
+    
     protected $table = 'sys_param';
+    
+    protected $primaryKey = 'sys_id';
+    
+    public $timestamps = false;
     protected $fillable = [
         'sys_id',
         'name',

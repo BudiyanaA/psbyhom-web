@@ -15,9 +15,15 @@ use Auth;
 use App\Models\MsEmail;
 use App\Models\SysParam;
 use App\Mail\AdminEmail;
+use Log;
 
 class PreOrderSgController extends Controller
 {
+    public function index()
+    {
+        return view('preorder_sg.notification');
+    }
+
     public function create()
     {
  
@@ -28,7 +34,7 @@ class PreOrderSgController extends Controller
     {
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
-    $randomString = '';
+    $randomString = 'SG';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
@@ -74,22 +80,18 @@ function newid()
      //    dd(session('customer_name'));
      //    dd(session('user_id'));
      //    dd($request->all());
-         $validated = $request->validate([
-             'qty' => 'required|array|min:1',
-             'product_url' => 'required|array|min:1',
-             'product_name' => 'required|array|min:1',
-             'color' => 'required|array|min:1',
-             'size' => 'required|array|min:1',
-             'price_customer' => 'required|array|min:1',
- 
-             'qty.*' => 'required|numeric|min:1',
-             'product_url.*' => 'required|url|min:1',
-             'product_name.*' => 'required|min:1',
-             'color.*' => 'required|min:1',
-             'size.*' => 'required|min:1',
-             'price_customer.*' => 'required|numeric|min:1',
+     $validated = $request->validate([
+        'qty' => 'required|array|min:1',
+        'product_url' => 'required|array|min:1',
+        'product_name' => 'required|array|min:1',
+        'price_customer' => 'required|array|min:1',
+
+        'qty.*' => 'required|numeric|min:1',
+        'product_url.*' => 'required|url|min:1',
+        'product_name.*' => 'required|min:1',
+        'price_customer.*' => 'required|numeric|min:1',
          ]);
-         
+         DB::beginTransaction();
          try {
              // $qty = (int)$validated['qty']; 
              // $seq = 1;
@@ -98,25 +100,30 @@ function newid()
              $total_items = 0;
              $total_price = 0;
  
-             $forex = SysParam::where('sys_id', 'SYS_PARAM_46')->first()->value_1;
+            //  Using SGD
+             $forex = SysParam::where('sys_id', 'SYS_PARAM_99')->first()->value_1;
  
              // Insert tr_request_order_dtl
              for ($i = 0; $i < count($request->qty); $i++) {
-                 TrRequestOrderDtl::create([
-                     'RequestOrderDtlUUID' => $this->newid(),
-                     'remarks' => $request->remarks[$i],
-                     'RequestOrderUUID' => $request->RequestOrderUUID,
-                     'product_name' => $request->product_name[$i],
-                     'product_url' => $request->product_url[$i],
-                     'qty' => $request->qty[$i],
-                     'size' => $request->size[$i],
-                     'color' => $request->color[$i],
-                     'price_customer' => $request->price_customer[$i],
-                     'forex_rate' => $forex,
-                     'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
-                     'status' => '00',
-                     'seq' => $i + 1,
-                 ]);
+                TrRequestOrderDtl::create([
+                    'RequestOrderDtlUUID' => $this->newid(),
+                    'remarks' => $request->remarks[$i] ?? "",
+                    'RequestOrderUUID' => $request->RequestOrderUUID,
+                    'product_name' => iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $request->product_name[$i]),
+                    'product_url' => iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $request->product_url[$i]),
+                    'qty' => $request->qty[$i],
+                    'size' => $request->size[$i] ?? "",
+                    'color' => $request->color[$i] ?? "",
+                    'price_customer' => $request->price_customer[$i],
+                    'forex_rate' => $forex,
+                    'subtotal_original' => ($request->qty[$i] * $request->price_customer[$i]) * $forex,
+                    'status' => '00',
+                    'seq' => $i + 1,
+
+                    'additional_fee' => 0,
+                    'subtotal_final' => 0,
+                    'disc_percentage' => 0,
+                ]);
                  
                  $total_items++;
                  $total_price = $total_price + ($request->qty[$i] * $request->price_customer[$i]);
@@ -126,7 +133,6 @@ function newid()
              $CustomerUUID = session('user_id');
              $customer_name = session('customer_name');
              $request_id = $this->generateRandomString().date('y').date('m').$this->generate_ro_id();
- 
              // Insert tr_request_order
              TrRequestOrder::create([
                  'RequestOrderUUID' => $request->RequestOrderUUID,
@@ -142,7 +148,10 @@ function newid()
                  'ByUserUUID' => $CustomerUUID,
                  'ByUserIP' => $request->ip(),
                  'OnDateTime' => date('Y-m-d H:i:s'),
-                 'po_type' => 'SG'
+                 'POUUID' => "",
+                 'InvoiceUUID' => "",
+                 'note' => "",
+                 'po_type' => 'SG',
              ]);
              
              // $id= uniqid();
@@ -195,14 +204,19 @@ function newid()
              // if (Mail::failures()) {
              //     return redirect()->back()->with('error', 'Gagal mengirim email!');
              // }
+
+             DB::commit();
          
-             return redirect(route('preorder.notification'))
+             return redirect(route('preorder_sg.notification'))
                  ->withSuccess("Data berhasil ditambahkan");
                  
          
          } catch(\Exception $e) {
-             dd($e);
-             return redirect()->back()->withError('Data gagal ditambahkan');
+            DB::rollback();
+            Log::error($request->all());
+            Log::error($e->getMessage());
+            //  dd($e);
+            return redirect()->back()->withError('Data gagal ditambahkan');
          } 
 }
 }

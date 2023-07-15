@@ -4,12 +4,12 @@
     <div id='wrap'>
         <div id="page-heading">
             <ul class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Home</a></li>
+                <li><a href="{{ route('dashboard') }}">Home</a></li>
                  
-                <li class="active">View Orderl</li>
+                <li class="active">View Order</li>
             </ul>
 
-            <h1>View Order</h1>
+            <h1>View Order Singapore</h1>
 			<br>
 			<br>
         </div>
@@ -38,13 +38,15 @@
 											<input type="text" readonly  placeholder="Required Field"  class="form-control" name='request_id' value='{{ $order->request_id }}'>
 										</div>
 									</div>
+									<div class="form-group">
+									<label for="txtarea1" class="col-sm-3 control-label">Transaction Date</label>
+									<div class="col-sm-6">
+										<input type="text" readonly name="request_date" id="request_date" cols="50" rows="4" class="form-control" value="{{ $order->created_date }}">
+									</div>
+									</div>	
 							<div class="form-group">
-										<label for="txtarea1" class="col-sm-3 control-label">Transaction Date</label>
-										<div class="col-sm-6"><input type="text" readonly  name="request_date" id="request_date" cols="50" rows="4" class="form-control" value='{{ $order->created_date }}'></div>
-									 </div>		
-							<div class="form-group">
-										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate USD - IDR</label>
-										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $forex }}'></div>
+										<label for="txtarea1" class="col-sm-3 control-label">Exchange Rate SGD - IDR</label>
+										<div class="col-sm-6"><input type="text" readonly  name="ex" id="ex" cols="50" rows="4" class="form-control" value='{{ $order->forex }}'></div>
 									 </div>			
 				
 								<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
@@ -55,7 +57,7 @@
 											<th >Product Name</th>
 											<th>Color</th>							
 											<th>Size/Weight</th>
-											<th>Price(USD)</th>
+											<th>Price(SGD)</th>
 											<th>Info</th>					
 											<th>Add. Fee (IDR)</th>
 											<th>Disc. (%)</th>
@@ -81,9 +83,12 @@
 												<input type="text" class="form-control" name='price_customer[{{ $loop->index }}]' id='price_customer{{ $loop->index }}'  value='{{ $r->price_customer }}'  onkeyup='calculatePrice("{{ $loop->index }}")'  >
 											</td>
 											<td style='width:10%'><input type="text" class="form-control" name='remarks[{{ $loop->index }}]' id='remarks{{ $loop->index }}'  value='{{ $r->remarks }}'  ></td>
-											<td style='width:10%'><input type="text" class="form-control" name='additional_fee[{{ $loop->index }}]' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee ?? 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
-											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage[{{ $loop->index }}]' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage ?? 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
-											<td><input type="text" readonly class="form-control" name='subtotal[{{ $loop->index }}]' id='subtotal{{ $loop->index }}' value='{{ $r->subtotal_original ?? 0 }}'></td>																							
+											<td style='width:10%'><input type="text" class="form-control" name='additional_fee[{{ $loop->index }}]' id='additional_fee{{ $loop->index }}'  value='{{ $r->additional_fee != null && $r->additional_fee != "" ? $r->additional_fee  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
+											<td style='width:10%'><input type="text" class="form-control" name='disc_percentage[{{ $loop->index }}]' id='disc_percentage{{ $loop->index }}'  value='{{ $r->disc_percentage != null && $r->disc_percentage != "" ? $r->disc_percentage  : 0 }}' onkeyup='calculatePrice("{{ $loop->index }}")' ></td>
+											<td>
+												<input type="hidden" readonly class="form-control" name='subtotal[{{ $loop->index }}]' id='subtotal{{ $loop->index }}' value='{{ $r->subtotal_original ?? 0 }}'>
+												<input type="text" readonly class="form-control" name='subtotal_label[{{ $loop->index }}]' id='subtotal_label{{ $loop->index }}' value='{{ number_format($r->subtotal_original ?? 0) }}'>
+											</td>																							
 										</tr>
 									@else
 										<tr>
@@ -97,7 +102,9 @@
 											<td>{{ $r->remarks }}</td>														
 											<td>{{ $r->additional_fee ?? 0 }}</td>
 											<td>{{ $r->disc_percentage ?? 0 }}</td>						
-											<td>{{ $r->subtotal_final ?? 0 }}</td> 											
+											<td>{{ number_format($r->subtotal_final ?? 0) }}</td>
+											
+											<!-- <td>{{ number_format($r->subtotal_original ?? 0) }}</td> -->
 										</tr>
 									@endif
 								@endforeach
@@ -107,7 +114,7 @@
 								</tr>
 							@endif
 										<tr>
-											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ $order->total_price }}</td></tr>									<tr>
+											<td colspan='9' style='text-align:right'><b>Grand Total</b></td><td class='grand_total'>{{ number_format($order->total_price) }}</td></tr>									<tr>
 											<td colspan='2'>Notes From Admin</td>
 											<td colspan='8'>
 												@if ($order->status == "00")<textarea name="note" id="note"  cols="50" rows="4" class="ckeditor">{{ $order->note }}</textarea> 
@@ -125,7 +132,7 @@
 									<input type="hidden" value="avoxo23@yahoo.com" name="email" id="">
 									<input type="hidden" value="{{ $order->total_price }}" name="grand_totals" id="grand_totals">
 									<input type="hidden" value="{{ count($requestorder) }}" name="total_row" id="total_row">
-									<input type="hidden" value="{{ $forex }}" name="exchange_rate" id="exchange_rate">
+									<input type="hidden" value="{{ $order->forex }}" name="exchange_rate" id="exchange_rate">
 							 </ul>
 						</div>
 						
@@ -182,6 +189,12 @@
 	// 	// calculate_grand_total()
 	// }
 
+
+	function format_rupiah(str) {
+		var symbol = '';
+		return accounting.formatMoney(str, symbol, 0, ",", ".");
+	}	
+
 	function calculatePrice(no)
 	{
 		var additional_fee = $("#additional_fee"+no).val();
@@ -189,11 +202,15 @@
 		var qty = $("#qty"+no).val();
 		var price = $("#price_customer"+no).val();
 		var exchange_rate = $("#exchange_rate").val();
-
-		// var additional_price = 0;
+		var additional_price = 0;
 		// var grand_total = 0;
-
-		if(isNaN(price) || price =='')
+		
+		if(isNaN(qty) || qty =='')
+		{
+			alert("Qty on row "+no+" is not a number !");
+			$("#qty"+no).val(0);
+		}
+		else if(isNaN(price) || price =='')
 		{
 			alert("Price customer on row "+no+" is not a number !");
 			$("#price_customer"+no).val(0);
@@ -225,6 +242,7 @@
 			// document.getElementById("subtotal_true"+no).value = total;
 			// document.getElementById("subtotal"+no).value = numberWithCommas(total);
 			$("#subtotal"+no).val(total);
+			$("#subtotal_label"+no).val(format_rupiah(total));
 			calculate_grand_total();
 		}
 
@@ -237,7 +255,7 @@
 				grand_total += 	parseFloat($("#subtotal"+i).val());
 			}
 			$("#grand_totals").val(grand_total);
-			$(".grand_total").html(grand_total);
+			$(".grand_total").html(format_rupiah(grand_total));
 		}
 	}
 </script>

@@ -39,7 +39,7 @@ class APIController extends Controller
       try {
         TrPoDtl::where('PODtlUUID', $request->PODtlUUID)
           ->update([
-            'batch_no' => $request->batch_no
+            'batch_no' => $request->batch_no ?? ""
           ]);
 
         return [
@@ -49,7 +49,7 @@ class APIController extends Controller
       } catch(\Exception $e) {
         return [
           "code" => 500,
-          "success" => false,
+          "success" => $e,
         ];
       }
     }
@@ -215,15 +215,15 @@ class APIController extends Controller
       DB::beginTransaction();
       try {
 
-        TrPo::where('POUUID', $id)->update([
-          'notes' => $request->note ?? "",
-      ]);
+      //   TrPo::where('POUUID', $id)->update([
+      //     'notes' => $request->note ?? "",
+      // ]);
         // Send Email Notification
         $EmailUUID = 'ce7926a7-126b-474c-b6d8-cdab04f96d88'; //No Resi Notification
         $email_customer = $request->customer_email;
         $POUUID = $request->POUUID;
 
-
+        $po = TrPo::where('POUUID', $POUUID)->first();
         $customer = Registercostumer::where('CustomerUUID', $po->CustomerUUID)->first();
 
         $emailsent = Mail::to($email_customer)

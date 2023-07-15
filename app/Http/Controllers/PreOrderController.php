@@ -15,6 +15,7 @@ use Auth;
 use App\Models\MsEmail;
 use App\Models\SysParam;
 use App\Mail\AdminEmail;
+use Log;
 
 class PreOrderController extends Controller
 {
@@ -80,7 +81,6 @@ class PreOrderController extends Controller
             'product_name.*' => 'required|min:1',
             'price_customer.*' => 'required|numeric|min:1',
         ]);
-        
         // if($validator->fails()){
         //     return Redirect::back()->withErrors($validator)->withInput();
         // }
@@ -94,6 +94,7 @@ class PreOrderController extends Controller
             $total_items = 0;
             $total_price = 0;
 
+            // Using USD
             $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
 
             // Insert tr_request_order_dtl
@@ -102,8 +103,8 @@ class PreOrderController extends Controller
                     'RequestOrderDtlUUID' => $this->newid(),
                     'remarks' => $request->remarks[$i] ?? "",
                     'RequestOrderUUID' => $request->RequestOrderUUID,
-                    'product_name' => $request->product_name[$i],
-                    'product_url' => $request->product_url[$i],
+                    'product_name' => iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $request->product_name[$i]),
+                    'product_url' => iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $request->product_url[$i]),
                     'qty' => $request->qty[$i],
                     'size' => $request->size[$i] ?? "",
                     'color' => $request->color[$i] ?? "",
@@ -207,7 +208,10 @@ class PreOrderController extends Controller
         
         } catch(\Exception $e) {
             DB::rollback();
+            Log::error($request->all());
+            Log::error($e->getMessage());
             // dd($e);
+            // Log::error($e->toJson());
             return redirect()->back()->withError('Data gagal ditambahkan');
         } 
 }

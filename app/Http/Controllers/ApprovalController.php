@@ -12,6 +12,7 @@ use App\Models\MsEmail;
 use App\Mail\QuotationEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Models\TrEwallet;
 
 class ApprovalController extends Controller
 {
@@ -26,6 +27,7 @@ class ApprovalController extends Controller
         // $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
         $data['requestorder'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)
             ->orderBy('seq', 'ASC')->get();
+            // $data['ewallet'] = TrEwallet::where('CustomerUUID', $id)->sum('amount');
         return view('approval.edit',$data);     
     }
 
@@ -49,6 +51,7 @@ class ApprovalController extends Controller
 
                 $order_dtl = TrRequestOrderDtl::where('RequestOrderUUID', $id)
                     ->orderBy('seq', 'ASC')->get();
+                // USD
                 $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
     
                 $i = 0;
@@ -158,7 +161,7 @@ class ApprovalController extends Controller
 
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
@@ -168,6 +171,9 @@ class ApprovalController extends Controller
         $data['customer'] = Registercostumer::where('CustomerUUID', $id)->first();
         $data['log_actv'] = LogActv::where('UserUUID', $id)
             ->orderBy('log_time', 'DESC')->get();
+            $data['ewallet'] = TrEwallet::where('CustomerUUID', $id)->sum('amount');
+            $data['wallet'] = TrEwallet::where('CustomerUUID', $id)
+            ->orderBy('trans_date', 'DESC')->get();
         return view('approval.detail', $data);
     }
 

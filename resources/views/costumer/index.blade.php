@@ -5,7 +5,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li><a href="https://psbyhom.com/admin_area/index.html">Dashboard</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="active">Costumer Management</li>
             </ol>
 
@@ -27,7 +27,30 @@
                             </div>
                         </div>
                         <div class="panel-body collapse in">
-						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
+                        <form method="get" action="{{ route('costumer_management.index') }}">
+								<table class="search-table">
+																	<tr>
+										<td>Customer Name  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="text" placeholder="Customer Name" class="form-control" name='customer_name'  value="" autocomplete="off"></td>
+                                        
+									</tr>
+                                    <tr>
+										<td>Email  &nbsp; &nbsp; </td>
+										<td width="250px"><input type="email" placeholder="Email" class="form-control" name='email'  value="" autocomplete="off"></td>
+                                        
+									</tr>
+								<tr>
+										<td>&nbsp; &nbsp;  </td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<input type="submit" class="btn-primary btn" value='Search'>
+										</td>
+									</tr>
+								</table>
+							</form>
+</div>
+						                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                 <thead>
                                     <tr>
 										<th>No</th>
@@ -44,12 +67,24 @@
                                         <td><a href="{{ route('customer.detail', $c->CustomerUUID) }}">{{ $c->customer_name }}</a></td>
                                         <td>{{ $c->email }}</td>
                                         <td>{{ $c->created_date }}</td>
-                                        <td>{{ $c->status }}</td>
+                                        <td>
+                                        @if ($c->status == '01')
+                                            Active
+                                        @elseif ($c->status == '03')
+                                            Not Active / Reset
+                                        @else
+                                            {{ $c->status }}
+                                        @endif
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            <ul class="pagination">
+								{{ $costumer->links() }}
+							</ul>
                         </div>
+                       
                     </div>
                 </div>
             </div>

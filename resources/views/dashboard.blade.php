@@ -26,7 +26,7 @@
                     <i class="fa fa-shopping-cart"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                      <?php echo getAdminNew(); ?>
+                      <?php echo getNewPo(); ?>
                       </font>
                     </div>
                     <small>.</small>
@@ -36,13 +36,13 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-success"
-                  href="{{ route('dpconfirmation.index') }}">
+                  href="{{ route('payment.index') }}?status=00">
                   <div class="tiles-heading">DP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-money"></i>
                     <div class="text-center">
                       <font size='6.5'><span class="text-top"></span>
-                      <?php echo getAdminDp(); ?><span class="text-smallcaps"></span>
+                      <?php echo getDashDp(); ?><span class="text-smallcaps"></span>
                       </font>
                     </div>
                     <small>.</small>
@@ -57,7 +57,7 @@
                   <div class="tiles-body-alt">
                     <i class="fa fa-truck"></i>
                     <div class="text-center">
-                    <?php echo getAdminGoods(); ?>
+                    <?php echo getDasgGoods(); ?>
                     </div>
                     <small>.</small>
                   </div>
@@ -66,12 +66,12 @@
               </div>
               <div class="col-md-3 col-xs-12 col-sm-6">
                 <a class="info-tiles tiles-orange"
-                  href="{{ route('lpconfirmation.index') }}">
+                  href="{{ route('payment.index') }}?status=04,05">
                   <div class="tiles-heading">LP Confirmation</div>
                   <div class="tiles-body-alt">
                     <i class="fa fa-dollar"></i>
                     <div class="text-center">
-                    <?php echo getAdminLp(); ?>
+                    <?php echo getDashLp(); ?>
                     </div>
                     <small>.</small>
                   </div>
@@ -379,11 +379,11 @@
                               </td>
                               <td>
                                   <a href="{{ route('customer.detail', $a->CustomerUUID) }}">
-                                      {{ $o->customer?->customer_name }}
+                                      {{ $a->customer?->customer_name }}
                                   </a>
                               </td>
                               <td>
-                                  {{ formatDate($o->created_date) }}
+                                  {{ formatDate($a->created_date) }}
                               </td>
                           </tr>
                           @php
@@ -603,7 +603,10 @@
 
 
             </div>
+            </div>
+            </div>
 
+            </div>
           </div> <!-- container -->
         </div>
         <!--wrap -->

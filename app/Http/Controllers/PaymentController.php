@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrPo;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -26,29 +27,35 @@ class PaymentController extends Controller
             $title = '';
             $subtitle = '';
         }
-
-        $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus']);
-        if ($request->status) {
-            $payment = $payment->where('status', $status);
+        $order_date_start = $request->input('order_date_start');
+        $order_date_end = $request->input('order_date_end');
+        $order_by = $request->input('order_by', 'desc');
+        $po_id = $request->input('po_id');
+        $payment = TrPo::with(['msCustomer', 'trRequestOrder','msBatch','msStatus'])->whereNull('po_type');
+        
+        if ($status) {
+            $payment = $payment->whereIn('status', explode(",", $status));
         }
-        if ($request->trans_date_start) {
-            $payment = $payment->where('date', '>=', $request->trans_date_start);
-        }
-        if ($request->trans_date_end) {
-            $payment = $payment->where('date', '<=', $request->trans_date_end);
+        if ($order_date_start && $order_date_end) {
+            $payment = $payment->whereBetween('trans_date', [$order_date_start, $order_date_end]);
         }
         if ($request->po_id) {
-            $payment = $payment->where('po_id', 'like', $request->po_id);
+            $payment = $payment->where('po_id', 'like', '%'.$request->po_id.'%');
         }
         if ($request->batch_id) {
-            $payment = $payment->where('batch_id', 'like', $request->batch_id);
+            $payment = $payment->whereHas('msBatch', function($query) use($request) {
+                $query->where('batch_id', 'like', '%'.$request->batch_id.'%');
+            });
         }
         if ($request->customer_name) {
-            $payment = $payment->where('customer_name', 'like', $request->customer_name);
+            $payment = $payment->whereHas('msCustomer', function($query) use($request) {
+                $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
+            });
         }
-        $payment = $payment->orderBy('OnDateTime', 'DESC')->paginate(10); //TODO: ASC dam DESC dari filter
+        $payment = $payment->orderBy('OnDateTime', $order_by)->get();
+      
         
-        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment]);
+        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment,'order_date_start' => $order_date_start,'order_date_end' => $order_date_end,'order_by' => $order_by,'po_id' => $po_id]);
     }
 
     public function updateResi(Request $request)
