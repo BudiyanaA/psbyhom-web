@@ -230,7 +230,8 @@
 			price = price - ((price * disc) / 100);
 			if(additional_fee != '0' && additional_fee != '')
 			{
-				additional_price = (parseFloat(price)  * parseFloat(exchange_rate) * 0.07);
+				// additional_price = (parseFloat(price)  * parseFloat(exchange_rate) * 0.07);
+				additional_price = 0;
 			}
 
 			// total = ((price * forex) + additional - ((price * disc) / 100)) * qty

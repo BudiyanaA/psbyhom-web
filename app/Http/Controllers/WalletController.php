@@ -28,6 +28,10 @@ class WalletController extends Controller
         
         $CustomerUUID = session('user_id');
         $ewallet = TrEwallet::where('CustomerUUID', $CustomerUUID)->sum('amount');
+        if ($ewallet <= 0) {
+            return redirect()->back()->withError('E-Wallet kosong atau tidak valid');
+        }
+
         DB::beginTransaction();
         try {
             
@@ -61,7 +65,7 @@ class WalletController extends Controller
                 
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal ditambahkan');
         }
     }

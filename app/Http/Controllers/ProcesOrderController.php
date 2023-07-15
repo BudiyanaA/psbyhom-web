@@ -21,7 +21,7 @@ use App\Models\LogActv;
 use App\Models\SysParam;
 use App\Models\MsBank;
 use App\Models\TrInvoice;
-
+use Log;
 
 class ProcesOrderController extends Controller
 {
@@ -343,6 +343,8 @@ class ProcesOrderController extends Controller
 
     } catch(\Exception $e) {
         DB::rollback();
+        Log::error($request->all());
+        Log::error($e->getMessage());
         // dd($e);
         return redirect()->back()->withError('Data gagal ditambahkan');
     }
