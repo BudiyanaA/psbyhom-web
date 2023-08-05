@@ -174,6 +174,7 @@ class ApprovalController extends Controller
             $data['ewallet'] = TrEwallet::where('CustomerUUID', $id)->sum('amount');
             $data['wallet'] = TrEwallet::where('CustomerUUID', $id)
             ->orderBy('trans_date', 'DESC')->get();
+        $data['user_id'] = $id;
         return view('approval.detail', $data);
     }
 

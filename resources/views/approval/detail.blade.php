@@ -115,9 +115,16 @@
 								</table>
 							</div>
 							<div class="tab-pane" id="ewallet">
-						
+
+							<div class="page-heading">
+                  <div class="options">   
+											<div class="btn-toolbar">
+												<a href="{{ route('customer_ewallet_history.create', ['user_id' => $user_id]) }}" class="btn btn-default"><i class="fa fa-plus"></i> Create New History</a>				
+											</div>
+                  </div>
+              </div>
 							<br>
-							<br>
+
 							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
 									<thead>
 										<tr>
@@ -125,6 +132,7 @@
 											<th>Trans Date</th>			
 											<th>Amount</th>
 											<th>Description</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -134,6 +142,13 @@
 											<td>{{ formatDate($e->trans_date) }}</td>
 											<td>{{ number_format($e->amount) }}</td>
 											<td>{{ str_replace("</b>", "", $e->description) }}</td>
+											<td>
+												<form action="{{ route('customer_ewallet_history.delete', ['user_id' => $user_id, 'id' => $e->EWalletUUID]) }}" method="POST">
+												    @csrf
+												    @method('delete')
+												    <button type="submit" class="btn btn-outline-danger">Hapus</button>
+												</form>
+											</td>
 										</tr>
 										@endforeach
 									</tbody>

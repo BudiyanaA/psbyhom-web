@@ -24,7 +24,7 @@ return new class extends Migration
         $table->string('UsergroupUUID')->nullable();
         $table->string('user_type')->nullable();
         $table->date('created_date');
-        $table->date('created_by');
+        $table->string('created_by');
         $table->integer('login_attemp')->default(0);
         $table->datetime('last_logout');
         $table->datetime('last_login');
