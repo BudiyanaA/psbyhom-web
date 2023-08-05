@@ -160,7 +160,7 @@
 										
 												<td colspan='8'>
 													
-													<a onclick="print('https://psbyhom.com/po_invoice_controller/po_report/print_list_trans?trans_date_start=&&trans_date_end=&&po_id=&&status=01&&customer_name=&&order_by=ASC')" class="btn-primary btn">Print</a>
+												<a id="pdfLink" class="btn-primary btn">Print</a>
 													<a onclick="print('https://psbyhom.com/po_invoice_controller/po_report/print_list_trans_xls?trans_date_start=&&trans_date_end=&&po_id=&&status=01&&customer_name=&&order_by=ASC')" class="btn-primary btn">Export To Excel</a>
 												</td>
 											</tr>
@@ -177,6 +177,39 @@
 @endsection
 
 @section ('script')
+
+<script>
+    document.getElementById('pdfLink').addEventListener('click', function() {
+		var doc = new jsPDF('landscape'); // Mengatur orientasi kertas menjadi landscape
+
+    doc.setFontSize(12);
+    doc.text('No', 10, 40);
+    doc.text('Pre Order ID', 30, 40);
+    doc.text('Customer Name', 70, 40);
+    doc.text('Transaction Date', 110, 40);
+    doc.text('Grand Total', 160, 40);
+    doc.text('Status', 200, 40);
+
+    doc.line(10, 42, 290, 42); // Garis horisontal di bawah judul kolom
+
+    var y = 50; // Inisialisasi posisi vertikal teks
+
+    @foreach($payment as $p)
+    doc.setFontSize(10);
+    doc.text('{{ $loop->index + 1 }}', 10, y);
+    doc.text('{{ $p->po_id }}', 30, y);
+    doc.text('{{ $p->msCustomer?->customer_name }}', 70, y);
+    doc.text('{{ formatDate($p->trans_date) }}', 110, y);
+    doc.text('{{ number_format($p->total_trans) }}', 160, y);
+    doc.text('{{ $p->msStatus?->status_name }}@if ($p->status == "07")/ No Resi :{{ $p->no_resi }}@endif', 200, y);
+
+    y += 10; // Menambahkan jarak vertikal antar baris
+    @endforeach
+
+       
+        doc.output('dataurlnewwindow'); // Membuka jendela baru dengan tautan data URL PDF
+    });
+</script>
 <script type="text/javascript">
     $.fn.editable.defaults.mode = 'inline';
 		$('.noresi').editable(

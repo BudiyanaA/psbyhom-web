@@ -7,6 +7,7 @@
 	<meta name="description" content="House of Make Up merupakan toko online yang menjual segala macam keperluan make up seperti lisptik, bedak, eyeliner dan lain-lain.">
 	<meta name="keyword" content="House of Make Up, bedak, lipstik, lip ice, bedak, blushon, eyeliner">
 	<meta name="author" content="fiesto.com">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
 	<link href="https://psbyhom.com/design/file/favicon.png" rel="SHORTCUT ICON" />
 	<title>House of Make Up | Ready stock & Pre Order from US</title>
 	<script>
