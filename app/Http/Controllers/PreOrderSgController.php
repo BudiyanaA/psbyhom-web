@@ -80,17 +80,19 @@ function newid()
      //    dd(session('customer_name'));
      //    dd(session('user_id'));
      //    dd($request->all());
-     $validated = $request->validate([
-        'qty' => 'required|array|min:1',
-        'product_url' => 'required|array|min:1',
-        'product_name' => 'required|array|min:1',
-        'price_customer' => 'required|array|min:1',
+        $validated = $request->validate([
+            'qty' => 'required|array|min:1',
+            'product_url' => 'required|array|min:1',
+            'product_name' => 'required|array|min:1',
+            'price_customer' => 'required|array|min:1',
 
-        'qty.*' => 'required|numeric|min:1',
-        'product_url.*' => 'required|url|min:1',
-        'product_name.*' => 'required|min:1',
-        'price_customer.*' => 'required|numeric|min:1',
-         ]);
+            'qty.*' => 'required|numeric|min:1',
+            'product_url.*' => 'required|url|min:1',
+            'product_name.*' => 'required|min:1|regex:/^[\x20-\x7E]*$/',
+            'price_customer.*' => 'required|numeric|min:1',
+        ], [
+            'product_name.*.regex' => 'Please remove the special characters.',
+        ]);
          DB::beginTransaction();
          try {
              // $qty = (int)$validated['qty']; 

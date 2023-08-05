@@ -144,7 +144,7 @@
                     <td style="width:8%" class="incoming_qty2">{{ $dtl->incoming_qty }}</td>
 										<td><p id="price"><a href="{{ $dtl->requestOrderDtl?->product_url }}">LINK</a></p></td>
 										<td style="width:20%">{{ $dtl->requestOrderDtl?->product_name }}</td>
-										<td style="width:20%"><a href="{{ route('customer.detail', $w->CustomerUUID) }}">{{ $w->msCustomer?->customer_name  }}</a></td>			
+										<td style="width:20%"><a href="{{ route('customer.detail', $w->CustomerUUID) }}">{!! $w->msCustomer?->customer_name !!}</a></td>			
 										<td style="width:18%" valign='top'>		
 											<a href="#" class="batchorder" data-type="text" data-pk="87605" data-pk-invoice="SS19041299" data-name="batchorder">
 												@if ($dtl->batch_no != '')

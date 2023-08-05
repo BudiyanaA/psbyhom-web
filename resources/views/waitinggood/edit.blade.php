@@ -125,7 +125,7 @@
 														@endif
 													</td>
 													<td><p id="price"><a href="{{ $p->requestOrderDtl?->product_url }}">LINK</a></p></td>
-														<td>{{ $p->requestOrderDtl?->product_name }}</td>
+														<td><?php echo $p->requestOrderDtl?->product_name; ?></td>
 														<td>{{ $p->requestOrderDtl?->color }}</td>
 														<td>{{ $p->requestOrderDtl?->remarks }}</td>
 														<td>{{ $p->requestOrderDtl?->size }} </td>

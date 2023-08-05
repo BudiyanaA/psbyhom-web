@@ -78,8 +78,10 @@ class PreOrderController extends Controller
 
             'qty.*' => 'required|numeric|min:1',
             'product_url.*' => 'required|url|min:1',
-            'product_name.*' => 'required|min:1',
+            'product_name.*' => 'required|min:1|regex:/^[\x20-\x7E]*$/',
             'price_customer.*' => 'required|numeric|min:1',
+        ], [
+            'product_name.*.regex' => 'Please remove the special characters.',
         ]);
         // if($validator->fails()){
         //     return Redirect::back()->withErrors($validator)->withInput();

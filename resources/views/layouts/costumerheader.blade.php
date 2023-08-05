@@ -78,8 +78,13 @@
 	<ul class="nav navbar-nav">
 		<li><a href="{{ route('home') }}">Home</a></li>
 		<li><a href="{{ route('about_us') }}">About Us</a></li>
-		<li><a href="{{ route('preorder.create') }}">Pre Order</a></li>
-		<li><a href="{{ route('preorder_sg.create') }}">Pre Order(SG)</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pre Order<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ route('preorder.create') }}">Pre Order</a></li>
+            <li><a href="{{ route('preorder_sg.create') }}">Pre Order (SG)</a></li>
+        </ul>
+    </li>
 		<li><a href="{{ route('term_condition') }}">Terms & Conditions</a></li>
 		<li><a href="{{ route('faq') }}">FAQ</a></li>
 		<li><a href="{{ route('how_order') }}">How to Order</a></li>
