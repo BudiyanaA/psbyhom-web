@@ -19,7 +19,7 @@ class MsFrontpageSlideshow extends Model
         // 'animation_type',
         'image_slide',
         'status',
-        // 'remarks',
+        'remarks',
         'created_date',
         'created_by',
         'ByUserUUID',

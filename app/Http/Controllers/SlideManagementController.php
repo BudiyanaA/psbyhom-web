@@ -71,7 +71,6 @@ class SlideManagementController extends Controller
     {
 
         $data['slide'] = MsFrontpageSlideshow::where('SlideUUID', $id)->first();
-
         return view('slideshow.edit', $data);
     }
     public function update(Request $request, $id)
@@ -88,22 +87,27 @@ class SlideManagementController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name_image = time()."_".$image->getClientOriginalName();
-            $destination = 'assets/images';
+            $destination = 'assets/img/slide';
             $image->move($destination,$name_image);
             $data['image'] = $name_image;
         }
 
         DB::beginTransaction();
         try {
-
-            $slide = Slide::find($id);
+            $AdminUUID = session('admin_id');
+            $slide = MsFrontpageSlideshow::where('SlideUUID', $id)->first();
             $slide->update([
-                'slideshow_name' => $request->slideshow_name,
-                'hyperlink' => $request->hyperlink,
-                'image' => $name_image,
-                'slideshow_no' => $request->slideshow_no,
-                'notes' => $request->notes,
-                'status' => $request->status,
+            'slide_name' => $request->slideshow_name,
+            'ArticleUUID' => $request->hyperlink,
+            'image_slide' => 'img/slide/' . $name_image,
+            'seq' => $request->slideshow_no,
+            'remarks' => $request->notes,
+            'status' => $request->status,
+            'created_date' => date('Y-m-d H:i:s'),
+            'created_by' => $AdminUUID,
+            'ByUserUUID' => $AdminUUID,
+            'ByUserIP' =>  $request->ip(),
+            'OnDateTime' =>  date('Y-m-d H:i:s')
             ]);
             DB::commit();
             return redirect(route('slideshow_management.index'))
