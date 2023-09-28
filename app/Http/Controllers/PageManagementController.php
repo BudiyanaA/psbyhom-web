@@ -10,7 +10,7 @@ class PageManagementController extends Controller
 {
     public function index()
     {
-        $data['pages'] = DB::table('pages')->get();
+        $data['pages'] = DB::table('ms_page')->get();
         return view('pagemanagement.index', $data);
     }
 
