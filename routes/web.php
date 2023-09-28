@@ -223,7 +223,7 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('admin/customer/ewallet/{user_id}/create', [CustomerEwalletHistoryController::class, 'create'])->name('customer_ewallet_history.create');
     Route::post('admin/customer/ewallet/{user_id}/create', [CustomerEwalletHistoryController::class, 'store'])->name('customer_ewallet_history.store');
-    Route::delete('admin/customer/ewallet/{user_id}/delete/{id}', [CustomerEwalletHistoryController::class, 'destroy'])->name('customer_ewallet_history.delete');
+    Route::post('admin/customer/ewallet/{user_id}/delete/{id}', [CustomerEwalletHistoryController::class, 'destroy'])->name('customer_ewallet_history.delete');
 });
 
 Route::get('my_profil', [ProfilController::class, 'index'])->name('my_profil');

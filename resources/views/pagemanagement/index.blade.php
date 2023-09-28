@@ -44,8 +44,8 @@
                                     @foreach($pages as $p)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td><a href="{{ route('page_management.edit', $p->id) }}">{{ $p->page_name }}</a></td>
-                                        <td>{{ $p->status }}</td>
+                                        <td><a href="{{ route('page_management.edit', $p->PageUUID) }}">{{ $p->page_name }}</a></td>
+                                        <td>{{ $p->status == 01 ? 'Enabled' : 'Disabled' }}</td>
                                     </tr>
                                  @endforeach
                                 </tbody>
@@ -59,37 +59,3 @@
     </div> <!--wrap -->
 </div> 
 @endsection
-<!-- <div class="row">
-        <div class="col-md-12">					
-			@if (Session::has('success'))
-				<div class="alert alert-success alert-dismissible" role="alert">
-					{{ Session::get('success') }}
-				</div>
-			@endif
-			<div class="card">
-				<div class="card-header">
-                    <div class="d-flex align-items-center">
-						<h4 class="card-title"> Page Management</h4>
-					</div>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-                    <table border="1">
-		<tr>
-			<th>No</th>
-			<th>Page Name</th>
-			<th>Status</th>
-		</tr>
-		@foreach($pages as $p)
-		<tr>
-			<td>{{ $loop->index + 1 }}</td>
-			<td><a href="{{ route('page_management.edit', $p->id) }}">{{ $p->page_name }}</a></td>
-			<td>{{ $p->status }}</td>
-		</tr>
-		@endforeach
-	</table>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div> -->
