@@ -34,7 +34,7 @@
 		</div>
 	@endif
 		
-		{!! Form::model($page, ['route' => ['page_management.update', $page->id], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
+		{!! Form::model($page, ['route' => ['page_management.update', $page->PageUUID], 'class' => 'form-horizontal', 'method' => 'PUT' ]) !!}
 
         @include('pagemanagement._form')
 

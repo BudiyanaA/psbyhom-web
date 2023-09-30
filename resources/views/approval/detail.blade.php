@@ -145,7 +145,6 @@
 											<td>
 												<form action="{{ route('customer_ewallet_history.delete', ['user_id' => $user_id, 'id' => $e->EWalletUUID]) }}" method="POST">
 												    @csrf
-												    @method('delete')
 												    <button type="submit" class="btn btn-outline-danger">Hapus</button>
 												</form>
 											</td>

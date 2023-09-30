@@ -22,7 +22,7 @@ class PageManagementController extends Controller
 
     public function edit($id)
     {
-        $data['page'] = DB::table('pages')->find($id);
+        $data['page'] = DB::table('ms_page')->where('PageUUID', $id)->first();
         // $data['page'] = Page::find($id);
 
         return view('pagemanagement.edit', $data);
@@ -37,11 +37,11 @@ class PageManagementController extends Controller
         DB::beginTransaction();
         try {
 
-            $page = DB::table('pages')
-            ->where('id', $id)
+            $page = DB::table('ms_page')
+            ->where('PageUUID', $id)
             ->update([
                 'page_name' => $request->page_name,
-                'image' => $request->image,
+                'image_thumbnail' => $request->image,
                 'status' => $request->status,
             ]);
             DB::commit();

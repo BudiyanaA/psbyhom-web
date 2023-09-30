@@ -15,7 +15,7 @@
 	<div class="form-group @if ($errors->has('status')) has-error @endif">
 		<label class="col-sm-3 control-label">Status</label>
 		<div class="col-sm-6">
-		{{ Form::select('status', ['Enabled' => 'Enabled', 'Disabled' => 'Disabled'], null, ['class' => 'form-select '.($errors->has('gender') ? 'is-invalid':''), 'id' => 'status-option', 'placeholder' => '-- Pilih Status --']) }}
+		{{ Form::select('status', ['01' => 'Enabled', '02' => 'Disabled'], null, ['class' => 'form-select '.($errors->has('gender') ? 'is-invalid':''), 'id' => 'status-option', 'placeholder' => '-- Pilih Status --']) }}
 		</div>
 		@if ($errors->has('status')) <small class="form-text help-block" style="color:red">{{ $errors->first('status') }}</small> @endif
 	</div>
