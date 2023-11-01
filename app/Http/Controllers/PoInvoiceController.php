@@ -677,7 +677,7 @@ class PoInvoiceController extends Controller
 
         } catch(\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return redirect()->back()->withError('Data gagal diubah');
         }
     }
