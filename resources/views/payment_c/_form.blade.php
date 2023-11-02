@@ -13,7 +13,7 @@
 	</div>
     <div class="form-group 	@if ($errors->has('payment_amount')) has-error @endif col-md-6 col-lg-12">
 	<span class="text-right req">Payment Amount<span class="reqsign">*</span> <b class="keterangan"><i></i></b></span>
-		{{ Form::text('total_amount', "0", ['class' => 'form-control', 'placeholder' => 'Payment Amount']) }}
+		{{ Form::number('total_amount', "0", ['class' => 'form-control', 'placeholder' => 'Payment Amount']) }}
 		@if ($errors->has('payment_amount')) <small class="form-text help-block" style="color:red">{{ $errors->first('payment_amount') }}</small> @endif
 	</div>
     <div class="form-group 	@if ($errors->has('bank_destination')) has-error @endif col-md-6 col-lg-12">
