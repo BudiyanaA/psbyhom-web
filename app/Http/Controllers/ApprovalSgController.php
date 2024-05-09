@@ -26,6 +26,11 @@ class ApprovalSgController extends Controller
         // $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_46')->first()->value_1;
         $data['requestorder'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)
             ->orderBy('seq', 'ASC')->get();
+        
+        if ($data['order']->po_type != 'SG') {
+          return redirect(route('preorder.detail', $id));
+        }
+
         return view('approval_sg.edit',$data);     
     }
 

@@ -27,6 +27,11 @@ class ApprovalController extends Controller
         // $data['forex'] = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
         $data['requestorder'] = TrRequestOrderDtl::where('RequestOrderUUID', $id)
             ->orderBy('seq', 'ASC')->get();
+
+        if ($data['order']->po_type == 'SG') {
+          return redirect(route('preorder_sg.detail', $id));
+        }
+
             // $data['ewallet'] = TrEwallet::where('CustomerUUID', $id)->sum('amount');
         return view('approval.edit',$data);     
     }
