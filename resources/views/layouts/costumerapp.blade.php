@@ -218,7 +218,6 @@ function removeItemReq(counter) {
 		$('#tambahpo').click(function() {
     var counter = $("#counter").val();
     var lang_remove_product = 'Hapus';
-    var img_remove = '{{ url("assets/img/deletepic.png") }}'; //TODO: asset local
     html = `<tr id="remove_po_${counter}">
         <td class="@if ($errors->has('qty.${counter}')) has-error @endif"><input type="number" name="qty[${counter}]"><input type="hidden" name="item_ar[]" value="${counter}"></td>
         <td class="@if ($errors->has('product_url.${counter}')) has-error @endif"><input type="text" name="product_url[${counter}]"></td>
@@ -227,9 +226,9 @@ function removeItemReq(counter) {
         <td class="@if ($errors->has('size.${counter}')) has-error @endif"><input type="text" name="size[${counter}]"></td>
         <td class="@if ($errors->has('price_customer.${counter}')) has-error @endif"><input type="text" step="any" name="price_customer[${counter}]"></td>
         <td class="@if ($errors->has('remarks.${counter}')) has-error @endif"><input type="text" name="remarks[${counter}]"></td>
-        <td>
+        <td style="text-align: start;">
             <a href="#" onclick="removeItemReq(${counter})">
-                <img id="img_remove_${counter}" src="${img_remove}" alt="Remove Pro Order">
+                <i class="fas fa-trash" style="font-size: 20px;"></i>
             </a>
         </td>
     </tr>`;

@@ -67,9 +67,7 @@ class PreOrderController extends Controller
 
     public function store(Request $request)
    {
-    //    dd(session('customer_name'));
-    //    dd(session('user_id'));
-    //    dd($request->all());
+      //  dd($request->all());
         $validated = $request->validate([
             'qty' => 'required|array|min:1',
             'product_url' => 'required|array|min:1',
@@ -100,7 +98,7 @@ class PreOrderController extends Controller
             $forex = SysParam::where('sys_id', 'SYS_PARAM_44')->first()->value_1;
 
             // Insert tr_request_order_dtl
-            for ($i = 0; $i < count($request->qty); $i++) {
+            foreach ($request->qty as $i => $val) {
                 TrRequestOrderDtl::create([
                     'RequestOrderDtlUUID' => $this->newid(),
                     'remarks' => $request->remarks[$i] ?? "",
