@@ -23,7 +23,7 @@
     <div class="form-group @if ($errors->has('status')) has-error @endif">
 	<label class="col-sm-3 control-label">Status</label>
 	<div class="col-sm-6">
-		{{ Form::select('status', ['enabled' => 'Enabled', 'disabled' => 'deleted', 'Deleted' => 'Deleted'], null, ['class' => 'form-select '.($errors->has('gender') ? 'is-invalid':''), 'id' => 'gender-option', 'placeholder' => '-- Pilih Status --']) }}
+		{{ Form::select('status', ['00' => 'Enabled', '99' => 'Disabled', '02' => 'Deleted'], null, ['class' => 'form-select '.($errors->has('gender') ? 'is-invalid':''), 'id' => 'gender-option', 'placeholder' => '-- Pilih Status --']) }}
 		</div>
 		@if ($errors->has('status')) <small class="form-text help-block" style="color:red">{{ $errors->first('status') }}</small> @endif
 	</div>
