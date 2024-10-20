@@ -9,6 +9,7 @@ class MsBank extends Model
 {
     use HasFactory;
     protected $table = 'ms_bank';
+    public $timestamps = false;
     protected $fillable = [
         'BankUUID',
         'bank_name',
