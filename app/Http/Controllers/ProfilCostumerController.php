@@ -45,7 +45,9 @@ class ProfilCostumerController extends Controller
                 'handphone' => $handphone,
                 'handphone2' => $handphone2,
                 'kodepos' => $zip_code,
-                'kecamatan' => $district,
+                'provinsi_new' => $province,
+                'kota_new' => $cities,
+                'kecamatan_new' => $district,
             ]);
     
         

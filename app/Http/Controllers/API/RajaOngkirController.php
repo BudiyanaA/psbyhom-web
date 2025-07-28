@@ -8,22 +8,24 @@ use Illuminate\Support\Facades\Http;
 
 class RajaOngkirController extends Controller
 {
-    private $api_key = "74065a0591eb15195385f76b6c6251af";
-    private $base_url = "https://pro.rajaongkir.com/api";
+    // private $api_key = "74065a0591eb15195385f76b6c6251af";
+    private $api_key = "d1b46a0efb5560a8ceba6453c764eeea";
+    private $base_url = "https://rajaongkir.komerce.id/api/v1";
 
     public function provinces(Request $request)
     {
       $provinces = [];
       $result = Http::withHeaders([
         'key' => $this->api_key,
-      ])->get($this->base_url . '/province')->json()["rajaongkir"];
-      if ($result["status"]["code"] == 200) {
-        $provinces = $result["results"];
+      ])->get($this->base_url . '/destination/province')->json();
+      // dd($result);
+      if ($result["meta"]["code"] == 200) {
+        $provinces = $result["data"];
       }
 
       return [
-          "code" => $result["status"]["code"],
-          "message" => $result["status"]["description"],
+          "code" => $result["meta"]["code"],
+          "message" => $result["meta"]["message"],
           "provinces" => $provinces,
       ];
     }
@@ -33,14 +35,14 @@ class RajaOngkirController extends Controller
       $cities = [];
       $result = Http::withHeaders([
         'key' => $this->api_key,
-      ])->get($this->base_url . '/city', ['province' => $province_id])->json()["rajaongkir"];
-      if ($result["status"]["code"] == 200) {
-        $cities = $result["results"];
+      ])->get($this->base_url . '/destination/city/' . $province_id)->json();
+      if ($result["meta"]["code"] == 200) {
+        $cities = $result["data"];
       }
 
       return [
-          "code" => $result["status"]["code"],
-          "message" => $result["status"]["description"],
+          "code" => $result["meta"]["code"],
+          "message" => $result["meta"]["message"],
           "cities" => $cities,
       ];
     }
@@ -50,14 +52,14 @@ class RajaOngkirController extends Controller
       $subdistricts = [];
       $result = Http::withHeaders([
         'key' => $this->api_key,
-      ])->get($this->base_url . '/subdistrict', ['city' => $city_id])->json()["rajaongkir"];
-      if ($result["status"]["code"] == 200) {
-        $subdistricts = $result["results"];
+      ])->get($this->base_url . '/destination/district/' . $city_id)->json();
+      if ($result["meta"]["code"] == 200) {
+        $subdistricts = $result["data"];
       }
 
       return [
-          "code" => $result["status"]["code"],
-          "message" => $result["status"]["description"],
+          "code" => $result["meta"]["code"],
+          "message" => $result["meta"]["message"],
           "subdistricts" => $subdistricts,
       ];
     }
@@ -67,36 +69,39 @@ class RajaOngkirController extends Controller
       $costs = [];
       $result = Http::withHeaders([
         'key' => $this->api_key,
-      ])->post($this->base_url . '/cost', [
-        'origin' => '444', //Surabaya
-        'originType' => 'city',
+        'Content-Type' => 'application/x-www-form-urlencoded',
+      ])->asForm()->post($this->base_url . '/calculate/district/domestic-cost', [
+        'origin' => '5890', //Rungkut, Surabaya
+        // 'originType' => 'city',
         'destination' => $request->subdistrict,
-        'destinationType' => 'subdistrict',
+        // 'destinationType' => 'subdistrict',
         'weight' => 1000,
         'courier' => $request->courier,
-      ])->json()["rajaongkir"];
-      if ($result["status"]["code"] == 200) {
-        $costs = $result["results"][0]["costs"];
+        'price' => 'lowest',
+      ])->json();
+
+      if ($result["meta"]["code"] == 200) {
+        $costs = $result["data"];
       }
 
       return [
-          "code" => $result["status"]["code"],
-          "message" => $result["status"]["description"],
+          "code" => $result["meta"]["code"],
+          "message" => $result["meta"]["message"],
           "costs" => $costs,
       ];
     }
 
     public function couriers(Request $request)
     {
-        $result = Http::withHeaders([
-            'key' => $this->api_key,
-        ])->get($this->base_url . '/couriers')->json()["rajaongkir"];
+        // $result = Http::withHeaders([
+        //     'key' => $this->api_key,
+        // ])->get($this->base_url . '/couriers')->json()["rajaongkir"];
     
         $rajaongkir_couriers = [];
     
-        if ($result["status"]["code"] == 200) {
-            $rajaongkir_couriers = $result["results"];
-        }
+        // if ($result["status"]["code"] == 200) {
+        //     $rajaongkir_couriers = $result["results"];
+        // }
     
         $manual_couriers = [
             [

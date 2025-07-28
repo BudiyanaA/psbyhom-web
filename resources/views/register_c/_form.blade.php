@@ -93,7 +93,7 @@
 
             $('#province-option').append('<option value="" selected disabled>Pilih Provinsi</option>'); 
             $.each(data.provinces, function(key, province){
-                $('#province-option').append('<option value="'+ province.province_id +'">' + province.province+ '</option>');
+                $('#province-option').append('<option value="'+ province.id +'">' + province.name+ '</option>');
             });
         }else{
             $('#province-option').empty();
@@ -124,7 +124,7 @@
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
-                      $('#city-option').append('<option value="'+ city.city_id +'">' + city.type + ' ' + city.city_name+ '</option>');
+                      $('#city-option').append('<option value="'+ city.id +'">' + city.name+ '</option>');
                   });
               }else{
                   $('#city-option').empty();
@@ -157,7 +157,7 @@
                   $('#subdistrict-option').prop('disabled', false);
                   $('#subdistrict-option').append('<option value="" selected disabled>Pilih Kecamatan</option>'); 
                   $.each(data.subdistricts, function(key, district){
-                      $('#subdistrict-option').append('<option value="'+ district.subdistrict_id +'">' + district.subdistrict_name+ '</option>');
+                      $('#subdistrict-option').append('<option value="'+ district.id +'">' + district.name+ '</option>');
                   });
               }else{
                   $('#subdistrict-option').empty();

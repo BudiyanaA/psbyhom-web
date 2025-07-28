@@ -151,9 +151,9 @@
 												</div>
 											</div>	
 											<div class="form-group">
-												<input type="hidden" id="costumer_provinsi" value="{{ $costumer->provinsi }}">
-												<input type="hidden" id="costumer_kota" value="{{ $costumer->kota }}">
-												<input type="hidden" id="costumer_kecamatan" value="{{ $costumer->kecamatan }}">
+												<input type="hidden" id="costumer_provinsi" value="{{ $costumer->provinsi_new }}">
+												<input type="hidden" id="costumer_kota" value="{{ $costumer->kota_new }}">
+												<input type="hidden" id="costumer_kecamatan" value="{{ $costumer->kecamatan_new }}">
 												<div class="col-sm-4 col-md-3 text-right">Provinsi:</div>
 													<div class="col-sm-8 col-md-8">
 														<select  name="province-option" id="province-option" class="form-control">
@@ -773,11 +773,11 @@ $(document).ready(function() {
             $('#province-option').append('<option value="" selected disabled>Pilih Provinsi</option>'); 
             $.each(data.provinces, function(key, province){
 								let selected = "";
-								if (province.province_id == costumerProvinsi) {
+								if (province.id == costumerProvinsi) {
 									selected = "selected";
-									$('#nama_propinsi').val(province.province);
+									$('#nama_propinsi').val(province.name);
 								}
-                $('#province-option').append('<option value="'+ province.province_id +'" '+ selected + '>' + province.province+ '</option>');
+                $('#province-option').append('<option value="'+ province.id +'" '+ selected + '>' + province.name+ '</option>');
             });
         }else{
             $('#province-option').empty();
@@ -1055,7 +1055,7 @@ $(document).ready(function() {
 
                   $('#paket_kirim').append('<option value="" selected disabled>--Pilih Paket Kirim--</option>'); 
                   $.each(data.costs, function(key, cost){
-                    $('#paket_kirim').append('<option value="'+ cost.cost[0].value +'">' + cost.service  + ' = ' + cost.cost[0].value + ' / kg</option>');
+                    $('#paket_kirim').append('<option value="'+ cost.cost +'">' + cost.service  + ' = ' + cost.cost + ' / kg</option>');
                   });
               }else{
                   $('#paket_kirim').empty();
@@ -1099,11 +1099,11 @@ $(document).ready(function() {
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(data.cities, function(key, city){
 										let selected = "";
-										if (city.city_id == cityId) {
+										if (city.id == cityId) {
 											selected = "selected";
-											$('#nama_kota').val(`${city.type} ${city.city_name}`);
+											$('#nama_kota').val(`${city.name}`);
 										}
-                    $('#city-option').append('<option value="'+ city.city_id +'" '+ selected + '>' + city.type + ' ' + city.city_name+ '</option>');
+                    $('#city-option').append('<option value="'+ city.id +'" '+ selected + '>' + city.name+ '</option>');
                   });
               }else{
 									$('#city-option').empty();
@@ -1160,11 +1160,11 @@ $(document).ready(function() {
 
                   $.each(data.subdistricts, function(key, district){
 										let selected = "";
-										if (district.subdistrict_id == subdistrictId) {
+										if (district.id == subdistrictId) {
 											selected = "selected";
-											$('#nama_kecamatan').val(district.subdistrict_name);
+											$('#nama_kecamatan').val(district.name);
 										}
-										$('#subdistrict-option').append('<option value="'+ district.subdistrict_id +'" '+ selected + '>' + district.subdistrict_name+ '</option>');
+										$('#subdistrict-option').append('<option value="'+ district.id +'" '+ selected + '>' + district.name+ '</option>');
                   });
               }else{
 									$('#subdistrict-option').empty();

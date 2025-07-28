@@ -144,11 +144,11 @@
 
             $('#province-option').append('<option value="" selected disabled>Pilih Provinsi</option>'); 
             $.each(provinces, function(key, province){
-                $('#province-option').append('<option value="'+ province.province_id +'">' + province.province+ '</option>');
+                $('#province-option').append('<option value="'+ province.id +'">' + province.name+ '</option>');
             });
 
             // set nilai default untuk form select provinsi
-            var defaultProvinceId = '{{$profil->provinsi}}'; // contoh nilai default
+            var defaultProvinceId = '{{$profil->provinsi_new}}'; // contoh nilai default
             $('#province-option').val(defaultProvinceId);
             $('#province-option').trigger('change'); // panggil trigger change untuk mengambil data kota berdasarkan nilai default provinsi
         }else{
@@ -182,11 +182,11 @@
 
                   $('#city-option').append('<option value="" selected disabled>Pilih Kota</option>'); 
                   $.each(cities, function(key, city){
-                      $('#city-option').append('<option value="'+ city.city_id +'">' + city.type + ' ' + city.city_name+ '</option>');
+                      $('#city-option').append('<option value="'+ city.id +'">' + city.name+ '</option>');
                   });
 
                   // set nilai default untuk form select kota
-                  var defaultCityId = '{{$profil->kota}}'; // contoh nilai default
+                  var defaultCityId = '{{$profil->kota_new}}'; // contoh nilai default
                   $('#city-option').val(defaultCityId);
                   $('#city-option').trigger('change'); // panggil trigger change untuk mengambil data kecamatan berdasarkan nilai default kota
               }else{
@@ -223,11 +223,11 @@
 
                         $('#subdistrict-option').append('<option value="" selected disabled>Pilih Kecamatan</option>'); 
                         $.each(subdistricts, function(key, subdistrict){
-                            $('#subdistrict-option').append('<option value="'+ subdistrict.subdistrict_id +'">' + subdistrict.subdistrict_name+ '</option>');
+                            $('#subdistrict-option').append('<option value="'+ subdistrict.id +'">' + subdistrict.name+ '</option>');
                         });
 
                         // set nilai default untuk form select kecamatan
-                        var defaultSubdistrictId = '{{$profil->kecamatan}}'; // contoh nilai default
+                        var defaultSubdistrictId = '{{$profil->kecamatan_new}}'; // contoh nilai default
                         $('#subdistrict-option').val(defaultSubdistrictId);
                     }else{
                         $('#subdistrict-option').empty();

@@ -28,6 +28,11 @@ class LoginCostumerController extends Controller
         session()->put('user_id', $customer->CustomerUUID);
         session(['customer_name' => $customer->customer_name]);
         session()->put('user_password', $customer->password);
+        
+        if (empty($customer->provinsi_new) || empty($customer->kota_new) || empty($customer->kecamatan_new)) {
+            return redirect('/profil')->with('warning', 'Segera Update Profil');
+        }
+
         return redirect('/')->with('success', 'Sukses Login');
     }
 
