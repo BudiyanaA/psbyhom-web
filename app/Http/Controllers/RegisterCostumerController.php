@@ -17,7 +17,6 @@ class RegisterCostumerController extends Controller
 {
     public function index()
     {
-        
         return view('register_c.index');
     }
     
@@ -55,7 +54,7 @@ class RegisterCostumerController extends Controller
         // $validator = Validator::make($request->all(), [
         //     'g-recaptcha-response' => 'required|captcha'
         // ], $messages);
-        // dd($request->all());
+
         $validated = $request->validate([
             'customer_name' => 'required',
             'email' => 'required|email|unique:ms_customer',
@@ -93,6 +92,9 @@ class RegisterCostumerController extends Controller
                 'provinsi_new' => $request->province,
                 'kecamatan_new' => $request->district,
                 'kota_new' => $request->city,
+                'provinsi' => '',
+                'kecamatan' => '',
+                'kota'  => '',
                 'ByUserUUID' => $CustomerUUID,
                 'ByUserIP' => $request->ip(),
                 'status' => '03',
