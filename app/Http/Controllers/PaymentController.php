@@ -52,10 +52,20 @@ class PaymentController extends Controller
                 $query->where('customer_name', 'like', '%'.$request->customer_name.'%');
             });
         }
-        $payment = $payment->orderBy('OnDateTime', $order_by)->get();
+        $payment = $payment->orderBy('OnDateTime', $order_by)
+            ->paginate(10)
+            ->withQueryString();
       
-        
-        return view('payment.index', ['title' => $title, 'subtitle' => $subtitle, 'status' => $status,'payment' => $payment,'order_date_start' => $order_date_start,'order_date_end' => $order_date_end,'order_by' => $order_by,'po_id' => $po_id]);
+        return view('payment.index', [
+          'title' => $title, 
+          'subtitle' => $subtitle, 
+          'status' => $status,
+          'payment' => $payment,
+          'order_date_start' => $order_date_start,
+          'order_date_end' => $order_date_end,
+          'order_by' => $order_by,
+          'po_id' => $po_id
+        ]);
     }
 
     public function updateResi(Request $request)

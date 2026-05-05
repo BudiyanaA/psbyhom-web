@@ -166,6 +166,21 @@
 											</tr>
                                 </tbody>
                             </table>
+
+<div class="row">
+    <div class="col-md-5">
+        <p class="text-muted">
+            Showing {{ $payment->firstItem() }} 
+            to {{ $payment->lastItem() }} 
+            of {{ $payment->total() }} entries
+        </p>
+    </div>
+
+    <div class="col-md-7 d-flex justify-content-end">
+        {{ $payment->links('pagination::bootstrap-4') }}
+    </div>
+</div>
+
 						</div>
                     </div>
                 </div>

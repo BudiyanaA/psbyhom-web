@@ -399,12 +399,12 @@ class PoInvoiceController extends Controller
             } else if ($request->submit == 'verify_last') {
                 TrPo::where('POUUID', $id)->update([
                     'total_outstanding' => '0',
-					'total_paid' => '100',
-					'payment_last' => $payment_amount,
-					'status' => '06',
-					'ByUserUUID' => $AdminUUID,
-					'ByUserIP' => $request->ip(),
-					'OnDateTime' => date('Y-m-d H:i:s')
+                    'total_paid' => '100',
+                    'payment_last' => $payment_amount,
+                    'status' => '06',
+                    'ByUserUUID' => $AdminUUID,
+                    'ByUserIP' => $request->ip(),
+                    'OnDateTime' => date('Y-m-d H:i:s')
                 ]);
 
                 TrPayment::where('PaymentUUID', $PaymentUUID)->update([
@@ -414,8 +414,9 @@ class PoInvoiceController extends Controller
                     'OnDateTime' => date('Y-m-d H:i:s')
                 ]);
 
-                $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
-                    ->first();
+                // $invoice = TrInvoice::where('POUUID', $id)->where('status_invoice', '02')
+                //     ->first();
+                $invoice = TrInvoice::where('POUUID', $id)->first();
                 TrInvoice::where('InvoiceUUID', $invoice->InvoiceUUID)
                     ->update([
                         'status_invoice' => '03',
